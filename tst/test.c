@@ -50,6 +50,3 @@ void print_usage(char *argv[])
 	fprintf(stderr, "Usage: %s ....\n", argv[0]);
 	return;
 }
-
-
-
