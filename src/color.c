@@ -1,6 +1,6 @@
 #include "color.h"
 
-const char * str_color = {
+const char * str_color[] = {
   "Black",
   "Blue",
   "Green",
@@ -13,7 +13,7 @@ const char * str_color = {
   "Chestnut"
 };
 
-const char * str_short_color = {
+const char * str_short_color[] = {
   "K",
   "B",
   "G",
@@ -28,13 +28,13 @@ const char * str_short_color = {
 
 const char* color_to_string(enum color_t c)
 {
-  return str_color[i];
+  return str_color[c];
   
 }
 
 const char* color_to_short(enum color_t c)
 {
-  return str_short_color[i];
+  return str_short_color[c];
 }
   
   
