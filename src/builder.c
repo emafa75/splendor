@@ -8,6 +8,7 @@
  */
 
 #include "builder.h"
+#include "color.h"
 
 #ifndef STDLIB
 	#include <stdlib.h>
@@ -19,7 +20,8 @@
 	#define STDIO
 #endif
 
-
+#define MAX_COST 3
+#define MAX_PROVIDES 5
 #define MIN_BUILDERS 2
 
 
@@ -50,12 +52,17 @@ void init_builders(unsigned int seed)
 
 	n_builders = max(rand() % MAX_BUILDERS, MIN_BUILDERS);
 
-	for (int i = 0 ; i < MAX_BUILDERS ; ++i)
+	for (int i = 0 ; i < n_builders ; ++i)
 	{
-		builders[i].lvl = rand() % NUM_LEVELS;
-		builders[i].lvl = rand() % NUM_LEVELS;
-		builders[i].lvl = rand() % NUM_LEVELS;
-		builders[i].lvl = rand() % NUM_LEVELS;
+		builders[i].lvl = 2;
+		builders[i].pts = 0;
+
+		builders[i].provides.c = rand() % MAX_COLORS;
+		builders[i].provides.n = rand() % MAX_PROVIDES;
+
+		builders[i].requires.c = rand() % MAX_COLORS;
+		builders[i].requires.c = rand() % MAX_COST;
+
 	}
 }
 

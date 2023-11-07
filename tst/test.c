@@ -18,7 +18,7 @@
 #ifdef STDIO
 	#include <stdio.h>
 #endif
-#include "src/builder.h"
+#include "../src/builder.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -50,6 +50,3 @@ void print_usage(char *argv[])
 	fprintf(stderr, "Usage: %s ....\n", argv[0]);
 	return;
 }
-
-
-
