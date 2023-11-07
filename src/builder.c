@@ -9,27 +9,60 @@
 
 #include "builder.h"
 
-static struct builder_t *builders[MAX_BUILDERS] = {};
+#ifndef STDLIB
+	#include <stdlib.h>
+	#define STDLIB
+#endif
+
+#ifndef STDIO
+	#include <stdio.h>
+	#define STDIO
+#endif
+
+
+#define MIN_BUILDERS 2
+
+
+struct builder_t {
+	unsigned int lvl;
+	unsigned int pts;
+	struct buildcost_t requires;
+	struct buildcost_t provides;
+};
+
+
+static struct builder_t builders[MAX_BUILDERS];
+static int n_builders = 0;
+
+
+static unsigned int max(unsigned int a, unsigned int b)
+{
+	if (a < b)
+		return b;
+
+	return a;
+}
 
 
 void init_builders(unsigned int seed)
 {
+	srand(seed);
+
+	n_builders = max(rand() % MAX_BUILDERS, MIN_BUILDERS);
+
 	for (int i = 0 ; i < MAX_BUILDERS ; ++i)
 	{
-		static struct builder_t builder = {};
-		builders[i] = &builder;
+		builders[i].lvl = rand() % NUM_LEVELS;
+		builders[i].lvl = rand() % NUM_LEVELS;
+		builders[i].lvl = rand() % NUM_LEVELS;
+		builders[i].lvl = rand() % NUM_LEVELS;
 	}
 }
 
 
 unsigned int num_builders()
 {
-	int i = 0;
-
-	while (builders[i] != 0 && i < MAX_BUILDERS)
-		++i;
-
-	return i + 1;  // + 1 for 1 based indexing
+	return n_builders;
 }
 
 
@@ -38,7 +71,7 @@ struct builder_t* make_builder(unsigned int index)
 	if (index >= MAX_BUILDERS)
 		return NULL;
 
-	return builders[index];
+	return &builders[index];
 }
 
 
@@ -68,7 +101,14 @@ struct buildcost_t builder_provides(const struct builder_t *g)
 
 void builder_display(const struct builder_t *g, const char *prefix)
 {
-	// printf("Builder(lvl=%d,cost=%d%s,prod=%d%c)", g->lvl, g.);
+	printf("%sBuilder(lvl=%d,cost=%d%s,prod=%d%s)\n", \
+			prefix, \
+			g->lvl, \
+			g->requires.n, \
+			color_to_short_string(g->requires.c), \
+			g->provides.n,
+			color_to_short_string(g->provides.c)
+			);
 }
 
 

@@ -3,8 +3,6 @@
 
 #include "color.h"
 
-#include <stdlib.h>
-
 /** The maximum level for a builder */
 #ifndef NUM_LEVELS
   #define NUM_LEVELS 2
