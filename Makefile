@@ -22,8 +22,9 @@ project: $(PROJECT_FILES)
 	$(CC) $(CFLAGS) $(PROJECT_FILES) -o project
 
 
-test_project: $(TEST_FILES)
+test: $(TEST_FILES)
 	$(CC) $(CFLAGS) $(TEST_FILES) -o test_project
+
 
 clean:
 	rm -f project test_project *.o *~
