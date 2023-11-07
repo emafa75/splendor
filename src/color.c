@@ -32,7 +32,7 @@ const char* color_to_string(enum color_t c)
   
 }
 
-const char* color_to_short(enum color_t c)
+const char* color_to_short_string(enum color_t c)
 {
   return str_short_color[c];
 }
