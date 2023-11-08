@@ -42,14 +42,13 @@ int token_equals(const struct token_t t1, const struct token_t t2)
 
 void token_display(struct token_t t, const char* prefix)
 {
-  char str_to_display[NUM_COLORS*5];
-  printf("%sTOKEN(",prefix);
-  for (char i = 0 ; i< NUM_COLORS;++i)
-    {
-      if(t.c[i] != 0)
+	printf("%sTOKEN(", prefix);
+	for (int i = 0 ; i < NUM_COLORS ; ++i)
 	{
-	  printf("%s=%d (%d),",color_to_short_string(i),i,t.c[i]);	  
+		if(t.c[i] != 0)
+		{
+			printf("%s=%d (%d),", color_to_short_string(i), i, t.c[i]);	  
+		}
 	}
-    }
   printf(")\n");
 }

@@ -1,8 +1,4 @@
 
-#ifndef __MARKET_H__
-#define __MARKET_H__
-#define TOKENS_PER_COLOR 5
-
 #include "token.h"
 #include "color.h"
 
@@ -12,7 +8,10 @@
 #include <stdlib.h>
 #endif
 
-#endif
+
+#ifndef __MARKET_H__
+#define __MARKET_H__
+#define TOKENS_PER_COLOR 5
 
 
 struct market {
@@ -30,6 +29,4 @@ struct token_t * pick_token(enum color_t color);
 void pay_token(struct token_t * token);
 
 
-
-
-
+#endif

@@ -7,17 +7,19 @@
  *
  */
 
-#define __STDLIB_H__
-#define __STDIO_H__
-#define SEED 0
 
+#define __STDLIB_H__
 #ifdef __STDLIB_H__
-	#include <stdlib.h>
+#include <stdlib.h>
 #endif
 
+#define __STDIO_H__
 #ifdef __STDIO_H__
 	#include <stdio.h>
 #endif
+
+#define SEED 0
+
 
 #include "builder.h"
 

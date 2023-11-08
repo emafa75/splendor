@@ -23,12 +23,12 @@ TEST_MAIN_FILE_NAME := ./tst/test.c
 
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
-SRCS := $(filter-out ./src/$(PROJECT_MAIN_FILE_NAME),$(SRCS))
+SRCS := $(filter-out $(PROJECT_MAIN_FILE_NAME),$(SRCS))
 
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
-PROJECT_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o)
+PROJECT_OBJS := $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TEST_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o)
 
 
@@ -66,7 +66,7 @@ $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 
 
 clang_custom_lib_support:
-	echo $(INC_FLAGS) > compile_flags.txt
+	(echo $(INC_FLAGS) | sed 's/ /\n/') > compile_flags.txt
 
 
 # Build step for C source
