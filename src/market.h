@@ -14,10 +14,19 @@
 #define TOKENS_PER_COLOR 5
 
 
+// Used to store all the tokens of the game
 struct market {
 	struct token_t tokens[NUM_COLORS][TOKENS_PER_COLOR];
 	int num_tokens[NUM_COLORS];
 };
+
+
+// Used to store tokens of a given color
+struct color_tokens {
+	struct token_t *tokens[TOKENS_PER_COLOR];
+};
+
+
 
 
 void init_market();
