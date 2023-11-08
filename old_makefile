@@ -1,0 +1,86 @@
+#
+#  Variables
+#
+
+# Defines
+NUM_COLORS ?= 5
+NUM_LEVELS ?= 2
+NUM_TOKENS ?= 25
+
+
+SRC_DIRS := ./src
+TST_DIRS := ./tst
+BUILD_DIR := ./build
+
+# flag pour lib sys: -I
+
+# Outputs
+PROJECT_BIN_PATH := project
+
+
+# Compilation flags
+MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS)
+CFLAGS := -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) 
+
+# Every folder in ./src will need to be passed to GCC so that it can find header files
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
+# Add a prefix to INC_DIRS. So moduleA would become -ImoduleA. GCC understands this -I flag
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
+CFLAGS := -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) $(INC_FLAGS)
+
+
+# Inputs
+PROJECT_SOURCES := $(shell find $(SRC_DIRS) -name '*.c')
+PROJECT_OBJS := $(PROJECT_SOURCES:.c=.o)
+
+PROJECT_FILES := $(shell find $(SRC_DIRS) -name 'project.c')
+PROJECT_FILES := $(PROJECT_FILES:.c=.o)
+
+PROJECT_DEPS := $(filter-out $(PROJECT_FILES),$(PROJECT_DEPS))
+
+TEST_FILES := $(shell find $(TST_DIRS) -name '*.c')
+TEST_FILES := $(TEST_FILES:.c=.o)
+
+
+# Extrait les .o des deps, car les .o sont présents au root du projet
+OBJS := $(PROJECT_OBJS:%=$(BUILD_DIR)/%.o)
+
+
+#
+# Targets
+# 
+
+# Default target
+all: project
+
+
+# Project compiling
+project: $(PROJECT_FILES) $(PROJECT_DEPS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(PROJECT_BIN_PATH)
+
+
+#
+compile_project_sources: $(PROJECT_FILES) $(PROJECT_SOURCES)
+
+
+#
+test: $(TEST_FILES)
+	$(CC) $(CFLAGS) $(TEST_FILES) -o test_project
+
+
+# Default .o compilation, for sources
+%.o: %.c
+	$(CC) -c $(CFLAGS) $<
+
+
+
+# Cleans compilation files
+clean:
+	rm -f *.o *~
+
+
+# Also cleans binairies
+clean_all:
+	rm -f project test_project *.o *~
+
+
