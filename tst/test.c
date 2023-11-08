@@ -18,7 +18,7 @@
 #ifdef STDIO
 	#include <stdio.h>
 #endif
-#include "../src/builder.h"
+#include "builder.h"
 
 #define _NB_MIN_PARAMS_ 1
 

@@ -7,17 +7,18 @@
  *
  */
 
-#define STDIO
-#define STDLIB
+#define __STDLIB_H__
+#define __STDIO_H__
 #define SEED 0
 
-#ifdef STDLIB
+#ifdef __STDLIB_H__
 	#include <stdlib.h>
 #endif
 
-#ifdef STDIO
+#ifdef __STDIO_H__
 	#include <stdio.h>
 #endif
+
 #include "builder.h"
 
 #define _NB_MIN_PARAMS_ 1
