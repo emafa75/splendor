@@ -58,11 +58,11 @@ test: $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 
 # The final build step.
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
-	$(CC) $(PROJECT_OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
-	$(CC) $(TEST_OBJS) -o $@ $(LDFLAGS)
+	$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 clang_custom_lib_support:
@@ -78,6 +78,7 @@ $(BUILD_DIR)/%.c.o: %.c
 .PHONY: clean
 clean:
 	rm -r $(BUILD_DIR)/*
+	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC)
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
