@@ -25,10 +25,10 @@ void init_market()
 }
 
 
-int find_available_token(enum color_t color)
-{
-	return NULL;
-}
+// int find_available_token(enum color_t color)
+// {
+// 	return NULL;
+// }
 
 
 struct token_t * pick_token(enum color_t color)
@@ -51,8 +51,30 @@ struct token_t * pick_token(enum color_t color)
 }
 
 
+static int add_token(struct color_tokens * color_tokens, struct token_t *token)
+{
+	for (int i = 0 ; i < TOKENS_PER_COLOR ; ++i)
+	{
+		if (color_tokens->tokens[i] == NULL)
+		{
+			color_tokens->tokens[i] = token;
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+
 void pay_token(struct token_t * token)
 {
+	for (int i = 0 ; i < NUM_COLORS ; ++i)
+	{
+		if (token->c[i] != 0)
+		{
+			add_token(&available_tokens[i], token);
+		}
+	}
 
 }
 
