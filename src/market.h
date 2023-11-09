@@ -1,5 +1,5 @@
-
-#include "token.h"
+#ifndef __MARKET_H__
+#define __MARKET_H__
 
 #ifndef __STDLIB_H__
 #define __STDLIB_H__
@@ -7,8 +7,8 @@
 #include <stdlib.h>
 #endif
 
-#ifndef __MARKET_H__
-#define __MARKET_H__
+
+#include "token.h"
 
 #define TOKENS_PER_COLOR NUM_TOKENS
 

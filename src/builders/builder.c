@@ -8,7 +8,6 @@
  */
 
 #include "builder.h"
-#include "color.h"
 
 #ifndef STDLIB
 	#include <stdlib.h>
