@@ -1,11 +1,13 @@
 
 #include "market.h"
+#include "color.h"
 #include "token.h"
 
 
+static struct market market = {};
 
-static struct token_t tokens[NUM_TOKENS] = {};
-static struct token_t *available_tokens[NUM_TOKENS] = {};
+
+static struct color_tokens available_tokens[NUM_COLORS];
 
 
 void init_market()
@@ -16,15 +18,34 @@ void init_market()
 		for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
 		{
 			i = color * TOKENS_PER_COLOR + j;
-			tokens[i] = create_simple_token(color);
-			available_tokens[i] = &tokens[i];
+			market.tokens[color][j] = create_simple_token(color);
+			available_tokens[color].tokens[i] = &market.tokens[color][j];
 		}
 	}
 }
 
 
+int find_available_token(enum color_t color)
+{
+	return NULL;
+}
+
+
 struct token_t * pick_token(enum color_t color)
 {
+	struct token_t *tmp = NULL;
+
+	// Recherche d'un el disponible'
+	for (int i = 0 ; i < TOKENS_PER_COLOR ; ++i)
+	{
+		if (available_tokens[color].tokens[i] != NULL)
+		{
+			tmp = available_tokens[color].tokens[i];
+			available_tokens[color].tokens[i] = NULL;
+
+			return tmp;
+		}
+	}
 	
 	return NULL;
 }

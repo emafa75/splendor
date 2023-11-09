@@ -32,6 +32,8 @@ struct color_tokens {
 void init_market();
 
 
+int find_available_token(enum color_t color);
+
 struct token_t * pick_token(enum color_t color);
 
 
