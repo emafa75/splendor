@@ -54,7 +54,7 @@ int test_hire_builder()
 	}
 
     //struct player_t new_player = init_player();
-
+    return 1;
 
     
 }
