@@ -13,10 +13,7 @@
 
 #include <time.h>
 
-#define MAX_COST 3
-#define MAX_PROVIDES 3
-#define MIN_BUILDERS 2
-
+#include "builder_constants.h"
 
 struct builder_t {
 	unsigned int lvl;
@@ -30,31 +27,22 @@ static struct builder_t builders[MAX_BUILDERS];
 static int n_builders = 0;
 
 
-static unsigned int max(unsigned int a, unsigned int b)
-{
-	if (a < b)
-		return b;
-
-	return a;
-}
-
-
 void init_builders(unsigned int seed)
 {
 	srand(seed);
 
-	n_builders = max(rand() % MAX_BUILDERS, MIN_BUILDERS);
+	n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
 
 	for (int i = 0 ; i < n_builders ; ++i)
 	{
 		builders[i].lvl = rand() % NUM_LEVELS;
-		builders[i].pts = 0;
+		builders[i].pts = BUILDER_MIN_PTS + rand() % (BUILDER_MAX_PTS - BUILDER_MIN_PTS);
 
-		builders[i].provides.c = rand() % MAX_COLORS;
-		builders[i].provides.n = rand() % MAX_PROVIDES;
+		builders[i].provides.c = rand() % NUM_COLORS;
+		builders[i].provides.n = BUILDER_MIN_PROVIDES + rand() % (BUILDER_MAX_PROVIDES - BUILDER_MIN_PROVIDES);
 
-		builders[i].requires.c = rand() % MAX_COLORS;
-		builders[i].requires.c = rand() % MAX_COST;
+		builders[i].requires.c = rand() % NUM_COLORS;
+		builders[i].requires.n = BUILDER_MIN_COST +  rand() % (BUILDER_MAX_COST - BUILDER_MIN_COST);
 
 	}
 }
