@@ -12,7 +12,7 @@ void init_guild()
         guild.builders[index] = make_builder(index);
         guild.available[index] = 1;
     }
-    guild_display(guild);
+    guild_display();
     
 }
 
