@@ -2,7 +2,9 @@
 #define __MARKET_H__
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "token.h"
+
 
 #define TOKENS_PER_COLOR NUM_TOKENS
 

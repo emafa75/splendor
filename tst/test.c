@@ -15,6 +15,7 @@
 
 #include "builder.h"
 #include "guild.h"
+#include "test_builders.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -30,11 +31,9 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	init_builders(SEED);
+
 	init_guild();
-	
-	struct builder_t *builder;
-	builder = make_builder(0);
+	test_builders();
 
 
 	return EXIT_SUCCESS;
