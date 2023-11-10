@@ -16,7 +16,6 @@ struct player_t init_player()
 void player_take_token(struct player_t* player, unsigned int index){
     player-> index_token_list[index] = 1;
     pick_token(index);
-
 }
 
 void player_hire_builder(struct player_t *player, unsigned int index)

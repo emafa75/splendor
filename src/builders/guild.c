@@ -6,8 +6,8 @@
 static struct guild guild;
 void init_guild()
 {
-    guild.n_builders = MAX_BUILDERS;
-    for (int index = 0; index < MAX_BUILDERS; ++index)
+    guild.n_builders = num_builders();
+    for (int index = 0; index < guild.n_builders; ++index)
     {
         guild.builders[index] = make_builder(index);
         guild.available[index] = 1;
