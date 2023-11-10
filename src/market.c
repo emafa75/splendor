@@ -8,7 +8,7 @@ static struct market market = {};
 static struct color_tokens available_tokens[NUM_COLORS];
 
 
-void init_market()
+void init_market(unsigned int seed)
 {
 	int i = 0;
 	for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)

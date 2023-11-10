@@ -18,7 +18,8 @@
 #ifdef STDIO
 	#include <stdio.h>
 #endif
-#include "builder.h"
+
+#include "test_builders.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -34,12 +35,9 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	init_builders(SEED);
+	test_builders();
 
-	struct builder_t *builder;
-	builder = make_builder(0);
 
-	builder_display(builder, " - ");
 
 	return EXIT_SUCCESS;
 }

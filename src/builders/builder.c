@@ -19,11 +19,6 @@
 	#define STDIO
 #endif
 
-#define MAX_COST 3
-#define MAX_PROVIDES 5
-#define MIN_BUILDERS 2
-
-
 struct builder_t {
 	unsigned int lvl;
 	unsigned int pts;
@@ -53,7 +48,7 @@ void init_builders(unsigned int seed)
 
 	for (int i = 0 ; i < n_builders ; ++i)
 	{
-		builders[i].lvl = 2;
+		builders[i].lvl = rand() % NUM_LEVELS;
 		builders[i].pts = 0;
 
 		builders[i].provides.c = rand() % MAX_COLORS;

@@ -26,7 +26,7 @@ struct color_tokens {
 };
 
 
-void init_market();
+void init_market(unsigned int seed);
 
 
 /*
