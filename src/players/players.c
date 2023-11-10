@@ -5,12 +5,22 @@
 #include "token.h"
 #include <stdio.h>
 
+struct players_t players;
+
 
 struct player_t init_player()
 {
     struct player_t new_player = {.index_token_list = {}, .index_builder_list = {}, \
      .current_point =0};
     return new_player;
+}
+
+void init_players()
+{
+    for (int index = 0; index < MAX_PLAYERS; ++index)
+    {
+        players.player_list[index] = init_player();
+    }
 }
 
 void player_take_token(struct player_t* player, unsigned int index){
@@ -41,3 +51,4 @@ void player_display_inventory(struct player_t *player)
         }
     }
 }
+

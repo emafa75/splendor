@@ -13,6 +13,7 @@ struct guild
 
 struct available_builders {
 	int available[MAX_BUILDERS];
+    int n_builders_available; 
 };
 
 

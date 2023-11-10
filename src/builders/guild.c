@@ -40,13 +40,16 @@ void guild_put_builder(int id)
 
 struct available_builders get_available_builders()
 {
+    int size = 0;
     struct available_builders available_builders ={{}};
     for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
         if (guild.available[index])
         {
             available_builders.available[index] = 1;
+            ++size;
         }
     }
+    available_builders.n_builders_available = size;
     return available_builders;
 }

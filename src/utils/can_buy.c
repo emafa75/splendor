@@ -1,5 +1,8 @@
 
 #include "can_buy.h"
+#include "builder.h"
+#include "guild.h"
+#include "market.h"
 
 
 struct available_tokens can_buy(struct builder_t *builder, int available_tokens[NUM_TOKENS])
@@ -33,6 +36,17 @@ struct available_tokens can_buy(struct builder_t *builder, int available_tokens[
 
 
 	return out;
+}
+
+int select_affordable_builder()
+{
+	struct available_builders available_builders = get_available_builders();
+	for (int index = 0; index < available_builders.n_builders_available ; ++index)
+	{
+		struct available_tokens token_to_buy;
+		token_to_buy = *make_builder(available_builders.available[index]).t
+		if ()
+	}
 }
 
 
