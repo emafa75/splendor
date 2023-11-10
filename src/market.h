@@ -38,6 +38,12 @@ struct token_t * pick_token(int index);
 void pay_token(struct token_t * token);
 
 
+/*
+ *  Returns the index-th token
+ */
+struct token_t* get_token(int index);
+
+
 struct available_tokens *get_available_tokens();
 
 

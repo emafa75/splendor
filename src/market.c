@@ -28,6 +28,12 @@ struct token_t * pick_token(int index)
 }
 
 
+struct token_t* get_token(int index)
+{
+	return &market.tokens[index];
+}
+
+
 void pay_token(struct token_t * token)
 {
 	for (int i = 0 ; i < NUM_TOKENS ; ++i)
