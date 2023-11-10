@@ -10,11 +10,8 @@
 #define SEED 0
 
 #include <stdlib.h>
-
 #include <stdio.h>
 
-#include "builder.h"
-#include "guild.h"
 #include "test_builders.h"
 
 #define _NB_MIN_PARAMS_ 1
@@ -32,7 +29,6 @@ int main(int argc, char *argv[])
 	}
 
 
-	init_guild();
 	test_builders();
 
 
