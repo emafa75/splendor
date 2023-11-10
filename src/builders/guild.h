@@ -11,22 +11,29 @@ struct guild
     int available[MAX_BUILDERS];
 };
 
+struct available_builders {
+	int available[MAX_BUILDERS];
+};
+
+
 
 void init_guild();
 
 /*
     Display all available builders in a guild
 */
-void guild_display(const struct guild guild);
+void guild_display();
 
 /*
     Pick builder from a guild and make it unavailable
 */
-struct builder_t* guild_pick_builder(struct guild *guild, int id);
+struct builder_t* guild_pick_builder(int id);
 
 /*
     Put builder with id 'id' available again in the guild
 */
-void guild_put_builder(struct guild *guild, int id);
+void guild_put_builder(int id);
+
+struct available_builders get_available_builders();
 
 #endif

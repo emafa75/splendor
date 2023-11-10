@@ -1,4 +1,5 @@
 #include "guild.h"
+#include "builder.h"
 #include <stdio.h>
 
 
@@ -15,7 +16,7 @@ void init_guild()
     
 }
 
-void guild_display(const struct guild guild)
+void guild_display()
 {
     for (int index = 0 ; index < guild.n_builders ; ++index)
     {
@@ -26,13 +27,26 @@ void guild_display(const struct guild guild)
     }
 }
 
-struct builder_t* guild_pick_builder(struct guild *guild, int id)
+struct builder_t* guild_pick_builder(int id)
 {
-    guild->available[id] = 0;
-    return guild->builders[id];
+    guild.available[id] = 0;
+    return guild.builders[id];
 }
 
-void guild_put_builder(struct guild *guild, int id)
+void guild_put_builder(int id)
 {
-    guild->available[id] = 1;
+    guild.available[id] = 1;
+}
+
+struct available_builders get_available_builders()
+{
+    struct available_builders available_builders ={{}};
+    for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
+    {
+        if (guild.available[index])
+        {
+            available_builders.available[index] = 1;
+        }
+    }
+    return available_builders;
 }
