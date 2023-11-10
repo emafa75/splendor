@@ -7,18 +7,14 @@
  *
  */
 
-#define STDIO
-#define STDLIB
 #define SEED 0
 
-#ifdef STDLIB
-	#include <stdlib.h>
-#endif
+#include <stdlib.h>
 
-#ifdef STDIO
-	#include <stdio.h>
-#endif
+#include <stdio.h>
+
 #include "builder.h"
+#include "guild.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -35,7 +31,8 @@ int main(int argc, char *argv[])
 	}
 
 	init_builders(SEED);
-
+	init_guild();
+	
 	struct builder_t *builder;
 	builder = make_builder(0);
 

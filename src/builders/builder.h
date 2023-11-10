@@ -1,7 +1,7 @@
 #ifndef __BUILDER_H__
 #define __BUILDER_H__
 
-#include "../color.h"
+#include "color.h"
 
 /** The maximum level for a builder */
 #ifndef NUM_LEVELS

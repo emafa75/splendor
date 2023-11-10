@@ -11,6 +11,7 @@ struct guild
     int available[MAX_BUILDERS];
 };
 
+
 void init_guild();
 
 /*
