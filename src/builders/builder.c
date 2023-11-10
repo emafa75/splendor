@@ -8,16 +8,8 @@
  */
 
 #include "builder.h"
-
-#ifndef STDLIB
-	#include <stdlib.h>
-	#define STDLIB
-#endif
-
-#ifndef STDIO
-	#include <stdio.h>
-	#define STDIO
-#endif
+#include <stdlib.h>
+#include <stdio.h>
 
 struct builder_t {
 	unsigned int lvl;

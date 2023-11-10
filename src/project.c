@@ -8,15 +8,9 @@
  */
 
 
-#define __STDLIB_H__
-#ifdef __STDLIB_H__
 #include <stdlib.h>
-#endif
+#include <stdio.h>
 
-#define __STDIO_H__
-#ifdef __STDIO_H__
-	#include <stdio.h>
-#endif
 
 #define SEED 0
 
