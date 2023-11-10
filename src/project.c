@@ -11,11 +11,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "builder.h"
 
 #define SEED 0
-
-
-#include "builder.h"
 
 #define _NB_MIN_PARAMS_ 1
 
