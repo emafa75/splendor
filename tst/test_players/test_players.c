@@ -53,7 +53,8 @@ int test_hire_builder()
 		return 0;
 	}
 
-    struct player_t new_player = init_player();
+    //struct player_t new_player = init_player();
+
 
     
 }
