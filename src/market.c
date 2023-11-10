@@ -1,11 +1,10 @@
 
 #include "market.h"
+#include "token.h"
 
 
 static struct market market = {};
-
-
-static struct color_tokens available_tokens[NUM_COLORS];
+static struct available_tokens available_tokens;  
 
 
 void init_market(unsigned int seed)
@@ -16,32 +15,24 @@ void init_market(unsigned int seed)
 		for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
 		{
 			i = color * TOKENS_PER_COLOR + j;
-			market.tokens[color][j] = create_simple_token(color);
-			available_tokens[color].tokens[i] = &market.tokens[color][j];
+			market.tokens[color * TOKENS_PER_COLOR + j] = create_simple_token(color);
+			available_tokens.available[color * TOKENS_PER_COLOR + j] = 1;
 		}
 	}
 }
 
 
-// int find_available_token(enum color_t color)
-// {
-// 	return NULL;
-// }
-
-
-struct token_t * pick_token(enum color_t color)
+struct token_t * pick_token(int index)
 {
 	struct token_t *tmp = NULL;
 
-	// Recherche d'un el disponible'
-	for (int i = 0 ; i < TOKENS_PER_COLOR ; ++i)
+	// Recherche d'un el disponible
+	for (int i = 0 ; i < NUM_TOKENS ; ++i)
 	{
-		if (available_tokens[color].tokens[i] != NULL)
+		if (available_tokens.available[i] != 0)
 		{
-			tmp = available_tokens[color].tokens[i];
-			available_tokens[color].tokens[i] = NULL;
-
-			return tmp;
+			available_tokens.available[i] = 0;
+			return &market.tokens[i];
 		}
 	}
 	
@@ -49,32 +40,25 @@ struct token_t * pick_token(enum color_t color)
 }
 
 
-static int add_token(struct color_tokens * color_tokens, struct token_t *token)
-{
-	for (int i = 0 ; i < TOKENS_PER_COLOR ; ++i)
-	{
-		if (color_tokens->tokens[i] == NULL)
-		{
-			color_tokens->tokens[i] = token;
-			return 1;
-		}
-	}
-
-	return 0;
-}
-
-
 void pay_token(struct token_t * token)
 {
-	for (int i = 0 ; i < NUM_COLORS ; ++i)
+	for (int i = 0 ; i < NUM_TOKENS ; ++i)
 	{
-		if (token->c[i] != 0)
+		if (&market.tokens[i] == token)
 		{
-			add_token(&available_tokens[i], token);
+			available_tokens.available[i] = 1;
+			return;
 		}
 	}
-
 }
+
+
+struct available_tokens *get_available_tokens()
+{
+	return &available_tokens;
+}
+
+
 
 
 

@@ -1,11 +1,7 @@
 #ifndef __MARKET_H__
 #define __MARKET_H__
 
-#ifndef __STDLIB_H__
-#define __STDLIB_H__
-
 #include <stdlib.h>
-#endif
 
 
 #include "token.h"
@@ -15,14 +11,11 @@
 
 // Used to store all the tokens of the game
 struct market {
-	struct token_t tokens[NUM_COLORS][TOKENS_PER_COLOR];
-	int num_tokens[NUM_COLORS];
+	struct token_t tokens[NUM_TOKENS];
 };
 
-
-// Used to store tokens of a given color
-struct color_tokens {
-	struct token_t *tokens[TOKENS_PER_COLOR];
+struct available_tokens {
+	int available[NUM_TOKENS];
 };
 
 
@@ -35,7 +28,7 @@ void init_market(unsigned int seed);
  * Returns  a pointer to an available token if one exists
  *					return NULL otherwise
  */
-struct token_t * pick_token(enum color_t color);
+struct token_t * pick_token(int index);
 
 
 /*
@@ -44,12 +37,8 @@ struct token_t * pick_token(enum color_t color);
  */
 void pay_token(struct token_t * token);
 
-/*
- *
- * Returns	1 if successfully add a token
- *					0 otherwise
- */
-static int add_token(struct color_tokens * color_tokens, struct token_t *token);
+
+struct available_tokens *get_available_tokens();
 
 
 #endif

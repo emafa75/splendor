@@ -1,13 +1,7 @@
 #include "token.h"
 
-#ifndef STDIO
-#define STDIO
 #include <stdio.h>
-#endif
-#ifndef STRING
-#define STRING
 #include <string.h>
-#endif
 
 
 struct token_t create_simple_token(enum color_t c)
