@@ -1,8 +1,6 @@
 #ifndef __BUILDER_H__
 #define __BUILDER_H__
 
-#include <time.h>
-
 #include "color.h"
 
 /** The maximum level for a builder */
@@ -14,11 +12,6 @@
 #ifndef MAX_BUILDERS
   #define MAX_BUILDERS 10
 #endif
-
-
-#define MAX_COST 3
-#define MAX_PROVIDES 3
-#define MIN_BUILDERS 2
 
 /** A pair representing a number of tokens of the same color that is
     required to buy a builder or that is produced by a builder. */
@@ -60,3 +53,5 @@ struct buildcost_t builder_provides(const struct builder_t* g);
 void builder_display(const struct builder_t* g, const char* prefix);
 
 #endif // __BUILDER_H__
+
+

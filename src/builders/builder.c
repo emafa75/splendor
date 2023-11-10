@@ -11,6 +11,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <time.h>
+
+#define MAX_COST 3
+#define MAX_PROVIDES 3
+#define MIN_BUILDERS 2
+
+
 struct builder_t {
 	unsigned int lvl;
 	unsigned int pts;
