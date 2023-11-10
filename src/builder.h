@@ -1,11 +1,7 @@
 #ifndef __BUILDER_H__
 #define __BUILDER_H__
 
-#ifndef __TIME_H__
-#define __TIME_H__
-
 #include <time.h>
-#endif
 
 #include "color.h"
 

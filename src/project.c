@@ -8,20 +8,12 @@
  */
 
 
-#define __STDLIB_H__
-#ifdef __STDLIB_H__
 #include <stdlib.h>
-#endif
-
-#define __STDIO_H__
-#ifdef __STDIO_H__
-	#include <stdio.h>
-#endif
-
-#define SEED 0
-
+#include <stdio.h>
 
 #include "builder.h"
+
+#define SEED 0
 
 #define _NB_MIN_PARAMS_ 1
 

@@ -1,12 +1,7 @@
 #ifndef __TEST_BUILDERS_H__
 #define __TEST_BUILDERS_H__
 
-#ifndef __STDIO_H__
-#define __STDIO_H__
-
 #include <stdio.h>
-#endif
-
 #include "builder.h"
 
 
