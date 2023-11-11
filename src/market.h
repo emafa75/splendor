@@ -51,5 +51,9 @@ struct available_tokens *get_available_tokens();
 */
 void market_display();
 
+/*
+	Returns number of token avalable in market
+*/
 
+int num_tokens();
 #endif

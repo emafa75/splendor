@@ -23,7 +23,7 @@ struct token_t * pick_token(int index)
 {
 	if (available_tokens.available[index] == 0)
 		return NULL;
-
+	available_tokens.available[index] = 0;	
 	return &market.tokens[index];
 }
 
@@ -67,4 +67,15 @@ void market_display()
 
 
 
-
+int num_tokens()
+{
+	int res = 0;
+	for (int index = 0; index < NUM_TOKENS; ++index)
+	{
+		if (available_tokens.available[index])
+		{
+			++res;
+		}
+	}
+	return res;
+}
