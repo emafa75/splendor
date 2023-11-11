@@ -58,6 +58,7 @@ int player_pay_builder(struct player_t* player, int index_builder_to_hire)
         if(token_list_to_buy.available[index])
         {
             player_take_token(player,index);
+            pay_token(get_token(index));
         }
     }
     return 1;
