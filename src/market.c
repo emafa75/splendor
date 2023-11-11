@@ -7,7 +7,7 @@ static struct available_tokens available_tokens;
 
 void init_market(unsigned int seed)
 {
-	printf("%d\n", seed);
+	printf("Seed market : %d\n", seed);
 	for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)
 	{
 		for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
@@ -52,6 +52,18 @@ struct available_tokens *get_available_tokens()
 	return &available_tokens;
 }
 
+
+void market_display()
+{
+	for (int index = 0; index < NUM_TOKENS ; ++index)
+	{
+		if(available_tokens.available[index]) 
+		{
+			token_display(market.tokens[index]," ---- ");
+		}
+		
+	} 
+}
 
 
 

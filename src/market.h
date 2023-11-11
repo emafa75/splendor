@@ -46,5 +46,10 @@ struct token_t* get_token(int index);
 
 struct available_tokens *get_available_tokens();
 
+/*
+	Display all available token in the market
+*/
+void market_display();
+
 
 #endif
