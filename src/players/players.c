@@ -3,10 +3,8 @@
 #include "guild.h"
 #include "market.h"
 #include "token.h"
+#include "can_buy.h"
 #include <stdio.h>
-
-struct players_t players;
-
 
 struct player_t init_player()
 {
@@ -15,13 +13,7 @@ struct player_t init_player()
     return new_player;
 }
 
-void init_players()
-{
-    for (int index = 0; index < MAX_PLAYERS; ++index)
-    {
-        players.player_list[index] = init_player();
-    }
-}
+
 
 void player_take_token(struct player_t* player, unsigned int index){
     player-> index_token_list[index] = 1;
@@ -39,7 +31,9 @@ void player_display_inventory(struct player_t *player)
     printf("Token available : \n");
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
-        token_display(*get_token(index), " --- ");
+        if(player->index_token_list[index]){
+            token_display(*get_token(index), " --- ");
+        }
     }
 
     printf("Builders : \n");
@@ -50,5 +44,22 @@ void player_display_inventory(struct player_t *player)
             builder_display(make_builder(index)," --- ");
         }
     }
+}
+
+int player_pay_builder(struct player_t* player, int index_builder_to_hire)
+{
+    struct available_tokens token_list_to_buy = can_buy(make_builder(index_builder_to_hire), player->index_token_list);
+    if(token_list_to_buy.available[0] == -1)
+    {
+        return 0;
+    }
+    for (int index = 0; index < NUM_TOKENS; ++index)
+    {
+        if(token_list_to_buy.available[index])
+        {
+            player_take_token(player,index);
+        }
+    }
+    return 1;
 }
 
