@@ -28,6 +28,7 @@ void player_take_token(struct player_t* player, unsigned int index){
 void player_hire_builder(struct player_t *player, unsigned int index)
 {
     player->index_builder_list[index] = 1 ;
+    player->current_point += builder_points(make_builder(index));
     guild_pick_builder(index);
 }
 
