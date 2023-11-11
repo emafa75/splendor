@@ -41,13 +41,16 @@ struct available_tokens can_buy(struct builder_t *builder, int available_tokens[
 int select_affordable_builder(struct player_t *player)
 {
 	struct available_builders available_builders = get_available_builders();
-	for (int index = 0; index < available_builders.n_builders_available ; ++index)
+	for (int index = 0; index < MAX_BUILDERS ; ++index)
 	{
 		//get next builder available and check if it's possible to hire it
-		struct builder_t *builder_wanted = make_builder(available_builders.available[index]);
-		if (!(can_buy( builder_wanted, player->index_token_list).available[0] == -1)) // test if the player can buy it
+		if (available_builders.available[index])
 		{
-			return index;
+			struct builder_t *builder_wanted = make_builder(index);
+			if (!(can_buy( builder_wanted, player->index_token_list).available[0] == -1)) // test if the player can buy it
+			{
+				return index;
+			}
 		}
 	}
 	return -1;
