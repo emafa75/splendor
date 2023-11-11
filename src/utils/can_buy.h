@@ -4,6 +4,7 @@
 #include "builder.h"
 #include "market.h"
 #include "token.h"
+#include "players.h"
 
 
 /*
@@ -16,7 +17,7 @@
 struct available_tokens can_buy(struct builder_t *builder, int available_tokens[NUM_TOKENS]);
 
 /*
-    Select the first available builder in the guild, other return -1
+    Select the first affordable builder in the guild, other return -1
 */
-int select_affordable_builder();
+int select_affordable_builder(struct player_t *player);
 #endif
