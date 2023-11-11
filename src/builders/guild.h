@@ -35,6 +35,15 @@ struct builder_t* guild_pick_builder(int id);
 */
 void guild_put_builder(int id);
 
+
+/*
+    Get list of boolean for available builders
+*/
 struct available_builders get_available_builders();
+
+/*
+    Get index for the first available builder after the i-th element, -1 if impossible
+*/
+int get_first_available_builder(int i);
 
 #endif

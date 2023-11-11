@@ -1,5 +1,6 @@
 #include "guild.h"
 #include "builder.h"
+#include "market.h"
 #include <stdio.h>
 
 
@@ -51,4 +52,16 @@ struct available_builders get_available_builders()
     }
     available_builders.n_builders_available = size;
     return available_builders;
+}
+
+int get_first_available_builder(int i)
+{
+    struct available_builders available_builders = get_available_builders();
+    for (int index = i; index < MAX_BUILDERS; ++index) {
+        if (available_builders.available[index])
+        {
+            return index;
+        }
+    }
+    return -1;
 }
