@@ -63,6 +63,8 @@ int main(int argc, char *argv[])
 
 	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= MAX_TURNS)
 	{
+		printf("=============================================================\n");
+		printf("Turn n°%d\n", current_turn);
 		int random_choice = rand() % 2; // 0 for hire 1 to take tokens
 		int first_affordable_builder_id = select_affordable_builder(&player_list[current_player]);
 		if(!random_choice && (first_affordable_builder_id != -1)) //pick hire choice and is able to hire a builder
@@ -79,13 +81,14 @@ int main(int argc, char *argv[])
 			printf("Player id.%d choosed to pick %d token(s)" , current_player, num_token_to_pick);
 			for (int index = 0; index < num_token_to_pick ; ++index)
 			{
-				player_take_token(&player_list[current_player], get_first_available_token());
+				player_pick_token(&player_list[current_player], get_first_available_token());
 			}
 		}
 		printf("Current inventory for player id.%d\n", current_player);
 		player_display_inventory(&player_list[current_player]);
 		current_player = next_player(current_player);
 		++current_turn;
+		printf("=============================================================\n");
 		
 	}
 

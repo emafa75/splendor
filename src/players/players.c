@@ -15,9 +15,14 @@ struct player_t init_player()
 
 
 
-void player_take_token(struct player_t* player, unsigned int index){
+void player_pick_token(struct player_t* player, unsigned int index){
     player-> index_token_list[index] = 1;
     pick_token(index);
+}
+
+void player_take_token(struct player_t* player, unsigned int index){
+    player-> index_token_list[index] = 0;
+    pay_token(get_token(index));
 }
 
 void player_hire_builder(struct player_t *player, unsigned int index)
@@ -58,7 +63,6 @@ int player_pay_builder(struct player_t* player, int index_builder_to_hire)
         if(token_list_to_buy.available[index])
         {
             player_take_token(player,index);
-            pay_token(get_token(index));
         }
     }
     return 1;

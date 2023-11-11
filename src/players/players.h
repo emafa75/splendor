@@ -19,9 +19,15 @@ struct player_t
 */
 struct player_t init_player();
 /*
-    take a specific token to a player
+    take a specific token from a player
 */
 void player_take_token(struct player_t* player, unsigned int index);
+
+/*
+    take a specific token from the market 
+*/
+void player_pick_token(struct player_t* player, unsigned int index);
+
 
 /*
     add builder to player deck /!\ Do not check if he has enought token to hire it
