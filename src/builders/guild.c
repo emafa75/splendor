@@ -12,7 +12,6 @@ void init_guild()
         guild.builders[index] = make_builder(index);
         guild.available[index] = 1;
     }
-    guild_display();
     
 }
 
@@ -41,7 +40,7 @@ void guild_put_builder(int id)
 struct available_builders get_available_builders()
 {
     int size = 0;
-    struct available_builders available_builders ={{}};
+    struct available_builders available_builders ={0};
     for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
         if (guild.available[index])
