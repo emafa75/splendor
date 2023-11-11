@@ -56,4 +56,10 @@ void market_display();
 */
 
 int num_tokens();
+
+/*
+	Return position from the first available token, -1 if impossible
+*/
+int get_first_available_token();
+
 #endif

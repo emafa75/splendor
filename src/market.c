@@ -1,5 +1,6 @@
 
 #include "market.h"
+#include "token.h"
 
 static struct market market = {};
 static struct available_tokens available_tokens;  
@@ -78,4 +79,21 @@ int num_tokens()
 		}
 	}
 	return res;
+}
+
+int get_first_available_token()
+{
+	if (!num_tokens())
+	{
+		return -1;
+	}
+	for (int index = 0;  index < NUM_TOKENS; ++index)
+	{
+		if(available_tokens.available[index])
+		{
+			return index;
+		}
+		
+	}
+	return -1;
 }
