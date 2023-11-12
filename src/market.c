@@ -11,15 +11,40 @@ void init_market(unsigned int seed)
 {
 	srand(seed);
 
+	int i = 0;
+	enum color_t color = 0;
+	enum color_t complex_token_colors[NUM_COLORS] = {};
 
-	for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)
+
+	while (i < NUM_TOKENS)
 	{
-		for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
+		// Create first the complex tokens
+		if (i < NUM_COLORS)
 		{
-			market.tokens[color * TOKENS_PER_COLOR + j] = create_simple_token(color);
-			available_tokens.available[color * TOKENS_PER_COLOR + j] = 1;
+			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
+			complex_token_colors[color] = 2;
+
+			market.tokens[i] = create_complex_token(complex_token_colors);
+			available_tokens.available[i]	= 1;
 		}
+		else
+		{
+			market.tokens[i] = create_simple_token(color);
+			available_tokens.available[i]	= 1;
+		}
+
+		color = (color + 1) % NUM_COLORS;
+		++i;
 	}
+
+	// for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)
+	// {
+	// 	for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
+	// 	{
+	// 		market.tokens[color * TOKENS_PER_COLOR + j] = create_simple_token(color);
+	// 		available_tokens.available[color * TOKENS_PER_COLOR + j] = 1;
+	// 	}
+	// }
 }
 
 

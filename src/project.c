@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 #include "builder.h"
 #include "guild.h"
@@ -47,7 +48,8 @@ int get_winner(int size, struct player_t[]);
 
 int main(int argc, char *argv[])
 {
-	
+	int seed = time(NULL);
+	srand(seed);
 	srand(SEED);
 
 	if (argc < _NB_MIN_PARAMS_)

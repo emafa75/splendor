@@ -14,6 +14,7 @@
 #include <time.h>
 
 #include "builder_constants.h"
+#include "color.h"
 
 struct builder_t {
 	unsigned int lvl;
@@ -23,28 +24,53 @@ struct builder_t {
 };
 
 
-static struct builder_t builders[MAX_BUILDERS];
+static struct builder_t builders[MAX_BUILDERS] = {};
 static int n_builders = 0;
 
 
 void init_builders(unsigned int seed)
 {
 	srand(seed);
+	int i = 0;
+	unsigned int lvl = 1;
+	enum color_t color = 0;
+	enum color_t next_color;
 
-	n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
-
-	for (int i = 0 ; i < n_builders ; ++i)
+	while (i < MAX_BUILDERS)
 	{
-		builders[i].lvl = rand() % NUM_LEVELS;
-		builders[i].pts = BUILDER_MIN_PTS + rand() % (BUILDER_MAX_PTS - BUILDER_MIN_PTS +1);
+		next_color = (color + 1) % NUM_COLORS;
 
-		builders[i].provides.c = rand() % NUM_COLORS;
-		builders[i].provides.n = BUILDER_MIN_PROVIDES + rand() % (BUILDER_MAX_PROVIDES - BUILDER_MIN_PROVIDES + 1);
+		builders[i].lvl = lvl;
+		builders[i].pts = 5 * lvl;
+		builders[i].requires.c = color;
+		builders[i].requires.n = lvl + 1;
 
-		builders[i].requires.c = rand() % NUM_COLORS;
-		builders[i].requires.n = BUILDER_MIN_COST +  rand() % (BUILDER_MAX_COST - BUILDER_MIN_COST + 1);
+		builders[i].provides.c = next_color;
+		builders[i].provides.n = lvl;
 
+		printf("%d: ", i);
+		builder_display(&builders[i], "");
+
+		lvl += (color == NUM_COLORS - 1);
+		color = next_color;
+		++i;
 	}
+	
+
+	// n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
+	//
+	// for (int i = 0 ; i < n_builders ; ++i)
+	// {
+	// 	builders[i].lvl = rand() % NUM_LEVELS;
+	// 	builders[i].pts = BUILDER_MIN_PTS + rand() % (BUILDER_MAX_PTS - BUILDER_MIN_PTS +1);
+	//
+	// 	builders[i].provides.c = rand() % NUM_COLORS;
+	// 	builders[i].provides.n = BUILDER_MIN_PROVIDES + rand() % (BUILDER_MAX_PROVIDES - BUILDER_MIN_PROVIDES + 1);
+	//
+	// 	builders[i].requires.c = rand() % NUM_COLORS;
+	// 	builders[i].requires.n = BUILDER_MIN_COST +  rand() % (BUILDER_MAX_COST - BUILDER_MIN_COST + 1);
+	//
+	// }
 }
 
 
