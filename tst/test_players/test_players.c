@@ -26,7 +26,7 @@ int test_init_players()
 
     for (int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
-        if ( !new_player.index_builder_list[index]) 
+        if ( !new_player.ressources.builders[index]) 
         {
             fprintf(stderr,"test_init_players : Player has initial builders in his inventory\n");
             return 0;
@@ -35,7 +35,7 @@ int test_init_players()
 
     for (int index = 0 ; index < NUM_TOKENS ; ++index)
     {
-        if (!new_player.index_token_list[index]) 
+        if (!new_player.ressources.tokens[index]) 
         {
             fprintf(stderr,"Player has initial tokens in his inventory\n");
             return 0;
