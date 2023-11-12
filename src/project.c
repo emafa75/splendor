@@ -79,9 +79,7 @@ enum  parameters market_seed = MARKET_SEED;
 
 int main(int argc, char *argv[])
 {
-	int seed = time(NULL);
-	srand(seed);
-
+	
 	if (argc < _NB_MIN_PARAMS_)
 	{
 		print_usage(argv);
@@ -119,8 +117,8 @@ int main(int argc, char *argv[])
 	/*
 		Init all instances
 	*/
-	init_builders(seed);
-	init_market(seed); //init token
+	init_builders(builder_seed);
+	init_market(market_seed); //init token
 	init_guild();
 	guild_display();
 	market_display();
@@ -128,7 +126,7 @@ int main(int argc, char *argv[])
 	/*
 		Init first player and current turn
 	*/
-	int current_player = get_random_player(seed);
+	int current_player = get_random_player(random_seed);
 	int current_turn = 0;
 
 	/*

@@ -14,7 +14,8 @@
 #include <time.h>
 
 #include "builder_constants.h"
-#include "color.h"
+#include "ansi_color.h"
+#include "color_second_header.h"
 
 struct builder_t {
 	unsigned int lvl;
@@ -114,13 +115,17 @@ struct buildcost_t builder_provides(const struct builder_t *g)
 
 void builder_display(const struct builder_t *g, const char *prefix)
 {
-	printf("%sBuilder(lvl=%d,cost=%d%s,prod=%d%s,points=%d)\n", \
+	printf("%sBuilder(lvl=%d,cost=%s%d%s%s,prod=%s%d%s%s,points=%d)\n", \
 			prefix, \
 			g->lvl, \
+			color_prefix(g->requires.c),\
 			g->requires.n, \
 			color_to_short_string(g->requires.c), \
+			CRESET, \
+			color_prefix(g->provides.c),\
 			g->provides.n,
 			color_to_short_string(g->provides.c),
+			CRESET,\
 			builder_points(g)
 			);
 }

@@ -1,7 +1,9 @@
 #include "token.h"
+#include "ansi_color.h"
 #include <stdio.h>
 #include <string.h>
-
+#include "color.h"
+#include "color_second_header.h"
 
 struct token_t create_simple_token(enum color_t c)
 {
@@ -37,11 +39,11 @@ int token_equals(const struct token_t t1, const struct token_t t2)
 void token_display(struct token_t t, const char* prefix)
 {
 	printf("%sTOKEN(", prefix);
-	for (int i = 0 ; i < NUM_COLORS ; ++i)
+	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if (t.c[i] != 0)
 		{
-			printf("%s=%d (%d),", color_to_short_string(i), i, t.c[i]);	  
+			printf("%s%s%s=%d (Q:%d)," ,color_prefix(i), color_to_short_string(i),CRESET, i, t.c[i]);	  
 		}
 	}
   printf(")\n");
