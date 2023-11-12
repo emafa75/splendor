@@ -21,8 +21,6 @@
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
-#define DEFAULT_SEED 2
-
 #define _NB_MIN_PARAMS_ 1
 
 #define MAX_PLAYERS 2
@@ -71,10 +69,10 @@ void display_options();
 		Init all options 
 */
 int max_turns = MAX_TURNS ;
-enum  parameters points_to_win = POINTS_TO_WIN;
-enum  parameters random_seed = RANDOM_SEED;
-enum  parameters builder_seed = BUILDER_SEEED;
-enum  parameters market_seed = MARKET_SEED;
+int points_to_win = POINTS_TO_WIN;
+int random_seed = RANDOM_SEED;
+int builder_seed = BUILDER_SEEED;
+int market_seed = MARKET_SEED;
 
 
 int main(int argc, char *argv[])
@@ -234,7 +232,7 @@ int has_won(int size, struct player_t players[])
 {
 	for (int index = 0; index < size ; ++index)
 	{
-		if ( players[index].current_point >= points_to_win )
+		if ( players[index].current_point >= points_to_win)
 		{
 			return 1;
 		}
