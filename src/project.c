@@ -21,11 +21,8 @@
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
-<<<<<<< HEAD
 #define DEFAULT_SEED 2
 
-=======
->>>>>>> e25f804 (add optionnal option functionnality)
 #define _NB_MIN_PARAMS_ 1
 
 #define MAX_PLAYERS 2
