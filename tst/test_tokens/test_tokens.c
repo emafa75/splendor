@@ -8,19 +8,19 @@ int test_token()
 
 	if(test_create_simple_token())
 	{
-		printf("test_create_simple_token passed");
+		printf("test_create_simple_token passed\n");
 		++i;
 	}
 
 	if(test_create_complex_token())
 	{
-		printf("test_create_complex_token passed");
+		printf("test_create_complex_token passed\n");
 		++i;
 	}
 
 	if(test_token_equals())
 	{
-		printf("test_token_equals passed");
+		printf("test_token_equals passed\n");
 		++i;
 	}
 
@@ -34,17 +34,14 @@ int test_token_legal(struct token_t token)
 
 	for (int i = 0 ; i < NUM_COLORS ; ++i)
 	{
-		printf("i:%d\n", i);
 		acc += token.c[i];
 		if (token.c[i] > 1)
 		{
 			fprintf(stderr, "test_token_legal: illegal color value: value=%d for color=%s\n", token.c[i], color_to_short_string(i));
 			return 0;
 		}
-		printf("i:%d\n", i);
 	}
 
-	printf("test");
 	if (acc <= 0)
 	{
 		fprintf(stderr, "test_token_legal: token has less than 1 color: num_color=%d\n", acc);
@@ -72,7 +69,8 @@ int test_create_simple_token()
 // Tests if init is executable and create all builders
 int test_create_complex_token()
 {
-	struct token_t token = create_complex_token(0);
+	unsigned int colors[NUM_COLORS] = {1, 1};
+	struct token_t token = create_complex_token(colors);
 
 	if (!test_token_legal(token))
 	{
@@ -98,7 +96,7 @@ int test_token_equals()
 		return 0;
 	}
 
-	if (token_equals(token2, token3))
+	if (!token_equals(token2, token3))
 	{
 		fprintf(stderr, "test_token_equals: tokens are detected as different but are the same\n");
 		token_display(token2, "token2=");
