@@ -14,7 +14,7 @@
  *
  *  If it can't be bought, all the values of the array are set to -1
  */
-struct available_tokens can_buy(struct builder_t *builder, int available_tokens[NUM_TOKENS]);
+struct ressources can_buy(struct builder_t *builder, struct ressources ressources);
 
 /*
     Select the first affordable builder in the guild, other return -1

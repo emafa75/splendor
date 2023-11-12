@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "token.h"
+#include "builder.h"
 
 
 #define TOKENS_PER_COLOR NUM_TOKENS
@@ -16,6 +17,11 @@ struct market {
 
 struct available_tokens {
 	int available[NUM_TOKENS];
+};
+
+struct ressources {
+	int tokens[NUM_TOKENS];
+	int builders[MAX_BUILDERS];
 };
 
 

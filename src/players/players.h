@@ -9,8 +9,7 @@
 
 struct player_t
 {
-    int index_token_list[NUM_TOKENS];
-    int index_builder_list[MAX_BUILDERS];
+		struct ressources ressources;
     int current_point;
 };
 
