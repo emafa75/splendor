@@ -36,7 +36,9 @@ void init_builders(unsigned int seed)
 	enum color_t color = 0;
 	enum color_t next_color;
 
-	while (i < MAX_BUILDERS)
+	n_builders = MAX_BUILDERS;
+
+	while (i < n_builders)
 	{
 		next_color = (color + 1) % NUM_COLORS;
 
@@ -47,9 +49,6 @@ void init_builders(unsigned int seed)
 
 		builders[i].provides.c = next_color;
 		builders[i].provides.n = lvl;
-
-		printf("%d: ", i);
-		builder_display(&builders[i], "");
 
 		lvl += (color == NUM_COLORS - 1);
 		color = next_color;
