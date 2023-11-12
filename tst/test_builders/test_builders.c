@@ -100,9 +100,10 @@ int test_builders_levels(int seed)
 		builder_lvl = builder_level(builder);
 
 		// Tests if the level is legal
-		if (builder_lvl < BUILDER_MIN_LEVEL || builder_lvl >= NUM_LEVELS)
+		if (builder_lvl < BUILDER_MIN_LEVEL || builder_lvl > BUILDER_MIN_LEVEL + NUM_LEVELS)
 		{
-			fprintf(stderr, "test_builders_levels: illegal level, builder.lvl=%d, MIN_LEVEL=%d, MAX_LEVEL=%d\n", builder_lvl, 0, NUM_LEVELS);
+			fprintf(stderr, "test_builders_levels: illegal level, builder.lvl=%d, MIN_LEVEL=%d, MAX_LEVEL=%d\n",
+					builder_lvl, BUILDER_MIN_LEVEL, BUILDER_MIN_LEVEL + NUM_LEVELS);
 			return 0;
 		}
 	}
@@ -130,10 +131,10 @@ int test_builders_pts(int seed)
 		builder_pts = builder_points(builder);
 
 		// Tests if the level is legal
-		if (builder_pts < BUILDER_MIN_PTS || builder_pts >= BUILDER_MAX_PTS)
+		if (builder_pts < BUILDER_MIN_PTS || builder_pts > BUILDER_MAX_PTS)
 		{
-			fprintf(stderr, "test_builders_pts: illegal level, builder.lvl=%d, \
-					MIN_LEVEL=%d, MAX_LEVEL=%d\n",
+			fprintf(stderr, "test_builders_pts: illegal amount of pts, builder.pts=%d, \
+					MIN_PTS=%d, MAX_PTS=%d\n",
 					builder_pts,
 					BUILDER_MIN_PTS,
 					BUILDER_MAX_PTS);
@@ -165,7 +166,7 @@ int test_builders_requires(int seed)
 		builder_require = builder_requires(builder);
 
 		// Tests if the requires cost is legal
-		if (builder_require.n < BUILDER_MIN_COST || builder_require.n >= BUILDER_MAX_COST)
+		if (builder_require.n < BUILDER_MIN_COST || builder_require.n > BUILDER_MAX_COST)
 		{
 			fprintf(stderr, "test_builders_requirerequiress: illegal require cost, \
 					builder.require.n=%d, MIN_COST=%d, MAX_COST=%d\n", 
@@ -210,13 +211,13 @@ int test_builders_provides(int seed)
 		builder_provide = builder_provides(builder);
 
 		// Tests if the level is legal
-		if (builder_provide.n < BUILDER_MIN_COST || builder_provide.n >= BUILDER_MAX_COST)
+		if (builder_provide.n < BUILDER_MIN_PROVIDES || builder_provide.n > BUILDER_MAX_PROVIDES)
 		{
 			fprintf(stderr, "test_builders_provides: illegal provide cost, \
-					builder.provide.n=%d, MIN_COST=%d, MAX_COST=%d\n", 
+					builder.provide.n=%d, MIN_PROVIDE=%d, MAX_PROVIDE=%d\n", 
 					builder_provide.n,
-					BUILDER_MIN_COST,
-					BUILDER_MAX_COST);
+					BUILDER_MIN_PROVIDES,
+					BUILDER_MAX_PROVIDES);
 			return 0;
 		}
 
