@@ -7,7 +7,6 @@
  *
  */
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -17,18 +16,20 @@
 #include "market.h"
 #include "players.h"
 #include "can_buy.h"
-
+#include <unistd.h>
+#include <getopt.h>
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
+<<<<<<< HEAD
 #define DEFAULT_SEED 2
 
+=======
+>>>>>>> e25f804 (add optionnal option functionnality)
 #define _NB_MIN_PARAMS_ 1
 
 #define MAX_PLAYERS 2
-#define POINTS_TO_WIN 10
 
-#define MAX_TURNS 20
 
 enum choice{
 	HIRE,
@@ -37,13 +38,46 @@ enum choice{
 	FIRST_CHOICE = HIRE
 };
 
-void print_usage(char *argv[]);
-
-int next_player(int index);
-int get_random_player(int seed);
+enum parameters{
+	MAX_TURNS = 20,
+	POINTS_TO_WIN = 10,
+	RANDOM_SEED = 0,
+	BUILDER_SEEED = 0,
+	MARKET_SEED = 0,
+};
 struct player_t player_list[MAX_PLAYERS];
+
+void print_usage(char *argv[]);
+/*
+	Returns next player index
+*/
+int next_player(int index);
+/*
+	Gets a random player index
+*/
+int get_random_player(int seed);
+/*
+	Check if if someone won the game, return 1 if true
+*/
 int has_won(int size, struct player_t players[]);
+/*
+	Returns winner's index, -1 if tie
+*/
 int get_winner(int size, struct player_t[]);
+/*
+	Display options for the game
+*/
+void display_options();
+
+
+/*
+		Init all options 
+*/
+int max_turns = MAX_TURNS ;
+enum  parameters points_to_win = POINTS_TO_WIN;
+enum  parameters random_seed = RANDOM_SEED;
+enum  parameters builder_seed = BUILDER_SEEED;
+enum  parameters market_seed = MARKET_SEED;
 
 
 int main(int argc, char *argv[])
@@ -56,7 +90,35 @@ int main(int argc, char *argv[])
 		print_usage(argv);
 		return EXIT_FAILURE;
 	}
+	
+	/*
+		Get optionnal parameters 
+	*/
+	int options;
 
+	while ((options = getopt(argc,argv, "s:m:c:p:")) != -1)
+	{
+		switch (options) {
+			case 's':
+				random_seed = atoi(optarg);
+				break;
+			case 'm':
+				max_turns = atoi(optarg);
+				break;
+			case 'c':
+				builder_seed = atoi(optarg);
+				break;
+			case 'p':
+				points_to_win = atoi(optarg);
+				break;
+			default: 
+				print_usage(argv);
+				return EXIT_FAILURE;
+
+		}
+	}
+	display_options();
+	srand(random_seed);
 	/*
 		Init all instances
 	*/
@@ -83,7 +145,7 @@ int main(int argc, char *argv[])
 	/*
 		Game loop
 	*/
-	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= MAX_TURNS)
+	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
 	{
 		printf("=============================================================\n");
 		printf("Turn n°%d\n", current_turn);
@@ -146,6 +208,7 @@ int main(int argc, char *argv[])
 	*/
 	printf("End of the game !\nResult of the game : ");
 	int winner = get_winner(MAX_PLAYERS, player_list);
+
 	if (winner < -1)
 	{
 		printf("TIE\n");
@@ -215,8 +278,20 @@ int get_winner(int size, struct player_t players[])
 	return id_max_points;
 
 }
+
+void display_options()
+{
+	printf("Random seed : %d\nBuilder seed : %d\nMarket seed : %d\nPoints to win a game : %d\nMax turns : %d\n", 
+	random_seed,
+	builder_seed,
+	market_seed,
+	points_to_win,
+	max_turns
+	);
+}
+
 void print_usage(char *argv[])
 {
-	fprintf(stderr, "Usage: %s ....\n", argv[0]);
+	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-p points_to_win]\n", argv[0]);
 	return;
 }
