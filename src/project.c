@@ -234,9 +234,9 @@ int has_won(int size, struct player_t players[])
 {
 	for (int index = 0; index < size ; ++index)
 	{
-		if ( players[index].current_point >= POINTS_TO_WIN )
+		if ( players[index].current_point >= points_to_win )
 		{
-			return index;
+			return 1;
 		}
 	}
 	return 0;
@@ -252,7 +252,7 @@ int get_winner(int size, struct player_t players[])
 	for (int index = 0; index < size; ++index)
 	{
 		int player_point = players[index].current_point;
-		if (player_point >= POINTS_TO_WIN)
+		if (player_point >= points_to_win)
 		{
 			return index;
 		}
