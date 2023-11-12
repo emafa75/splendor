@@ -39,7 +39,7 @@ int test_builders_levels(int seed);
 int test_builders_pts(int seed);
 
 /*
- * Tests if builder_level() is executable and if the returned level
+ * Tests if builder_requires() is executable and if the returned buildcost_t
  * is legal
  *
  * Notes: it executes init_builders
@@ -49,7 +49,7 @@ int test_builders_pts(int seed);
 int test_builders_requires(int seed);
 
 /*
- * Tests if builder_level() is executable and if the returned level
+ * Tests if builder_provides() is executable and if the returned buildcost_t
  * is legal
  *
  * Notes: it executes init_builders

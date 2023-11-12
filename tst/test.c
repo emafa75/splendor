@@ -13,6 +13,7 @@
 #include <stdio.h>
 
 #include "test_builders.h"
+#include "test_tokens.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -28,8 +29,8 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-
 	test_builders();
+	test_token();
 
 
 	return EXIT_SUCCESS;
