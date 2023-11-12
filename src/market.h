@@ -3,11 +3,12 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "token.h"
 #include "builder.h"
 
 
-#define TOKENS_PER_COLOR NUM_TOKENS
+#define TOKENS_PER_COLOR 5
 
 
 // Used to store all the tokens of the game

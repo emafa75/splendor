@@ -1,6 +1,7 @@
 
 #include "market.h"
 #include "token.h"
+#include <stdio.h>
 
 static struct market market = {};
 static struct available_tokens available_tokens;  
@@ -8,7 +9,9 @@ static struct available_tokens available_tokens;
 
 void init_market(unsigned int seed)
 {
-	printf("Seed market : %d\n", seed);
+	srand(seed);
+
+
 	for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)
 	{
 		for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
