@@ -21,7 +21,7 @@
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
-#define SEED 2
+#define DEFAULT_SEED 2
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -50,7 +50,6 @@ int main(int argc, char *argv[])
 {
 	int seed = time(NULL);
 	srand(seed);
-	srand(SEED);
 
 	if (argc < _NB_MIN_PARAMS_)
 	{
@@ -61,8 +60,8 @@ int main(int argc, char *argv[])
 	/*
 		Init all instances
 	*/
-	init_builders(SEED);
-	init_market(SEED); //init token
+	init_builders(seed);
+	init_market(seed); //init token
 	init_guild();
 	guild_display();
 	market_display();
@@ -70,7 +69,7 @@ int main(int argc, char *argv[])
 	/*
 		Init first player and current turn
 	*/
-	int current_player = get_random_player(SEED);
+	int current_player = get_random_player(seed);
 	int current_turn = 0;
 
 	/*
