@@ -16,11 +16,21 @@ void init_guild()
     
 }
 
+int guild_nb_builder()
+{
+    return guild.n_builders;
+}
+
+int guild_is_available(int index)
+{
+    return guild.available[index];
+}
+
 void guild_display()
 {
     for (int index = 0 ; index < guild.n_builders ; ++index)
     {
-        if(guild.available[index])
+        if(guild_is_available(index))
         {
             builder_display(guild.builders[index], " --- ");
         }
@@ -42,9 +52,9 @@ struct available_builders get_available_builders()
 {
     int size = 0;
     struct available_builders available_builders ={0};
-    for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
+    for (int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
-        if (guild.available[index])
+        if (guild_is_available(index))
         {
             available_builders.available[index] = 1;
             ++size;

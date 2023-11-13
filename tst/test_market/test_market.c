@@ -9,7 +9,7 @@ int test_market()
 
 	if(test_init_market(seed))
 	{
-		printf("test_init_market passed");
+		printf("test_init_market passed\n");
 		++i;
 	}
 

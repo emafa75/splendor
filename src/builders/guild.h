@@ -13,7 +13,7 @@ struct guild
 
 struct available_builders {
 	int available[MAX_BUILDERS];
-    int n_builders_available; 
+    unsigned int n_builders_available; 
 };
 
 
@@ -24,7 +24,14 @@ void init_guild();
     Display all available builders in a guild
 */
 void guild_display();
-
+/*
+    Returns nb of builders in the guild (available or not)
+*/
+int guild_nb_builder();
+/*
+    Returns a booleen if the i-th builder is available
+*/
+int guild_is_available(int index);
 /*
     Pick builder from a guild and make it unavailable
 */

@@ -14,7 +14,8 @@
 
 #include "test_builders.h"
 #include "test_tokens.h"
-
+#include "test_guild.h"
+#include "test_market.h"
 #define _NB_MIN_PARAMS_ 1
 
 
@@ -29,8 +30,12 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	test_builders();
+
 	test_token();
+	test_builders();
+	test_market();
+	test_guild();
+
 
 
 	return EXIT_SUCCESS;
