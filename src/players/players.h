@@ -9,7 +9,7 @@
 
 struct player_t
 {
-		struct ressources ressources;
+	struct ressources ressources;
     int current_point;
 };
 

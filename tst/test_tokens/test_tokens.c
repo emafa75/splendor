@@ -8,19 +8,19 @@ int test_token()
 
 	if(test_create_simple_token())
 	{
-		printf("test_create_simple_token passed\n");
+		printf(GRN "test_create_simple_token passed\n" CRESET);
 		++i;
 	}
 
 	if(test_create_complex_token())
 	{
-		printf("test_create_complex_token passed\n");
+		printf(GRN "test_create_complex_token passed\n" CRESET);
 		++i;
 	}
 
 	if(test_token_equals())
 	{
-		printf("test_token_equals passed\n");
+		printf(GRN "test_token_equals passed\n" CRESET);
 		++i;
 	}
 
@@ -37,14 +37,14 @@ int test_token_legal(struct token_t token)
 		acc += token.c[i];
 		if (token.c[i] > 1)
 		{
-			fprintf(stderr, "test_token_legal: illegal color value: value=%d for color=%s\n", token.c[i], color_to_short_string(i));
+			fprintf(stderr, RED "test_token_legal: illegal color value: value=%d for color=%s\n" CRESET, token.c[i], color_to_short_string(i));
 			return 0;
 		}
 	}
 
 	if (acc <= 0)
 	{
-		fprintf(stderr, "test_token_legal: token has less than 1 color: num_color=%d\n", acc);
+		fprintf(stderr, RED "test_token_legal: token has less than 1 color: num_color=%d\n" CRESET, acc);
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ int test_create_simple_token()
 
 	if (!test_token_legal(token))
 	{
-		fprintf(stderr, "test_create_simple_token: ");
+		fprintf(stderr, RED "test_create_simple_token: " CRESET);
 		return 0;
 	}
 
@@ -74,7 +74,7 @@ int test_create_complex_token()
 
 	if (!test_token_legal(token))
 	{
-		fprintf(stderr, "test_create_complex_token: ");
+		fprintf(stderr, RED "test_create_complex_token: " CRESET);
 		return 0;
 	}
 
@@ -90,7 +90,7 @@ int test_token_equals()
 
 	if (token_equals(token1, token2))
 	{
-		fprintf(stderr, "test_token_equals: tokens are detected as equals but shouldn't be\n");
+		fprintf(stderr, RED "test_token_equals: tokens are detected as equals but shouldn't be\n" CRESET);
 		token_display(token1, "token1=");
 		token_display(token2, "token2=");
 		return 0;
@@ -98,7 +98,7 @@ int test_token_equals()
 
 	if (!token_equals(token2, token3))
 	{
-		fprintf(stderr, "test_token_equals: tokens are detected as different but are the same\n");
+		fprintf(stderr, RED "test_token_equals: tokens are detected as different but are the same\n" CRESET);
 		token_display(token2, "token2=");
 		token_display(token3, "token3=");
 		return 0;

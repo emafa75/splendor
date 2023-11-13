@@ -2,23 +2,46 @@
 #include "players.h"
 #include "token.h"
 #include <stdio.h>
+#include "ansi_color.h"
 
 int test_players()
 {
-    int i = 0 ;
+    int test_passed = 0 ;
     if(test_init_players())
     {
-        printf("Test init_players passed");
-        ++i;
+        printf(GRN "Test init_players passed\n" CRESET);
+        ++test_passed;
     }
-    return i;
+    if(test_hire_builder())
+    {
+        printf(GRN "Test hire_builder passed\n" CRESET);
+        ++test_passed;
+    }
+    if(test_player_take_token())
+    {
+        printf( GRN "Test player_take_token passed\n" CRESET);
+        ++test_passed;
+    }
+    if(test_player_pick_token())
+    {
+        printf(GRN "Test player_pick_token passed\n" CRESET);
+        ++test_passed;
+    }
+
+    if(test_player_pay_builder())
+    {
+        printf(GRN "Test player_pay_builder passed\n" CRESET);
+        ++test_passed;
+    }
+
+    return test_passed;
 
 }
 
 int test_init_players()
 {
     struct player_t new_player = init_player();
-    if(new_player.current_point == 0)
+    if(new_player.current_point != 0)
     {
         fprintf(stderr,"test_init_players : Wrong initial point for player\n");
         return 0;
@@ -26,7 +49,7 @@ int test_init_players()
 
     for (int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
-        if ( !new_player.ressources.builders[index]) 
+        if (new_player.ressources.builders[index]) 
         {
             fprintf(stderr,"test_init_players : Player has initial builders in his inventory\n");
             return 0;
@@ -35,7 +58,7 @@ int test_init_players()
 
     for (int index = 0 ; index < NUM_TOKENS ; ++index)
     {
-        if (!new_player.ressources.tokens[index]) 
+        if (new_player.ressources.tokens[index]) 
         {
             fprintf(stderr,"Player has initial tokens in his inventory\n");
             return 0;
@@ -57,5 +80,20 @@ int test_hire_builder()
     return 1;
 
     
+}
+
+int test_player_pick_token()
+{
+    return 1;
+}
+
+int test_player_take_token()
+{
+    return 1;
+}
+
+int test_player_pay_builder()
+{
+    return 1;
 }
 

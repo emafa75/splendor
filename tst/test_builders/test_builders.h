@@ -6,6 +6,7 @@
 
 #include "builder.h"
 #include "builder_constants.h"
+#include "ansi_color.h"
 
 
 #define SEED 0

@@ -4,6 +4,7 @@
 #include "test_builders.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "ansi_color.h"
 
 int test_guild()
 {
@@ -11,31 +12,31 @@ int test_guild()
 
     if (test_init_guild())
     {
-        printf("test_init_guild passed\n");
+        printf(GRN "test_init_guild passed\n" CRESET);
         ++test_passed;
     }
     
     if(test_guild_pick_builder())
     {
-        printf("test_guild_pick_builder passed\n");
+        printf(GRN "test_guild_pick_builder passed\n" CRESET);
         ++test_passed;
     }
     
     if(test_guild_put_builder())
     {
-        printf("test_guild_put_builder passed\n");
+        printf(GRN "test_guild_put_builder passed\n" CRESET);
         ++test_passed;
     }
 
     if(test_get_available_builders())
     {
-        printf("test_get_available_builders passed\n");
+        printf(GRN "test_get_available_builders passed\n" CRESET);
         ++test_passed;
     }
 
     if(test_get_first_available_builder())
     {
-        printf("test_get_first_available_builder passed\n");
+        printf(GRN "test_get_first_available_builder passed\n" CRESET);
         ++test_passed;
     }
     return test_passed;
@@ -48,7 +49,7 @@ int test_init_guild()
 
     if (!test_init_builders(seed))
     {
-        fprintf(stderr, "test_init_guild : test_init_builder didn't run successfully\n");
+        fprintf(stderr, RED "test_init_guild : test_init_builder didn't run successfully\n" CRESET);
         return 0;
     }
     init_guild();
@@ -60,7 +61,7 @@ int test_init_guild()
     */
     if( nb_builder != nb_builder_guild )
     {
-        fprintf(stderr, "test_init_guild : wrong number of builder in the guild\n");
+        fprintf(stderr, RED "test_init_guild : wrong number of builder in the guild\n" CRESET);
         return 0;
     }
 
@@ -72,12 +73,12 @@ int test_init_guild()
     {
         if (!guild_is_available(index))
         {
-            fprintf(stderr, "test_init_guild : Buidlers are not all available after init\n");
+            fprintf(stderr, RED "test_init_guild : Buidlers are not all available after init\n" CRESET);
             return 0;
         }
         if (make_builder(index) == NULL)
         {
-            fprintf(stderr, "test_init_guild : no builder_t* in the guild\n");
+            fprintf(stderr, RED "test_init_guild : no builder_t* in the guild\n" CRESET);
             return 0;
         }
     }
@@ -89,7 +90,7 @@ int test_guild_pick_builder()
 {
     if (!test_init_guild())
     {
-        fprintf(stderr, "test_guild_pick_builder : test_init_guild didn't run successfully\n");
+        fprintf(stderr, RED "test_guild_pick_builder : test_init_guild didn't run successfully\n" CRESET);
         return 0;
     }
     int seed = time(NULL);
@@ -101,7 +102,7 @@ int test_guild_pick_builder()
 
     if (picked_builder == NULL)
     {
-        fprintf(stderr, "test_guild_pick_builder : no builder_t* return\n");
+        fprintf(stderr, RED "test_guild_pick_builder : no builder_t* return\n" CRESET);
         return 0;
     }
     /*
@@ -109,7 +110,7 @@ int test_guild_pick_builder()
     */
     if (guild_is_available(index_picked_builder))
     {
-        fprintf(stderr, "test_guild_pick_builder : builder is still available\n");
+        fprintf(stderr, RED "test_guild_pick_builder : builder is still available\n" CRESET);
         return 0;
     }
     
@@ -124,7 +125,7 @@ int test_guild_put_builder()
 
     if (!test_guild_pick_builder())
     {
-        fprintf(stderr, "test_guild_put_builder : test_guild_pick_builder didn't run successfully\n");
+        fprintf(stderr, RED "test_guild_put_builder : test_guild_pick_builder didn't run successfully\n" CRESET);
         return 0;
     }
     int seed = time(NULL);
@@ -140,7 +141,7 @@ int test_guild_put_builder()
 
     if(!guild_is_available(index_picked_builder)) 
     {
-        fprintf(stderr, "test_guild_put_builder : the builder is still not available\n ");
+        fprintf(stderr, RED "test_guild_put_builder : the builder is still not available\n " CRESET);
         return 0;
     }
 
@@ -153,7 +154,7 @@ int test_get_available_builders()
 {
     if (!test_guild_pick_builder())
     {
-        fprintf(stderr, "test_get_available_builders : test_guild_pick_builder didn't run successfully\n");
+        fprintf(stderr, RED "test_get_available_builders : test_guild_pick_builder didn't run successfully\n" CRESET);
         return 0;
     }
 
@@ -163,7 +164,7 @@ int test_get_available_builders()
 
     if (guild_nb_builder() < 2)
     {
-        fprintf(stderr, "test_get_available_builders : not enough builders to test, need at least 2 builders\n");
+        fprintf(stderr, RED "test_get_available_builders : not enough builders to test, need at least 2 builders\n" CRESET);
         return 0;
     }
     
@@ -184,7 +185,7 @@ int test_get_available_builders()
 
     if(available_builders.n_builders_available != (num_builders()-2))
     {
-        fprintf(stderr, "test_get_available_builders : wrong number of available builders\n");
+        fprintf(stderr, RED "test_get_available_builders : wrong number of available builders\n" CRESET);
         return 0;
     }
     for (int index = 0; index < guild_nb_builder(); ++index)
@@ -196,7 +197,7 @@ int test_get_available_builders()
             */
             if(available_builders.available[index])
             {
-                fprintf(stderr, "test_get_available_builders : returns builders index which are supposed to be unavailable\n");
+                fprintf(stderr, RED "test_get_available_builders : returns builders index which are supposed to be unavailable\n" CRESET);
                 return 0;
             }
         } 
@@ -206,7 +207,7 @@ int test_get_available_builders()
             */
             if(!available_builders.available[index])
             {
-                fprintf(stderr, "test_get_available_builders : some available builders are not listed\n");
+                fprintf(stderr, RED "test_get_available_builders : some available builders are not listed\n" CRESET);
                 return 0;
             }
         }
@@ -220,7 +221,7 @@ int test_get_first_available_builder()
 
     if (!test_guild_pick_builder())
     {
-        fprintf(stderr, "test_get_first_available_builder : test_guild_pick_builder didn't run successfully\n");
+        fprintf(stderr, RED "test_get_first_available_builder : test_guild_pick_builder didn't run successfully\n" CRESET);
         return 0;
     }
 
@@ -230,13 +231,13 @@ int test_get_first_available_builder()
 
     if (get_first_available_builder(0) > 0)
     {
-        fprintf(stderr, "test_get_first_available_builder : return an index while there is no available builder\n");
+        fprintf(stderr, RED "test_get_first_available_builder : return an index while there is no available builder\n" CRESET);
         return 0;
     }
 
     if (guild_nb_builder() < 2)
     {
-        fprintf(stderr, "test_get_first_available_builder : not enough builders to test, need at least 2 builders\n");
+        fprintf(stderr, RED "test_get_first_available_builder : not enough builders to test, need at least 2 builders\n" CRESET);
         return 0;
     }
 
@@ -258,7 +259,7 @@ int test_get_first_available_builder()
     */
     if (!guild_is_available(first_available_builder))
     {
-        fprintf(stderr, "test_get_first_available_builder : index return is not available\n");
+        fprintf(stderr, RED "test_get_first_available_builder : index return is not available\n" CRESET);
         return 0;
     }
     /*
@@ -266,7 +267,7 @@ int test_get_first_available_builder()
     */
     if( (first_available_builder == index_builder_1 && index_builder_1 > index_builder_2) || (first_available_builder == index_builder_2 && index_builder_2 > index_builder_1))
     {
-        fprintf(stderr, "test_get_first_available_builder : do not return the first available index\n");
+        fprintf(stderr, RED "test_get_first_available_builder : do not return the first available index\n" CRESET);
         return 0;
     }
 

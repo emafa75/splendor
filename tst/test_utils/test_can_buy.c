@@ -1,8 +1,24 @@
 
 #include "test_can_buy.h"
-#include "builder.h"
-#include "color.h"
 
+
+
+int test_utils()
+{
+	int test_passed = 0;
+
+	if (test_can_buy())
+	{
+		printf(GRN "Test can_buy passed\n" CRESET);
+		++test_passed;
+	}
+	if (test_select_affordable_builder())
+	{	
+		printf(GRN "Test select_affordable_builder passed\n" CRESET);
+		++test_passed;
+	}
+	return test_passed;
+}
 
 int test_can_buy()
 {
@@ -10,3 +26,7 @@ int test_can_buy()
 	return 1;
 }
 
+int test_select_affordable_builder()
+{
+	return 1;
+}

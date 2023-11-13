@@ -7,6 +7,8 @@
  *
  */
 
+#include "test_can_buy.h"
+#include "test_players.h"
 #define SEED 0
 
 #include <stdlib.h>
@@ -16,6 +18,7 @@
 #include "test_tokens.h"
 #include "test_guild.h"
 #include "test_market.h"
+#include "ansi_color.h"
 #define _NB_MIN_PARAMS_ 1
 
 
@@ -30,11 +33,13 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-
 	test_token();
 	test_builders();
 	test_market();
 	test_guild();
+	test_players();
+	test_utils();
+	
 
 
 
