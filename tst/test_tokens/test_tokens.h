@@ -4,6 +4,7 @@
 #include "token.h"
 #include "color.h"
 #include <stdio.h>
+#include "ansi_color.h"
 
 
 // Returns the number of tests passed

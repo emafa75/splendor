@@ -2,6 +2,8 @@
 #define __TEST_MARKET_H__
 
 #include "market.h"
+#include "ansi_color.h"
+#include "market.h"
 
 
 
