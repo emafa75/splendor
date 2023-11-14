@@ -22,6 +22,9 @@ unsigned int stack_get_head(struct stack_t * stack)
 
 void * stack_pop(struct stack_t * stack)
 {
+	if (stack->head < 0)
+		return NULL;
+
 	void *out = stack->values[stack->head];
 	stack->head--;
 	return out;
@@ -44,8 +47,15 @@ unsigned int stack_append(struct stack_t *stack, void *value)
 
 
 
-unsigned int is_empty(struct stack_t *stack)
+unsigned int stack_is_empty(struct stack_t *stack)
 {
 	return stack->head == 0;
 }
 
+
+
+unsigned int stack_get_values(struct stack_t *stack, void *values)
+{
+	values = stack->values;
+	return stack->head;
+}
