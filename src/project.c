@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 		Game loop
 	*/
 	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
-	{
+	{	
 		printf("=============================================================\n");
 		printf("Turn n°%d\n", current_turn);
 
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 			*/
 			for (int index = 0; index < num_token_to_pick ; ++index)
 			{
-				player_pick_token(&player_list[current_player], get_first_available_token());
+				player_pick_token(&player_list[current_player]);
 			}
 		}
 
