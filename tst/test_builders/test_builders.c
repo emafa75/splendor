@@ -1,5 +1,6 @@
 
 #include "test_builders.h"
+#include "builder.h"
 
 
 int test_builders()
@@ -91,7 +92,7 @@ int test_builders_levels(int seed)
 
 	int n = num_builders();
 	struct builder_t *builder;
-	int builder_lvl;
+	unsigned int builder_lvl;
 
 	for (int i = 0 ; i < n ; ++i)
 	{
@@ -122,21 +123,19 @@ int test_builders_pts(int seed)
 
 	int n = num_builders();
 	struct builder_t *builder;
-	int builder_pts;
+	unsigned int builder_pts;
+	unsigned int builder_lvl;
 
 	for (int i = 0 ; i < n ; ++i)
 	{
 		builder = make_builder(i);
 		builder_pts = builder_points(builder);
+		builder_lvl = builder_level(builder);
 
 		// Tests if the level is legal
-		if (builder_pts < BUILDER_MIN_PTS || builder_pts > BUILDER_MAX_PTS)
+		if (builder_pts != 5 * builder_lvl)
 		{
-			fprintf(stderr, RED "test_builders_pts: illegal amount of pts, builder.pts=%d, \
-					MIN_PTS=%d, MAX_PTS=%d\n" CRESET,
-					builder_pts,
-					BUILDER_MIN_PTS,
-					BUILDER_MAX_PTS);
+			fprintf(stderr, RED "test_builders_pts: illegal amount of pts, builder.lvl=%d; builder.pts=%d, != 5 * builder.lvl" CRESET, builder_lvl,builder_pts);
 			return 0;
 		}
 	}
@@ -159,19 +158,19 @@ int test_builders_requires(int seed)
 	struct builder_t *builder;
 	struct buildcost_t builder_require;
 
+	unsigned int builder_lvl;
+
 	for (int i = 0 ; i < n ; ++i)
 	{
 		builder = make_builder(i);
 		builder_require = builder_requires(builder);
+		builder_lvl = builder_level(builder);
 
 		// Tests if the requires cost is legal
-		if (builder_require.n < BUILDER_MIN_COST || builder_require.n > BUILDER_MAX_COST)
+		if (builder_require.n != builder_lvl + 1)
 		{
-			fprintf(stderr, RED "test_builders_requirerequiress: illegal require cost, \
-					builder.require.n=%d, MIN_COST=%d, MAX_COST=%d\n" CRESET, 
-					builder_require.n,
-					BUILDER_MIN_COST,
-					BUILDER_MAX_COST);
+			fprintf(stderr, RED "test_builders_requires: illegal require cost, builder.require.n (%d) != builder_lvl(%d) + 1\n" CRESET, 
+					builder_require.n, builder_lvl);
 			return 0;
 		}
 
@@ -204,19 +203,21 @@ int test_builders_provides(int seed)
 	struct builder_t *builder;
 	struct buildcost_t builder_provide;
 
+	unsigned int builder_lvl;
+
 	for (int i = 0 ; i < n ; ++i)
 	{
 		builder = make_builder(i);
 		builder_provide = builder_provides(builder);
 
+		builder_lvl = builder_level(builder);
+
 		// Tests if the level is legal
-		if (builder_provide.n < BUILDER_MIN_PROVIDES || builder_provide.n > BUILDER_MAX_PROVIDES)
+		if (builder_provide.n != builder_lvl)
 		{
 			fprintf(stderr, RED "test_builders_provides: illegal provide cost, \
-					builder.provide.n=%d, MIN_PROVIDE=%d, MAX_PROVIDE=%d\n" CRESET, 
-					builder_provide.n,
-					BUILDER_MIN_PROVIDES,
-					BUILDER_MAX_PROVIDES);
+					builder.provide.n (%d) != builder_lvl (%d)\n" CRESET, 
+					builder_provide.n, builder_lvl);
 			return 0;
 		}
 
