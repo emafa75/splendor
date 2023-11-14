@@ -6,9 +6,11 @@
 #define MAX(__x, __y) \
   ((__x) > (__y) ? (__x) : (__y))
 
+#define MAX_STACK_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
+
 struct stack_t {
 	int head;
-	void *values[MAX(MAX_BUILDERS, NUM_TOKENS)];
+	void *values[MAX_STACK_SIZE];
 };
 
 /*
@@ -25,8 +27,11 @@ unsigned int stack_get_head(struct stack_t * stack);
 void * stack_pop(struct stack_t * stack);
 
 
-
-void stack_append(struct stack_t *stack, void *value);
+/*
+ *  Returns 1 if successfully adds value to the stack
+ *					0 otherwise
+ */
+unsigned int stack_append(struct stack_t *stack, void *value);
 
 
 
