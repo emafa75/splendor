@@ -14,14 +14,32 @@ struct player_t init_player()
 
 
 
-void player_pick_token(struct player_t* player, unsigned int index){
-    player->ressources.tokens[index] = 1;
-    pick_token(index);
+void player_pick_token(struct player_t* player){
+    struct token_t* picked_token = pick_token();
+    for (int index = 0; index < NUM_TOKENS; ++index)
+    {
+        /*
+            Find a place to stock the token
+        */
+        if(!player->ressources.tokens[index])
+        {
+            player->ressources.tokens[index] = picked_token;
+            return;
+        }
+    }
 }
 
-void player_take_token(struct player_t* player, unsigned int index){
-    player->ressources.tokens[index] = 0;
-    pay_token(get_token(index));
+void player_take_token(struct player_t* player, struct token_t * token){
+    for (int index = 0; index < NUM_TOKENS; ++index)
+    {
+        if (player->ressources.tokens[index] == token)
+        {
+            pay_token(token);
+            player->ressources.tokens[index] = NULL;
+            return;
+        }
+    } 
+ 
 }
 
 void player_hire_builder(struct player_t *player, unsigned int index)
@@ -37,7 +55,7 @@ void player_display_inventory(struct player_t *player)
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         if(player->ressources.tokens[index]){
-            token_display(*get_token(index), " --- ");
+            token_display(*player->ressources.tokens[index], " --- ");
         }
     }
 
@@ -54,7 +72,7 @@ void player_display_inventory(struct player_t *player)
 int player_pay_builder(struct player_t* player, int index_builder_to_hire)
 {
     struct ressources ressources = can_buy(make_builder(index_builder_to_hire), player->ressources);
-    if (ressources.tokens[0] == -1)
+    if (ressources.tokens[0] == NULL)
     {
         return 0;
     }
@@ -64,7 +82,7 @@ int player_pay_builder(struct player_t* player, int index_builder_to_hire)
     {
         if(ressources.tokens[index])
         {
-            player_take_token(player,index);
+            player_take_token(player,ressources.tokens[index]);
         }
     }
     return 1;

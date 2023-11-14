@@ -12,7 +12,7 @@
  *		out.available[i] = 1 if you need to use the i-th token to pay the builder
  *		out.available[i] = 0 if you don't need to use the i-th token to pay the builder
  *
- *  If it can't be bought, all the values of the array are set to -1
+ *  If it can't be bought, all the values of the array are set to NULL  
  */
 struct ressources can_buy(struct builder_t *builder, struct ressources ressources);
 

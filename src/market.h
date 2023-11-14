@@ -17,11 +17,11 @@ struct market {
 };
 
 struct available_tokens {
-	int available[NUM_TOKENS];
+	struct token_t *available[NUM_TOKENS];
 };
 
 struct ressources {
-	int tokens[NUM_TOKENS];
+	struct token_t *tokens[NUM_TOKENS];
 	int builders[MAX_BUILDERS];
 };
 
@@ -34,8 +34,10 @@ void init_market(unsigned int seed);
  *
  * Returns  a pointer to an available token if one exists
  *					return NULL otherwise
+
+	Remove it from the market
  */
-struct token_t * pick_token(int index);
+struct token_t * pick_token();
 
 
 /*
@@ -69,4 +71,8 @@ int num_tokens();
 */
 int get_first_available_token();
 
+/*
+	Shuffle the market, decide the path of the board
+*/
+void market_shuffle();
 #endif
