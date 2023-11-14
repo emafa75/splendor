@@ -1,6 +1,7 @@
 #include "guild.h"
 #include "builder.h"
 #include "market.h"
+#include "stack/stack.h"
 #include <stdio.h>
 
 
@@ -11,67 +12,63 @@ void init_guild()
     for (int index = 0; index < guild.n_builders; ++index)
     {
         guild.builders[index] = make_builder(index);
-        guild.available[index] = 1;
+
+				stack_append(&guild.available, &guild.builders[index]);
     }
     
 }
+
 
 int guild_nb_builder()
 {
     return guild.n_builders;
 }
 
-int guild_is_available(int index)
-{
-    return guild.available[index];
-}
-
 void guild_display()
 {
-    for (int index = 0 ; index < guild.n_builders ; ++index)
+    struct available_builders available_builders = {};
+		available_builders.n_builders_available = stack_get_values(&guild.available, available_builders.available);
+
+    for (unsigned int index = 0 ; index < available_builders.n_builders_available ; ++index)
     {
-        if(guild_is_available(index))
-        {
-            builder_display(guild.builders[index], " --- ");
-        }
+			builder_display(available_builders.available[index], " --- ");
     }
 }
 
-struct builder_t* guild_pick_builder(int id)
+
+struct builder_t* guild_pick_builder()
 {
-    guild.available[id] = 0;
-    return guild.builders[id];
+		struct builder_t * builder = stack_pop(&guild.available);
+		guild.n_builders--;
+    return builder;
 }
 
-void guild_put_builder(int id)
+
+void guild_put_builder(struct builder_t * builder)
 {
-    guild.available[id] = 1;
+	stack_append(&guild.available, builder);
 }
+
 
 struct available_builders get_available_builders()
 {
-    int size = 0;
-    struct available_builders available_builders ={0};
-    for (int index = 0 ; index < MAX_BUILDERS ; ++index)
-    {
-        if (guild_is_available(index))
-        {
-            available_builders.available[index] = 1;
-            ++size;
-        }
-    }
-    available_builders.n_builders_available = size;
+    struct available_builders available_builders = {};
+		available_builders.n_builders_available = stack_get_values(&guild.available, available_builders.available);
+
     return available_builders;
 }
 
-int get_first_available_builder(int i)
-{
-    struct available_builders available_builders = get_available_builders();
-    for (int index = i; index < MAX_BUILDERS; ++index) {
-        if (available_builders.available[index])
-        {
-            return index;
-        }
-    }
-    return -1;
-}
+// int get_first_available_builder(int i)
+// {
+//
+//     struct available_builders available_builders = get_available_builders();
+//     for (int index = i; index < MAX_BUILDERS; ++index) {
+//         if (available_builders.available[index])
+//         {
+//             return index;
+//         }
+//     }
+//     return -1;
+// }
+
+
