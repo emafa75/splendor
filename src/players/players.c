@@ -77,7 +77,7 @@ int player_pay_builder(struct player_t* player, int index_builder_to_hire)
         return 0;
     }
 
-		// Pays the tokens he has to in order to buy the builder
+	// Pays the tokens he has to in order to buy the builder
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         if(ressources.tokens[index])
