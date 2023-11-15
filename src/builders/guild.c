@@ -13,7 +13,7 @@ void init_guild()
     {
         guild.builders[index] = make_builder(index);
 
-				stack_append(&guild.available, &guild.builders[index]);
+				stack_append(&guild.available_stack, &guild.builders[index]);
     }
     
 }
@@ -27,10 +27,11 @@ int guild_nb_builder()
 void guild_display()
 {
     struct available_builders available_builders = {};
-		available_builders.n_builders_available = stack_get_values(&guild.available, available_builders.available);
+		available_builders.n_builders_available = stack_get_values(&guild.available_stack, available_builders.available, MAX_BUILDERS * sizeof(struct builder_t *));
 
     for (unsigned int index = 0 ; index < available_builders.n_builders_available ; ++index)
     {
+			// printf("%d: %d\n", i, builder_level(available_builders.available[index]));
 			builder_display(available_builders.available[index], " --- ");
     }
 }
@@ -38,7 +39,7 @@ void guild_display()
 
 struct builder_t* guild_pick_builder()
 {
-		struct builder_t * builder = stack_pop(&guild.available);
+		struct builder_t * builder = stack_pop(&guild.available_stack);
 		guild.n_builders--;
     return builder;
 }
@@ -46,14 +47,14 @@ struct builder_t* guild_pick_builder()
 
 void guild_put_builder(struct builder_t * builder)
 {
-	stack_append(&guild.available, builder);
+	stack_append(&guild.available_stack, builder);
 }
 
 
 struct available_builders get_available_builders()
 {
     struct available_builders available_builders = {};
-		available_builders.n_builders_available = stack_get_values(&guild.available, available_builders.available);
+		available_builders.n_builders_available = stack_get_values(&guild.available_stack, available_builders.available, MAX_BUILDERS * sizeof(struct builder_t *));
 
     return available_builders;
 }

@@ -26,7 +26,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			// Tests color
 			if (builder_provides(builder).c == cost.c)
 			{
-				n_tokens++;
+				n_tokens += builder_provides(builder).n;
 				out.builders[i] = 1;
 			}
 		}
@@ -45,7 +45,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			// Tests color
 			if (token->c[cost.c] != 0)
 			{
-				n_tokens++;
+				n_tokens += token->c[cost.c];
 				out.tokens[i] = 1;
 			}
 		}

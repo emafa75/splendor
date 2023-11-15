@@ -54,8 +54,8 @@ unsigned int stack_is_empty(struct stack_t *stack)
 
 
 
-unsigned int stack_get_values(struct stack_t *stack, void *values)
+unsigned int stack_get_values(struct stack_t *stack, void *values, unsigned int size)
 {
-	values = stack->values;
+	memcpy(values, stack->values, size);
 	return stack->head;
 }

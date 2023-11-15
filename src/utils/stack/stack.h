@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "builder.h"
 #include "token.h"
+#include <string.h>
 
 #define MAX(__x, __y) \
   ((__x) > (__y) ? (__x) : (__y))
@@ -49,6 +50,6 @@ unsigned int stack_is_empty(struct stack_t *stack);
 /*
  *  Returns the size of values void *values[] 
  */
-unsigned int stack_get_values(struct stack_t *stack, void *values);
+unsigned int stack_get_values(struct stack_t *stack, void *values, unsigned int values_size);
 
 #endif

@@ -3,13 +3,15 @@
 
 #include "builder.h"
 #include "stack/stack.h"
+#include "builder_constants.h"
 
 
 struct guild
 {
     struct builder_t *builders[MAX_BUILDERS];
     int n_builders;
-		struct stack_t available;
+		struct stack_t available_stack;
+		struct builder_t *available[MAX_BUILDERS_AVAILABLE_PER_LVL];
 };
 
 
