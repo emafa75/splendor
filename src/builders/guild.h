@@ -9,7 +9,7 @@ struct guild
 {
     struct builder_t *builders[MAX_BUILDERS];
     int n_builders;
-		struct stack_t available;
+	struct stack_t available;
 };
 
 
