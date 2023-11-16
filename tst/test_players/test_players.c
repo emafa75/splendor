@@ -115,10 +115,11 @@ int test_player_pick_token()
 		fprintf(stderr, RED "test_player_pick_token: test_init_players didn't run successfully\n" CRESET);
 		return 0;
 	}
+    init_market(rand());
     struct player_t new_player = init_player();
     struct token_t* picked_token = get_token(0); //the picked token need to be the first available
     player_pick_token(&new_player);
-
+    
     /*
         Check if there is a new token in player inventory and no longer in the market
     */
@@ -129,7 +130,9 @@ int test_player_pick_token()
         {
             if( picked_token != new_player.ressources.tokens[index])
             {
-                fprintf(stderr, RED "test_player_pick_token: wrong token picked\n" CRESET);
+                fprintf(stderr, RED "test_player_pick_token: wrong token picked. Picked token : %p, expected : %p\n" CRESET, new_player.ressources.tokens[index], picked_token);
+                token_display(*new_player.ressources.tokens[index], "Token in player inventory : ");
+                token_display(*picked_token, "Expected picked token : ");
                 return 0;
             }
             return 1;

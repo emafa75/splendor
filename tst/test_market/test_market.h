@@ -31,6 +31,4 @@ int test_pay_token(int seed);
 int test_get_token(int seed);
 
 
-int test_get_available_tokens(int seed);
-
 #endif
