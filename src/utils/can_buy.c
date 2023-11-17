@@ -26,7 +26,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			// Tests color
 			if (builder_provides(builder).c == cost.c)
 			{
-				n_tokens++;
+				n_tokens += builder_provides(builder).n;
 				out.builders[i] = 1;
 			}
 		}
@@ -46,9 +46,9 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			// Tests color
 			if (token->c[cost.c] != 0)
 			{
-				n_tokens++;
 				out.tokens[next_index_to_fill] = token;
 				++next_index_to_fill;
+				n_tokens += token->c[cost.c];
 			}
 		}
 
@@ -71,22 +71,26 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	return out;
 }
 
-int select_affordable_builder(struct player_t *player)
+
+struct builder_t * select_affordable_builder(struct player_t *player)
 {
 	struct available_builders available_builders = get_available_builders();
-	for (int index = 0; index < MAX_BUILDERS ; ++index)
+	struct builder_t *builder_wanted;
+
+	for (int index = 0; index < available_builders.n_builders_available ; ++index)
 	{
 		//get next builder available and check if it's possible to hire it
-		if (available_builders.available[index])
+		if (available_builders.builders[index])
 		{
-			struct builder_t *builder_wanted = make_builder(index);
-			if (!(can_buy( builder_wanted, player->ressources).tokens[0] == NULL)) // test if the player can buy it
+			builder_wanted = available_builders_get_builder(index);
+			if (builder_wanted != NULL && !(can_buy(builder_wanted, player->ressources).tokens[0] == -1)) // test if the player can buy it
 			{
-				return index;
+				return builder_wanted;
 			}
 		}
 	}
-	return -1;
+
+	return NULL;
 }
 
 
