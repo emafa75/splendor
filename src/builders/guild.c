@@ -29,7 +29,7 @@ void init_guild()
 		builder = make_builder(index);
 		builder_lvl = builder_level(builder);
 
-		stack_append(&guild.available_stack[builder_lvl], builder);
+		stack_append(&guild.available_stack[builder_lvl - 1], builder);
 	}
 
 	// Init available_builders
@@ -70,7 +70,7 @@ struct builder_t* guild_pick_builder(struct builder_t * builder)
 	while (available_builders_get_builder(index) != builder)
 		++index;
 
-	new_builder = stack_pop(&guild.available_stack[builder_lvl]);
+	new_builder = stack_pop(&guild.available_stack[builder_lvl - 1]);
 	guild.available_builders.builders[index] = new_builder;
 
 	return builder;
@@ -80,7 +80,7 @@ struct builder_t* guild_pick_builder(struct builder_t * builder)
 void guild_put_builder(struct builder_t * builder)
 {
 	int builder_lvl = builder_level(builder);
-	stack_append(&guild.available_stack[builder_lvl], builder);
+	stack_append(&guild.available_stack[builder_lvl - 1], builder);
 }
 
 
