@@ -1,21 +1,45 @@
+
 #include "guild.h"
 #include "builder.h"
-#include "market.h"
-#include "stack/stack.h"
-#include <stdio.h>
+#include "stack.h"
+
+struct guild
+{
+    struct builder_t *builders[MAX_BUILDERS];
+    int n_builders;
+		struct stack_t available_stack[NUM_LEVELS];
+		struct available_builders available_builders;
+};
 
 
+// Guild is only accessible from this file
 static struct guild guild;
+
+
 void init_guild()
 {
-    guild.n_builders = num_builders();
-    for (int index = 0; index < guild.n_builders; ++index)
-    {
-        guild.builders[index] = make_builder(index);
+	struct builder_t * builder;
+	int builder_lvl;
+	int available_builders_index = 0;
+	
+	// Init stack
+	guild.n_builders = num_builders();
+	for (int index = 0; index < guild.n_builders; ++index)
+	{
+		builder = make_builder(index);
+		builder_lvl = builder_level(builder);
 
-				stack_append(&guild.available_stack, &guild.builders[index]);
-    }
-    
+		stack_append(&guild.available_stack[builder_lvl], builder);
+	}
+
+	// Init available_builders
+	for (int level = BUILDER_MIN_LEVEL ; level < BUILDER_MAX_LEVEL ; ++level) {
+		for (int i = 0 ; i < MAX_BUILDERS_AVAILABLE_PER_LVL ; ++i)
+		{
+			guild.available_builders.builders[available_builders_index] = stack_pop(&guild.available_stack[level]);
+			++available_builders_index;
+		}
+	}
 }
 
 
@@ -26,37 +50,46 @@ int guild_nb_builder()
 
 void guild_display()
 {
-    struct available_builders available_builders = {};
-		available_builders.n_builders_available = stack_get_values(&guild.available_stack, available_builders.available, MAX_BUILDERS * sizeof(struct builder_t *));
 
-    for (unsigned int index = 0 ; index < available_builders.n_builders_available ; ++index)
-    {
-			// printf("%d: %d\n", i, builder_level(available_builders.available[index]));
-			builder_display(available_builders.available[index], " --- ");
-    }
+	for (unsigned int level = BUILDER_MIN_LEVEL ; level < BUILDER_MAX_LEVEL ; ++level)
+	{
+		for (unsigned int index = 0 ; index < MAX_BUILDERS_AVAILABLE_PER_LVL ; ++index)
+		{
+			builder_display(guild.available_builders.builders[index], " --- ");
+		}
+	}
 }
 
 
-struct builder_t* guild_pick_builder()
+struct builder_t* guild_pick_builder(int index)
 {
-		struct builder_t * builder = stack_pop(&guild.available_stack);
-		guild.n_builders--;
-    return builder;
+	struct builder_t * builder = guild.available_builders.builders[index];
+	int builder_lvl = builder_level(builder);
+
+	struct builder_t *new_builder = stack_pop(&guild.available_stack[builder_lvl]);
+
+	guild.available_builders.builders[index] = new_builder;
+
+	return builder;
 }
 
 
 void guild_put_builder(struct builder_t * builder)
 {
-	stack_append(&guild.available_stack, builder);
+	int builder_lvl = builder_level(builder);
+	stack_append(&guild.available_stack[builder_lvl], builder);
 }
 
 
 struct available_builders get_available_builders()
 {
-    struct available_builders available_builders = {};
-		available_builders.n_builders_available = stack_get_values(&guild.available_stack, available_builders.available, MAX_BUILDERS * sizeof(struct builder_t *));
+    return guild.available_builders;
+}
 
-    return available_builders;
+
+struct builder_t *available_builders_get_builder(int index)
+{
+	return guild.available_builders.builders[index];
 }
 
 // int get_first_available_builder(int i)
