@@ -38,7 +38,7 @@ int guild_nb_builder();
 /*
     Returns a booleen if the i-th builder is available
 */
-int guild_is_available(int index);
+int guild_is_available(struct builder_t* builder);
 
 
 /*
@@ -54,7 +54,7 @@ void guild_put_builder(struct builder_t *builder);
 
 
 /*
-    Get list of boolean for available builders
+    Get struct available_builders with the number of available builders and list of builder_t pointer
 */
 struct available_builders get_available_builders();
 

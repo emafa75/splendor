@@ -16,5 +16,5 @@ int test_guild_put_builder();
 
 int test_get_available_builders();
 
-int test_get_first_available_builder();
+//int test_get_first_available_builder();
 #endif

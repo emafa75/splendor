@@ -55,7 +55,7 @@ all: project
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
 test: $(BUILD_DIR)/$(TEST_TARGET_EXEC)
-	./test
+	valgrind ./test
 
 
 # The final build step.

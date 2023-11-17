@@ -16,7 +16,7 @@ int test_players()
     srand(time(NULL));
     init_market(rand());
     init_builders(rand());
-
+    
 
     int test_passed = 0 ;
     if(test_init_players())
@@ -89,8 +89,8 @@ int test_hire_builder()
 	}
     srand(time(NULL));
     struct player_t new_player = init_player();
-
-    unsigned int hired_builder = rand() % num_builders();
+    int index_hired_builder = 0;
+    struct builder_t* hired_builder = get_available_builders().builders[index_hired_builder];
     player_hire_builder(&new_player, hired_builder);
 
     if (guild_is_available(hired_builder))
@@ -98,7 +98,7 @@ int test_hire_builder()
         fprintf(stderr, RED "test_hire_builder: hired builder is still available in guild\n" CRESET);
 		return 0;
     }
-    if(!new_player.ressources.builders[hired_builder])
+    if(!new_player.ressources.builders[index_hired_builder])
     {
         fprintf(stderr, RED "test_hire_builder: hired builder don't belong to the player\n" CRESET);
 		return 0;
