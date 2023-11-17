@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 	printf("End of the game !\nResult of the game : ");
 	int winner = get_winner(MAX_PLAYERS, player_list);
 
-	if (winner < -1)
+	if (winner <= -1)
 	{
 		printf("TIE\n");
 	}
