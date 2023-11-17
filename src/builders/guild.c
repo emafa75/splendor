@@ -5,10 +5,10 @@
 
 struct guild
 {
-    struct builder_t *builders[MAX_BUILDERS];
-    int n_builders;
-		struct stack_t available_stack[NUM_LEVELS];
-		struct available_builders available_builders;
+	struct builder_t *builders[MAX_BUILDERS];
+	int n_builders;
+	struct stack_t available_stack[NUM_LEVELS];
+	struct available_builders available_builders;
 };
 
 

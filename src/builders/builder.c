@@ -52,6 +52,7 @@ void init_builders(unsigned int seed)
 		builders[i].provides.n = lvl;
 
 		lvl += (color == NUM_COLORS - 1);
+		lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
 		color = next_color;
 		++i;
 	}

@@ -156,8 +156,8 @@ int main(int argc, char *argv[])
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&player_list[current_player], first_affordable_builder_id);
-			player_hire_builder(&player_list[current_player], first_affordable_builder_id);
+			player_pay_builder(&player_list[current_player], builder_to_buy);
+			player_hire_builder(&player_list[current_player], builder_to_buy);
 		}
 		else 
 		{

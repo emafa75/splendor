@@ -22,7 +22,7 @@ struct available_tokens {
 
 struct ressources {
 	struct token_t *tokens[NUM_TOKENS];
-	int builders[MAX_BUILDERS];
+	struct builder_t* builders[MAX_BUILDERS];
 };
 
 
