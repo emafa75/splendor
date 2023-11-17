@@ -44,7 +44,7 @@ int guild_is_available(int index);
 /*
     Pick builder from a guild and make it unavailable
 */
-struct builder_t* guild_pick_builder(int index);
+struct builder_t* guild_pick_builder(struct builder_t *builder);
 
 
 /*

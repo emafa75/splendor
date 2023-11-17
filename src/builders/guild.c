@@ -5,10 +5,10 @@
 
 struct guild
 {
-    struct builder_t *builders[MAX_BUILDERS];
-    int n_builders;
-		struct stack_t available_stack[NUM_LEVELS];
-		struct available_builders available_builders;
+	struct builder_t *builders[MAX_BUILDERS];
+	int n_builders;
+	struct stack_t available_stack[NUM_LEVELS];
+	struct available_builders available_builders;
 };
 
 
@@ -50,24 +50,27 @@ int guild_nb_builder()
 
 void guild_display()
 {
-
-	for (unsigned int level = BUILDER_MIN_LEVEL ; level < BUILDER_MAX_LEVEL ; ++level)
+	struct builder_t* builder;
+	for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
 	{
-		for (unsigned int index = 0 ; index < MAX_BUILDERS_AVAILABLE_PER_LVL ; ++index)
-		{
+		builder = guild.available_builders.builders[index];
+
+		if (builder != NULL)
 			builder_display(guild.available_builders.builders[index], " --- ");
-		}
 	}
 }
 
 
-struct builder_t* guild_pick_builder(int index)
+struct builder_t* guild_pick_builder(struct builder_t * builder)
 {
-	struct builder_t * builder = guild.available_builders.builders[index];
 	int builder_lvl = builder_level(builder);
+	struct builder_t *new_builder;
 
-	struct builder_t *new_builder = stack_pop(&guild.available_stack[builder_lvl]);
+	int index = 0;
+	while (available_builders_get_builder(index) != builder)
+		++index;
 
+	new_builder = stack_pop(&guild.available_stack[builder_lvl]);
 	guild.available_builders.builders[index] = new_builder;
 
 	return builder;
