@@ -19,5 +19,5 @@ struct ressources can_buy(struct builder_t *builder, struct ressources ressource
 /*
     Select the first affordable builder in the guild, other return -1
 */
-int select_affordable_builder(struct player_t *player);
+struct builder_t * select_affordable_builder(struct player_t *player);
 #endif

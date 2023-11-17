@@ -1,23 +1,24 @@
 #ifndef __GUILD_H__
 #define __GUILD_H__
 
+#include <stdio.h>
+
 #include "builder.h"
-#include "stack/stack.h"
-
-
-struct guild
-{
-    struct builder_t *builders[MAX_BUILDERS];
-    int n_builders;
-	struct stack_t available;
-};
+#include "stack.h"
+#include "market.h"
+#include "builder_constants.h"
 
 
 struct available_builders {
-	struct builder_t *available[MAX_BUILDERS];
-	unsigned int n_builders_available; 
+	struct builder_t *builders[MAX_BUILDERS];
+	unsigned int n_builders_available;
 };
 
+
+struct builder_id;
+
+
+struct guild;
 
 
 void init_guild();
@@ -43,7 +44,7 @@ int guild_is_available(int index);
 /*
     Pick builder from a guild and make it unavailable
 */
-struct builder_t* guild_pick_builder();
+struct builder_t* guild_pick_builder(int index);
 
 
 /*
@@ -56,6 +57,12 @@ void guild_put_builder(struct builder_t *builder);
     Get list of boolean for available builders
 */
 struct available_builders get_available_builders();
+
+
+/*
+ *  Get the index-th buidler in guild.available_builders.builders
+ */
+struct builder_t *available_builders_get_builder(int index);
 
 
 /*

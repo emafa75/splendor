@@ -1,6 +1,14 @@
 *~
 *.o
+
+# Bins
 project
 test
+
+# jsp
 test_project
+
+# Clang
 compile_flags.txt
+
+vgcore.*

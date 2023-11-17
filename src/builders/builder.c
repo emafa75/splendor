@@ -33,7 +33,7 @@ void init_builders(unsigned int seed)
 {
 	srand(seed);
 	int i = 0;
-	unsigned int lvl = 1;
+	unsigned int lvl = BUILDER_MIN_LEVEL;
 	enum color_t color = 0;
 	enum color_t next_color;
 
