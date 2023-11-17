@@ -77,19 +77,14 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 
 struct builder_t * select_affordable_builder(struct player_t *player)
 {
-	struct available_builders available_builders = get_available_builders();
 	struct builder_t *builder_wanted;
 
-	for (unsigned int index = 0; index < available_builders.n_builders_available ; ++index)
+	for (unsigned int index = 0; index < MAX_BUILDERS ; ++index)
 	{
-		//get next builder available and check if it's possible to hire it
-		if (available_builders.builders[index])
+		builder_wanted = available_builders_get_builder(index); // get next builder available and check if it's possible to hire it
+		if (builder_wanted != NULL && can_buy(builder_wanted, player->ressources).tokens[0] != NULL)  // test if the player can buy it
 		{
-			builder_wanted = available_builders_get_builder(index);
-			if (builder_wanted != NULL && !(can_buy(builder_wanted, player->ressources).tokens[0] == NULL)) // test if the player can buy it
-			{
-				return builder_wanted;
-			}
+			return builder_wanted;
 		}
 	}
 
