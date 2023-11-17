@@ -179,7 +179,6 @@ int test_player_pay_builder()
 		fprintf(stderr, RED "test_player_pay_builder: test_init_players didn't run successfully\n" CRESET);
 		return 0;
 	}
-    struct player_t new_player = init_player();
     return 1;
 }
 
