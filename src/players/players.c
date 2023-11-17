@@ -8,7 +8,7 @@
 
 struct player_t init_player()
 {
-    struct player_t new_player = {.ressources={}, .current_point =0};
+    struct player_t new_player = {.ressources={}, .current_point=0};
     return new_player;
 }
 
