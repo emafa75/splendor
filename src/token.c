@@ -48,3 +48,20 @@ void token_display(struct token_t t, const char* prefix)
 	}
   printf(")\n");
 }
+
+void token_short_diplay(struct token_t t)
+{
+	printf("T(");
+	for (enum color_t i = 0; i < NUM_COLORS; ++i)
+	{
+		if(t.c[i] != 0)
+		{	
+			if(t.c[i]>1 )
+			{
+				printf("*");
+			}
+			printf("%s%s=%d%s", color_prefix(i), color_to_short_string(i), t.c[i], CRESET);
+		}
+	}
+	printf(")\n");
+}
