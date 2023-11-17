@@ -7,4 +7,9 @@
 */
 const char* color_prefix(enum color_t color);
 
+/*
+    Print very short display for token
+*/
+void token_short_diplay(struct token_t t);
+
 #endif
