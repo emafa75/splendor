@@ -52,10 +52,12 @@ void player_hire_builder(struct player_t *player,struct builder_t* builder_to_hi
         if(player->ressources.builders[index] == NULL)
         {
             player->ressources.builders[index] = builder_to_hire;
+            player->current_point += builder_points(builder_to_hire);
+            guild_pick_builder(builder_to_hire);
+            return;
         }
     }
-    player->current_point += builder_points(builder_to_hire);
-    guild_pick_builder(builder_to_hire);
+   
 }
 
 void player_display_inventory(struct player_t *player)
@@ -73,7 +75,7 @@ void player_display_inventory(struct player_t *player)
     {
         if(player->ressources.builders[index])
         {
-            builder_display(make_builder(index)," --- ");
+            builder_display(player->ressources.builders[index]," --- ");
         }
     }
 }
