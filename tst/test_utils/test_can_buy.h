@@ -4,6 +4,10 @@
 #include "builder.h"
 #include "color.h"
 #include "ansi_color.h"
+
+#include "test_guild.h"
+#include "test_market.h"
+
 #include <stdio.h>
 
 /*
