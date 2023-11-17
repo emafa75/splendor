@@ -36,7 +36,7 @@ void init_guild()
 	for (int level = BUILDER_MIN_LEVEL ; level < BUILDER_MAX_LEVEL ; ++level) {
 		for (int i = 0 ; i < MAX_BUILDERS_AVAILABLE_PER_LVL ; ++i)
 		{
-			guild.available_builders.builders[available_builders_index] = stack_pop(&guild.available_stack[level]);
+			guild.available_builders.builders[available_builders_index] = stack_pop(&guild.available_stack[level - 1]);
 			++available_builders_index;
 		}
 	}
