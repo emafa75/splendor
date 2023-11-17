@@ -8,27 +8,56 @@
 
 struct player_t init_player()
 {
-    struct player_t new_player = {.ressources={}, .current_point =0};
+    struct player_t new_player = {.ressources={}, .current_point=0};
     return new_player;
 }
 
 
 
-void player_pick_token(struct player_t* player, unsigned int index){
-    player->ressources.tokens[index] = 1;
-    pick_token(index);
+void player_pick_token(struct player_t* player){
+    struct token_t* picked_token = pick_token();
+    for (int index = 0; index < NUM_TOKENS; ++index)
+    {
+        /*
+            Find a place to stock the token
+        */
+        if(!player->ressources.tokens[index])
+        {
+            player->ressources.tokens[index] = picked_token;
+            return;
+        }
+    }
 }
 
-void player_take_token(struct player_t* player, unsigned int index){
-    player->ressources.tokens[index] = 0;
-    pay_token(get_token(index));
+void player_take_token(struct player_t* player, struct token_t * token){
+    for (int index = 0; index < NUM_TOKENS; ++index)
+    {
+        if (player->ressources.tokens[index] == token)
+        {
+            pay_token(token);
+            player->ressources.tokens[index] = NULL;
+            return;
+        }
+    } 
+ 
 }
 
-void player_hire_builder(struct player_t *player, unsigned int index)
+void player_hire_builder(struct player_t *player,struct builder_t* builder_to_hire)
 {
-    player->ressources.builders[index] = 1 ;
-    player->current_point += builder_points(make_builder(index));
-    guild_pick_builder(index);
+    for (int index = 0; index < MAX_BUILDERS; ++index)
+    {
+        /*
+            Look for place in player inventory
+        */
+        if(player->ressources.builders[index] == NULL)
+        {
+            player->ressources.builders[index] = builder_to_hire;
+            player->current_point += builder_points(builder_to_hire);
+            guild_pick_builder(builder_to_hire);
+            return;
+        }
+    }
+   
 }
 
 void player_display_inventory(struct player_t *player)
@@ -37,7 +66,7 @@ void player_display_inventory(struct player_t *player)
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         if(player->ressources.tokens[index]){
-            token_display(*get_token(index), " --- ");
+            token_display(*player->ressources.tokens[index], " --- ");
         }
     }
 
@@ -46,25 +75,25 @@ void player_display_inventory(struct player_t *player)
     {
         if(player->ressources.builders[index])
         {
-            builder_display(make_builder(index)," --- ");
+            builder_display(player->ressources.builders[index]," --- ");
         }
     }
 }
 
-int player_pay_builder(struct player_t* player, int index_builder_to_hire)
+int player_pay_builder(struct player_t* player, struct builder_t* builder_to_hire)
 {
-    struct ressources ressources = can_buy(make_builder(index_builder_to_hire), player->ressources);
-    if (ressources.tokens[0] == -1)
+    struct ressources ressources = can_buy(builder_to_hire, player->ressources);
+    if (ressources.tokens[0] == NULL)
     {
         return 0;
     }
 
-		// Pays the tokens he has to in order to buy the builder
+	// Pays the tokens he has to in order to buy the builder
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         if(ressources.tokens[index])
         {
-            player_take_token(player,index);
+            player_take_token(player,ressources.tokens[index]);
         }
     }
     return 1;

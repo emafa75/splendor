@@ -74,7 +74,7 @@ clang_custom_lib_support:
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean

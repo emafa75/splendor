@@ -139,7 +139,7 @@ int main(int argc, char *argv[])
 		Game loop
 	*/
 	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
-	{
+	{	
 		printf("=============================================================\n");
 		printf("Turn n°%d\n", current_turn);
 
@@ -147,17 +147,17 @@ int main(int argc, char *argv[])
 			Take a random decision and check if it's possible to hire a builder
 		*/
 		enum choice random_choice = rand() % NUM_CHOICE; 
-		int first_affordable_builder_id = select_affordable_builder(&player_list[current_player]);
+		struct builder_t * builder_to_buy = select_affordable_builder(&player_list[current_player]);
 
 
-		if((random_choice == HIRE) && (first_affordable_builder_id != -1)) 
+		if((random_choice == HIRE) && (builder_to_buy != NULL)) 
 		{
 			/*
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&player_list[current_player],first_affordable_builder_id);
-			player_hire_builder(&player_list[current_player], first_affordable_builder_id);
+			player_pay_builder(&player_list[current_player], builder_to_buy);
+			player_hire_builder(&player_list[current_player], builder_to_buy);
 		}
 		else 
 		{
@@ -177,7 +177,7 @@ int main(int argc, char *argv[])
 			*/
 			for (int index = 0; index < num_token_to_pick ; ++index)
 			{
-				player_pick_token(&player_list[current_player], get_first_available_token());
+				player_pick_token(&player_list[current_player]);
 			}
 		}
 

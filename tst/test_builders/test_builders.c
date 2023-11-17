@@ -2,7 +2,6 @@
 #include "test_builders.h"
 #include "builder.h"
 
-
 int test_builders()
 {
 	int i = 0;  // number of passed tests
@@ -135,7 +134,11 @@ int test_builders_pts(int seed)
 		// Tests if the level is legal
 		if (builder_pts != 5 * builder_lvl)
 		{
-			fprintf(stderr, RED "test_builders_pts: illegal amount of pts, builder.lvl=%d; builder.pts=%d, != 5 * builder.lvl" CRESET, builder_lvl,builder_pts);
+			fprintf(stderr, RED "test_builders_pts: illegal amount of pts, builder.pts=%d, \
+					MIN_PTS=%d, MAX_PTS=%d\n" CRESET,
+					builder_pts,
+					BUILDER_MIN_PTS,
+					BUILDER_MAX_PTS);
 			return 0;
 		}
 	}
@@ -169,8 +172,11 @@ int test_builders_requires(int seed)
 		// Tests if the requires cost is legal
 		if (builder_require.n != builder_lvl + 1)
 		{
-			fprintf(stderr, RED "test_builders_requires: illegal require cost, builder.require.n (%d) != builder_lvl(%d) + 1\n" CRESET, 
-					builder_require.n, builder_lvl);
+			fprintf(stderr, RED "test_builders_requirerequiress: illegal require cost, \
+					builder.require.n=%d, MIN_COST=%d, MAX_COST=%d\n" CRESET, 
+					builder_require.n,
+					BUILDER_MIN_COST,
+					BUILDER_MAX_COST);
 			return 0;
 		}
 

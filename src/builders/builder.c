@@ -33,7 +33,7 @@ void init_builders(unsigned int seed)
 {
 	srand(seed);
 	int i = 0;
-	unsigned int lvl = 1;
+	unsigned int lvl = BUILDER_MIN_LEVEL;
 	enum color_t color = 0;
 	enum color_t next_color;
 
@@ -52,6 +52,7 @@ void init_builders(unsigned int seed)
 		builders[i].provides.n = lvl;
 
 		lvl += (color == NUM_COLORS - 1);
+		lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
 		color = next_color;
 		++i;
 	}
