@@ -10,6 +10,8 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct ressources out = {};
 	struct buildcost_t cost = builder_requires(builder_to_buy);
 
+	int ressources_builder_index = 0;
+
 	// tmp vars for loops
 	struct token_t *token;
 	struct builder_t *builder;
@@ -27,7 +29,8 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			if (builder_provides(builder).c == cost.c)
 			{
 				n_tokens += builder_provides(builder).n;
-				out.builders[i] = 1;
+				out.builders[ressources_builder_index] = builder;
+				++ressources_builder_index;
 			}
 		}
 
@@ -64,7 +67,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			out.tokens[i] = NULL;
 
 		for (int i = 0 ; i < MAX_BUILDERS ; ++i)
-			out.builders[i] = -1;
+			out.builders[i] = NULL;
 	}
 
 
@@ -77,13 +80,13 @@ struct builder_t * select_affordable_builder(struct player_t *player)
 	struct available_builders available_builders = get_available_builders();
 	struct builder_t *builder_wanted;
 
-	for (int index = 0; index < available_builders.n_builders_available ; ++index)
+	for (unsigned int index = 0; index < available_builders.n_builders_available ; ++index)
 	{
 		//get next builder available and check if it's possible to hire it
 		if (available_builders.builders[index])
 		{
 			builder_wanted = available_builders_get_builder(index);
-			if (builder_wanted != NULL && !(can_buy(builder_wanted, player->ressources).tokens[0] == -1)) // test if the player can buy it
+			if (builder_wanted != NULL && !(can_buy(builder_wanted, player->ressources).tokens[0] == NULL)) // test if the player can buy it
 			{
 				return builder_wanted;
 			}
