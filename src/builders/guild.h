@@ -36,7 +36,7 @@ int guild_nb_builder();
 
 
 /*
-    Returns a booleen if the i-th builder is available
+    Check if pointer of builder is available in the guild
 */
 int guild_is_available(struct builder_t* builder);
 

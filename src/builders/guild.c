@@ -95,6 +95,19 @@ struct builder_t *available_builders_get_builder(int index)
 	return guild.available_builders.builders[index];
 }
 
+
+
+int guild_is_available(struct builder_t* builder){
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		if(get_available_builders().builders[index] == builder)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
 // int get_first_available_builder(int i)
 // {
 //
@@ -107,14 +120,3 @@ struct builder_t *available_builders_get_builder(int index)
 //     }
 //     return -1;
 // }
-
-int guild_is_available(struct builder_t* builder){
-	for (int index = 0; index < MAX_BUILDERS; ++index)
-	{
-		if(get_available_builders().builders[index] == builder)
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
