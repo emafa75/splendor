@@ -34,7 +34,7 @@ void * stack_pop(struct stack_t * stack)
 
 unsigned int stack_append(struct stack_t *stack, void *value)
 {
-	if (stack->head < MAX_STACK_SIZE)
+	if (stack->head < MAX_STACK_SIZE - 1)
 	{
 		stack->head++;
 		stack->values[stack->head] = value;
