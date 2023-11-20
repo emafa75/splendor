@@ -30,14 +30,14 @@ void init_market(unsigned int seed);
 
 
 /*
- * Pick a token from the market
+ * Pick a specific token from the market
  *
  * Returns  a pointer to an available token if one exists
  *					return NULL otherwise
 
 	Remove it from the market
  */
-struct token_t * pick_token();
+struct token_t * pick_token(struct token_t *token);
 
 
 /*
@@ -75,4 +75,9 @@ int get_first_available_token();
 	Shuffle the market, decide the path of the board
 */
 void market_shuffle();
+
+/*
+	Get the index (in available list) from first available token of a group of nb-linked tokens, -1 if impossible
+*/
+int get_linked_tokens(int nb);
 #endif

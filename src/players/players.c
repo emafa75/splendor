@@ -14,8 +14,8 @@ struct player_t init_player()
 
 
 
-void player_pick_token(struct player_t* player){
-    struct token_t* picked_token = pick_token();
+void player_pick_token(struct player_t* player, struct token_t* picked_token){
+    pick_token(picked_token);
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         /*

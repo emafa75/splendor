@@ -1,5 +1,7 @@
 
 #include "market.h"
+#include "token.h"
+#include <stdio.h>
 
 
 static struct market market = {};
@@ -46,16 +48,39 @@ void init_market(unsigned int seed)
 	// }
 }
 
-
-struct token_t * pick_token()
+int get_linked_tokens(int nb)
 {
-	for (int index  = 0; index < NUM_TOKENS; ++index)
+	int count = 0;
+	int index_first_linked_token = -1;
+	for (int index = 0; index < NUM_TOKENS ; ++index)
 	{
 		if(available_tokens.available[index])
 		{
-			struct token_t* picked_token = available_tokens.available[index];
+
+			++count;
+			if (count == nb)
+			{
+				
+				index_first_linked_token = index - nb + 1;
+				printf("%d\n", index_first_linked_token);
+				return index_first_linked_token;
+			}
+		}
+		else {
+			count = 0;
+		}
+	}
+	return index_first_linked_token;
+}
+
+struct token_t * pick_token(struct token_t *token)
+{
+	for (int index  = 0; index < NUM_TOKENS; ++index)
+	{
+		if(available_tokens.available[index] == token)
+		{
 			available_tokens.available[index] = NULL;
-			return picked_token;
+			return token;
 		}
 	}
 	return NULL;
