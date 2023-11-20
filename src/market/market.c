@@ -1,7 +1,6 @@
 
 #include "market.h"
-#include "token.h"
-#include <stdio.h>
+
 
 static struct market market = {};
 static struct available_tokens available_tokens = {};  
@@ -93,14 +92,12 @@ struct available_tokens *get_available_tokens()
 
 void market_display()
 {
-	for (int index = 0; index < NUM_TOKENS ; ++index)
-	{
-		if(available_tokens.available[index]) 
-		{
-			token_display(*available_tokens.available[index]," ---- ");
-		}
-		
-	} 
+	int board_size = sqrt(NUM_TOKENS);
+	struct token_t* board[board_size][board_size];
+	char * tags[board_size][board_size];
+	
+	place_token_in_board(get_available_tokens()->available, board, tags);
+	display_board(board,tags);
 }
 
 

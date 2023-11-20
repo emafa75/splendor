@@ -191,9 +191,12 @@ int main(int argc, char *argv[])
 		/*
 			Give turn to the next player
 		*/
+		
+		printf("=============================================================\n");
+		printf("Market after turn n°%d :\n", current_turn);
+		market_display();
 		current_player = next_player(current_player);
 		++current_turn;
-		printf("=============================================================\n");
 
 	}
 	/*

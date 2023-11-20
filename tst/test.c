@@ -48,12 +48,6 @@ int main(int argc, char *argv[])
 	init_market(0);
 	
 	market_shuffle();
-	market_display();
-	int board_size = sqrt(NUM_TOKENS);
-	struct token_t* board[board_size][board_size];
-	char * tags[board_size][board_size];
-	place_token_in_board(get_available_tokens()->available, board, tags);
-	display_board(board,tags);
 
 
 

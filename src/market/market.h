@@ -6,7 +6,7 @@
 #include <time.h>
 #include "token.h"
 #include "builder.h"
-
+#include "board_display.h"
 
 #define TOKENS_PER_COLOR 5
 
