@@ -1,5 +1,5 @@
-#ifndef __MARKET_DISPLAY_H__
-#define __MARKET_DISPLAY_H__
+#ifndef __BOARD_DISPLAY_H__
+#define __BOARD_DISPLAY_H__
 
 #include <stdio.h>
 #include "token.h"

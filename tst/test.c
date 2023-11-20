@@ -21,7 +21,7 @@
 #include "test_guild.h"
 #include "test_market.h"
 #include "ansi_color.h"
-#include "market_display.h"
+#include "board_display.h"
 
 #include "market.h"
 #define _NB_MIN_PARAMS_ 1
