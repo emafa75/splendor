@@ -127,14 +127,21 @@ struct set_t builder_provides(const struct builder_t *g)
 
 void builder_display(const struct builder_t *g, const char *prefix)
 {
-	printf("%sBuilder(lvl=%d,points=%d", \
+	struct set_t builder_require = builder_requires(g);
+	struct set_t builder_provide = builder_provides(g);
+
+	printf("%sBuilder(lvl=%d, points=%d", \
 			prefix, \
 			g->lvl, \
 			builder_points(g)
 			);
 
-	set_display(&builder_requires(g));
-	set_display(&builder_provides(g));
+
+	set_display(&builder_require, "B");
+	printf(", ");
+	set_display(&builder_provide, "B");
+
+	printf(")\n");
 }
 
 
