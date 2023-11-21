@@ -37,7 +37,6 @@ void init_builders(unsigned int seed)
 	unsigned int lvl = BUILDER_MIN_LEVEL;
 	enum color_t color = 0;
 	enum color_t next_color;
-	enum color_t c[NUM_COLORS] = {};  // Used to create requries and provides
 
 	n_builders = MAX_BUILDERS;
 
@@ -48,17 +47,19 @@ void init_builders(unsigned int seed)
 		builders[i].lvl = lvl;
 		builders[i].pts = 5 * lvl;
 
+		enum color_t c[NUM_COLORS] = {};  // Used to create requries and provides
 		for (unsigned int i = 0 ; i < lvl + 1 ; ++i)
-			c[color + i] = 1;
+			c[(color + i) % NUM_COLORS] = 1;
 
 		builders[i].requires = set_create(c);
 		// builders[i].requires.c = color;
 		// builders[i].requires.n = lvl + 1;
 
+		enum color_t c2[NUM_COLORS] = {};  // Used to create requries and provides
 		for (unsigned int i = 0 ; i < lvl ; ++i)
-			c[color + i] = 1;
+			c2[(color + i) % NUM_COLORS] = 1;
 
-		builders[i].provides = set_create(c);
+		builders[i].provides = set_create(c2);
 		// builders[i].provides.c = next_color;
 		// builders[i].provides.n = lvl;
 
@@ -130,25 +131,17 @@ void builder_display(const struct builder_t *g, const char *prefix)
 	struct set_t builder_require = builder_requires(g);
 	struct set_t builder_provide = builder_provides(g);
 
-	printf("%sBuilder(lvl=%d, points=%d", \
+	printf("%sBuilder(lvl=%d, points=%d, ", \
 			prefix, \
 			g->lvl, \
 			builder_points(g)
 			);
 
 
-	set_display(&builder_require, "B");
+	set_short_display(&builder_require, "requires=");
 	printf(", ");
-	set_display(&builder_provide, "B");
+	set_short_display(&builder_provide, "provides=");
 
 	printf(")\n");
 }
-
-
-
-
-
-
-
-
 

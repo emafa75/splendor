@@ -20,6 +20,10 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct token_t *token;
 	struct builder_t *builder;
 
+
+	int out_builder_index = 0;
+	int out_tokens_index = 0;
+
 	// Use builders to pay the cost
 	for (int i = 0 ; i < MAX_BUILDERS ; ++i) 
 	{
@@ -27,13 +31,18 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 		{
 			builder = ressources.builders[i];
 			builder_provide = builder_provides(builder);
-			if (is_usable(&builder_provide, cost))  // if builder helps buying builder_to_buy
+			if (is_usable(&builder_provide, to_pay))  // if builder helps buying builder_to_buy
 			{
 				// reduce to_pay with builder.provides
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = ((int)to_pay.c[j] - (int)builder_provide.c[j]) < 0 ? 0: to_pay.c[j] - builder_provide.c[j];
+					if (to_pay.c[j] > builder_provide.c[j])
+						to_pay.c[j] = to_pay.c[j] - builder_provide.c[j];
+					else
+						to_pay.c[j] = 0;
 				}
+				out.builders[out_builder_index] = builder;
+				out_builder_index++;
 			}
 		}
 
@@ -51,13 +60,19 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			token = ressources.tokens[i];
 			// Tests color
 			token_set = token_get_set(token);
-			if (is_usable(&token_set, cost))
+			if (is_usable(&token_set, to_pay))
 			{
 				// reduce to_pay with token_set
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = ((int)to_pay.c[j] - (int)token_set.c[j]) < 0 ? 0: to_pay.c[j] - token_set.c[j];
+					if (to_pay.c[j] > token_set.c[j])
+						to_pay.c[j] = to_pay.c[j] - token_set.c[j];
+					else
+						to_pay.c[j] = 0;
 				}
+
+				out.tokens[out_tokens_index] = token;
+				out_tokens_index++;
 			}
 		}
 
