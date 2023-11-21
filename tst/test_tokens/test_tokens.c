@@ -1,5 +1,6 @@
 
 #include "test_tokens.h"
+#include "set.h"
 
 
 int test_token()
@@ -34,10 +35,10 @@ int test_token_legal(struct token_t token)
 
 	for (int i = 0 ; i < NUM_COLORS ; ++i)
 	{
-		acc += token.c[i];
-		if (token.c[i] > 1)
+		acc += token.s.c[i];
+		if (token.s.c[i] > 1)
 		{
-			fprintf(stderr, RED "test_token_legal: illegal color value: value=%d for color=%s\n" CRESET, token.c[i], color_to_short_string(i));
+			fprintf(stderr, RED "test_token_legal: illegal color value: value=%d for color=%s\n" CRESET, token.s.c[i], color_to_short_string(i));
 			return 0;
 		}
 	}
@@ -69,8 +70,8 @@ int test_create_simple_token()
 // Tests if init is executable and create all builders
 int test_create_complex_token()
 {
-	unsigned int colors[NUM_COLORS] = {1, 1};
-	struct token_t token = create_complex_token(colors);
+	struct set_t new_set = {{1,1}};
+	struct token_t token = create_complex_token(new_set);
 
 	if (!test_token_legal(token))
 	{
