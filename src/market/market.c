@@ -30,11 +30,7 @@ void init_market(unsigned int seed)
 				set_for_complex_token.c[index] = complex_token_colors[index];
 			}
 			market.tokens[i] = create_complex_token(set_for_complex_token);
-<<<<<<< HEAD
-			available_tokens.available[i]	= &market.tokens[i];
-=======
 			available_tokens.available[i] = &market.tokens[i];
->>>>>>> master
 		}
 		else
 		{
