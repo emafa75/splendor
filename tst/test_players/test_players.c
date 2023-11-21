@@ -119,7 +119,7 @@ int test_player_pick_token()
     init_market(rand());
     struct player_t new_player = init_player();
     struct token_t* picked_token = get_token(0); //the picked token need to be the first available
-    player_pick_token(&new_player);
+    player_pick_token(&new_player, picked_token);
     
     /*
         Check if there is a new token in player inventory and no longer in the market
@@ -157,8 +157,9 @@ int test_player_take_token()
 	}
     struct player_t new_player = init_player();
     struct token_t* picked_token = get_token(0); //the picked token need to be the first available
-    player_pick_token(&new_player);
-    player_pick_token(&new_player);
+    struct token_t* second_picked_token = get_token(1);
+    player_pick_token(&new_player, picked_token);
+    player_pick_token(&new_player, second_picked_token);
 
     player_take_token(&new_player, picked_token);
     for (int index = 0; index < NUM_TOKENS; ++index)

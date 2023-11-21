@@ -75,7 +75,7 @@ int test_pick_token(int seed)
 	}
 	init_market(seed);
 	market_shuffle();
-	struct token_t *picked_token = pick_token();
+	struct token_t *picked_token = pick_token(get_available_tokens()->available[0]);
 	if( !picked_token ) //if picked_token is NULL
 	{
 		fprintf(stderr, RED "test_pick_token: no token picked\n" CRESET);
@@ -108,9 +108,9 @@ int test_pay_token(int seed)
 		fprintf(stderr, RED "test_pay_token: test_pick_token didn't run successfully\n" CRESET);
 		return 0;
 	}
-	pick_token();
-	pick_token();
-	struct token_t* token = pick_token();
+	pick_token(get_available_tokens()->available[0]);
+	pick_token(get_available_tokens()->available[1]);
+	struct token_t* token = pick_token(get_available_tokens()->available[2]);
 
 	pay_token(token);
 
@@ -127,7 +127,7 @@ int test_pay_token(int seed)
 			if(!null_count) {
 				return 1;
 			}
-			fprintf(stderr, RED "test_pay_token: token is not place on the first available place\n" CRESET);
+			fprintf(stderr, RED "test_pay_token: token is not place on the first available place. %d NULLs before\n" CRESET, null_count);
 			return 0;
 		}
 	}
