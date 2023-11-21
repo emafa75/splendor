@@ -2,6 +2,7 @@
 #define __TOKEN_H__
 
 #include "color.h"
+#include "set.h"
 
 /** The number of tokens in play. */
 #ifndef NUM_TOKENS
@@ -11,12 +12,12 @@
 /** A type describing a token, that is to say a set of different
     colors. */
 struct token_t {
-  unsigned int c[NUM_COLORS];
+  struct set_t s;
 };
 
 /** Builder for tokens. */
 struct token_t create_simple_token(enum color_t c);
-struct token_t create_complex_token(unsigned int c[NUM_COLORS]);
+struct token_t create_complex_token(struct set_t s);
 
 /** Compares the two tokens `t1` and `t2` and returns a boolean
     telling whether they are equal or different. */
