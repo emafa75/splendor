@@ -94,7 +94,7 @@ int test_guild_pick_builder()
     init_guild(); //reset
     int index_picked_builder = 0;   
     
-    struct builder_t* picked_builder = get_available_builders().builders[index_picked_builder];
+    struct builder_t* picked_builder = available_builders_get_builder(index_picked_builder);
     guild_pick_builder(picked_builder);
 
     if (picked_builder == NULL)
@@ -107,7 +107,8 @@ int test_guild_pick_builder()
     */
     if (guild_is_available(picked_builder))
     {
-        fprintf(stderr, RED "test_guild_pick_builder : builder is still available\n" CRESET);
+        fprintf(stderr, RED "test_guild_pick_builder : builder is still available. Pointer : %p\n" CRESET, picked_builder);
+        builder_display(picked_builder, "Picked builder : ");
         return 0;
     }
     

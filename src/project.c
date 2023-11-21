@@ -16,6 +16,7 @@
 #include "market.h"
 #include "players.h"
 #include "can_buy.h"
+#include "token.h"
 #include <unistd.h>
 #include <getopt.h>
 #define MIN(__x, __y) \
@@ -173,11 +174,23 @@ int main(int argc, char *argv[])
 			printf("Player id.%d choosed to pick %d token(s)\n" , current_player, num_token_to_pick);
 
 			/*
-				Pick the number of token he wants from the market (no choice, pick one per one in order)
+				Get the index of the first available token to match with the number of token that the player wanted to take
 			*/
-			for (int index = 0; index < num_token_to_pick ; ++index)
+			int index_first_token_to_pick = get_linked_tokens(num_token_to_pick);
+
+			/*
+				Pick the number of token he wants from the market (no choice, pick one per one in order)
+				If his choice is impossible, he skip his turn;
+			*/
+
+			if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 			{
-				player_pick_token(&player_list[current_player]);
+				printf("Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , current_player);
+			}else{
+				for (int index = 0; index < num_token_to_pick ; ++index)
+				{
+					player_pick_token(&player_list[current_player], get_available_tokens()->available[index_first_token_to_pick+index]);
+				}
 			}
 		}
 
@@ -191,9 +204,12 @@ int main(int argc, char *argv[])
 		/*
 			Give turn to the next player
 		*/
+		
+		printf("=============================================================\n");
+		printf("Market after turn n°%d :\n", current_turn);
+		market_display();
 		current_player = next_player(current_player);
 		++current_turn;
-		printf("=============================================================\n");
 
 	}
 	/*

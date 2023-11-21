@@ -25,7 +25,7 @@ void player_take_token(struct player_t* player, struct token_t* token);
 /*
     take first available token from the market
 */
-void player_pick_token(struct player_t* player);
+void player_pick_token(struct player_t* player, struct token_t* token);
 
 
 /*

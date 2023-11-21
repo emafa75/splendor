@@ -3,6 +3,7 @@
 #include "token.h"
 #include <stdio.h>
 
+
 static struct market market = {};
 static struct available_tokens available_tokens = {};  
 
@@ -47,16 +48,38 @@ void init_market(unsigned int seed)
 	// }
 }
 
-
-struct token_t * pick_token()
+int get_linked_tokens(int nb)
 {
-	for (int index  = 0; index < NUM_TOKENS; ++index)
+	int count = 0;
+	int index_first_linked_token = -1;
+	for (int index = 0; index < NUM_TOKENS ; ++index)
 	{
 		if(available_tokens.available[index])
 		{
-			struct token_t* picked_token = available_tokens.available[index];
+
+			++count;
+			if (count == nb)
+			{
+				
+				index_first_linked_token = index - nb + 1;
+				return index_first_linked_token;
+			}
+		}
+		else {
+			count = 0;
+		}
+	}
+	return index_first_linked_token;
+}
+
+struct token_t * pick_token(struct token_t *token)
+{
+	for (int index  = 0; index < NUM_TOKENS; ++index)
+	{
+		if(available_tokens.available[index] == token)
+		{
 			available_tokens.available[index] = NULL;
-			return picked_token;
+			return token;
 		}
 	}
 	return NULL;
@@ -93,14 +116,12 @@ struct available_tokens *get_available_tokens()
 
 void market_display()
 {
-	for (int index = 0; index < NUM_TOKENS ; ++index)
-	{
-		if(available_tokens.available[index]) 
-		{
-			token_display(*available_tokens.available[index]," ---- ");
-		}
-		
-	} 
+	int board_size = sqrt(NUM_TOKENS);
+	struct token_t* board[board_size][board_size];
+	char * tags[board_size][board_size];
+	
+	place_token_in_board(get_available_tokens()->available, board, tags);
+	display_board(board,tags);
 }
 
 
