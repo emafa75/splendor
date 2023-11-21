@@ -28,6 +28,11 @@ int token_equals(const struct token_t t1, const struct token_t t2)
 	return set_are_equals(&t1.s, &t2.s);
 }
 
+struct set_t token_get_set(struct token_t *token)
+{
+	return token->s;
+}
+
 
 void token_display(struct token_t t, const char* prefix)
 {
