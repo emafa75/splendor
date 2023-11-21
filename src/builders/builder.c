@@ -16,12 +16,13 @@
 #include "builder_constants.h"
 #include "ansi_color.h"
 #include "color_second_header.h"
+#include "set.h"
 
 struct builder_t {
 	unsigned int lvl;
 	unsigned int pts;
-	struct buildcost_t requires;
-	struct buildcost_t provides;
+	struct set_t requires;
+	struct set_t provides;
 };
 
 
@@ -36,6 +37,7 @@ void init_builders(unsigned int seed)
 	unsigned int lvl = BUILDER_MIN_LEVEL;
 	enum color_t color = 0;
 	enum color_t next_color;
+	enum color_t c[NUM_COLORS] = {};  // Used to create requries and provides
 
 	n_builders = MAX_BUILDERS;
 
@@ -45,11 +47,20 @@ void init_builders(unsigned int seed)
 
 		builders[i].lvl = lvl;
 		builders[i].pts = 5 * lvl;
-		builders[i].requires.c = color;
-		builders[i].requires.n = lvl + 1;
 
-		builders[i].provides.c = next_color;
-		builders[i].provides.n = lvl;
+		for (int i = 0 ; i < lvl + 1 ; ++i)
+			c[color + i] = 1;
+
+		builders[i].requires = set_create(c);
+		// builders[i].requires.c = color;
+		// builders[i].requires.n = lvl + 1;
+
+		for (int i = 0 ; i < lvl ; ++i)
+			c[color + i] = 1;
+
+		builders[i].provides = set_create(c);
+		// builders[i].provides.c = next_color;
+		// builders[i].provides.n = lvl;
 
 		lvl += (color == NUM_COLORS - 1);
 		lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
@@ -102,13 +113,13 @@ unsigned int builder_points(const struct builder_t *g)
 }
 
 
-struct buildcost_t builder_requires(const struct builder_t *g)
+struct set_t builder_requires(const struct builder_t *g)
 {
 	return g->requires;
 }
 
 
-struct buildcost_t builder_provides(const struct builder_t *g)
+struct set_t builder_provides(const struct builder_t *g)
 {
 	return g->provides;
 }
@@ -116,19 +127,14 @@ struct buildcost_t builder_provides(const struct builder_t *g)
 
 void builder_display(const struct builder_t *g, const char *prefix)
 {
-	printf("%sBuilder(lvl=%d,cost=%s%d%s%s,prod=%s%d%s%s,points=%d)\n", \
+	printf("%sBuilder(lvl=%d,points=%d", \
 			prefix, \
 			g->lvl, \
-			color_prefix(g->requires.c),\
-			g->requires.n, \
-			color_to_short_string(g->requires.c), \
-			CRESET, \
-			color_prefix(g->provides.c),\
-			g->provides.n,
-			color_to_short_string(g->provides.c),
-			CRESET,\
 			builder_points(g)
 			);
+
+	set_display(&builder_requires(g));
+	set_display(&builder_provides(g));
 }
 
 
