@@ -12,3 +12,6 @@ test_project
 compile_flags.txt
 
 vgcore.*
+
+tmp/
+tmp/**/*
