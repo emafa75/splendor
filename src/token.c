@@ -44,5 +44,5 @@ void token_display(struct token_t t, const char* prefix)
 
 void token_short_diplay(struct token_t t)
 {
-	set_display(&t.s, "T");
+	set_short_display(&t.s, "T");
 }
