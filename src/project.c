@@ -10,15 +10,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include <getopt.h>
 
-#include "builder.h"
+#include "players.h"
 #include "guild.h"
 #include "market.h"
-#include "players.h"
-#include "can_buy.h"
+#include "builder.h"
 #include "token.h"
-#include <unistd.h>
-#include <getopt.h>
+#include "can_buy.h"
+
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 

@@ -1,10 +1,6 @@
+
 #include "token.h"
-#include "ansi_color.h"
-#include <stdio.h>
-#include <string.h>
-#include "color.h"
 #include "token_second_header.h"
-#include "color_second_header.h"
 
 struct token_t create_simple_token(enum color_t c)
 {

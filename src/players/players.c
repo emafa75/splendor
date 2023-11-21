@@ -1,10 +1,5 @@
 #include "players.h"
-#include "builder.h"
-#include "guild.h"
-#include "market.h"
-#include "token.h"
 #include "can_buy.h"
-#include <stdio.h>
 
 struct player_t init_player()
 {

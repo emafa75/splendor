@@ -2,9 +2,12 @@
 #define __CAN_BUY_H__
 
 #include "builder.h"
+
 #include "market.h"
+#include "guild.h"
 #include "token.h"
 #include "players.h"
+
 
 
 /*

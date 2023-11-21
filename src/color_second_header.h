@@ -2,6 +2,7 @@
 #define __COLOR_SECONDE_HEADER_h__
 
 #include "color.h"
+#include "ansi_color.h"
 #include "token.h"
 /*
     Return the prefix for the color

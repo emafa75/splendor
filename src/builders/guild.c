@@ -1,7 +1,6 @@
 
 #include "guild.h"
-#include "builder.h"
-#include "stack.h"
+
 
 struct guild
 {

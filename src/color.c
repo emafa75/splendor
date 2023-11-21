@@ -1,6 +1,5 @@
 
 #include "color.h"
-#include "ansi_color.h"
 #include "color_second_header.h"
 
 const char * str_color[] = {

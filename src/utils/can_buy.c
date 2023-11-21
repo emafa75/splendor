@@ -1,8 +1,5 @@
 
 #include "can_buy.h"
-#include "builder.h"
-#include "guild.h"
-#include "market.h"
 
 
 struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources ressources)

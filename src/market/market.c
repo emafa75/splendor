@@ -1,7 +1,5 @@
 
 #include "market.h"
-#include "token.h"
-#include <stdio.h>
 
 
 static struct market market = {};

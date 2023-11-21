@@ -3,7 +3,11 @@
 
 #include "builder.h"
 #include "token.h"
+
+#include "guild.h"
 #include "market.h"
+
+#include <stdio.h>
 
 
 
