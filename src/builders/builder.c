@@ -48,14 +48,14 @@ void init_builders(unsigned int seed)
 		builders[i].lvl = lvl;
 		builders[i].pts = 5 * lvl;
 
-		for (int i = 0 ; i < lvl + 1 ; ++i)
+		for (unsigned int i = 0 ; i < lvl + 1 ; ++i)
 			c[color + i] = 1;
 
 		builders[i].requires = set_create(c);
 		// builders[i].requires.c = color;
 		// builders[i].requires.n = lvl + 1;
 
-		for (int i = 0 ; i < lvl ; ++i)
+		for (unsigned int i = 0 ; i < lvl ; ++i)
 			c[color + i] = 1;
 
 		builders[i].provides = set_create(c);
