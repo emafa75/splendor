@@ -21,7 +21,11 @@ void init_guild()
 	struct builder_t * builder;
 	int builder_lvl;
 	int available_builders_index = 0;
-	
+	//reset stacks
+	for (int index =0; index <NUM_LEVELS; ++index)
+	{
+		guild.available_stack[index] = stack_create();
+	}
 	// Init stack
 	guild.n_builders = num_builders();
 	for (int index = 0; index < guild.n_builders; ++index)
@@ -56,7 +60,7 @@ void guild_display()
 		builder = guild.available_builders.builders[index];
 
 		if (builder != NULL)
-			builder_display(guild.available_builders.builders[index], " --- ");
+			builder_display(builder, " --- ");
 	}
 }
 
