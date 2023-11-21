@@ -20,6 +20,6 @@ unsigned int* set_get_colors(struct set_t* set);
 
 struct set_t set_create(unsigned int c[NUM_COLORS]);
 
-int set_are_equals(struct set_t* s1, struct set_t* s2);
+int set_are_equals(const struct set_t* s1, const struct set_t* s2);
 
 #endif
