@@ -29,9 +29,9 @@ int set_are_equals(const struct set_t* s1, const struct set_t* s2)
     return 1;
 }
 
-void set_display(struct set_t *set, char *prefix)
+void set_display(const struct set_t *set)
 {
-    printf("%s(", prefix);
+    printf("(");
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if (set->c[i] != 0)

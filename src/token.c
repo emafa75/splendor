@@ -37,7 +37,8 @@ struct set_t token_get_set(struct token_t *token)
 void token_display(struct token_t t, const char* prefix)
 {
 	printf("%s", prefix);
-	set_display(&t.s,"Token");
+	printf("Token");
+	set_display(&t.s);
 	printf("\n");
 }
 
