@@ -31,6 +31,7 @@ int token_equals(const struct token_t t1, const struct token_t t2)
 
 void token_display(struct token_t t, const char* prefix)
 {
+	printf("%s", prefix);
 	set_display(&t.s,"Token");
 	printf("\n");
 }
