@@ -62,7 +62,6 @@ int get_linked_tokens(int nb)
 			{
 				
 				index_first_linked_token = index - nb + 1;
-				printf("%d\n", index_first_linked_token);
 				return index_first_linked_token;
 			}
 		}
