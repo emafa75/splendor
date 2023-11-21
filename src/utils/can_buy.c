@@ -11,20 +11,15 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct set_t cost = builder_requires(builder_to_buy);
 	struct set_t builder_provide;
 
-	struct set_t set_null = {};
+	struct set_t set_null = {};  // Used to compare to null, if all
 	struct set_t to_pay = cost;  // Copy to track what is still needed to pay
 
 	struct set_t token_set;
-
-	int ressources_builder_index = 0;
 
 	// tmp vars for loops
 	struct token_t *token;
 	struct builder_t *builder;
 
-	unsigned int n_tokens = 0;  // tokens paid so far
-
-	
 	// Use builders to pay the cost
 	for (int i = 0 ; i < MAX_BUILDERS ; ++i) 
 	{
@@ -37,7 +32,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 				// reduce to_pay with builder.provides
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = (to_pay.c[j] - builder_provide.c[j]) < 0 ? 0: to_pay.c[j] - builder_provide.c[j];
+					to_pay.c[j] = ((int)to_pay.c[j] - (int)builder_provide.c[j]) < 0 ? 0: to_pay.c[j] - builder_provide.c[j];
 				}
 			}
 		}
@@ -47,7 +42,6 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			return out;
 	}
 
-	int next_index_to_fill = 0;
 	// Use tokens to pay the cost
 	for (int i = 0 ; i < NUM_TOKENS ; ++i) 
 	{
@@ -62,7 +56,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 				// reduce to_pay with token_set
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = (to_pay.c[j] - token_set.c[j]) < 0 ? 0: to_pay.c[j] - token_set.c[j];
+					to_pay.c[j] = ((int)to_pay.c[j] - (int)token_set.c[j]) < 0 ? 0: to_pay.c[j] - token_set.c[j];
 				}
 			}
 		}
