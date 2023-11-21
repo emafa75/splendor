@@ -1,5 +1,7 @@
 
 #include "market.h"
+#include "color.h"
+#include "set/set.h"
 
 
 static struct market market = {};
@@ -22,8 +24,12 @@ void init_market(unsigned int seed)
 		{
 			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
 			complex_token_colors[color] = 2;
-
-			market.tokens[i] = create_complex_token(complex_token_colors);
+			struct set_t set_for_complex_token = {};
+			for (int index = 0; index < NUM_COLORS; ++index)
+			{
+				set_for_complex_token.c[index] = complex_token_colors[index];
+			}
+			market.tokens[i] = create_complex_token(set_for_complex_token);
 			available_tokens.available[i]	= &market.tokens[i];
 		}
 		else
