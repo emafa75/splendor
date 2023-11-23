@@ -35,7 +35,7 @@ enum choice{
 };
 
 enum parameters{
-	MAX_TURNS = 20,
+	MAX_TURNS = 10,
 	POINTS_TO_WIN = 10,
 	RANDOM_SEED = 0,
 	BUILDER_SEEED = 0,
