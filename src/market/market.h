@@ -17,14 +17,17 @@ struct market {
 	struct token_t* tokens[NUM_TOKENS];
 };
 
+
 struct available_tokens {
 	struct token_t* available[NUM_TOKENS];
 };
+
 
 struct ressources {
 	struct market market;
 	struct guild guild;
 };
+
 
 /*
 	Init the initial market for the game.
@@ -37,8 +40,8 @@ void init_market(unsigned int seed);
  *
  * Returns  a pointer to an available token if one exists
  *					return NULL otherwise
-
-	Remove it from the market
+ *
+ * Remove it from the market
  */
 struct token_t* market_pick_token(struct market* market, struct token_t* token);
 

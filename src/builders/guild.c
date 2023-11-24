@@ -26,7 +26,7 @@ void init_guild(struct guild* guild)
 	//reset stacks
 	for (int index = 0 ; index < NUM_LEVELS ; ++index)
 	{
-		guild->available_stack[index] = stack_create();
+		guild->available_stack[index] = create_default_stack();
 	}
 
 	// Init stacks
