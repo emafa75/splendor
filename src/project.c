@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&guild, &player_list[current_player], builder_to_buy);
+			player_pay_builder(&market, &player_list[current_player], builder_to_buy);
 			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
 		}
 		else 
@@ -194,7 +194,7 @@ int main(int argc, char *argv[])
 			}else{
 				for (int index = 0; index < num_token_to_pick ; ++index)
 				{
-					player_pick_token(&player_list[current_player], get_available_tokens()->available[index_first_token_to_pick+index]);
+					player_pick_token(&market, &player_list[current_player], market.tokens[index_first_token_to_pick+index]);
 				}
 			}
 		}
