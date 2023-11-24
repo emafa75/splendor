@@ -2,14 +2,20 @@
 #include "market.h"
 #include "color.h"
 #include "set/set.h"
+#include "token.h"
+
+static struct token_t tokens[NUM_TOKENS] = {};
 
 
-static struct market market = {};
-static struct available_tokens available_tokens = {};  
-
+struct market create_default_market()
+{
+	struct market new_market = {};
+	return new_market;
+}
 
 void init_market(unsigned int seed)
 {
+	struct market market = create_default_market();
 	srand(seed);
 
 	int i = 0;
@@ -25,42 +31,35 @@ void init_market(unsigned int seed)
 			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
 			complex_token_colors[color] = 2;
 			struct set_t set_for_complex_token = {};
+
 			for (int index = 0; index < NUM_COLORS; ++index)
 			{
 				set_for_complex_token.c[index] = complex_token_colors[index];
 			}
-			market.tokens[i] = create_complex_token(set_for_complex_token);
-			available_tokens.available[i] = &market.tokens[i];
+
+			tokens[i] = create_complex_token(set_for_complex_token);	 
 		}
 		else
 		{
-			market.tokens[i] = create_simple_token(color);
-			available_tokens.available[i]	= &market.tokens[i];
+			tokens[i] = create_simple_token(color);
 		}
+
+		market.tokens[i] = &tokens[i];
 
 		color = (color + 1) % NUM_COLORS;
 		++i;
 	}
 
-	// for (enum color_t color = 0 ; color < NUM_TOKENS / TOKENS_PER_COLOR ; ++color)
-	// {
-	// 	for (int j = 0 ; j < TOKENS_PER_COLOR ; ++j)
-	// 	{
-	// 		market.tokens[color * TOKENS_PER_COLOR + j] = create_simple_token(color);
-	// 		available_tokens.available[color * TOKENS_PER_COLOR + j] = 1;
-	// 	}
-	// }
 }
 
-int get_linked_tokens(int nb)
+int market_get_linked_tokens(struct market* market, int nb)
 {
 	int count = 0;
 	int index_first_linked_token = -1;
 	for (int index = 0; index < NUM_TOKENS ; ++index)
 	{
-		if(available_tokens.available[index])
+		if(market->tokens[index])
 		{
-
 			++count;
 			if (count == nb)
 			{
@@ -76,13 +75,13 @@ int get_linked_tokens(int nb)
 	return index_first_linked_token;
 }
 
-struct token_t * pick_token(struct token_t *token)
+struct token_t* market_pick_token(struct market* market, struct token_t* token)
 {
 	for (int index  = 0; index < NUM_TOKENS; ++index)
 	{
-		if(available_tokens.available[index] == token)
+		if(market->tokens[index] == token)
 		{
-			available_tokens.available[index] = NULL;
+			market->tokens[index] = NULL;
 			return token;
 		}
 	}
@@ -90,52 +89,47 @@ struct token_t * pick_token(struct token_t *token)
 }
 
 
-struct token_t* get_token(int index)
+struct token_t* market_get_token(int index)
 {
-	return &market.tokens[index];
+	return &tokens[index];
 }
 
 
-void pay_token(struct token_t * token)
+void market_pay_token(struct market* market, struct token_t * token)
 {
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
 		/*
 			If the place is available for a new token, put the new token
 		*/
-		if(!available_tokens.available[index])
+		if(!market->tokens[index])
 		{
-			available_tokens.available[index]= token;
+			market->tokens[index]= token;
 			return;
 		}
 	}
 }
 
 
-struct available_tokens *get_available_tokens()
-{
-	return &available_tokens;
-}
 
-
-void market_display()
+void market_display(struct market* market)
 {
 	int board_size = sqrt(NUM_TOKENS);
 	struct token_t* board[board_size][board_size];
 	char * tags[board_size][board_size];
 	
-	place_token_in_board(get_available_tokens()->available, board, tags);
+	place_token_in_board(market->tokens, board, tags);
 	display_board(board,tags);
 }
 
 
 
-int num_tokens()
+int market_num_tokens(struct market* market)
 {
 	int res = 0;
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
-		if (available_tokens.available[index])
+		if (market->tokens[index])
 		{
 			++res;
 		}
@@ -143,15 +137,15 @@ int num_tokens()
 	return res;
 }
 
-int get_first_available_token()
+int market_get_first_available_token(struct market* market)
 {
-	if (!num_tokens())
+	if (!market_num_tokens(market))
 	{
 		return -1;
 	}
 	for (int index = 0;  index < NUM_TOKENS; ++index)
 	{
-		if(available_tokens.available[index])
+		if(market->tokens[index])
 		{
 			return index;
 		}
@@ -161,15 +155,15 @@ int get_first_available_token()
 }
 
 
-void market_shuffle()
+void market_shuffle(struct market* market)
 {
 	srand(time(NULL));
 
   	for (int index = 0; index< NUM_TOKENS;++index)
     {
-      struct token_t * t_tmp = available_tokens.available[index];
+      struct token_t * t_tmp = market->tokens[index];
       int rand_index = index + rand() %  (NUM_TOKENS-index) ;
-      available_tokens.available[index] = available_tokens.available[rand_index] ;
-      available_tokens.available[rand_index] = t_tmp;
+      market->tokens[index] = market->tokens[rand_index] ;
+      market->tokens[rand_index] = t_tmp;
     }
 }

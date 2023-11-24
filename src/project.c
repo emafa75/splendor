@@ -170,13 +170,13 @@ int main(int argc, char *argv[])
 				Choose how many token he wants to take (0 to 3), never more than the number of available token.
 			*/
 			int num_token_to_pick = rand() % 4; 
-			num_token_to_pick = MIN(num_token_to_pick, num_tokens());
+			num_token_to_pick = MIN(num_token_to_pick, market_num_tokens());
 			printf("Player id.%d choosed to pick %d token(s)\n" , current_player, num_token_to_pick);
 
 			/*
 				Get the index of the first available token to match with the number of token that the player wanted to take
 			*/
-			int index_first_token_to_pick = get_linked_tokens(num_token_to_pick);
+			int index_first_token_to_pick = market_get_linked_tokens(num_token_to_pick);
 
 			/*
 				Pick the number of token he wants from the market (no choice, pick one per one in order)

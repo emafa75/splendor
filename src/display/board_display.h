@@ -17,5 +17,5 @@ void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_
 /*
     Place tokens in a matrice board[rac(NUM_TOKENS)][rac(NUM_TOKENS)] and fills the tags with the direction
 */
-void place_token_in_board(struct token_t *tokens[NUM_TOKENS], struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], char *tags[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)]);
+void place_token_in_board(struct token_t* tokens[NUM_TOKENS], struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], char *tags[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)]);
 #endif

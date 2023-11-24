@@ -29,7 +29,7 @@ void player_take_token(struct player_t* player, struct token_t * token){
     {
         if (player->ressources.tokens[index] == token)
         {
-            pay_token(token);
+            market_pay_token(token);
             player->ressources.tokens[index] = NULL;
             return;
         }
