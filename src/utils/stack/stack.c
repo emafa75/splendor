@@ -5,7 +5,7 @@
 /*
  *
  */
-struct stack_t stack_create()
+struct stack_t create_default_stack()
 {
 	struct stack_t out = {};
 	return out;

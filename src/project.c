@@ -117,10 +117,15 @@ int main(int argc, char *argv[])
 		Init all instances
 	*/
 	init_builders(builder_seed);
-	init_market(market_seed); //init token
-	init_guild();
-	guild_display();
-	market_display();
+
+	struct market market = create_default_market();
+	init_market(&market, market_seed); //init tokens
+
+	struct guild guild = create_default_guild();
+	init_guild(&guild);
+
+	guild_display(&guild);
+	market_display(&market);
 
 	/*
 		Init first player and current turn
@@ -148,7 +153,7 @@ int main(int argc, char *argv[])
 			Take a random decision and check if it's possible to hire a builder
 		*/
 		enum choice random_choice = rand() % NUM_CHOICE; 
-		struct builder_t * builder_to_buy = select_affordable_builder(&player_list[current_player]);
+		struct builder_t * builder_to_buy = select_affordable_builder(&guild, &player_list[current_player]);
 
 
 		if((random_choice == HIRE) && (builder_to_buy != NULL)) 
@@ -157,8 +162,8 @@ int main(int argc, char *argv[])
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&player_list[current_player], builder_to_buy);
-			player_hire_builder(&player_list[current_player], builder_to_buy);
+			player_pay_builder(&market, &player_list[current_player], builder_to_buy);
+			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
 		}
 		else 
 		{
@@ -170,13 +175,13 @@ int main(int argc, char *argv[])
 				Choose how many token he wants to take (0 to 3), never more than the number of available token.
 			*/
 			int num_token_to_pick = rand() % 4; 
-			num_token_to_pick = MIN(num_token_to_pick, num_tokens());
+			num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(&market));
 			printf("Player id.%d choosed to pick %d token(s)\n" , current_player, num_token_to_pick);
 
 			/*
 				Get the index of the first available token to match with the number of token that the player wanted to take
 			*/
-			int index_first_token_to_pick = get_linked_tokens(num_token_to_pick);
+			int index_first_token_to_pick = market_get_linked_tokens(&market, num_token_to_pick);
 
 			/*
 				Pick the number of token he wants from the market (no choice, pick one per one in order)
@@ -189,7 +194,7 @@ int main(int argc, char *argv[])
 			}else{
 				for (int index = 0; index < num_token_to_pick ; ++index)
 				{
-					player_pick_token(&player_list[current_player], get_available_tokens()->available[index_first_token_to_pick+index]);
+					player_pick_token(&market, &player_list[current_player], market.tokens[index_first_token_to_pick+index]);
 				}
 			}
 		}
@@ -207,7 +212,7 @@ int main(int argc, char *argv[])
 		
 		printf("=============================================================\n");
 		printf("Market after turn n°%d :\n", current_turn);
-		market_display();
+		market_display(&market);
 		current_player = next_player(current_player);
 		++current_turn;
 

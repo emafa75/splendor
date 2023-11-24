@@ -118,7 +118,7 @@ int test_player_pick_token()
 	}
     init_market(rand());
     struct player_t new_player = init_player();
-    struct token_t* picked_token = get_token(0); //the picked token need to be the first available
+    struct token_t* picked_token = market_get_token(0); //the picked token need to be the first available
     player_pick_token(&new_player, picked_token);
     
     /*
@@ -156,8 +156,8 @@ int test_player_take_token()
 		return 0;
 	}
     struct player_t new_player = init_player();
-    struct token_t* picked_token = get_token(0); //the picked token need to be the first available
-    struct token_t* second_picked_token = get_token(1);
+    struct token_t* picked_token = market_get_token(0); //the picked token need to be the first available
+    struct token_t* second_picked_token = market_get_token(1);
     player_pick_token(&new_player, picked_token);
     player_pick_token(&new_player, second_picked_token);
 
