@@ -27,9 +27,9 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	// Use builders to pay the cost
 	for (int i = 0 ; i < MAX_BUILDERS ; ++i) 
 	{
-		if (ressources.builders[i] != NULL)  // tests if the pointer is really a builder
+		if (ressources.guild.builders[i] != NULL)  // tests if the pointer is really a builder
 		{
-			builder = ressources.builders[i];
+			builder = ressources.guild.builders[i];
 			builder_provide = builder_provides(builder);
 			if (is_usable(&builder_provide, to_pay))  // if builder helps buying builder_to_buy
 			{
@@ -41,7 +41,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 					else
 						to_pay.c[j] = 0;
 				}
-				out.builders[out_builder_index] = builder;
+				out.guild.builders[out_builder_index] = builder;
 				out_builder_index++;
 			}
 		}
@@ -55,9 +55,9 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	for (int i = 0 ; i < NUM_TOKENS ; ++i) 
 	{
 
-		if (ressources.tokens[i] != NULL)  // Tests if the pointer is really a token
+		if (ressources.market.tokens[i] != NULL)  // Tests if the pointer is really a token
 		{
-			token = ressources.tokens[i];
+			token = ressources.market.tokens[i];
 			// Tests color
 			token_set = token_get_set(token);
 			if (is_usable(&token_set, to_pay))
@@ -71,7 +71,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 						to_pay.c[j] = 0;
 				}
 
-				out.tokens[out_tokens_index] = token;
+				out.market.tokens[out_tokens_index] = token;
 				out_tokens_index++;
 			}
 		}
@@ -86,10 +86,10 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	if (!set_are_equals(&to_pay, &set_null))
 	{
 		for (int i = 0 ; i < NUM_TOKENS ; ++i)
-			out.tokens[i] = NULL;
+			out.market.tokens[i] = NULL;
 
 		for (int i = 0 ; i < MAX_BUILDERS ; ++i)
-			out.builders[i] = NULL;
+			out.guild.builders[i] = NULL;
 	}
 
 	return out;
@@ -108,14 +108,14 @@ unsigned  int is_usable(struct set_t *set, struct set_t cost)
 }
 
 
-struct builder_t * select_affordable_builder(struct player_t *player)
+struct builder_t * select_affordable_builder(struct guild* guild, struct player_t *player)
 {
 	struct builder_t *builder_wanted;
 
 	for (unsigned int index = 0; index < MAX_BUILDERS ; ++index)
 	{
-		builder_wanted = available_builders_get_builder(index); // get next builder available and check if it's possible to hire it
-		if (builder_wanted != NULL && can_buy(builder_wanted, player->ressources).tokens[0] != NULL)  // test if the player can buy it
+		builder_wanted = available_builders_get_builder(guild, index); // get next builder available and check if it's possible to hire it
+		if (builder_wanted != NULL && can_buy(builder_wanted, player->ressources).market.tokens[0] != NULL)  // test if the player can buy it
 		{
 			return builder_wanted;
 		}
