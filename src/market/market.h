@@ -29,7 +29,7 @@ struct ressources {
 /*
 	Init the initial market for the game.
 */
-void init_market(unsigned int seed);
+void init_market(struct market* market, unsigned int seed);
 
 
 /*

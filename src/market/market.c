@@ -13,9 +13,8 @@ struct market create_default_market()
 	return new_market;
 }
 
-void init_market(unsigned int seed)
+void init_market(struct market* market, unsigned int seed)
 {
-	struct market market = create_default_market();
 	srand(seed);
 
 	int i = 0;
@@ -44,7 +43,7 @@ void init_market(unsigned int seed)
 			tokens[i] = create_simple_token(color);
 		}
 
-		market.tokens[i] = &tokens[i];
+		market->tokens[i] = &tokens[i];
 
 		color = (color + 1) % NUM_COLORS;
 		++i;
