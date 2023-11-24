@@ -92,4 +92,9 @@ int market_get_linked_tokens(struct market* market, int nb);
 	Returns a default market
 */
 struct market create_default_market();
+
+/*
+	Check if a specific token is in market (1 if true else 0)
+*/
+int market_is_in_market(struct market* market, struct token_t* token);
 #endif

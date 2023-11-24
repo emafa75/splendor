@@ -166,3 +166,15 @@ void market_shuffle(struct market* market)
       market->tokens[rand_index] = t_tmp;
     }
 }
+
+int market_is_in_market(struct market* market, struct token_t* token)
+{
+	for (int index = 0; index < NUM_TOKENS; ++index)
+	{
+		if(market->tokens[index] == token)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
