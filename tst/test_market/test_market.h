@@ -25,10 +25,10 @@ int test_init_market(int seed);
 int test_pick_token(int seed);
 
 
-int test_pay_token(int seed);
+int test_market_pay_token(int seed);
 
 
-int test_get_token(int seed);
+int test_market_get_token(int seed);
 
 
 #endif

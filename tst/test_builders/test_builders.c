@@ -1,6 +1,8 @@
 
 #include "test_builders.h"
 #include "builder.h"
+#include "color.h"
+#include "set.h"
 
 int test_builders()
 {
@@ -159,36 +161,34 @@ int test_builders_requires(int seed)
 
 	int n = num_builders();
 	struct builder_t *builder;
-	struct buildcost_t builder_require;
+	struct set_t builder_require;
 
-	unsigned int builder_lvl;
 
 	for (int i = 0 ; i < n ; ++i)
 	{
 		builder = make_builder(i);
 		builder_require = builder_requires(builder);
-		builder_lvl = builder_level(builder);
 
-		// Tests if the requires cost is legal
-		if (builder_require.n != builder_lvl + 1)
-		{
-			fprintf(stderr, RED "test_builders_requirerequiress: illegal require cost, \
-					builder.require.n=%d, MIN_COST=%d, MAX_COST=%d\n" CRESET, 
-					builder_require.n,
-					BUILDER_MIN_COST,
-					BUILDER_MAX_COST);
-			return 0;
-		}
-
-		// Tests if the requires color is legal
-		if (builder_require.c < 0 || builder_require.c >= NUM_COLORS)
-		{
-			fprintf(stderr, RED "test_builders_requires: illegal require color, \
-					builder.require.c=%d, MIN_COLOR=%d, MAX_COLOR=%d\n" CRESET, 
-					builder_require.c,
-					0,
-					NUM_COLORS);
-			return 0;
+		// Tests if the requires color is legal and cost legal
+		for (int index = 0; index < NUM_COLORS; ++index){
+			if (builder_require.c[index] >= NUM_COLORS)
+			{
+				fprintf(stderr, RED "test_builders_requires: illegal require color, \
+						builder.require.c=%d, MIN_COLOR=%d, MAX_COLOR=%d\n" CRESET, 
+						builder_require.c[index],
+						0,
+						NUM_COLORS);
+				return 0;
+			}
+			if (builder_require.c[index] > BUILDER_MAX_COST)
+			{
+				fprintf(stderr, RED "test_builders_requirerequiress: illegal require cost, \
+				builder.require.n=%d, MIN_COST=%d, MAX_COST=%d\n" CRESET, 
+				builder_require.c[index],
+				BUILDER_MIN_COST,
+				BUILDER_MAX_COST);
+				return 0;
+			}
 		}
 	}
 
@@ -207,7 +207,7 @@ int test_builders_provides(int seed)
 
 	int n = num_builders();
 	struct builder_t *builder;
-	struct buildcost_t builder_provide;
+	struct set_t builder_provide;
 
 	unsigned int builder_lvl;
 
@@ -217,25 +217,27 @@ int test_builders_provides(int seed)
 		builder_provide = builder_provides(builder);
 
 		builder_lvl = builder_level(builder);
-
-		// Tests if the level is legal
-		if (builder_provide.n != builder_lvl)
+		for (int index = 0; index < NUM_COLORS; ++index)
 		{
-			fprintf(stderr, RED "test_builders_provides: illegal provide cost, \
-					builder.provide.n (%d) != builder_lvl (%d)\n" CRESET, 
-					builder_provide.n, builder_lvl);
-			return 0;
-		}
+			// Tests if the level is legal
+			if (builder_provide.c[index] > builder_lvl)
+			{
+				fprintf(stderr, RED "test_builders_provides: illegal provide cost, \
+						builder.provide.c[index] (%d) != builder_lvl (%d)\n" CRESET, 
+						builder_provide.c[index], builder_lvl);
+				return 0;
+			}
 
-		// Tests if the requires color is legal
-		if (builder_provide.c < 0 || builder_provide.c >= NUM_COLORS)
-		{
-			fprintf(stderr, RED "test_builders_provides: illegal require color, \
-					builder.require.c=%d, MIN_COLOR=%d, MAX_COLOR=%d\n" CRESET, 
-					builder_provide.c,
-					0,
-					NUM_COLORS);
-			return 0;
+			// Tests if the requires color is legal
+			if (builder_provide.c[index] >= NUM_COLORS)
+			{
+				fprintf(stderr, RED "test_builders_provides: illegal require color, \
+						builder.require.c=%d, MIN_COLOR=%d, MAX_COLOR=%d\n" CRESET, 
+						builder_provide.c[index],
+						0,
+						NUM_COLORS);
+				return 0;
+			}
 		}
 
 	}

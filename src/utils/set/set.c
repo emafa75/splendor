@@ -17,7 +17,7 @@ struct set_t set_create(unsigned int c[NUM_COLORS])
     return s;
 }
 
-int set_are_equals(struct set_t* s1, struct set_t* s2)
+int set_are_equals(const struct set_t* s1, const struct set_t* s2)
 {
     for(int index = 0 ; index < NUM_COLORS; ++index)
     {

@@ -10,7 +10,6 @@
 #include "players.h"
 
 
-
 /*
  *  Returns a set of int representing the tokens to use to buy the builder
  *		out.available[i] = 1 if you need to use the i-th token to pay the builder

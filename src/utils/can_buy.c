@@ -11,20 +11,19 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct set_t cost = builder_requires(builder_to_buy);
 	struct set_t builder_provide;
 
-	struct set_t set_null = {};
+	struct set_t set_null = {};  // Used to compare to null, if all
 	struct set_t to_pay = cost;  // Copy to track what is still needed to pay
 
 	struct set_t token_set;
-
-	int ressources_builder_index = 0;
 
 	// tmp vars for loops
 	struct token_t *token;
 	struct builder_t *builder;
 
-	unsigned int n_tokens = 0;  // tokens paid so far
 
-	
+	int out_builder_index = 0;
+	int out_tokens_index = 0;
+
 	// Use builders to pay the cost
 	for (int i = 0 ; i < MAX_BUILDERS ; ++i) 
 	{
@@ -32,13 +31,18 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 		{
 			builder = ressources.builders[i];
 			builder_provide = builder_provides(builder);
-			if (is_usable(&builder_provide, cost))  // if builder helps buying builder_to_buy
+			if (is_usable(&builder_provide, to_pay))  // if builder helps buying builder_to_buy
 			{
 				// reduce to_pay with builder.provides
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = (to_pay.c[j] - builder_provide.c[j]) < 0 ? 0: to_pay.c[j] - builder_provide.c[j];
+					if (to_pay.c[j] > builder_provide.c[j])
+						to_pay.c[j] = to_pay.c[j] - builder_provide.c[j];
+					else
+						to_pay.c[j] = 0;
 				}
+				out.builders[out_builder_index] = builder;
+				out_builder_index++;
 			}
 		}
 
@@ -47,7 +51,6 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			return out;
 	}
 
-	int next_index_to_fill = 0;
 	// Use tokens to pay the cost
 	for (int i = 0 ; i < NUM_TOKENS ; ++i) 
 	{
@@ -57,13 +60,19 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 			token = ressources.tokens[i];
 			// Tests color
 			token_set = token_get_set(token);
-			if (is_usable(&token_set, cost))
+			if (is_usable(&token_set, to_pay))
 			{
 				// reduce to_pay with token_set
 				for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 				{
-					to_pay.c[j] = (to_pay.c[j] - token_set.c[j]) < 0 ? 0: to_pay.c[j] - token_set.c[j];
+					if (to_pay.c[j] > token_set.c[j])
+						to_pay.c[j] = to_pay.c[j] - token_set.c[j];
+					else
+						to_pay.c[j] = 0;
 				}
+
+				out.tokens[out_tokens_index] = token;
+				out_tokens_index++;
 			}
 		}
 
