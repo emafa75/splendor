@@ -27,39 +27,51 @@
 #define MAX_PLAYERS 2
 
 
-enum choice{
+enum choice {
 	HIRE,
 	PICK,
 	NUM_CHOICE,
 	FIRST_CHOICE = HIRE
 };
 
-enum parameters{
+enum parameters {
 	MAX_TURNS = 10,
 	POINTS_TO_WIN = 10,
 	RANDOM_SEED = 0,
 	BUILDER_SEEED = 0,
 	MARKET_SEED = 0,
 };
+
 struct player_t player_list[MAX_PLAYERS];
 
+
 void print_usage(char *argv[]);
+
+
 /*
 	Returns next player index
 */
 int next_player(int index);
+
+
 /*
 	Gets a random player index
 */
 int get_random_player(int seed);
+
+
 /*
 	Check if if someone won the game, return 1 if true
 */
 int has_won(int size, struct player_t players[]);
+
+
 /*
 	Returns winner's index, -1 if tie
 */
 int get_winner(int size, struct player_t[]);
+
+
 /*
 	Display options for the game
 */
@@ -108,18 +120,19 @@ int main(int argc, char *argv[])
 			default: 
 				print_usage(argv);
 				return EXIT_FAILURE;
-
 		}
 	}
+
 	display_options();
 	srand(random_seed);
+
 	/*
 		Init all instances
 	*/
 	init_builders(builder_seed);
 
 	struct market market = create_default_market();
-	init_market(&market, market_seed); //init tokens
+	init_market(&market, market_seed);  //init tokens
 
 	struct guild guild = create_default_guild();
 	init_guild(&guild);
@@ -136,7 +149,7 @@ int main(int argc, char *argv[])
 	/*
 		Init list of players with MAX_PLAYERS in game
 	*/
-	for (int index = 0; index < MAX_PLAYERS ; ++index)
+	for (int index = 0 ; index < MAX_PLAYERS ; ++index)
 	{
 		player_list[index] = init_player();
 	}
@@ -153,15 +166,15 @@ int main(int argc, char *argv[])
 			Take a random decision and check if it's possible to hire a builder
 		*/
 		enum choice random_choice = rand() % NUM_CHOICE; 
-		struct builder_t * builder_to_buy = select_affordable_builder(&guild, &player_list[current_player]);
+		struct builder_t* builder_to_buy = select_affordable_builder(&guild, &player_list[current_player]);
 
 
-		if((random_choice == HIRE) && (builder_to_buy != NULL)) 
+		if ((random_choice == HIRE) && (builder_to_buy != NULL)) 
 		{
 			/*
 				The player choosed to hire a builder and is able to do so
 			*/
-			printf("Player id.%d choosed to hire\n",current_player);
+			printf("Player id.%d choosed to hire\n", current_player);
 			player_pay_builder(&market, &player_list[current_player], builder_to_buy);
 			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
 		}
@@ -176,7 +189,7 @@ int main(int argc, char *argv[])
 			*/
 			int num_token_to_pick = rand() % 4; 
 			num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(&market));
-			printf("Player id.%d choosed to pick %d token(s)\n" , current_player, num_token_to_pick);
+			printf("Player id.%d choosed to pick %d token(s)\n", current_player, num_token_to_pick);
 
 			/*
 				Get the index of the first available token to match with the number of token that the player wanted to take
@@ -191,8 +204,10 @@ int main(int argc, char *argv[])
 			if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 			{
 				printf("Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , current_player);
-			}else{
-				for (int index = 0; index < num_token_to_pick ; ++index)
+			}
+			else
+			{
+				for (int index = 0 ; index < num_token_to_pick ; ++index)
 				{
 					player_pick_token(&market, &player_list[current_player], market.tokens[index_first_token_to_pick+index]);
 				}
@@ -215,7 +230,6 @@ int main(int argc, char *argv[])
 		market_display(&market);
 		current_player = next_player(current_player);
 		++current_turn;
-
 	}
 	/*
 		End of the game, print results 
@@ -227,24 +241,27 @@ int main(int argc, char *argv[])
 	{
 		printf("TIE\n");
 	}
-	else{
+	else
+	{
 		printf("Player id.%d won with %d point(s) !\n", winner, player_list[winner].current_point);
 	}
-
 
 	return EXIT_SUCCESS;
 }
 
+
 int next_player(int index)
 {
-	 return (index + 1) % MAX_PLAYERS;
+	return (index + 1) % MAX_PLAYERS;
 }
+
 
 int get_random_player(int seed)
 {
 	srand(seed);
 	return rand() % MAX_PLAYERS;
 }
+
 
 /*
 	Return a boolean to see if a player has won
@@ -260,6 +277,7 @@ int has_won(int size, struct player_t players[])
 	}
 	return 0;
 }
+
 
 /*
 	Return winner id, -1 if tie
@@ -289,9 +307,10 @@ int get_winner(int size, struct player_t players[])
 			return -1;
 		}
 	}
-	return id_max_points;
 
+	return id_max_points;
 }
+
 
 void display_options()
 {
@@ -303,6 +322,7 @@ void display_options()
 	max_turns
 	);
 }
+
 
 void print_usage(char *argv[])
 {
