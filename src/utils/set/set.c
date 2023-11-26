@@ -36,7 +36,7 @@ void set_display(const struct set_t *set)
 	{
 		if (set->c[i] != 0)
 		{
-			printf("%s%s%s=%d (Q:%d)," ,color_prefix(i), color_to_short_string(i),CRESET, i, set->c[i]);	  
+			printf("%s%s%s=%d (Q:%d),", color_prefix(i), color_to_short_string(i), CRESET, i, set->c[i]);	  
 		}
 	}
   printf(")");
