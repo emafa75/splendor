@@ -5,7 +5,7 @@
 
 unsigned int* set_get_colors(struct set_t* set)
 {
-    return set->c;
+	return set->c;
 }
 
 
@@ -46,6 +46,9 @@ struct set_t set_create(unsigned int c[NUM_COLORS])
     for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
     {
         s.c[index] = c[index];
+
+				if (c[index] != 0)
+					s.num_colors++;
     }
     return s;
 }
@@ -64,7 +67,13 @@ int set_are_equals(const struct set_t* s1, const struct set_t* s2)
 }
 
 
-void set_display(const struct set_t *set)
+unsigned int set_get_num_els(struct set_t set)
+{
+	return set.num_colors;
+}
+
+
+void set_display(const struct set_t* set)
 {
     printf("(");
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
@@ -78,7 +87,7 @@ void set_display(const struct set_t *set)
 }
 
 
-void set_short_display(struct set_t* set, char * prefix)
+void set_short_display(const struct set_t* set, const char * prefix)
 {
     printf("%s(", prefix);
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
