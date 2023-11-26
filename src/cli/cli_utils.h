@@ -21,7 +21,7 @@ int getch(void);
 /*
  *  Prints the character c at pos i, j of the screen
  */
-void printToCoordinates(unsigned int i, unsigned int j, unsigned int c);
+void printToCoordinates(unsigned int i, unsigned int j, char *str);
 
 
 /*

@@ -1,21 +1,41 @@
 #ifndef __CLI_BOARD_H__
 #define __CLI_BOARD_H__
 
-#include "token.h"
-#include "cli_utils.h"
 #include <math.h>
+
+#include "token.h"
+#include "vector2.h"
+#include "cli_utils.h"
 
 #define BOARD_SIZE NUM_TOKENS
 
 
 /*
+ *
+ */
+struct board_tile_t {
+	struct token_t* token;
+	struct vector2_t next_direction;  // Used to display the arrow
+};
+
+
+/*
  *  board dimension n <= sqrt(NUM_TOKENS)
  */
-struct board {
-	struct token_t* matrix[BOARD_SIZE][BOARD_SIZE];
+struct board_t {
+	struct board_tile_t matrix[BOARD_SIZE][BOARD_SIZE];
 	unsigned int n;
 	unsigned int tile_dimension;
 };
+
+
+/*
+ *  
+ */
+struct board_t market_to_board(struct market* market);
+
+
+
 
 
 /*
@@ -23,10 +43,13 @@ struct board {
  *
  *	To missing token, pass NULL at token arg
  */
-void board_display_tile(unsigned int i, unsigned int j, unsigned int tile_dimension, const struct token_t* token);
+void board_display_tile(struct vector2_t position, unsigned int tile_dimension, const struct board_tile_t* board_tile);
 
 
-void board_display(struct board* board);
+/*
+ *  Display the board, start at position
+ */
+void board_display(struct vector2_t position, struct board_t* board);
 
 
 #endif

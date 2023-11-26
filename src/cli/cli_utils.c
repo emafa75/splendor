@@ -15,9 +15,9 @@ int getch(void)
 }
 
 
-void printToCoordinates(unsigned int i, unsigned int j, unsigned int c)
+void printToCoordinates(unsigned int i, unsigned int j, char *str)
 {
-    printf("\033[%d;%dH%c\n", j, i, c);
+    printf("\033[%d;%dH%s\n", i, j, str);
 }
 
 struct winsize get_terminal_dimensions(void)
