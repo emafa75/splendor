@@ -30,8 +30,9 @@ void init_market(struct market* market, unsigned int seed)
 			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
 			complex_token_colors[color] = 2;
 			struct set_t set_for_complex_token = {};
+			set_for_complex_token.num_colors = 1;
 
-			for (int index = 0; index < NUM_COLORS; ++index)
+			for (int index = 0 ; index < NUM_COLORS; ++index)
 			{
 				set_for_complex_token.c[index] = complex_token_colors[index];
 			}
@@ -126,6 +127,7 @@ void market_display(struct market* market)
 int market_num_tokens(struct market* market)
 {
 	int res = 0;
+
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		if (market->tokens[index])
@@ -133,8 +135,10 @@ int market_num_tokens(struct market* market)
 			++res;
 		}
 	}
+
 	return res;
 }
+
 
 int market_get_first_available_token(struct market* market)
 {

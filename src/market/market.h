@@ -59,7 +59,7 @@ void market_pay_token(struct market* market, struct token_t * token);
 struct token_t* market_get_token(int index);
 
 
-struct available_tokens *get_available_tokens();
+struct available_tokens* get_available_tokens();
 
 /*
 	Display all available token in the market
