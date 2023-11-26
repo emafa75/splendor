@@ -13,13 +13,12 @@ struct vector2_t {
 	int y;
 };
 
-
-struct vector2_t VECTOR2_ZERO = {0, 0};
-struct vector2_t VECTOR2_UP = {0, -1};
-struct vector2_t VECTOR2_DOWN = {0, 1};
-struct vector2_t VECTOR2_LEFT = {-1, 0};
-struct vector2_t VECTOR2_RIGHT = {1, 0};
-
+static struct vector2_t VECTOR2_ZERO = {0, 0};
+static struct vector2_t VECTOR2_ONES = {1, 1};
+static struct vector2_t VECTOR2_UP = {0, -1};
+static struct vector2_t VECTOR2_DOWN = {0, 1};
+static struct vector2_t VECTOR2_LEFT = {-1, 0};
+static struct vector2_t VECTOR2_RIGHT = {1, 0};
 
 /*
  *  Returns 1 if v1 == v2
