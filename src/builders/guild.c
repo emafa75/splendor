@@ -1,10 +1,6 @@
 #include "guild.h"
 
 
-// Guild is only accessible from this file
-static struct guild guild;
-
-
 struct guild create_default_guild()
 {
 	struct guild out = {};
@@ -86,9 +82,7 @@ void guild_display(struct guild* guild)
 struct builder_t* guild_pick_builder(struct guild* guild, struct builder_t* builder)
 {
 	int builder_lvl = builder_level(builder);
-
 	struct builder_t* new_builder;
-	int new_builder_lvl = builder_lvl;
 
 	struct stack_t* builder_stack = guild_get_stack(guild, builder_lvl);
 
