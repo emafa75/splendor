@@ -1,10 +1,6 @@
 #include "guild.h"
 
 
-// Guild is only accessible from this file
-static struct guild guild;
-
-
 struct guild create_default_guild()
 {
 	struct guild out = {};
