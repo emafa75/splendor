@@ -55,12 +55,10 @@ void market_pay_token(struct market_t* market, struct token_t * token, struct pe
 
 
 /*
- *  Returns the index-th token
+ *  Returns the index-th token from the general market
  */
 struct token_t* market_get_token(int index);
 
-
-struct available_tokens *get_available_tokens();
 
 /*
 	Display all available token in the market

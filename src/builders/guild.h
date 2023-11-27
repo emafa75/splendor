@@ -55,11 +55,14 @@ int guild_nb_builder(struct guild_t* guild);
 
 
 /*
-    Check if pointer of builder is available in the guild
+    Check if pointer of builder is available to hire in the guild
 */
 int guild_is_available(struct guild_t* guild, struct builder_t* builder);
 
-
+/*
+    Check if a builder is present in guild
+*/
+int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder);
 /*
     Pick builder from a guild and make it unavailable
 */
@@ -67,7 +70,7 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t *bu
 
 
 /*
-    Put builder with id 'id' available again in the guild
+    Put builder in the guild
 */
 void guild_put_builder(struct guild_t* guild, struct builder_t* builder);
 
@@ -81,5 +84,5 @@ struct available_builders* guild_get_available_builders(struct guild_t* guild);
 /*
  *  Get the index-th buidler in guild.available_builders.builders
  */
-struct builder_t *available_builders_get_builder(struct guild_t* guild, int index);
+struct builder_t* available_builders_get_builder(struct guild_t* guild, int index);
 #endif

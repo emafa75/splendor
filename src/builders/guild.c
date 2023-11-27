@@ -32,8 +32,9 @@ void init_guild(struct guild_t* guild)
 		builder = make_builder(index);
 		builder_lvl = builder_level(builder);
 		stack = guild_get_stack(guild, builder_lvl);
-
+		guild->builders[index] = builder;
 		stack_append(stack, builder);
+
 	}
 
 	// Init available_builders
@@ -128,6 +129,19 @@ int guild_is_available(struct guild_t* guild, struct builder_t* builder){
 	for (int index = 0; index < MAX_BUILDERS; ++index)
 	{
 		if(available_builders->builders[index] == builder)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder)
+{
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		if(guild->builders[index] == builder)
 		{
 			return 1;
 		}
