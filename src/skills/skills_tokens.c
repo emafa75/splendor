@@ -1,4 +1,5 @@
 #include "skills_tokens.h"
+#include "guild.h"
 #include "market.h"
 
 int market_panic(struct market* market, struct token_t* token_to_move, int index_in_market)
@@ -14,5 +15,14 @@ int market_panic(struct market* market, struct token_t* token_to_move, int index
         return 1;
     }
 
+    return 0;
+}
+
+int guild_panic(struct guild* guild, struct builder_t* builder_to_pop)
+{
+    if (guild_is_available(guild,builder_to_pop)){
+        guild_pick_builder(guild, builder_to_pop);
+        return 1;
+    }
     return 0;
 }

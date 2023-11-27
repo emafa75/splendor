@@ -17,4 +17,5 @@ int market_panic(struct market* market, struct token_t* token_to_move, int index
     Remove an available builder from the guild, and replace it by a new builder
 */
 int guild_panic(struct guild* guild, struct builder_t* builder_to_pop);
+
 #endif
