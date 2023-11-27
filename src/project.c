@@ -118,10 +118,10 @@ int main(int argc, char *argv[])
 	*/
 	init_builders(builder_seed);
 
-	struct market market = create_default_market();
+	struct market_t market = create_default_market();
 	init_market(&market, market_seed); //init tokens
 
-	struct guild guild = create_default_guild();
+	struct guild_t guild = create_default_guild();
 	init_guild(&guild);
 
 	guild_display(&guild);

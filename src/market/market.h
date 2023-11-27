@@ -13,7 +13,7 @@
 
 
 // Used to store all the tokens of the game
-struct market {
+struct market_t {
 	struct token_t* tokens[NUM_TOKENS];
 };
 
@@ -24,15 +24,15 @@ struct available_tokens {
 
 
 struct ressources {
-	struct market market;
-	struct guild guild;
+	struct market_t market;
+	struct guild_t guild;
 };
 
 
 /*
 	Init the initial market for the game.
 */
-void init_market(struct market* market, unsigned int seed);
+void init_market(struct market_t* market, unsigned int seed);
 
 
 /*
@@ -43,14 +43,14 @@ void init_market(struct market* market, unsigned int seed);
  *
  * Remove it from the market
  */
-struct token_t* market_pick_token(struct market* market, struct token_t* token);
+struct token_t* market_pick_token(struct market_t* market, struct token_t* token);
 
 
 /*
  * Move a token to the market
  *
  */
-void market_pay_token(struct market* market, struct token_t * token);
+void market_pay_token(struct market_t* market, struct token_t * token);
 
 
 /*
@@ -64,37 +64,37 @@ struct available_tokens *get_available_tokens();
 /*
 	Display all available token in the market
 */
-void market_display(struct market* market);
+void market_display(struct market_t* market);
 
 /*
 	Returns number of token avalable in market
 */
 
-int market_num_tokens(struct market* market);
+int market_num_tokens(struct market_t* market);
 
 /*
 	Return position from the first available token, -1 if impossible
 */
-int market_get_first_available_token(struct market* market);
+int market_get_first_available_token(struct market_t* market);
 
 /*
 	Shuffle the market, decide the path of the board
 */
-void market_shuffle(struct market* market);
+void market_shuffle(struct market_t* market);
 
 /*
 	Get the index (in available list) from first available token of a group of nb-linked tokens, -1 if impossible
 */
-int market_get_linked_tokens(struct market* market, int nb);
+int market_get_linked_tokens(struct market_t* market, int nb);
 
 
 /*
 	Returns a default market
 */
-struct market create_default_market();
+struct market_t create_default_market();
 
 /*
 	Check if a specific token is in market (1 if true else 0)
 */
-int market_is_in_market(struct market* market, struct token_t* token);
+int market_is_in_market(struct market_t* market, struct token_t* token);
 #endif
