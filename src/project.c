@@ -146,7 +146,8 @@ int main(int argc, char *argv[])
 	*/
 	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
 	{	
-		printf("=============================================================\n");
+		printf("══════════════════════════════════════════════════════════════════════\n");
+		
 		printf("Turn n°%d\n", current_turn);
 
 		/*
@@ -210,7 +211,7 @@ int main(int argc, char *argv[])
 			Give turn to the next player
 		*/
 		
-		printf("=============================================================\n");
+		printf("══════════════════════════════════════════════════════════════════════\n");
 		printf("Market after turn n°%d :\n", current_turn);
 		market_display(&market);
 		current_player = next_player(current_player);
