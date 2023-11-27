@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include "permutation/permutation.h"
 #include "token.h"
 #include "builder.h"
 #include "board_display.h"
@@ -47,10 +48,10 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
 
 
 /*
- * Move a token to the market
+ * Move a token to the market, apply a permutation to the order of priority to place token
  *
  */
-void market_pay_token(struct market_t* market, struct token_t * token);
+void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation);
 
 
 /*

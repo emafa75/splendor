@@ -3,6 +3,7 @@
 
 #include "players.h"
 #include "token.h"
+#include "permutation.h"
 
 /*
     Rob a specific token to a player

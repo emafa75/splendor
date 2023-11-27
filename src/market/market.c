@@ -1,6 +1,7 @@
 
 #include "market.h"
 #include "color.h"
+#include "permutation/permutation.h"
 #include "set/set.h"
 #include "token.h"
 
@@ -94,16 +95,16 @@ struct token_t* market_get_token(int index)
 }
 
 
-void market_pay_token(struct market_t* market, struct token_t * token)
+void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation)
 {
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
 		/*
 			If the place is available for a new token, put the new token
 		*/
-		if(!market->tokens[index])
+		if(!market->tokens[permutation.permutation[index]])
 		{
-			market->tokens[index]= token;
+			market->tokens[permutation.permutation[index]]= token;
 			return;
 		}
 	}

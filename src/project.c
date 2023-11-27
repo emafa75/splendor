@@ -12,6 +12,7 @@
 #include <time.h>
 #include <getopt.h>
 
+#include "permutation.h"
 #include "players.h"
 #include "guild.h"
 #include "market.h"
@@ -127,6 +128,8 @@ int main(int argc, char *argv[])
 	guild_display(&guild);
 	market_display(&market);
 
+	struct permutation market_permutation = random_permutation(random_seed);
+
 	/*
 		Init first player and current turn
 	*/
@@ -163,7 +166,7 @@ int main(int argc, char *argv[])
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&market, &player_list[current_player], builder_to_buy);
+			player_pay_builder(&market, &player_list[current_player], builder_to_buy, market_permutation);
 			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
 		}
 		else 
