@@ -19,13 +19,14 @@
 #include "builder.h"
 #include "token.h"
 #include "can_buy.h"
+#include "game.h"
 
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
 #define _NB_MIN_PARAMS_ 1
 
-#define MAX_PLAYERS 2
+
 
 
 enum choice {
@@ -110,7 +111,7 @@ int main(int argc, char *argv[])
 				random_seed = atoi(optarg);
 				break;
 			case 'm':
-				max_turns = atoi(optarg);
+				max_turns = MIN(atoi(optarg), MAX_MAX_TURNS);
 				break;
 			case 'c':
 				builder_seed = atoi(optarg);
