@@ -108,7 +108,7 @@ unsigned  int is_usable(struct set_t *set, struct set_t cost)
 }
 
 
-struct builder_t * select_affordable_builder(struct guild* guild, struct player_t *player)
+struct builder_t * select_affordable_builder(struct guild_t* guild, struct player_t *player)
 {
 	struct builder_t *builder_wanted;
 

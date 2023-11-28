@@ -1,14 +1,14 @@
 #include "guild.h"
 
 
-struct guild create_default_guild()
+struct guild_t create_default_guild()
 {
-	struct guild out = {};
+	struct guild_t out = {};
 	return out;
 }
 
 
-void init_guild(struct guild* guild)
+void init_guild(struct guild_t* guild)
 {
 	// Vars used in loops
 	struct builder_t* builder;
@@ -32,7 +32,7 @@ void init_guild(struct guild* guild)
 		builder = make_builder(index);
 		builder_lvl = builder_level(builder);
 		stack = guild_get_stack(guild, builder_lvl);
-
+		guild->builders[index] = builder;
 		stack_append(stack, builder);
 	}
 
@@ -52,19 +52,19 @@ void init_guild(struct guild* guild)
 }
 
 
-struct stack_t* guild_get_stack(struct guild* guild, unsigned int builder_lvl)
+struct stack_t* guild_get_stack(struct guild_t* guild, unsigned int builder_lvl)
 {
-	return &guild->available_stack[builder_lvl - 1];  // -1 because lvls starts at 1
+	return &guild->available_stack[builder_lvl];  // -1 because lvls starts at 1
 }
 
 
-int guild_nb_builder(struct guild* guild)
+int guild_nb_builder(struct guild_t* guild)
 {
   return guild->n_builders;
 }
 
 
-void guild_display(struct guild* guild)
+void guild_display(struct guild_t* guild)
 {
 	struct builder_t* builder;  // Used in the loop
 	struct available_builders* available_builders = guild_get_available_builders(guild);
@@ -79,7 +79,7 @@ void guild_display(struct guild* guild)
 }
 
 
-struct builder_t* guild_pick_builder(struct guild* guild, struct builder_t* builder)
+struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* builder)
 {
 	int builder_lvl = builder_level(builder);
 	struct builder_t* new_builder;
@@ -98,7 +98,7 @@ struct builder_t* guild_pick_builder(struct guild* guild, struct builder_t* buil
 }
 
 
-void guild_put_builder(struct guild* guild, struct builder_t* builder)
+void guild_put_builder(struct guild_t* guild, struct builder_t* builder)
 {
 	int builder_lvl = builder_level(builder);
 
@@ -108,25 +108,38 @@ void guild_put_builder(struct guild* guild, struct builder_t* builder)
 }
 
 
-struct builder_t* available_builders_get_builder(struct guild* guild, int index)
+struct builder_t* available_builders_get_builder(struct guild_t* guild, int index)
 {
 	return guild->available_builders.builders[index];
 }
 
 
-struct available_builders* guild_get_available_builders(struct guild* guild)
+struct available_builders* guild_get_available_builders(struct guild_t* guild)
 {
     return &guild->available_builders;
 }
 
 
-int guild_is_available(struct guild* guild, struct builder_t* builder){
+int guild_is_available(struct guild_t* guild, struct builder_t* builder){
 	struct available_builders* available_builders = guild_get_available_builders(guild);
 
 	// Search for a pointer equal to builder in available_builders
 	for (int index = 0; index < MAX_BUILDERS; ++index)
 	{
 		if(available_builders->builders[index] == builder)
+		{
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder)
+{
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		if(guild->builders[index] == builder)
 		{
 			return 1;
 		}

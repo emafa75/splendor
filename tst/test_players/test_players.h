@@ -13,12 +13,19 @@ int test_init_players();
 */
 int test_hire_builder();
 
-
+/*
+    Test take_token function
+*/
 int test_player_take_token();
 
+/*
+    Test pick_token function
+*/
 int test_player_pick_token();
 
-
+/*
+    Test pay_builder function
+*/
 int test_player_pay_builder();
 
 #endif

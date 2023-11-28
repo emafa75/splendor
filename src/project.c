@@ -12,6 +12,7 @@
 #include <time.h>
 #include <getopt.h>
 
+#include "permutation.h"
 #include "players.h"
 #include "guild.h"
 #include "market.h"
@@ -131,14 +132,16 @@ int main(int argc, char *argv[])
 	*/
 	init_builders(builder_seed);
 
-	struct market market = create_default_market();
-	init_market(&market, market_seed);  //init tokens
+	struct market_t market = create_default_market();
+	init_market(&market, market_seed); //init tokens
 
-	struct guild guild = create_default_guild();
+	struct guild_t guild = create_default_guild();
 	init_guild(&guild);
 
 	guild_display(&guild);
 	market_display(&market);
+
+	struct permutation market_permutation = random_permutation(random_seed);
 
 	/*
 		Init first player and current turn
@@ -159,7 +162,8 @@ int main(int argc, char *argv[])
 	*/
 	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
 	{	
-		printf("=============================================================\n");
+		printf("══════════════════════════════════════════════════════════════════════\n");
+		
 		printf("Turn n°%d\n", current_turn);
 
 		/*
@@ -174,8 +178,8 @@ int main(int argc, char *argv[])
 			/*
 				The player choosed to hire a builder and is able to do so
 			*/
-			printf("Player id.%d choosed to hire\n", current_player);
-			player_pay_builder(&market, &player_list[current_player], builder_to_buy);
+			printf("Player id.%d choosed to hire\n",current_player);
+			player_pay_builder(&market, &player_list[current_player], builder_to_buy, market_permutation);
 			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
 		}
 		else 
@@ -225,7 +229,7 @@ int main(int argc, char *argv[])
 			Give turn to the next player
 		*/
 		
-		printf("=============================================================\n");
+		printf("══════════════════════════════════════════════════════════════════════\n");
 		printf("Market after turn n°%d :\n", current_turn);
 		market_display(&market);
 		current_player = next_player(current_player);

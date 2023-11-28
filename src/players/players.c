@@ -1,5 +1,7 @@
 #include "players.h"
 #include "can_buy.h"
+#include "permutation.h"
+#include <stdlib.h>
 
 
 struct player_t init_player()
@@ -9,7 +11,7 @@ struct player_t init_player()
 }
 
 
-void player_pick_token(struct market* market, struct player_t* player, struct token_t* picked_token){
+void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* picked_token){
 	market_pick_token(market, picked_token);
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
@@ -25,12 +27,12 @@ void player_pick_token(struct market* market, struct player_t* player, struct to
 }
 
 
-void player_take_token(struct market* market, struct player_t* player, struct token_t * token){
+void player_take_token(struct market_t* market, struct player_t* player, struct token_t * token, struct permutation permutation){
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		if (player->ressources.market.tokens[index] == token)
 		{
-			market_pay_token(market, token);
+			market_pay_token(market, token, permutation);
 			player->ressources.market.tokens[index] = NULL;
 			return;
 		}
@@ -38,7 +40,7 @@ void player_take_token(struct market* market, struct player_t* player, struct to
  
 }
 
-void player_hire_builder(struct guild* guild, struct player_t *player,struct builder_t* builder_to_hire)
+void player_hire_builder(struct guild_t* guild, struct player_t *player,struct builder_t* builder_to_hire)
 {
 	for (int index = 0; index < MAX_BUILDERS; ++index)
 	{
@@ -77,7 +79,7 @@ void player_display_inventory(struct player_t *player)
 }
 
 
-int player_pay_builder(struct market* market, struct player_t* player, struct builder_t* builder_to_hire)
+int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire, struct permutation permutation)
 {
 	struct ressources ressources = can_buy(builder_to_hire, player->ressources);
 	if (ressources.market.tokens[0] == NULL)  // All elements are NULL if cannot pay
@@ -90,7 +92,7 @@ int player_pay_builder(struct market* market, struct player_t* player, struct bu
 	{
 		if(ressources.market.tokens[index])
 		{
-			player_take_token(market, player,ressources.market.tokens[index]);
+			player_take_token(market, player,ressources.market.tokens[index], permutation);
 		}
 	}
 	return 1;

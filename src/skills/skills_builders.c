@@ -14,6 +14,3 @@ void skill_masters_hand(struct turn_t* current_turn)
 
 
 
-
-
-
