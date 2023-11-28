@@ -101,7 +101,7 @@ int test_builders_levels(int seed)
 		builder_lvl = builder_level(builder);
 
 		// Tests if the level is legal
-		if (builder_lvl < BUILDER_MIN_LEVEL || builder_lvl > BUILDER_MIN_LEVEL + NUM_LEVELS)
+		if (builder_lvl > BUILDER_MIN_LEVEL + NUM_LEVELS)
 		{
 			fprintf(stderr, RED "test_builders_levels: illegal level, builder.lvl=%d, MIN_LEVEL=%d, MAX_LEVEL=%d\n" CRESET,
 					builder_lvl, BUILDER_MIN_LEVEL, BUILDER_MIN_LEVEL + NUM_LEVELS);

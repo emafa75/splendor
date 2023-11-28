@@ -32,7 +32,6 @@ void init_guild(struct guild_t* guild)
 		builder = make_builder(index);
 		builder_lvl = builder_level(builder);
 		stack = guild_get_stack(guild, builder_lvl);
-		fprintf(stderr, "builder_lvl: %d, stack: %p\n", builder_lvl, stack);
 		guild->builders[index] = builder;
 		stack_append(stack, builder);
 	}
