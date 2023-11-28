@@ -7,7 +7,6 @@
 
 struct token_t create_simple_token(enum color_t c)
 {
-	printf("Call create_simple_token!\n");
 	struct token_t new_token = {};
 	unsigned int values[NUM_COLORS] = {};
 	values[c] = 1;

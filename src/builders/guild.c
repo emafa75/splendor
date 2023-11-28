@@ -34,7 +34,7 @@ void init_guild(struct guild_t* guild)
 		stack = guild_get_stack(guild, builder_lvl);
 		fprintf(stderr, "builder_lvl: %d, stack: %p\n", builder_lvl, stack);
 		guild->builders[index] = builder;
-		// stack_append(stack, builder);
+		stack_append(stack, builder);
 	}
 
 	// Init available_builders
@@ -55,7 +55,7 @@ void init_guild(struct guild_t* guild)
 
 struct stack_t* guild_get_stack(struct guild_t* guild, unsigned int builder_lvl)
 {
-	return &guild->available_stack[builder_lvl - 1];  // -1 because lvls starts at 1
+	return &guild->available_stack[builder_lvl];  // -1 because lvls starts at 1
 }
 
 
