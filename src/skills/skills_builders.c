@@ -2,7 +2,7 @@
 #include "market.h"
 #include "set.h"
 
-void skill_masters_hand(struct player_t *player, struct market *market, struct builder_t *builder_bought)
+void skill_masters_hand(struct turn_t* current_turn)
 {
 	struct set_t provides = builder_provides(builder_bought);
 	unsigned int* colors_provides = set_get_colors(&provides);
