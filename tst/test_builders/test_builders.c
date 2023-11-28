@@ -134,7 +134,7 @@ int test_builders_pts(int seed)
 		builder_lvl = builder_level(builder);
 
 		// Tests if the level is legal
-		if (builder_pts != 5 * builder_lvl)
+		if (builder_pts != 5 * (builder_lvl + 1))
 		{
 			fprintf(stderr, RED "test_builders_pts: illegal amount of pts, builder.pts=%d, \
 					MIN_PTS=%d, MAX_PTS=%d\n" CRESET,
@@ -220,11 +220,11 @@ int test_builders_provides(int seed)
 		for (int index = 0; index < NUM_COLORS; ++index)
 		{
 			// Tests if the level is legal
-			if (builder_provide.c[index] > builder_lvl)
+			if (builder_provide.c[index] > builder_lvl + 1)
 			{
 				fprintf(stderr, RED "test_builders_provides: illegal provide cost, \
 						builder.provide.c[index] (%d) != builder_lvl (%d)\n" CRESET, 
-						builder_provide.c[index], builder_lvl);
+						builder_provide.c[index], builder_lvl + 1);
 				return 0;
 			}
 
