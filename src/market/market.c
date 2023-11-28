@@ -5,6 +5,7 @@
 #include "token.h"
 
 static struct token_t tokens[NUM_TOKENS] = {};
+static struct market market[NUM_TOKENS] = {};
 
 
 struct market create_default_market()

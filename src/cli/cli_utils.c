@@ -20,6 +20,7 @@ void printToCoordinates(unsigned int i, unsigned int j, char *str)
     printf("\033[%d;%dH%s\n", i, j, str);
 }
 
+
 struct winsize get_terminal_dimensions(void)
 {
 	struct winsize w;

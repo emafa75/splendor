@@ -1,5 +1,6 @@
 #include "cli_tests.h"
 #include "cli_board.h"
+#include "cli_utils.h"
 #include "market.h"
 #include "token.h"
 
@@ -10,19 +11,11 @@ void cli_tests(void)
 
 	struct board_t board = market_to_board(&market);
 
-	struct token_t* token;
-	for (int i = 0 ; i < board.n ; ++i)
+	while (1)
 	{
-		for (int j = 0 ; j < board.n ; ++j)
-		{
-			token = board.matrix[i][j].token;
-
-			printf("%d, %d: ", i, j);
-			token_short_diplay(*token);
-			printf("\n");
-		}
+		board_display(VECTOR2_ONES, &board);
+		getch();
 	}
-	// board_display(VECTOR2_ONES, &board);
 }
 
 

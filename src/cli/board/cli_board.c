@@ -25,24 +25,24 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 		return;
 	}
 
-	unsigned int radius = floor(sqrt(tile_dimension));
+	double double_tile_dimension = (double)(tile_dimension);
+	double radius = double_tile_dimension / 2;
 
 	struct vector2_t center = {};
 
-	center.x = tile_dimension / 2;
-	center.y = tile_dimension / 2;
+	center.x = floor(double_tile_dimension / 2);
+	center.y = floor(double_tile_dimension / 2);
 
 	// Used to store the tile position in loop
 	struct vector2_t current_position = {};
 	// Used to store the distance between current_position and center
-	unsigned int dist_to_center = 0;
+	double dist_to_center = 0;
 
 	struct set_t token_set = token_get_set(token);
 	enum color_t* colors = set_get_colors(&token_set);
 
 	unsigned int num_colors = set_get_num_els(token_set);
 	unsigned int pixel_per_color = tile_dimension / num_colors;
-
 
 	for (unsigned int x = 0 ; x < tile_dimension ; ++x)
 	{
@@ -52,11 +52,15 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 			current_position.y = y;
 		
 			// = |center - current_position|
-			dist_to_center = (unsigned int)floor(vector2_norm(vector2_add(vector2_opposite(current_position), center)));
+			dist_to_center = vector2_norm(vector2_add(vector2_opposite(current_position), center));
+			// printf("\n\n\n\n\n");
+			// printf("x, y=%d, %d, dist=%f / radius=%f\n", x, y, dist_to_center, radius);
+			// vector2_display(vector2_add(vector2_opposite(current_position), center));
+			// vector2_display(center);
+			// getch();
+			// color_prefix(colors[dist_to_center / pixel_per_color]);
 
-			color_prefix(colors[dist_to_center / pixel_per_color]);
-
-			if (dist_to_center <= radius)
+			if (dist_to_center < radius)
 			{
 				printToCoordinates(position.y + y, position.x + x, "█");
 			}
@@ -165,7 +169,7 @@ void board_display(struct vector2_t position, struct board_t* board)
 struct board_t market_to_board(struct market* market)
 {
 	unsigned int side_length = (unsigned int)sqrt(NUM_TOKENS);
-	unsigned int tile_dimension = 5;  // should be declared in a define
+	unsigned int tile_dimension = 17;  // should be declared in a define
 
 	struct board_t board = {{}, side_length, tile_dimension};
 
@@ -173,7 +177,7 @@ struct board_t market_to_board(struct market* market)
 	struct vector2_t direction = VECTOR2_RIGHT;
 
 	// Used to know the current position in board.matrix during the for loop
-	int i = side_length - 1;
+	int i = 0;
 	int j = 0;
 
 	// Store the number of tiles on the line (makes no sense but idc)
@@ -187,35 +191,32 @@ struct board_t market_to_board(struct market* market)
 
 	for (int k = 0 ; k < NUM_TOKENS ; ++k)
 	{
-		board.matrix[i][j].token = market_get_token(k);
+		board.matrix[i][j].token = market->tokens[k];
 
 		i += direction.y;
 		j += direction.x;
+		++a;
 
-		if (vector2_equals(direction, VECTOR2_RIGHT) && a >= n)
+		if (a >= n - 1)
 		{
-			direction = VECTOR2_UP;
+			a = 0;
 			++num_turns;
-		}
-		else if (vector2_equals(direction, VECTOR2_UP) && a >= n)
-		{
-			direction = VECTOR2_LEFT;
-			++num_turns;
-		}
-		else if (vector2_equals(direction, VECTOR2_LEFT) && a >= n)
-		{
-			direction = VECTOR2_DOWN;
-			++num_turns;
-		}
-		else if (vector2_equals(direction, VECTOR2_DOWN) && a >= n)
-		{
-			direction = VECTOR2_RIGHT;
-			++num_turns;
+
+			if (vector2_equals(direction, VECTOR2_RIGHT))
+				direction = VECTOR2_DOWN;
+
+			else if (vector2_equals(direction, VECTOR2_UP))
+				direction = VECTOR2_RIGHT;
+
+			else if (vector2_equals(direction, VECTOR2_LEFT))
+				direction = VECTOR2_UP;
+
+			else if (vector2_equals(direction, VECTOR2_DOWN))
+				direction = VECTOR2_LEFT;
 		}
 	
 		if (num_turns == turns_per_decrement)
 		{
-			a = 0;
 			--n;
 			num_turns = 0;
 		}

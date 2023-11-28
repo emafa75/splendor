@@ -9,8 +9,8 @@
 
 
 struct vector2_t {
-	int x;
-	int y;
+	double x;
+	double y;
 };
 
 static struct vector2_t VECTOR2_ZERO = {0, 0};
@@ -49,4 +49,10 @@ struct vector2_t vector2_opposite(struct vector2_t v);
  *  Returns |v|
  */
 double vector2_norm(struct vector2_t v);
+
+
+/*
+ *  Display a vector2 coordinates
+ */
+void vector2_display(struct vector2_t v);
 #endif
