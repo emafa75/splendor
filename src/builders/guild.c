@@ -46,6 +46,7 @@ void init_guild(struct guild_t* guild)
 
 			// Not really clean but this is init function, and
 			available_builders->builders[available_builders_index] = builder;
+			++available_builders->n_builders_available;
 			++available_builders_index;
 		}
 	}
@@ -54,7 +55,7 @@ void init_guild(struct guild_t* guild)
 
 struct stack_t* guild_get_stack(struct guild_t* guild, unsigned int builder_lvl)
 {
-	return &guild->available_stack[builder_lvl];  // -1 because lvls starts at 1
+	return &guild->available_stack[builder_lvl]; 
 }
 
 
@@ -93,6 +94,10 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 		++index;
 
 	new_builder = stack_pop(builder_stack);
+	if (new_builder == NULL)
+	{
+		--guild_get_available_builders(guild)->n_builders_available;
+	}
 	guild->available_builders.builders[index] = new_builder;  // place it on builder's index
 
 	return builder;
