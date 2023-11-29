@@ -20,7 +20,6 @@ void init_game(struct game_t* game, struct game_parameters params)
         Init first player
     */
     first_turn->current_player = get_random_player(params.random_seed);
-    printf("%d", first_turn->current_player);
 
     /*
         Init the market
