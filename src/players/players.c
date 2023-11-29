@@ -1,5 +1,6 @@
 #include "players.h"
 #include "can_buy.h"
+#include "market.h"
 #include "permutation.h"
 #include <stdlib.h>
 
@@ -98,3 +99,12 @@ int player_pay_builder(struct market_t* market, struct player_t* player, struct 
 	return 1;
 }
 
+int player_get_points(struct player_t* player)
+{
+	return player->current_point;
+}
+
+struct ressources* player_get_ressources(struct player_t* player)
+{
+	return &player->ressources;
+}
