@@ -43,25 +43,12 @@ enum parameters{
 	BUILDER_SEEED = 0,
 	MARKET_SEED = 0,
 };
-struct player_t player_list[MAX_PLAYERS];
 
 void print_usage(char *argv[]);
 /*
-	Returns next player index
-*/
-int next_player(int index);
-/*
 	Gets a random player index
 */
-int get_random_player(int seed);
-/*
-	Check if if someone won the game, return 1 if true
-*/
-int has_won(int size, struct player_t players[]);
-/*
-	Returns winner's index, -1 if tie
-*/
-int get_winner(int size, struct player_t[]);
+
 /*
 	Display options for the game
 */
@@ -71,11 +58,15 @@ void display_options();
 /*
 		Init all options 
 */
-int max_turns = MAX_TURNS ;
-int points_to_win = POINTS_TO_WIN;
+
+struct game_parameters game_params = {
+	.points_to_win = POINTS_TO_WIN,
+	.max_turns = MAX_TURNS,
+	.market_seed = MARKET_SEED,
+	.builder_seed = BUILDER_SEEED
+};
+
 int random_seed = RANDOM_SEED;
-int builder_seed = BUILDER_SEEED;
-int market_seed = MARKET_SEED;
 
 
 int main(int argc, char *argv[])
@@ -99,13 +90,13 @@ int main(int argc, char *argv[])
 				random_seed = atoi(optarg);
 				break;
 			case 'm':
-				max_turns = MIN(atoi(optarg), MAX_MAX_TURNS);
+				game_params.max_turns = MIN(atoi(optarg), MAX_MAX_TURNS);
 				break;
 			case 'c':
-				builder_seed = atoi(optarg);
+				game_params.builder_seed = atoi(optarg);
 				break;
 			case 'p':
-				points_to_win = atoi(optarg);
+				game_params.points_to_win = atoi(optarg);
 				break;
 			default: 
 				print_usage(argv);
@@ -118,47 +109,45 @@ int main(int argc, char *argv[])
 	/*
 		Init all instances
 	*/
-	init_builders(builder_seed);
+	struct game_t game = {};
+	init_game(&game, game_params);
 
-	struct market_t market = create_default_market();
-	init_market(&market, market_seed); //init tokens
+	struct turn_t* current_turn = game_get_current_turn(&game);
+	/*
+		Display the init set
+	*/
+	turn_display(current_turn);
 
-	struct guild_t guild = create_default_guild();
-	init_guild(&guild);
-
-	guild_display(&guild);
-	market_display(&market);
-
+	/*
+		Choose a random permutation for the replacement of tokens in the market
+	*/
 	struct permutation market_permutation = random_permutation(random_seed);
 
 	/*
 		Init first player and current turn
 	*/
-	int current_player = get_random_player(random_seed);
-	int current_turn = 0;
+	//int current_player = get_random_player(random_seed);
 
-	/*
-		Init list of players with MAX_PLAYERS in game
-	*/
-	for (int index = 0; index < MAX_PLAYERS ; ++index)
-	{
-		player_list[index] = init_player();
-	}
 
 	/*
 		Game loop
 	*/
-	while (!has_won(MAX_PLAYERS, player_list) && current_turn <= max_turns)
+	while (!has_won(current_turn) && game.current_turn_index <= game.num_turns)
 	{	
 		printf("══════════════════════════════════════════════════════════════════════\n");
 		
-		printf("Turn n°%d\n", current_turn);
+		current_turn = game_get_current_turn(&game);
+		struct market_t* market = turn_get_market(current_turn);
+		struct guild_t* guild = turn_get_guild(current_turn); 
+		struct player_t* current_player = turn_get_current_player(current_turn);
+
+		printf("Turn n°%d\n", game.current_turn_index);
 
 		/*
 			Take a random decision and check if it's possible to hire a builder
 		*/
 		enum choice random_choice = rand() % NUM_CHOICE; 
-		struct builder_t * builder_to_buy = select_affordable_builder(&guild, &player_list[current_player]);
+		struct builder_t * builder_to_buy = select_affordable_builder(guild, current_player);
 
 
 		if((random_choice == HIRE) && (builder_to_buy != NULL)) 
@@ -166,9 +155,9 @@ int main(int argc, char *argv[])
 			/*
 				The player choosed to hire a builder and is able to do so
 			*/
-			printf("Player id.%d choosed to hire\n",current_player);
-			player_pay_builder(&market, &player_list[current_player], builder_to_buy, market_permutation);
-			player_hire_builder(&guild, &player_list[current_player], builder_to_buy);
+			printf("Player id.%d choosed to hire\n", current_turn->current_player);
+			player_pay_builder(market, current_player, builder_to_buy, market_permutation);
+			player_hire_builder(guild, current_player, builder_to_buy);
 		}
 		else 
 		{
@@ -180,13 +169,13 @@ int main(int argc, char *argv[])
 				Choose how many token he wants to take (0 to 3), never more than the number of available token.
 			*/
 			int num_token_to_pick = rand() % 4; 
-			num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(&market));
-			printf("Player id.%d choosed to pick %d token(s)\n" , current_player, num_token_to_pick);
+			num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
+			printf("Player id.%d choosed to pick %d token(s)\n" , current_turn->current_player, num_token_to_pick);
 
 			/*
 				Get the index of the first available token to match with the number of token that the player wanted to take
 			*/
-			int index_first_token_to_pick = market_get_linked_tokens(&market, num_token_to_pick);
+			int index_first_token_to_pick = market_get_linked_tokens(market, num_token_to_pick);
 
 			/*
 				Pick the number of token he wants from the market (no choice, pick one per one in order)
@@ -195,11 +184,11 @@ int main(int argc, char *argv[])
 
 			if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 			{
-				printf("Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , current_player);
+				printf("Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , current_turn->current_player);
 			}else{
 				for (int index = 0; index < num_token_to_pick ; ++index)
 				{
-					player_pick_token(&market, &player_list[current_player], market.tokens[index_first_token_to_pick+index]);
+					player_pick_token(market, current_player, market->tokens[index_first_token_to_pick+index]);
 				}
 			}
 		}
@@ -208,42 +197,38 @@ int main(int argc, char *argv[])
 			End of the turn, display player inventory to follow the game
 		*/
 
-		printf("Current inventory for player id.%d : \n", current_player);
-		player_display_inventory(&player_list[current_player]);
+		printf("Current inventory for player id.%d : \n", current_turn->current_player);
+		player_display_inventory(current_player);
 
 		/*
 			Give turn to the next player
 		*/
 		
 		printf("══════════════════════════════════════════════════════════════════════\n");
-		printf("Market after turn n°%d :\n", current_turn);
-		market_display(&market);
-		current_player = next_player(current_player);
-		++current_turn;
+		printf("Market after turn n°%d :\n", game.current_turn_index);
+		market_display(market);
+		next_player(current_turn);
+		game_save_turn(&game);
 
 	}
 	/*
 		End of the game, print results 
 	*/
 	printf("End of the game !\nResult of the game : ");
-	int winner = get_winner(MAX_PLAYERS, player_list);
+	int winner = get_winner(current_turn);
 
 	if (winner <= -1)
 	{
 		printf("TIE\n");
 	}
 	else{
-		printf("Player id.%d won with %d point(s) !\n", winner, player_list[winner].current_point);
+		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(turn_get_current_player(current_turn)) );
 	}
 
 
 	return EXIT_SUCCESS;
 }
 
-int next_player(int index)
-{
-	 return (index + 1) % MAX_PLAYERS;
-}
 
 int get_random_player(int seed)
 {
@@ -251,61 +236,14 @@ int get_random_player(int seed)
 	return rand() % MAX_PLAYERS;
 }
 
-/*
-	Return a boolean to see if a player has won
-*/
-int has_won(int size, struct player_t players[])
-{
-	for (int index = 0; index < size ; ++index)
-	{
-		if ( players[index].current_point >= points_to_win)
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
-
-/*
-	Return winner id, -1 if tie
-*/
-int get_winner(int size, struct player_t players[])
-{
-	int id_max_points = 0;
-	
-	for (int index = 0; index < size; ++index)
-	{
-		int player_point = players[index].current_point;
-		if (player_point >= points_to_win)
-		{
-			return index;
-		}
-		if (player_point > players[id_max_points].current_point) 
-		{
-			id_max_points = index;
-		}
-	}
-
-	int max_points = players[id_max_points].current_point;
-	for (int index = 0; index < size; ++index)
-	{
-		if((index != id_max_points) && (max_points == players[index].current_point))
-		{
-			return -1;
-		}
-	}
-	return id_max_points;
-
-}
-
 void display_options()
 {
 	printf("Random seed : %d\nBuilder seed : %d\nMarket seed : %d\nPoints to win a game : %d\nMax turns : %d\n", 
 	random_seed,
-	builder_seed,
-	market_seed,
-	points_to_win,
-	max_turns
+	game_params.builder_seed,
+	game_params.market_seed,
+	game_params.points_to_win,
+	game_params.max_turns
 	);
 }
 
