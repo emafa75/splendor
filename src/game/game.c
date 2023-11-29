@@ -1,7 +1,4 @@
 #include "game.h"
-#include "guild.h"
-#include "market.h"
-#include <stdio.h>
 
 
 void init_game(struct game_t* game, struct game_parameters params)
@@ -18,7 +15,13 @@ void init_game(struct game_t* game, struct game_parameters params)
     game->current_turn_index = 0; //use index 0 to save the initialisation
     game->num_turns = params.max_turns;
     first_turn->points_to_win = params.points_to_win;
-    
+
+    /*
+        Init first player
+    */
+    first_turn->current_player = get_random_player(params.random_seed);
+    printf("%d", first_turn->current_player);
+
     /*
         Init the market
     */    
@@ -39,6 +42,7 @@ void init_game(struct game_t* game, struct game_parameters params)
         players[index] = init_player();
     }
     
+    //save this init state  
     game_save_turn(game);
     
 }   
@@ -48,9 +52,9 @@ void game_save_turn(struct game_t* game)
     unsigned int current_turn_index = game -> current_turn_index;
     if (current_turn_index < game->num_turns)
     { 
-        memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));
-        ++ game->current_turn_index ;
+        memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));       
     }
+    ++ game->current_turn_index ;
 }
 
 void next_player(struct turn_t* current_turn)
@@ -139,6 +143,17 @@ struct player_t* turn_get_players(struct turn_t* turn)
 struct player_t* turn_get_current_player(struct turn_t* turn)
 {
     return &turn_get_players(turn)[turn->current_player];
+}
+
+int turn_get_current_player_index(struct turn_t* turn)
+{
+    return turn->current_player;
+}
+
+unsigned int get_random_player(int random_seed)
+{
+    srand(random_seed);
+    return  rand() % MAX_PLAYERS;
 }
 
 void turn_display(struct turn_t* turn)

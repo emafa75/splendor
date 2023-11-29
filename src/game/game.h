@@ -35,6 +35,7 @@ struct game_parameters
     int points_to_win;
     int builder_seed;
     int market_seed;
+    int random_seed;
 };
 
 /*
@@ -76,6 +77,10 @@ struct player_t* turn_get_players(struct turn_t* turn);
     Get player who is currently playing
 */
 struct player_t* turn_get_current_player(struct turn_t* turn);
+/*
+    Get the index from the player who is currently playing
+*/
+int turn_get_current_player_index(struct turn_t* turn);
 
 /*
     Display the current state of the turn
@@ -96,6 +101,11 @@ int has_won(struct turn_t* current_turn);
 	Returns winner's index, TIE if tie
 */
 int get_winner(struct turn_t* current_turn);
+
+/*
+    Returns a random index of a player
+*/
+unsigned int get_random_player(int random_seed);
 
 
 #endif
