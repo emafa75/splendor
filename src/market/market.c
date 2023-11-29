@@ -77,7 +77,7 @@ int market_get_linked_tokens(struct market_t* market, int nb)
 
 	if (nb_available == 0)
 	{
-		return 0;
+		return -1;
 	}
 	
 	int rand_index = rand() % nb_available;
