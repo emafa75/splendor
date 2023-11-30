@@ -13,6 +13,8 @@
 
 #define TIE -1
 
+#define UNUSED(x) (void)(x)
+
 struct turn_t
 {
     struct market_t market;
