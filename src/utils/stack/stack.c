@@ -36,7 +36,6 @@ unsigned int stack_append(struct stack_t *stack, void *value)
 {
 	if (stack == NULL)
 	{
-		fprintf(stderr, "things dlkfdshjpifjpoiezjlooesn't w'");
 		return 0;
 	}
 
