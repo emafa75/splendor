@@ -1,4 +1,5 @@
 #include "skills_builders.h"
+#include "game.h"
 
 
 int token_rob(struct turn_t* turn, void* trigger)
@@ -51,4 +52,13 @@ int token_rob(struct turn_t* turn, void* trigger)
 		return 1;
 	}
 	return 0;
+}
+
+int turn_rob(struct turn_t *turn, void *trigger)
+{
+	UNUSED(trigger);
+
+	next_player(turn);
+	
+	return 1;
 }

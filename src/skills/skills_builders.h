@@ -13,5 +13,8 @@
     Returns 0 if impossible, -1 if success
 */
 int token_rob(struct turn_t* turn, void* trigger);
-
+/*
+    Skip the turn of the next player
+*/
+int turn_rob(struct turn_t* turn, void* trigger);
 #endif
