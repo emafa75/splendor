@@ -1,4 +1,5 @@
 #include "skills.h"
+#include "ansi_color.h"
 #include <stdio.h>
 
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
@@ -100,4 +101,21 @@ int has_skills(const void *trigger)
         return 1;
     }
     return 0;
+}
+
+void skill_exec(struct turn_t *turn, const void* trigger)
+{
+    if (!has_skills(trigger))
+    {
+        return;
+    }
+    enum skills_id* trigger_skills = skills_get_by_trigger(trigger);
+
+    for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+    {
+        if (trigger_skills[index] != NO_SKILL){
+            skill_f skill_function = skill_by_id(trigger_skills[index]);
+            skill_function(turn, trigger);
+        }
+    }
 }

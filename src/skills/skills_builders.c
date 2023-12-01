@@ -2,10 +2,10 @@
 #include "game.h"
 
 
-int token_rob(struct turn_t* turn, void* trigger)
+int token_rob(struct turn_t* turn, const void* trigger)
 {
 	//cast trigger to a builder 
-	struct builder_t* trigger_builder = trigger;
+	const struct builder_t* trigger_builder = trigger;
 	UNUSED(trigger_builder);
 
 	struct player_t* robber_player = turn_get_current_player(turn);
@@ -76,7 +76,7 @@ int token_filter(struct token_t* tokens[NUM_TOKENS], int n, struct token_t* filt
 	return filtered_n;
 }
 
-int turn_rob(struct turn_t *turn, void *trigger)
+int turn_rob(struct turn_t *turn, const void *trigger)
 {
 	UNUSED(trigger);
 
@@ -85,9 +85,9 @@ int turn_rob(struct turn_t *turn, void *trigger)
 	return 1;
 }
 
-int skill_masters_hand(struct turn_t* current_turn, void* trigger)
+int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 {
-	struct builder_t* builder_bought = trigger;
+	const struct builder_t* builder_bought = trigger;
 	struct set_t provides = builder_provides(builder_bought);
 
 	struct player_t* current_player = turn_get_current_player(current_turn);

@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 
-int market_panic(struct turn_t* turn, void* trigger)
+int market_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct market_t* market = turn_get_market(turn);
@@ -55,7 +55,7 @@ int market_panic(struct turn_t* turn, void* trigger)
     return 1;
 }
 
-int guild_panic(struct turn_t* turn, void* trigger)
+int guild_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct guild_t* guild = turn_get_guild(turn);

@@ -2,6 +2,7 @@
 #define  __SKILLS_H__
 
 #include "builder.h"
+#include "game.h"
 #include "skills_tokens.h"
 #include "skills_builders.h"
 
@@ -9,7 +10,7 @@
 #define NB_SKILLS_IN_GAME (MAX_BUILDERS + NUM_TOKENS)
 
 
-typedef int (*skill_f)(struct turn_t* , void* );
+typedef int (*skill_f)(struct turn_t* , const void* );
 
 
 
@@ -63,4 +64,9 @@ skill_f skill_by_id(enum skills_id skill);
 */
 void skill_display(enum skills_id skill, char* prefix);
 
+
+/*
+    Execute skills associate to a trigger
+*/
+void skill_exec(struct turn_t* turn, const void* trigger);
 #endif
