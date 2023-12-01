@@ -70,7 +70,7 @@ int test_create_simple_token()
 // Tests if init is executable and create all builders
 int test_create_complex_token()
 {
-	struct set_t new_set = {{1,1}};
+	struct set_t new_set = {{1,1}, 0};
 	struct token_t token = create_complex_token(new_set);
 
 	if (!test_token_legal(token))
