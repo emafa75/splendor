@@ -21,6 +21,11 @@ struct set_t set_union(const struct set_t* set1, const struct set_t* set2);
 
 
 /*
+ *  Returns a set full of 0s
+ */
+struct set_t set_zero(void);
+
+/*
  *  Returns the intersection of set1 and set2
  *
  */
@@ -40,7 +45,7 @@ void set_short_display(const struct set_t* set, const char * prefix);
 /*
   Get color associated to the set
 */
-unsigned int* set_get_colors(const struct set_t* set);
+unsigned int* set_get_colors(struct set_t* set);
 
 
 /*
