@@ -77,10 +77,10 @@ void init_builder_skills()
 				{
 					skills[index_skill_to_add] = skill_id;
 					++index_skill_to_add;
-					printf("Skill %d added on builder :\n", skill_id);
+					/* printf("Skill %d added on builder :\n", skill_id);
 					builder_display(builder, "This one : ");
 					skill_display(skill_id, "");
-					printf("\n");
+					printf("\n"); */
 				}
 				
 			}
@@ -113,18 +113,7 @@ void guild_display(struct guild_t* guild)
 
 		if (builder != NULL)
 		{
-			builder_display(builder, " --- ");
-			if(has_skills(builder) != -1){
-				for (int skill_index = 0; skill_index < MAX_SKILLS_PER_TRIGGER; ++skill_index)
-				{
-					if (skills_get_by_trigger(builder)[skill_index] != 0)
-					{
-						skill_display(skills_get_by_trigger(builder)[skill_index], "-->");
-					}
-				}
-				
-			}
-			
+			builder_display(builder, " --- ");						
 		}
 	}
 }

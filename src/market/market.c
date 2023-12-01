@@ -3,7 +3,7 @@
 #include "players.h"
 #include "skills.h"
 #include "token.h"
-#include <stdio.h>
+
 
 static struct token_t tokens[NUM_TOKENS] = {};
 
@@ -74,10 +74,10 @@ void init_tokens_skills()
 				{
 					skills[index_skill_to_add] = skill_id;
 					++index_skill_to_add;
-					printf("Skill %d added on token :\n", skill_id);
+					/* printf("Skill %d added on token :\n", skill_id);
 					token_display(*token, "This one");
 					skill_display(skill_id, " SKILL :");
-					printf("\n");
+					printf("\n"); */
 				}
 			}
 		}
