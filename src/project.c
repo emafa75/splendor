@@ -17,6 +17,7 @@
 #include "guild.h"
 #include "market.h"
 #include "builder.h"
+#include "skills.h"
 #include "token.h"
 #include "can_buy.h"
 #include "game.h"
@@ -153,6 +154,7 @@ int main(int argc, char *argv[])
 			printf("Player id.%d choosed to hire\n", player_index);
 			player_pay_builder(market, current_player, builder_to_buy, market_permutation);
 			player_hire_builder(guild, current_player, builder_to_buy);
+			skill_exec(current_turn, builder_to_buy);
 		}
 		else 
 		{
@@ -183,7 +185,9 @@ int main(int argc, char *argv[])
 			}else{
 				for (int index = 0; index < num_token_to_pick ; ++index)
 				{
-					player_pick_token(market, current_player, market->tokens[index_first_token_to_pick+index]);
+					struct token_t* picked_token = market->tokens[index_first_token_to_pick+index] ;
+					player_pick_token(market, current_player, picked_token);
+					skill_exec(current_turn, picked_token);
 				}
 			}
 		}
