@@ -17,6 +17,7 @@
 #include "ansi_color.h"
 #include "color_second_header.h"
 #include "set.h"
+#include "skills.h"
 
 struct builder_t {
 	unsigned int lvl;
@@ -141,7 +142,20 @@ void builder_display(const struct builder_t *g, const char *prefix)
 	set_short_display(&builder_require, "requires=");
 	printf(", ");
 	set_short_display(&builder_provide, "provides=");
+	if (has_skills(g))
+	{
+		printf(", skill(s)=");
+		enum skills_id* skills= skills_get_by_trigger(g);
+		for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+		{
+			if (skills[index] != NO_SKILL)
+			{
+				skill_display(skills[index],(index != 0) ? ", " : "");
+				
+			}
+		}
 
+	}
 	printf(")\n");
 }
 
