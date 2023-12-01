@@ -35,6 +35,10 @@ struct guild_t create_default_guild();
  */
 void init_guild(struct guild_t* guild);
 
+/*
+    Associate skills for the builders
+*/
+void init_builder_skills();
 
 /*
  *  Returns a pointer to the guild's stack storing builders of level builder_lvl
