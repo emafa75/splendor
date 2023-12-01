@@ -83,7 +83,6 @@ void guild_display(struct guild_t* guild)
 struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* builder)
 {
 	int builder_lvl = builder_level(builder);
-
 	struct builder_t* new_builder;
 
 	struct stack_t* builder_stack = guild_get_stack(guild, builder_lvl);

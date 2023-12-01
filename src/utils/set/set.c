@@ -2,24 +2,66 @@
 
 #include "color_second_header.h"
 
+
+struct set_t SET_ZEROS = {};
+
 unsigned int* set_get_colors(struct set_t* set)
 {
     return set->c;
 }
 
+
+struct set_t set_zero(void)
+{
+	return SET_ZEROS;
+}
+
+
+struct set_t set_union(const struct set_t *set1, const struct set_t *set2)
+{
+	struct set_t out = {};
+
+	for (int i = 0 ; i < NUM_COLORS ; ++i)
+	{
+		out.c[i] = set1->c[i] + set2->c[i];
+		out.num_colors += (set1->c[i] || set2->c[i]);
+	}
+
+	return out;
+}
+
+
+struct set_t set_inter(const struct set_t* set1, const struct set_t* set2)
+{
+	struct set_t out = {};
+	unsigned int cmp;
+
+	for (int i = 0 ; i < NUM_COLORS ; ++i)
+	{
+		cmp = (set1->c[i] && set2->c[i]);
+		out.c[i] = (set1->c[i] + set2->c[i]) * cmp;
+		out.num_colors += cmp;
+	}
+
+	return out;
+}
+
+
+
 struct set_t set_create(unsigned int c[NUM_COLORS])
 {
     struct set_t s = {};
-    for (unsigned int index = 0; index < NUM_COLORS ; ++index)
+    for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
     {
         s.c[index] = c[index];
     }
     return s;
 }
 
+
 int set_are_equals(const struct set_t* s1, const struct set_t* s2)
 {
-    for(int index = 0 ; index < NUM_COLORS; ++index)
+    for(int index = 0 ; index < NUM_COLORS ; ++index)
     {
         if (s1->c[index] != s2->c[index])
         {
@@ -28,6 +70,7 @@ int set_are_equals(const struct set_t* s1, const struct set_t* s2)
     }
     return 1;
 }
+
 
 void set_display(const struct set_t *set)
 {
@@ -42,10 +85,11 @@ void set_display(const struct set_t *set)
   printf(")");
 }
 
-void set_short_display(struct set_t* set, char * prefix)
+
+void set_short_display(const struct set_t* set, const char * prefix)
 {
     printf("%s(", prefix);
-	for (enum color_t i = 0; i < NUM_COLORS; ++i)
+	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if(set->c[i] != 0)
 		{	

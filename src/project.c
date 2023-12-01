@@ -29,14 +29,14 @@
 
 
 
-enum choice{
+enum choice {
 	HIRE,
 	PICK,
 	NUM_CHOICE,
 	FIRST_CHOICE = HIRE
 };
 
-enum parameters{
+enum parameters {
 	MAX_TURNS = 10,
 	POINTS_TO_WIN = 10,
 	RANDOM_SEED = 0,
@@ -98,9 +98,9 @@ int main(int argc, char *argv[])
 			default: 
 				print_usage(argv);
 				return EXIT_FAILURE;
-
 		}
 	}
+
 	display_options();
 	srand(game_params.random_seed);
 	/*
@@ -147,7 +147,7 @@ int main(int argc, char *argv[])
 		struct builder_t * builder_to_buy = select_affordable_builder(guild, current_player);
 
 
-		if((random_choice == HIRE) && (builder_to_buy != NULL)) 
+		if ((random_choice == HIRE) && (builder_to_buy != NULL)) 
 		{
 			/*
 				The player choosed to hire a builder and is able to do so
@@ -224,7 +224,6 @@ int main(int argc, char *argv[])
 		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(&turn_get_players(current_turn)[winner]));
 	}
 
-
 	return EXIT_SUCCESS;
 }
 
@@ -238,6 +237,7 @@ void display_options()
 	game_params.max_turns
 	);
 }
+
 
 void print_usage(char *argv[])
 {
