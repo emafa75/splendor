@@ -1,6 +1,15 @@
 #include "skills.h"
+#include "skills_builders.h"
 
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
+
+skill_f skills_functions[NUM_SKILLS] = {
+    token_rob,
+    turn_rob,
+    skill_masters_hand,
+    market_panic,
+    guild_panic,
+};
 
 void add_skill_instance(void* trigger, skill_f skills_to_add[MAX_SKILLS_PER_TRIGGER])
 {
@@ -43,7 +52,7 @@ int has_skills(void* trigger)
     return -1;
 }
 
-skill_f* get_skills(void* trigger){
+skill_f* skills_get_by_trigger(void* trigger){
     int index_skill = has_skills(trigger);
 
     if (index_skill < 0 )
@@ -51,4 +60,9 @@ skill_f* get_skills(void* trigger){
         return NULL;
     }
     return associated_skills[index_skill].skills;
+}
+
+skill_f skill_by_id(enum skills_id skill)
+{
+    return skills_functions[skill];
 }
