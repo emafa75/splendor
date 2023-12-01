@@ -1,9 +1,7 @@
 
 #include "token.h"
-#include "set/set.h"
 #include "token_second_header.h"
-#include <stdio.h>
-
+#include "skills.h"
 
 struct token_t create_simple_token(enum color_t c)
 {
@@ -37,9 +35,8 @@ struct set_t token_get_set(struct token_t *token)
 void token_display(struct token_t t, const char* prefix)
 {
 	printf("%s", prefix);
-	printf("Token");
+	printf("Token(");
 	set_display(&t.s);
-	printf("\n");
 }
 
 
