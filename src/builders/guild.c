@@ -1,6 +1,7 @@
 #include "guild.h"
 #include "builder.h"
 #include "skills.h"
+#include <stdio.h>
 
 
 struct guild_t create_default_guild()
@@ -64,7 +65,7 @@ void init_builder_skills()
 	{
 		builder = make_builder(index);
 		builder_lvl = builder_level(builder);
-		skill_f skills[MAX_SKILLS_PER_TRIGGER] = {};
+		enum skills_id skills[MAX_SKILLS_PER_TRIGGER] = {};
 		int index_skill_to_add = 0;
 
 		for (enum skills_id skill_id = BUILDER_FIRST_SKILL ; skill_id <= BUILDER_LAST_SKILL ; ++ skill_id)
@@ -74,9 +75,14 @@ void init_builder_skills()
 				int random_int = rand() % MAX_BUILDERS;
 				if(random_int < 1 + builder_lvl) // lvl+1/MAX_BUILDERS chance to have the skill
 				{
-					skills[index_skill_to_add] = skill_by_id(skill_id);
+					skills[index_skill_to_add] = skill_id;
 					++index_skill_to_add;
+					printf("Skill %d added on builder :\n", skill_id);
+					builder_display(builder, "This one : ");
+					skill_display(skill_id, "");
+					printf("\n");
 				}
+				
 			}
 		}
 
@@ -106,7 +112,20 @@ void guild_display(struct guild_t* guild)
 		builder = available_builders->builders[index];
 
 		if (builder != NULL)
+		{
 			builder_display(builder, " --- ");
+			if(has_skills(builder) != -1){
+				for (int skill_index = 0; skill_index < MAX_SKILLS_PER_TRIGGER; ++skill_index)
+				{
+					if (skills_get_by_trigger(builder)[skill_index] != 0)
+					{
+						skill_display(skills_get_by_trigger(builder)[skill_index], "-->");
+					}
+				}
+				
+			}
+			
+		}
 	}
 }
 

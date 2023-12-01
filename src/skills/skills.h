@@ -6,15 +6,12 @@
 #include "skills_builders.h"
 
 #define MAX_SKILLS_PER_TRIGGER 3
-#define NB_SKILLS_IN_GAME MAX_PLAYERS + NUM_TOKENS
+#define NB_SKILLS_IN_GAME 27
 
 
 typedef int (*skill_f)(struct turn_t* , void* );
 
-struct skill_instance_t{
-    void*  trigger;
-    skill_f skills[MAX_SKILLS_PER_TRIGGER];
-};
+
 
 enum skills_id{
     TOKEN_ROB,
@@ -29,19 +26,24 @@ enum skills_id{
     NUM_SKILLS = TOKEN_LAST_SKILL + 1
 };
 
+struct skill_instance_t{
+    void*  trigger;
+    enum skills_id skills[MAX_SKILLS_PER_TRIGGER];
+};
+
 
 /*
     Add skills associate to a trigger, if the trigger exist replace the skills by new one
 */
-void add_skill_instance(void* trigger, skill_f skills[MAX_SKILLS_PER_TRIGGER]);
+void add_skill_instance(void* trigger, enum skills_id skills[MAX_SKILLS_PER_TRIGGER]);
 
 /*
     Returns the array of the all the skills for a specific pointer
 */
-skill_f* skills_get_by_trigger(void* trigger);
+enum skills_id* skills_get_by_trigger(void* trigger);
 
 /*
-    Check is a trigger has already skills associated
+    Check is a trigger has already skills associated and return the index in associated_skill array
 */
 int has_skills(void* trigger);
 

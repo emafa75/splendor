@@ -63,9 +63,6 @@ struct game_parameters game_params = {
 	.random_seed = RANDOM_SEED,
 };
 
-int random_seed = RANDOM_SEED;
-
-
 int main(int argc, char *argv[])
 {
 	
@@ -100,6 +97,7 @@ int main(int argc, char *argv[])
 				return EXIT_FAILURE;
 		}
 	}
+	game_params.market_seed = game_params.random_seed;
 
 	display_options();
 	srand(game_params.random_seed);
@@ -118,7 +116,7 @@ int main(int argc, char *argv[])
 	/*
 		Choose a random permutation for the replacement of tokens in the market
 	*/
-	struct permutation market_permutation = random_permutation(random_seed);
+	struct permutation market_permutation = random_permutation(game_params.random_seed);
 
 	/*
 		Game loop

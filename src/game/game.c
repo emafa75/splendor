@@ -1,4 +1,6 @@
 #include "game.h"
+#include "guild.h"
+#include "market.h"
 
 
 void init_game(struct game_t* game, struct game_parameters params)
@@ -25,12 +27,13 @@ void init_game(struct game_t* game, struct game_parameters params)
         Init the market
     */    
     init_market(turn_get_market(first_turn), params.market_seed);
-
+    init_tokens_skills();
     /*
         Init builders in game and then guild
     */
     init_builders(params.builder_seed);
     init_guild(turn_get_guild(first_turn));
+    init_builder_skills();
 
     /*
         Init the players

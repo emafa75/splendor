@@ -3,6 +3,7 @@
 #include "players.h"
 #include "skills.h"
 #include "token.h"
+#include <stdio.h>
 
 static struct token_t tokens[NUM_TOKENS] = {};
 
@@ -61,7 +62,7 @@ void init_tokens_skills()
 	for (int index = 0; index < nb_tokens; ++index)
 	{
 		token = &tokens[index];
-		skill_f skills[MAX_SKILLS_PER_TRIGGER] = {};
+		enum skills_id skills[MAX_SKILLS_PER_TRIGGER] = {};
 		int index_skill_to_add = 0;
 
 		for (enum skills_id skill_id = TOKEN_FIRST_SKILL ; skill_id <= TOKEN_LAST_SKILL ; ++ skill_id)
@@ -69,10 +70,14 @@ void init_tokens_skills()
 			if (index_skill_to_add < MAX_SKILLS_PER_TRIGGER) //if we can still add a skill to the current builder
 			{
 				int random_int = rand() % NUM_TOKENS;
-				if(random_int < 1 ) // lvl+1/MAX_BUILDERS chance to have the skill
+				if(random_int < 1 ) // 1/NUM_TOKEN chance to have the skill
 				{
-					skills[index_skill_to_add] = skill_by_id(skill_id);
+					skills[index_skill_to_add] = skill_id;
 					++index_skill_to_add;
+					printf("Skill %d added on token :\n", skill_id);
+					token_display(*token, "This one");
+					skill_display(skill_id, " SKILL :");
+					printf("\n");
 				}
 			}
 		}
