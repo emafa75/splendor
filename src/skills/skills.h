@@ -29,6 +29,7 @@ enum skills_id{
     NUM_SKILLS = TOKEN_LAST_SKILL + 1
 };
 
+
 /*
     Add skills associate to a trigger, if the trigger exist replace the skills by new one
 */
@@ -48,5 +49,11 @@ int has_skills(void* trigger);
     Return skill_f for a specific skill id
 */
 skill_f skill_by_id(enum skills_id skill);
+
+
+/*
+    Display the skill with skill id
+*/
+void skill_display(enum skills_id skill, char* prefix);
 
 #endif

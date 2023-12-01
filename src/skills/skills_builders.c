@@ -89,7 +89,6 @@ int skill_masters_hand(struct turn_t* current_turn, void* trigger)
 {
 	struct builder_t* builder_bought = trigger;
 	struct set_t provides = builder_provides(builder_bought);
-	unsigned int* colors_provides = set_get_colors(&provides);
 
 	struct player_t* current_player = turn_get_current_player(current_turn);
 	struct market_t* current_player_market = &current_player->ressources.market;

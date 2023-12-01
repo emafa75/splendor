@@ -10,6 +10,15 @@ skill_f skills_functions[NUM_SKILLS] = {
     guild_panic,
 };
 
+
+char *skills_strings[NUM_SKILLS] = {
+	"token_rob",
+	"turn_rob",
+	"masters_hand",
+	"guild_panic"
+};
+
+
 void add_skill_instance(void* trigger, skill_f skills_to_add[MAX_SKILLS_PER_TRIGGER])
 {
     int index_skill = has_skills(trigger);
@@ -65,3 +74,12 @@ skill_f skill_by_id(enum skills_id skill)
 {
     return skills_functions[skill];
 }
+
+
+void skill_display(enum skills_id skill, char* prefix)
+{
+	printf("%s%s", prefix, skills_strings[skill]);
+}
+
+
+
