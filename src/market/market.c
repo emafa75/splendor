@@ -1,8 +1,7 @@
 
 #include "market.h"
-#include "color.h"
-#include "permutation/permutation.h"
-#include "set/set.h"
+#include "players.h"
+#include "skills.h"
 #include "token.h"
 
 static struct token_t tokens[NUM_TOKENS] = {};
@@ -50,6 +49,36 @@ void init_market(struct market_t* market, unsigned int seed)
 		++i;
 	}
 
+}
+
+void init_tokens_skills()
+{
+	int nb_tokens = NUM_TOKENS;
+	struct token_t* token = NULL;
+	/*
+		For every tokens
+	*/
+	for (int index = 0; index < nb_tokens; ++index)
+	{
+		token = &tokens[index];
+		skill_f skills[MAX_SKILLS_PER_TRIGGER] = {};
+		int index_skill_to_add = 0;
+
+		for (enum skills_id skill_id = TOKEN_FIRST_SKILL ; skill_id <= TOKEN_LAST_SKILL ; ++ skill_id)
+		{
+			if (index_skill_to_add < MAX_SKILLS_PER_TRIGGER) //if we can still add a skill to the current builder
+			{
+				int random_int = rand() % NUM_TOKENS;
+				if(random_int < 1 ) // lvl+1/MAX_BUILDERS chance to have the skill
+				{
+					skills[index_skill_to_add] = skill_by_id(skill_id);
+					++index_skill_to_add;
+				}
+			}
+		}
+
+		add_skill_instance(token, skills);
+	}
 }
 
 int market_get_linked_tokens(struct market_t* market, int nb)

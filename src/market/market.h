@@ -4,11 +4,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "permutation/permutation.h"
+#include "permutation.h"
 #include "token.h"
 #include "builder.h"
 #include "board_display.h"
 #include "guild.h"
+#include "color.h"
+
 
 #define TOKENS_PER_COLOR 5
 
@@ -35,6 +37,10 @@ struct ressources {
 */
 void init_market(struct market_t* market, unsigned int seed);
 
+/*
+	Associate skill to every token present in array tokens
+*/
+void init_tokens_skills();
 
 /*
  * Pick a specific token from the market
