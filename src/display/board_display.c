@@ -1,4 +1,5 @@
 #include "board_display.h"
+#include "skills.h"
 
 
 void place_token_in_board(struct token_t *tokens[NUM_TOKENS], \
@@ -98,9 +99,18 @@ void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_
                 if (line == 1)
                 {
                     if( board[i][j] != NULL) {
-                        printf("    ");
-                        token_short_diplay(*board[i][j]);
-                        printf("    │");
+                        if (has_skills(board[i][j]))
+                        {
+                            printf("   *");
+                            token_short_diplay(*board[i][j]);
+                            printf("*   │");
+                        }
+                        else{
+                            printf("    ");
+                            token_short_diplay(*board[i][j]);
+                            printf("    │");
+                        }
+                        
                     }
                     else {
                         printf("              │");

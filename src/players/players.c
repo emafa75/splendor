@@ -2,8 +2,10 @@
 #include "can_buy.h"
 #include "market.h"
 #include "permutation.h"
+#include "token.h"
+#include <stdio.h>
 #include <stdlib.h>
-
+#include "skills.h"
 
 struct player_t init_player()
 {
@@ -65,8 +67,27 @@ void player_display_inventory(struct player_t *player)
 	printf("Token available : \n");
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
-		if(player->ressources.market.tokens[index]){
-			token_display(*player->ressources.market.tokens[index], " --- ");
+		struct token_t* token = player->ressources.market.tokens[index];
+		if(token)
+		{
+			token_display(*token, " --- ");
+			/*
+				If the token has skills (impossible to print in token_display)
+			*/			
+			if (has_skills(token))
+			{
+				printf(" skill(s)=");
+				enum skills_id* skills= skills_get_by_trigger(token);
+				for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+				{
+					if (skills[index] != NO_SKILL)
+					{
+						skill_display(skills[index],(index != 0) ? ", " : "");
+					}
+				}
+
+			}
+			printf(")\n");
 		}
 	}
 
