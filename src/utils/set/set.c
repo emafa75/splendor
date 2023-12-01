@@ -86,7 +86,7 @@ void set_display(const struct set_t *set)
 }
 
 
-void set_short_display(struct set_t* set, char * prefix)
+void set_short_display(const struct set_t* set, const char * prefix)
 {
     printf("%s(", prefix);
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
