@@ -3,54 +3,65 @@
 
 #include <stdlib.h>
 #include <string.h>
+
 #include "builder.h"
 #include "token.h"
 
 #define MAX(__x, __y) \
   ((__x) > (__y) ? (__x) : (__y))
 
-#define MAX_STACK_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
+#define MAX_QUEUE_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
 
-struct stack_t {
-	int head;
-	void *values[MAX_STACK_SIZE];
+/*
+ *  Size is the maximum number of elements the queue can store
+ *  Length is the numnber of elements the queue is storing
+ */
+struct queue_t {
+	unsigned int head;
+	unsigned int size;
+	unsigned int length;
+	void* values[MAX_QUEUE_SIZE];
 };
 
 /*
- *  Create an empty stack
+ *  Create an empty queue
  */
-struct stack_t create_default_stack();
+struct queue_t create_default_queue();
 
 
 /*
- *  Returns the index of the head of the stack
+ *  Returns the index of the head of the queue
  */
-unsigned int stack_get_head(struct stack_t* stack);
+unsigned int queue_get_head(struct queue_t* queue);
+
+/*
+ *  Returns the size of the queue
+ */
+unsigned int queue_get_size(struct queue_t* queue);
 
 
 /*
- *  Remove the last element of the stack and returns it
+ *  Returns the length of the queue
  */
-void* stack_pop(struct stack_t* stack);
+unsigned int queue_get_length(struct queue_t* queue);
 
 
 /*
- *  Returns 1 if successfully adds value to the stack
+ *  Returns the first element of the queue and removes it from the queue
+ */
+void* queue_dequeue(struct queue_t* queue);
+
+
+/*
+ *  Returns 1 if successfully adds value to the queue
  *		0 otherwise
  */
-unsigned int stack_append(struct stack_t* stack, void* value);
+unsigned int queue_append(struct queue_t* queue, void* value);
 
 
 /*
- *  Returns 1 if the stack is empty
+ *  Returns 1 if the queue is empty
  *		0 otherwise
  */
-unsigned int stack_is_empty(struct stack_t* stack);
-
-
-/*
- *  Returns the size of values void *values[] 
- */
-unsigned int stack_get_values(struct stack_t* stack, void* values, unsigned int values_size);
-
+unsigned int queue_is_empty(struct queue_t* queue);
 #endif
