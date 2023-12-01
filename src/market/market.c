@@ -55,24 +55,33 @@ void init_market(struct market_t* market, unsigned int seed)
 int market_get_linked_tokens(struct market_t* market, int nb)
 {
 	int count = 0;
-	int index_first_linked_token = -1;
+	int index_available[NUM_TOKENS] = {};
+	int nb_available = 0;
 	for (int index = 0; index < NUM_TOKENS ; ++index)
 	{
 		if(market->tokens[index])
 		{
 			++count;
-			if (count == nb)
+			if (count >= nb)
 			{
 				
-				index_first_linked_token = index - nb + 1;
-				return index_first_linked_token;
+				index_available[nb_available] = index - nb + 1;
+				++nb_available;
 			}
 		}
 		else {
 			count = 0;
 		}
 	}
-	return index_first_linked_token;
+
+
+	if (nb_available == 0)
+	{
+		return -1;
+	}
+	
+	int rand_index = rand() % nb_available;
+	return index_available[rand_index];
 }
 
 struct token_t* market_pick_token(struct market_t* market, struct token_t* token)

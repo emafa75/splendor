@@ -51,7 +51,15 @@ void player_display_inventory(struct player_t* player);
 */
 int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire, struct permutation permutation);
 
+/*
+    Get player points
+*/
+int player_get_points(struct player_t* player);
 
+/*
+    Get player ressources
+*/
+struct ressources* player_get_ressources(struct player_t* player);
 
 
 #endif
