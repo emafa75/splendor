@@ -2,9 +2,6 @@
 #define  __SKILLS_H__
 
 #include "builder.h"
-#include "game.h"
-#include "market.h"
-#include "token.h"
 #include "skills_tokens.h"
 #include "skills_builders.h"
 

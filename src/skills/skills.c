@@ -1,5 +1,4 @@
 #include "skills.h"
-#include "skills_builders.h"
 
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
 
