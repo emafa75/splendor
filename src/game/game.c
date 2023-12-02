@@ -3,6 +3,7 @@
 #include "market.h"
 
 
+
 void init_game(struct game_t* game, struct game_parameters params)
 {
     /*
@@ -26,6 +27,7 @@ void init_game(struct game_t* game, struct game_parameters params)
     /*
         Init the market
     */    
+    init_tokens(params.market_seed);
     init_market(turn_get_market(first_turn), params.market_seed);
     init_tokens_skills();
     /*

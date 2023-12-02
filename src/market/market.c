@@ -1,11 +1,10 @@
 
 #include "market.h"
+#include "game.h"
 #include "players.h"
 #include "skills.h"
 #include "token.h"
-
-
-static struct token_t tokens[NUM_TOKENS] = {};
+#include "token_second_header.h"
 
 
 struct market_t create_default_market()
@@ -16,37 +15,12 @@ struct market_t create_default_market()
 
 void init_market(struct market_t* market, unsigned int seed)
 {
-	srand(seed);
-
+	UNUSED(seed);
 	int i = 0;
-	enum color_t color = 0;
-	enum color_t complex_token_colors[NUM_COLORS] = {};
-
-
+	
 	while (i < NUM_TOKENS)
 	{
-		// Create first the complex tokens
-		if (i < NUM_COLORS)
-		{
-			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
-			complex_token_colors[color] = 2;
-			struct set_t set_for_complex_token = {};
-
-			for (int index = 0; index < NUM_COLORS; ++index)
-			{
-				set_for_complex_token.c[index] = complex_token_colors[index];
-			}
-
-			tokens[i] = create_complex_token(set_for_complex_token);	 
-		}
-		else
-		{
-			tokens[i] = create_simple_token(color);
-		}
-
-		market->tokens[i] = &tokens[i];
-
-		color = (color + 1) % NUM_COLORS;
+		market->tokens[i] = make_token(i);
 		++i;
 	}
 
@@ -61,7 +35,7 @@ void init_tokens_skills()
 	*/
 	for (int index = 0; index < nb_tokens; ++index)
 	{
-		token = &tokens[index];
+		token = make_token(index);
 		enum skills_id skills[MAX_SKILLS_PER_TRIGGER] = {};
 		int index_skill_to_add = 0;
 
@@ -129,12 +103,6 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
 		}
 	}
 	return NULL;
-}
-
-
-struct token_t* market_get_token(int index)
-{
-	return &tokens[index];
 }
 
 

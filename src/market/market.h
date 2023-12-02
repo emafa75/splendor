@@ -10,6 +10,7 @@
 #include "board_display.h"
 #include "guild.h"
 #include "color.h"
+#include "token_second_header.h"
 
 
 #define TOKENS_PER_COLOR 5
@@ -58,12 +59,6 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
  *
  */
 void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation);
-
-
-/*
- *  Returns the index-th token from the general market
- */
-struct token_t* market_get_token(int index);
 
 
 /*

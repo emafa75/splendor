@@ -5,6 +5,8 @@
 #include "market.h"
 #include "players.h"
 #include "builder.h"
+#include "token_second_header.h"
+
 #include <string.h>
 #include <stdio.h>
 
