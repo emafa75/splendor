@@ -51,7 +51,7 @@ int token_rob(struct turn_t* turn, const void* trigger)
 	{
 		//Move the robbed token in new inventory and remove it from the stolen player
 		market_pick_token(&stolen_player->ressources.market, robbed_token);
-		market_pay_token(&robber_player->ressources.market, robbed_token, identity());
+		market_pay_token(&robber_player->ressources.market, robbed_token);
 		return 1;
 	}
 
@@ -109,7 +109,7 @@ int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 	struct token_t* token = filtered_tokens[stolen_token_ind];
 
 	market_pick_token(general_market, token);
-	market_pay_token(current_player_market, token, identity());
+	market_pay_token(current_player_market, token);
 
 	return 1;
 }

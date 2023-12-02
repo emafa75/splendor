@@ -1,6 +1,7 @@
 
 #include "market.h"
 #include "game.h"
+#include "permutation.h"
 #include "players.h"
 #include "skills.h"
 #include "token.h"
@@ -9,15 +10,23 @@
 
 struct market_t create_default_market()
 {
-	struct market_t new_market = {};
+	struct market_t new_market = {
+		.permutation = identity()
+	};
 	return new_market;
 }
 
 void init_market(struct market_t* market, unsigned int seed)
 {
-	UNUSED(seed);
 	int i = 0;
+
+	/*
+		Choose a random permutation for the replacement of tokens in the market
+	*/
+	struct permutation market_permutation = random_permutation(seed);
 	
+	market->permutation = market_permutation;
+
 	while (i < NUM_TOKENS)
 	{
 		market->tokens[i] = make_token(i);
@@ -106,8 +115,10 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
 }
 
 
-void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation)
+void market_pay_token(struct market_t* market, struct token_t * token)
 {
+	struct permutation permutation = *market_get_permutation(market);
+
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
 		/*
@@ -189,4 +200,9 @@ int market_is_in_market(struct market_t* market, struct token_t* token)
 		}
 	}
 	return 0;
+}
+
+struct permutation* market_get_permutation(struct market_t* market)
+{
+	return &market->permutation;
 }

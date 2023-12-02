@@ -27,8 +27,10 @@ void init_game(struct game_t* game, struct game_parameters params)
     /*
         Init the market
     */    
+    struct market_t* market = turn_get_market(first_turn);
+    *market = create_default_market(); 
     init_tokens(params.market_seed);
-    init_market(turn_get_market(first_turn), params.market_seed);
+    init_market(market , params.market_seed);
     init_tokens_skills();
     /*
         Init builders in game and then guild

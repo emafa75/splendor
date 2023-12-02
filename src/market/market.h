@@ -19,6 +19,7 @@
 // Used to store all the tokens of the game
 struct market_t {
 	struct token_t* tokens[NUM_TOKENS];
+	struct permutation permutation;
 };
 
 
@@ -58,7 +59,7 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
  * Move a token to the market, apply a permutation to the order of priority to place token
  *
  */
-void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation);
+void market_pay_token(struct market_t* market, struct token_t * token);
 
 
 /*
@@ -87,6 +88,10 @@ void market_shuffle(struct market_t* market);
 */
 int market_get_linked_tokens(struct market_t* market, int nb);
 
+/*
+	Returns market permutation
+*/
+struct permutation* market_get_permutation(struct market_t* market);
 
 /*
 	Returns a default market

@@ -46,11 +46,8 @@ int market_panic(struct turn_t* turn, const void* trigger)
     /*
         Make the change
     */
-
-    // create a permutation that begin with the index where to place the token
-    struct permutation permutation = identity();
-    permutation.permutation[0] = rand_index;
-    market_pay_token(market, token_to_move, permutation);
+    
+    market->tokens[rand_index] = token_to_move;
 
     return 1;
 }

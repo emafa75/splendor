@@ -115,11 +115,6 @@ int main(int argc, char *argv[])
 	turn_display(current_turn);
 
 	/*
-		Choose a random permutation for the replacement of tokens in the market
-	*/
-	struct permutation market_permutation = random_permutation(game_params.random_seed);
-
-	/*
 		Game loop
 	*/
 	while (!has_won(current_turn) && game.current_turn_index <= game.num_turns)
@@ -152,7 +147,7 @@ int main(int argc, char *argv[])
 				The player choosed to hire a builder and is able to do so
 			*/
 			printf("Player id.%d choosed to hire\n", player_index);
-			player_pay_builder(market, current_player, builder_to_buy, market_permutation);
+			player_pay_builder(market, current_player, builder_to_buy);
 			player_hire_builder(guild, current_player, builder_to_buy);
 			/*
 				Execute the skill associate to the builder

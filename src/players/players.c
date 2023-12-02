@@ -1,5 +1,6 @@
 #include "players.h"
 #include "can_buy.h"
+#include "guild.h"
 #include "market.h"
 #include "permutation.h"
 #include "token.h"
@@ -9,7 +10,13 @@
 
 struct player_t init_player()
 {
-	struct player_t new_player = {.ressources={}, .current_point=0};
+	struct player_t new_player = {
+		.ressources={
+			.market = create_default_market(),
+			.guild = create_default_guild()
+		}, 
+		.current_point=0
+	};
 	return new_player;
 }
 
@@ -30,12 +37,12 @@ void player_pick_token(struct market_t* market, struct player_t* player, struct 
 }
 
 
-void player_take_token(struct market_t* market, struct player_t* player, struct token_t * token, struct permutation permutation){
+void player_take_token(struct market_t* market, struct player_t* player, struct token_t * token){
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		if (player->ressources.market.tokens[index] == token)
 		{
-			market_pay_token(market, token, permutation);
+			market_pay_token(market, token);
 			player->ressources.market.tokens[index] = NULL;
 			return;
 		}
@@ -101,7 +108,7 @@ void player_display_inventory(struct player_t *player)
 }
 
 
-int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire, struct permutation permutation)
+int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire)
 {
 	struct ressources ressources = can_buy(builder_to_hire, player->ressources);
 	if (ressources.market.tokens[0] == NULL)  // All elements are NULL if cannot pay
@@ -114,7 +121,7 @@ int player_pay_builder(struct market_t* market, struct player_t* player, struct 
 	{
 		if(ressources.market.tokens[index])
 		{
-			player_take_token(market, player,ressources.market.tokens[index], permutation);
+			player_take_token(market, player,ressources.market.tokens[index]);
 		}
 	}
 	return 1;
