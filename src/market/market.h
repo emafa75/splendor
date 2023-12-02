@@ -19,7 +19,7 @@
 // Used to store all the tokens of the game
 struct market_t {
 	struct token_t* tokens[NUM_TOKENS];
-	struct permutation permutation;
+	struct permutation_t permutation;
 };
 
 
@@ -91,7 +91,7 @@ int market_get_linked_tokens(struct market_t* market, int nb);
 /*
 	Returns market permutation
 */
-struct permutation* market_get_permutation(struct market_t* market);
+struct permutation_t* market_get_permutation(struct market_t* market);
 
 /*
 	Returns a default market

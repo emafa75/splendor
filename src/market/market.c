@@ -23,7 +23,7 @@ void init_market(struct market_t* market, unsigned int seed)
 	/*
 		Choose a random permutation for the replacement of tokens in the market
 	*/
-	struct permutation market_permutation = random_permutation(seed);
+	struct permutation_t market_permutation = random_permutation(seed);
 	
 	market->permutation = market_permutation;
 
@@ -117,7 +117,7 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
 
 void market_pay_token(struct market_t* market, struct token_t * token)
 {
-	struct permutation permutation = *market_get_permutation(market);
+	struct permutation_t permutation = *market_get_permutation(market);
 
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
@@ -202,7 +202,7 @@ int market_is_in_market(struct market_t* market, struct token_t* token)
 	return 0;
 }
 
-struct permutation* market_get_permutation(struct market_t* market)
+struct permutation_t* market_get_permutation(struct market_t* market)
 {
 	return &market->permutation;
 }

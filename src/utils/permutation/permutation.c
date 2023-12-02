@@ -2,9 +2,9 @@
 #include "token.h"
 
 
-struct permutation identity()
+struct permutation_t identity()
 {
-    struct permutation permutation = {};
+    struct permutation_t permutation = {};
     for (int index = 0; index < NUM_TOKENS; ++index)
     {
         permutation.permutation[index]=index;
@@ -12,10 +12,10 @@ struct permutation identity()
     return permutation;
 }
 
-struct permutation random_permutation(int random_seed)
+struct permutation_t random_permutation(int random_seed)
 {
     srand(random_seed);
-    struct permutation permutation = identity();
+    struct permutation_t permutation = identity();
     int rand_index = 0;
     int tmp = 0;
     //shuffle identity permutation

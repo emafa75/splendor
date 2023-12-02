@@ -129,7 +129,7 @@ int test_market_pay_token(int seed)
 	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
 	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
 
-	struct permutation* permutation = market_get_permutation(&market);
+	struct permutation_t* permutation = market_get_permutation(&market);
 	market_pay_token(&market, token);
 	int null_count = 0;
 
