@@ -116,6 +116,8 @@ void skill_exec(struct turn_t *turn, const void* trigger)
         if (trigger_skills[index] != NO_SKILL){
             skill_f skill_function = skill_by_id(trigger_skills[index]);
             skill_function(turn, trigger);
+            skill_display(trigger_skills[index], "");
+            printf(" skill execute. \n");
         }
     }
 }

@@ -154,6 +154,9 @@ int main(int argc, char *argv[])
 			printf("Player id.%d choosed to hire\n", player_index);
 			player_pay_builder(market, current_player, builder_to_buy, market_permutation);
 			player_hire_builder(guild, current_player, builder_to_buy);
+			/*
+				Execute the skill associate to the builder
+			*/
 			skill_exec(current_turn, builder_to_buy);
 		}
 		else 
@@ -170,7 +173,7 @@ int main(int argc, char *argv[])
 			printf("Player id.%d choosed to pick %d token(s)\n" , player_index, num_token_to_pick);
 
 			/*
-				Get the index of the first available token to match with the number of token that the player wanted to take
+				Get the index of the first available token to match with the number of token that the player wanted to pick
 			*/
 			int index_first_token_to_pick = market_get_linked_tokens(market, num_token_to_pick);
 
@@ -183,11 +186,22 @@ int main(int argc, char *argv[])
 			{
 				printf("Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , player_index);
 			}else{
+				
+				struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
+
 				for (int index = 0; index < num_token_to_pick ; ++index)
 				{
 					struct token_t* picked_token = market->tokens[index_first_token_to_pick+index] ;
+					picked_tokens[index] = picked_token;
 					player_pick_token(market, current_player, picked_token);
-					skill_exec(current_turn, picked_token);
+				}
+
+				/*
+					Execute associated skills
+				*/
+				for (int index = 0; index < num_token_to_pick ; ++index)
+				{
+					skill_exec(current_turn, picked_tokens[index]);
 				}
 			}
 		}
