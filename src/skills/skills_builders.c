@@ -5,7 +5,7 @@
 #include "token.h"
 
 
-int token_rob(struct turn_t* turn, const void* trigger)
+int skill_token_rob(struct turn_t* turn, const void* trigger)
 {
 	//cast trigger to a builder 
 	const struct builder_t* trigger_builder = trigger;
@@ -79,7 +79,7 @@ int token_filter(struct token_t* tokens[NUM_TOKENS], int n, struct token_t* filt
 	return filtered_n;
 }
 
-int turn_rob(struct turn_t *turn, const void *trigger)
+int skill_turn_rob(struct turn_t *turn, const void *trigger)
 {
 	UNUSED(trigger);
 

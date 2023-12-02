@@ -6,11 +6,11 @@ struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {};
 
 skill_f skills_functions[NUM_SKILLS] = {
     NULL,
-    token_rob,
-    turn_rob,
+    skill_token_rob,
+    skill_turn_rob,
     skill_masters_hand,
-    market_panic,
-    guild_panic,
+    skill_market_panic,
+    skill_guild_panic,
 };
 
 

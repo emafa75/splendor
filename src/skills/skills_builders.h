@@ -14,11 +14,11 @@
     Rob to a random player, a random token
     Returns 0 if impossible, -1 if success
 */
-int token_rob(struct turn_t* turn, const void* trigger);
+int skill_token_rob(struct turn_t* turn, const void* trigger);
 /*
     Skip the turn of the next player
 */
-int turn_rob(struct turn_t* turn, const void* trigger);
+int skill_turn_rob(struct turn_t* turn, const void* trigger);
 
 
 
