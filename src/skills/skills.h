@@ -69,4 +69,9 @@ void skill_display(enum skills_id skill, char* prefix);
     Execute skills associate to a trigger
 */
 void skill_exec(struct turn_t* turn, const void* trigger);
+
+/*
+	Display skills execute by a trigger
+*/
+void trigger_display_skill(const void* trigger);
 #endif

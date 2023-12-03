@@ -19,7 +19,7 @@ char *skills_strings[NUM_SKILLS] = {
 	"token_rob",
 	"turn_rob",
 	"masters_hand",
-    "market_panic",
+	"market_panic",
 	"guild_panic"
 };
 
@@ -29,10 +29,10 @@ void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_P
     int index_skill = is_associate_to_a_skill(trigger);
     if(index_skill >= 0) //the trigger has already associated skills
     {
-       for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
-       {
-            associated_skills[index_skill].skills[index] = skills_to_add[index];
-       }
+		for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+		{
+			associated_skills[index_skill].skills[index] = skills_to_add[index];
+		}
        return;
     }else {
         /*
@@ -89,6 +89,24 @@ void skill_display(enum skills_id skill, char* prefix)
 	printf("%s%s", prefix, skills_strings[skill]);
 }
 
+void trigger_display_skill(const void* trigger)
+{
+	if (!has_skills(trigger))
+	{
+		return;
+	}
+	enum skills_id* trigger_skills = skills_get_by_trigger(trigger);
+
+	for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+	{
+		if (trigger_skills[index] != NO_SKILL)
+		{
+			skill_display(trigger_skills[index], "");
+			printf(" skill execute\n");
+		}
+	}
+}
+
 int has_skills(const void *trigger)
 {
     int skill_instance_index = is_associate_to_a_skill(trigger);
@@ -105,19 +123,18 @@ int has_skills(const void *trigger)
 
 void skill_exec(struct turn_t *turn, const void* trigger)
 {
-    if (!has_skills(trigger))
-    {
-        return;
-    }
-    enum skills_id* trigger_skills = skills_get_by_trigger(trigger);
+	if (!has_skills(trigger))
+	{
+		return;
+	}
+	enum skills_id* trigger_skills = skills_get_by_trigger(trigger);
 
-    for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
-    {
-        if (trigger_skills[index] != NO_SKILL){
-            skill_f skill_function = skill_by_id(trigger_skills[index]);
-            skill_function(turn, trigger);
-            skill_display(trigger_skills[index], "");
-            printf(" skill execute. \n");
-        }
-    }
+	for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+	{
+		if (trigger_skills[index] != NO_SKILL)
+		{
+			skill_f skill_function = skill_by_id(trigger_skills[index]);
+			skill_function(turn, trigger);
+		}
+	}
 }
