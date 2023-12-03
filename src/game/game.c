@@ -66,7 +66,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 void game_save_turn(struct game_t* game)
 {
 	unsigned int current_turn_index = game -> current_turn_index;
-	if (current_turn_index < game->num_turns)
+	if (current_turn_index <= game->num_turns)
 	{ 
 		memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));       
 	}

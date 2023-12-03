@@ -30,7 +30,7 @@ struct turn_t
 
 struct game_t
 {
-    struct turn_t turns[MAX_MAX_TURNS + 1]; //+1 because the first state is for the init
+    struct turn_t turns[MAX_MAX_TURNS + 1 + 1]; //+1 because the first state is for the init +1 for the final state
     unsigned int num_turns;
     unsigned int current_turn_index;
 };
