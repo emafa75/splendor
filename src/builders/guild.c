@@ -116,6 +116,10 @@ void guild_display(struct guild_t* guild)
 			builder_display(builder, " --- ");						
 		}
 	}
+	if (guild_nb_builder(guild) == 0)
+	{
+		printf(" --- No builder in guild\n");
+	}
 }
 
 
@@ -137,7 +141,7 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 		--guild_get_available_builders(guild)->n_builders_available;
 	}
 	guild->available_builders.builders[index] = new_builder;  // place it on builder's index
-
+	-- guild->n_builders;
 	return builder;
 }
 

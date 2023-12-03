@@ -60,6 +60,7 @@ void player_hire_builder(struct guild_t* guild, struct player_t *player,struct b
 		if(player->ressources.guild.builders[index] == NULL)
 		{
 			player->ressources.guild.builders[index] = builder_to_hire;
+			++player->ressources.guild.n_builders ;
 			player->current_point += builder_points(builder_to_hire);
 			guild_pick_builder(guild, builder_to_hire);
 			return;
@@ -71,20 +72,22 @@ void player_hire_builder(struct guild_t* guild, struct player_t *player,struct b
 
 void player_display_inventory(struct player_t *player)
 {   
+	struct ressources* player_ressources = player_get_ressources(player);
+
 	printf("Token available : \n");
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
-		struct token_t* token = player->ressources.market.tokens[index];
+		struct token_t* token = player_ressources->market.tokens[index];
 		if(token)
 		{
 			token_display(*token, " --- ");
 			/*
-				If the token has skills (impossible to print in token_display)
+				If the token has skills (impossible to print in token_display because we don't have access to the token pointer)
 			*/			
 			if (has_skills(token))
 			{
 				printf(" skill(s)=");
-				enum skills_id* skills= skills_get_by_trigger(token);
+				enum skills_id* skills = skills_get_by_trigger(token);
 				for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
 				{
 					if (skills[index] != NO_SKILL)
@@ -97,13 +100,21 @@ void player_display_inventory(struct player_t *player)
 			printf(")\n");
 		}
 	}
+	if(market_num_tokens(&player_ressources->market) == 0 )
+	{
+		printf(" --- No token\n");
+	}
 
 	printf("Builders : \n");
 	for (unsigned int index = 0; index < MAX_BUILDERS; ++index)
 	{
 		if(player->ressources.guild.builders[index]) {
-			builder_display(player->ressources.guild.builders[index]," --- ");
+			builder_display(player_ressources->guild.builders[index]," --- ");
 		}
+	}
+	if (guild_nb_builder(&player_ressources->guild) == 0)
+	{
+		printf(" --- No builder\n");
 	}
 }
 
