@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
 	*/
 	int options;
 
-	while ((options = getopt(argc,argv, "s:m:c:p:")) != -1)
+	while ((options = getopt(argc,argv, "s:m:c:p:t:")) != -1)
 	{
 		switch (options) {
 			case 's':
@@ -81,12 +81,14 @@ int main(int argc, char *argv[])
 			case 'p':
 				game_params.points_to_win = atoi(optarg);
 				break;
+			case 't':
+				game_params.market_seed = atoi(optarg);
+				break;
 			default: 
 				print_usage(argv);
 				return EXIT_FAILURE;
 		}
 	}
-	game_params.market_seed = game_params.random_seed;
 
 	display_options();
 
@@ -140,6 +142,6 @@ void display_options()
 
 void print_usage(char *argv[])
 {
-	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-p points_to_win]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win]\n", argv[0]);
 	return;
 }
