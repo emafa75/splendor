@@ -9,6 +9,7 @@
 
 #include "test_can_buy.h"
 #include "test_players.h"
+#include "test_skills.h"
 #include "token.h"
 #include <math.h>
 #define SEED 0
@@ -44,6 +45,7 @@ int main(int argc, char *argv[])
 	test_guild();
 	test_players();
 	test_utils();
+	test_skills();
 	
 	return EXIT_SUCCESS;
 }

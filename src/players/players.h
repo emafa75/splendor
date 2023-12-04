@@ -30,7 +30,7 @@ struct player_t init_player();
 void player_take_token(struct market_t* market, struct player_t* player, struct token_t* token);
 
 /*
-    take first available token from the market
+    Take token from the specified market, if the token is not in the marketn do nothing
 */
 void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* token);
 

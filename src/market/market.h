@@ -84,7 +84,7 @@ int market_get_first_available_token(struct market_t* market);
 void market_shuffle(struct market_t* market);
 
 /*
-	Get the index (in available list) from first available token of a group of nb-linked tokens, -1 if impossible
+	Get the index from a available token of a group of nb-linked tokens, -1 if impossible
 */
 int market_get_linked_tokens(struct market_t* market, int nb);
 

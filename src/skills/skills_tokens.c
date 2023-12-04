@@ -28,15 +28,10 @@ int skill_market_panic(struct turn_t* turn, const void* trigger)
         rand_index = rand() % NUM_TOKENS ; 
         token_to_move = market->tokens[rand_index];
     }
-    /*
-        Remove token in case if it is the only available and we need to replace it at the same place
-    */
-    market_pick_token(market, token_to_move);
-    
+
     /*
         Find a place to replace it
     */
-
     rand_index = rand() % NUM_TOKENS;
     while (market->tokens[rand_index] != NULL)
     {
@@ -46,7 +41,7 @@ int skill_market_panic(struct turn_t* turn, const void* trigger)
     /*
         Make the change
     */
-    
+    market_pick_token(market, token_to_move);
     market->tokens[rand_index] = token_to_move;
 
     return 1;

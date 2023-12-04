@@ -22,7 +22,11 @@ struct player_t init_player()
 
 
 void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* picked_token){
-	market_pick_token(market, picked_token);
+	struct token_t* token = market_pick_token(market, picked_token);
+	if (token == NULL)
+	{
+		return;
+	}
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		/*
