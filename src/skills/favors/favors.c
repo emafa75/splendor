@@ -10,14 +10,14 @@
 
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
 
-skill_f skills_functions[NUM_SKILLS] = {
+skill_f favors_functions[NUM_SKILLS] = {
 	NULL,
 	favor_return,
 	favor_renewal
 };
 
 
-char *skills_strings[NUM_SKILLS] = {
+char *favors_strings[NUM_SKILLS] = {
 	"no skill",
 	"favor_return",
 	"favor_renewal",

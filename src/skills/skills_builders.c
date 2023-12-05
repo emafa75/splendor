@@ -61,26 +61,6 @@ int skill_token_rob(struct turn_t* turn, const void* trigger)
 }
 
 
-int token_filter(struct token_t* tokens[NUM_TOKENS], int n, struct token_t* filtered_tokens[NUM_TOKENS], struct set_t set_filter)
-{
-	int filtered_n = 0;
-
-	for (int i = 0 ; i < n ; ++i)
-	{
-		struct token_t* token = tokens[i];
-		if (token != NULL)
-		{
-			struct set_t token_set = token_get_set(token);
-			struct set_t inter = set_inter(&set_filter, &token_set);
-			struct set_t zero = set_zero();
-			if (!set_are_equals(&inter, &zero))
-				filtered_tokens[filtered_n++] = token;
-		}
-	}
-
-	return filtered_n;
-}
-
 int skill_turn_rob(struct turn_t *turn, const void *trigger)
 {
 	UNUSED(trigger);
@@ -98,11 +78,10 @@ int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 	struct player_t* current_player = turn_get_current_player(current_turn);
 	struct market_t* current_player_market = &player_get_ressources(current_player)->market;
 
-	struct market_t* general_market = turn_get_market(current_turn);
-	//int num_tokens = market_num_tokens(general_market);
+	struct market_t* global_market = turn_get_market(current_turn);
 	
 	struct token_t* filtered_tokens[NUM_TOKENS] = {};
-	int filtered_tokens_n = token_filter(general_market->tokens, NUM_TOKENS, filtered_tokens, provides);
+	int filtered_tokens_n = market_get_tokens_filtered(global_market, filtered_tokens, provides);
 
 	if (filtered_tokens_n == 0)
 		return 0;
@@ -110,7 +89,7 @@ int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 	int stolen_token_ind = rand() % filtered_tokens_n;
 	struct token_t* token = filtered_tokens[stolen_token_ind];
 
-	market_pick_token(general_market, token);
+	market_pick_token(global_market, token);
 	market_pay_token(current_player_market, token);
 
 	return 1;
