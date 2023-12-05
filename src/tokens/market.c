@@ -1,55 +1,72 @@
 
 #include "market.h"
-#include "color.h"
-#include "permutation/permutation.h"
-#include "set/set.h"
+#include "game.h"
+#include "permutation.h"
+#include "players.h"
+#include "skills.h"
 #include "token.h"
-
-static struct token_t tokens[NUM_TOKENS] = {};
+#include "token_second_header.h"
 
 
 struct market_t create_default_market()
 {
-	struct market_t new_market = {};
+	struct market_t new_market = {
+		.permutation = identity()
+	};
 	return new_market;
 }
 
 void init_market(struct market_t* market, unsigned int seed)
 {
-	srand(seed);
-
 	int i = 0;
-	enum color_t color = 0;
-	enum color_t complex_token_colors[NUM_COLORS] = {};
 
+	/*
+		Choose a random permutation for the replacement of tokens in the market
+	*/
+	struct permutation_t market_permutation = random_permutation(seed);
+	
+	market->permutation = market_permutation;
 
 	while (i < NUM_TOKENS)
 	{
-		// Create first the complex tokens
-		if (i < NUM_COLORS)
-		{
-			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
-			complex_token_colors[color] = 2;
-			struct set_t set_for_complex_token = {};
-
-			for (int index = 0; index < NUM_COLORS; ++index)
-			{
-				set_for_complex_token.c[index] = complex_token_colors[index];
-			}
-
-			tokens[i] = create_complex_token(set_for_complex_token);	 
-		}
-		else
-		{
-			tokens[i] = create_simple_token(color);
-		}
-
-		market->tokens[i] = &tokens[i];
-
-		color = (color + 1) % NUM_COLORS;
+		market->tokens[i] = make_token(i);
 		++i;
 	}
 
+}
+
+void init_tokens_skills()
+{
+	int nb_tokens = NUM_TOKENS;
+	struct token_t* token = NULL;
+	/*
+		For every tokens
+	*/
+	for (int index = 0; index < nb_tokens; ++index)
+	{
+		token = make_token(index);
+		enum skills_id skills[MAX_SKILLS_PER_TRIGGER] = {};
+		int index_skill_to_add = 0;
+
+		for (enum skills_id skill_id = TOKEN_FIRST_SKILL ; skill_id <= TOKEN_LAST_SKILL ; ++ skill_id)
+		{
+			if (index_skill_to_add < MAX_SKILLS_PER_TRIGGER) //if we can still add a skill to the current builder
+			{
+				int random_int = rand() % NUM_TOKENS;
+				if(random_int < 1 ) // 1/NUM_TOKEN chance to have the skill
+				{
+					skills[index_skill_to_add] = skill_id;
+					++index_skill_to_add;
+					/* printf("Skill %d added on token :\n", skill_id);
+					token_display(*token, "This one");
+					skill_display(skill_id, " SKILL :");
+					printf("\n"); */
+				}
+			}
+		}
+
+		add_skill_instance(token, skills);
+	}
 }
 
 int market_get_linked_tokens(struct market_t* market, int nb)
@@ -98,14 +115,10 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
 }
 
 
-struct token_t* market_get_token(int index)
+void market_pay_token(struct market_t* market, struct token_t * token)
 {
-	return &tokens[index];
-}
+	struct permutation_t permutation = *market_get_permutation(market);
 
-
-void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation)
-{
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
 		/*
@@ -187,4 +200,9 @@ int market_is_in_market(struct market_t* market, struct token_t* token)
 		}
 	}
 	return 0;
+}
+
+struct permutation_t* market_get_permutation(struct market_t* market)
+{
+	return &market->permutation;
 }

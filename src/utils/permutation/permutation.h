@@ -4,19 +4,19 @@
 #include "token.h"
 #include <stdlib.h>
 
-struct permutation{
+struct permutation_t{
     int permutation[NUM_TOKENS];
 };
 
 /*
     Returns the identity permutation
 */
-struct permutation identity();
+struct permutation_t identity();
 
 
 /*
     Returns a random permutation
 */
-struct permutation random_permutation(int random_seed);
+struct permutation_t random_permutation(int random_seed);
 
 #endif

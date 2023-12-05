@@ -3,6 +3,7 @@
 #include "market.h"
 #include "permutation.h"
 #include "token.h"
+#include "token_second_header.h"
 #include <stdlib.h>
 
 
@@ -57,7 +58,7 @@ int test_init_market(int seed)
 	// Tests if all tokens are actually tokens
 	for (int i = 0 ; i < n ; ++i)
 	{
-		struct token_t *token  = market_get_token(i);
+		struct token_t *token  = make_token(i);
 		if (token == NULL)
 		{
 			fprintf(stderr, RED "test_init_market: init_builders() don't create the right amount of tokens\n" CRESET);
@@ -128,18 +129,17 @@ int test_market_pay_token(int seed)
 	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
 	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
 
-	struct permutation permutation = random_permutation(seed);
-
-	market_pay_token(&market, token, permutation);
+	struct permutation_t* permutation = market_get_permutation(&market);
+	market_pay_token(&market, token);
 	int null_count = 0;
 
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
-		if (!market.tokens[permutation.permutation[index]]) //there is a free place
+		if (!market.tokens[permutation->permutation[index]]) //there is a free place
 		{
 			++null_count;
 		}
-		if (market.tokens[permutation.permutation[index]] == token)
+		if (market.tokens[permutation->permutation[index]] == token)
 		{
 			if (null_count) 
 			{
@@ -170,7 +170,7 @@ int test_market_get_token(int seed)
 	struct market_t market = create_default_market();
 	init_market(&market, seed);
 	//get random token from the market (available or not) and check if it exist
-	struct token_t *token = market_get_token(rand() % NUM_TOKENS);
+	struct token_t *token = make_token(rand() % NUM_TOKENS);
 	if(!token)
 	{
 		fprintf(stderr, RED "test_market_get_token: no token_t* return (NULL)\n" CRESET);

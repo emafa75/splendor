@@ -5,6 +5,8 @@
 #include "market.h"
 #include "players.h"
 #include "builder.h"
+#include "token_second_header.h"
+#include "can_buy.h"
 #include <string.h>
 #include <stdio.h>
 
@@ -14,6 +16,8 @@
 #define TIE -1
 
 #define UNUSED(x) (void)(x)
+#define MIN(__x, __y) \
+  ((__x) < (__y) ? (__x) : (__y))
 
 struct turn_t
 {
@@ -26,7 +30,7 @@ struct turn_t
 
 struct game_t
 {
-    struct turn_t turns[MAX_MAX_TURNS + 1]; //+1 because the first state is for the init
+    struct turn_t turns[MAX_MAX_TURNS + 1 + 1]; //+1 because the first state is for the init +1 for the final state
     unsigned int num_turns;
     unsigned int current_turn_index;
 };
@@ -38,6 +42,13 @@ struct game_parameters
     int builder_seed;
     int market_seed;
     int random_seed;
+};
+
+enum choice {
+	HIRE,
+	PICK,
+	NUM_CHOICE,
+	FIRST_CHOICE = HIRE
 };
 
 /*
@@ -59,6 +70,11 @@ struct turn_t* game_get_current_turn(struct game_t* game);
     Copy the current state of the game in the next case of turns[] and increment current turn index
 */
 void game_save_turn(struct game_t* game);
+
+/*
+    Play a full game, with a display option
+*/
+void game_play(struct game_t* game, int display);
 
 /*
     Get the market from a turn
@@ -109,5 +125,10 @@ int get_winner(struct turn_t* current_turn);
 */
 unsigned int get_random_player(int random_seed);
 
+/*
+    Play a turn, has a display option
+*/
+
+void turn_play(struct turn_t* current_turn, int display);
 
 #endif

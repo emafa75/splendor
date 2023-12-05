@@ -14,11 +14,11 @@
     Rob to a random player, a random token
     Returns 0 if impossible, -1 if success
 */
-int token_rob(struct turn_t* turn, void* trigger);
+int skill_token_rob(struct turn_t* turn, const void* trigger);
 /*
     Skip the turn of the next player
 */
-int turn_rob(struct turn_t* turn, void* trigger);
+int skill_turn_rob(struct turn_t* turn, const void* trigger);
 
 
 
@@ -26,7 +26,7 @@ int turn_rob(struct turn_t* turn, void* trigger);
  *  Move the first token that have a color in common with builder_bought.provides
  *  from market to the player
  */
-int skill_masters_hand(struct turn_t* current_turn, void* trigger);
+int skill_masters_hand(struct turn_t* current_turn, const void* trigger);
 
 
 /*

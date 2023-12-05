@@ -1,11 +1,14 @@
 #include "skills_builders.h"
 #include "game.h"
+#include "market.h"
+#include "players.h"
+#include "token.h"
 
 
-int token_rob(struct turn_t* turn, void* trigger)
+int skill_token_rob(struct turn_t* turn, const void* trigger)
 {
 	//cast trigger to a builder 
-	struct builder_t* trigger_builder = trigger;
+	const struct builder_t* trigger_builder = trigger;
 	UNUSED(trigger_builder);
 
 	struct player_t* robber_player = turn_get_current_player(turn);
@@ -48,7 +51,7 @@ int token_rob(struct turn_t* turn, void* trigger)
 	{
 		//Move the robbed token in new inventory and remove it from the stolen player
 		market_pick_token(&stolen_player->ressources.market, robbed_token);
-		market_pay_token(&robber_player->ressources.market, robbed_token, identity());
+		market_pay_token(&robber_player->ressources.market, robbed_token);
 		return 1;
 	}
 
@@ -76,7 +79,7 @@ int token_filter(struct token_t* tokens[NUM_TOKENS], int n, struct token_t* filt
 	return filtered_n;
 }
 
-int turn_rob(struct turn_t *turn, void *trigger)
+int skill_turn_rob(struct turn_t *turn, const void *trigger)
 {
 	UNUSED(trigger);
 
@@ -85,32 +88,28 @@ int turn_rob(struct turn_t *turn, void *trigger)
 	return 1;
 }
 
-int skill_masters_hand(struct turn_t* current_turn, void* trigger)
+int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 {
-	struct builder_t* builder_bought = trigger;
+	const struct builder_t* builder_bought = trigger;
 	struct set_t provides = builder_provides(builder_bought);
 
 	struct player_t* current_player = turn_get_current_player(current_turn);
-	struct market_t* current_player_market = &current_player->ressources.market;
+	struct market_t* current_player_market = &player_get_ressources(current_player)->market;
 
-	int player_to_steal_index = (current_turn->current_player + 1) % MAX_PLAYERS;
-	struct player_t* player_to_steal = &turn_get_players(current_turn)[player_to_steal_index];
-
-	struct market_t* player_to_steal_market = &player_to_steal->ressources.market;
-
-	int num_tokens = market_num_tokens(player_to_steal_market);
+	struct market_t* general_market = turn_get_market(current_turn);
+	//int num_tokens = market_num_tokens(general_market);
 	
 	struct token_t* filtered_tokens[NUM_TOKENS] = {};
-	int filtered_tokens_n = token_filter(player_to_steal_market->tokens, num_tokens, filtered_tokens, provides);
+	int filtered_tokens_n = token_filter(general_market->tokens, NUM_TOKENS, filtered_tokens, provides);
 
 	if (filtered_tokens_n == 0)
 		return 0;
 
 	int stolen_token_ind = rand() % filtered_tokens_n;
-	struct token_t* token = market_get_token(stolen_token_ind);
+	struct token_t* token = filtered_tokens[stolen_token_ind];
 
-	market_pick_token(player_to_steal_market, token);
-	market_pay_token(current_player_market, token, identity());
+	market_pick_token(general_market, token);
+	market_pay_token(current_player_market, token);
 
 	return 1;
 }

@@ -1,4 +1,7 @@
 #include "guild.h"
+#include "builder.h"
+#include "skills.h"
+#include <stdio.h>
 
 
 struct guild_t create_default_guild()
@@ -52,6 +55,40 @@ void init_guild(struct guild_t* guild)
 	}
 }
 
+void init_builder_skills()
+{
+	int nb_builders = num_builders();
+	struct builder_t* builder = NULL;
+	int builder_lvl = 0;
+
+	for (int index = 0; index < nb_builders; ++index)
+	{
+		builder = make_builder(index);
+		builder_lvl = builder_level(builder);
+		enum skills_id skills[MAX_SKILLS_PER_TRIGGER] = {};
+		int index_skill_to_add = 0;
+
+		for (enum skills_id skill_id = BUILDER_FIRST_SKILL ; skill_id <= BUILDER_LAST_SKILL ; ++ skill_id)
+		{
+			if (index_skill_to_add < MAX_SKILLS_PER_TRIGGER) //if we can still add a skill to the current builder
+			{
+				int random_int = rand() % MAX_BUILDERS;
+				if(random_int < 1 + builder_lvl) // lvl+1/MAX_BUILDERS chance to have the skill
+				{
+					skills[index_skill_to_add] = skill_id;
+					++index_skill_to_add;
+					/* printf("Skill %d added on builder :\n", skill_id);
+					builder_display(builder, "This one : ");
+					skill_display(skill_id, "");
+					printf("\n"); */
+				}
+				
+			}
+		}
+
+		add_skill_instance(builder, skills);
+	}
+}
 
 struct stack_t* guild_get_stack(struct guild_t* guild, unsigned int builder_lvl)
 {
@@ -75,7 +112,13 @@ void guild_display(struct guild_t* guild)
 		builder = available_builders->builders[index];
 
 		if (builder != NULL)
-			builder_display(builder, " --- ");
+		{
+			builder_display(builder, " --- ");						
+		}
+	}
+	if (guild_nb_builder(guild) == 0)
+	{
+		printf(" --- No builder in guild\n");
 	}
 }
 
@@ -98,7 +141,7 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 		--guild_get_available_builders(guild)->n_builders_available;
 	}
 	guild->available_builders.builders[index] = new_builder;  // place it on builder's index
-
+	-- guild->n_builders;
 	return builder;
 }
 

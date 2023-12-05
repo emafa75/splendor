@@ -4,11 +4,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "permutation/permutation.h"
+#include "permutation.h"
 #include "token.h"
 #include "builder.h"
 #include "board_display.h"
 #include "guild.h"
+#include "color.h"
+#include "token_second_header.h"
+
 
 #define TOKENS_PER_COLOR 5
 
@@ -16,6 +19,7 @@
 // Used to store all the tokens of the game
 struct market_t {
 	struct token_t* tokens[NUM_TOKENS];
+	struct permutation_t permutation;
 };
 
 
@@ -35,6 +39,10 @@ struct ressources {
 */
 void init_market(struct market_t* market, unsigned int seed);
 
+/*
+	Associate skill to every token present in array tokens
+*/
+void init_tokens_skills();
 
 /*
  * Pick a specific token from the market
@@ -51,13 +59,7 @@ struct token_t* market_pick_token(struct market_t* market, struct token_t* token
  * Move a token to the market, apply a permutation to the order of priority to place token
  *
  */
-void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation);
-
-
-/*
- *  Returns the index-th token from the general market
- */
-struct token_t* market_get_token(int index);
+void market_pay_token(struct market_t* market, struct token_t * token);
 
 
 /*
@@ -82,10 +84,14 @@ int market_get_first_available_token(struct market_t* market);
 void market_shuffle(struct market_t* market);
 
 /*
-	Get the index (in available list) from first available token of a group of nb-linked tokens, -1 if impossible
+	Get the index from a available token of a group of nb-linked tokens, -1 if impossible
 */
 int market_get_linked_tokens(struct market_t* market, int nb);
 
+/*
+	Returns market permutation
+*/
+struct permutation_t* market_get_permutation(struct market_t* market);
 
 /*
 	Returns a default market

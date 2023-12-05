@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 
-int market_panic(struct turn_t* turn, void* trigger)
+int skill_market_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct market_t* market = turn_get_market(turn);
@@ -28,15 +28,10 @@ int market_panic(struct turn_t* turn, void* trigger)
         rand_index = rand() % NUM_TOKENS ; 
         token_to_move = market->tokens[rand_index];
     }
-    /*
-        Remove token in case if it is the only available and we need to replace it at the same place
-    */
-    market_pick_token(market, token_to_move);
-    
+
     /*
         Find a place to replace it
     */
-
     rand_index = rand() % NUM_TOKENS;
     while (market->tokens[rand_index] != NULL)
     {
@@ -46,16 +41,13 @@ int market_panic(struct turn_t* turn, void* trigger)
     /*
         Make the change
     */
-
-    // create a permutation that begin with the index where to place the token
-    struct permutation permutation = identity();
-    permutation.permutation[0] = rand_index;
-    market_pay_token(market, token_to_move, permutation);
+    market_pick_token(market, token_to_move);
+    market->tokens[rand_index] = token_to_move;
 
     return 1;
 }
 
-int guild_panic(struct turn_t* turn, void* trigger)
+int skill_guild_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct guild_t* guild = turn_get_guild(turn);
