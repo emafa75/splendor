@@ -9,6 +9,7 @@
 #include "can_buy.h"
 #include "token_second_header.h"
 #include "builder.h"
+#include "favors.h"
 /*
 	Used to use a display function only if _x is true
 */
@@ -232,6 +233,27 @@ void turn_play(struct turn_t* current_turn, int display)
 	int player_index = turn_get_current_player_index(current_turn);
 
 	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
+
+	/*
+		If the player has a favor he use it (or not)
+	*/
+
+	int favors = player_get_favor(current_player);
+
+	if(favors)
+	{
+		enum favor_id favor_id = rand() % NUM_FAVOR; //if NO_FAVOR then the player decided to not use it
+		if(favor_id != NO_FAVOR)
+		{
+			skill_f favor_function = favor_by_id(favor_id);
+			favor_function(current_turn, current_player /* unused */);
+			DISPLAY(display, favor_display(favor_id, "Player used "));
+			DISPLAY(display, printf("\n"));
+		}
+		else {
+			DISPLAY(display, printf("Player had favor but he decided to keep it\n"));
+		}
+	}
 
 	/*
 		Take a random decision and check if it's possible to hire a builder

@@ -5,18 +5,19 @@
 #include "players.h"
 #include "skills.h"
 #include "token.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include "builder_constants.h"
 
 
-skill_f favors_functions[NUM_SKILLS] = {
+skill_f favors_functions[NUM_FAVOR] = {
 	NULL,
 	favor_return,
 	favor_renewal
 };
 
 
-char *favors_strings[NUM_SKILLS] = {
+char *favors_strings[NUM_FAVOR] = {
 	"no favors",
 	"favor_return",
 	"favor_renewal",
@@ -68,6 +69,12 @@ int favor_renewal(struct turn_t* turn, const void* trigger)
 	for (int index = 0; index < MAX_BUILDERS; ++index)
 	{
 		struct builder_t* builder = available_builders->builders[index];
+
+		if(builder == NULL)
+		{
+			continue;
+		}
+
 		unsigned int builder_lvl = builder_level(builder);
 		if (builder_lvl == renewed_level)
 		{
@@ -82,9 +89,23 @@ int favor_renewal(struct turn_t* turn, const void* trigger)
 
 	for (int index = 0; index < MAX_BUILDERS_AVAILABLE_PER_LVL; ++index)
 	{
+		if( builders[index] == NULL)
+		{
+			continue;
+		}
 		guild_pick_builder(game_guild, builders[index]);
 		guild_put_builder(game_guild, builders[index]);
 	}
 
 	return 1;
+}
+
+skill_f favor_by_id(enum favor_id favor_id)
+{
+	return favors_functions[favor_id];
+}
+
+void favor_display(enum favor_id favor_id, char* prefix)
+{
+	printf("%s%s", prefix,favors_strings[favor_id]);
 }
