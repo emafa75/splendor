@@ -2,11 +2,12 @@
 #include "can_buy.h"
 #include "guild.h"
 #include "market.h"
-#include "permutation.h"
 #include "token.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "skills.h"
+#include "permutation.h"
+
 
 struct player_t init_player()
 {

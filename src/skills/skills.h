@@ -1,10 +1,7 @@
 #ifndef __SKILLS_H__
 #define  __SKILLS_H__
 
-#include "builder.h"
 #include "game.h"
-#include "skills_tokens.h"
-#include "skills_builders.h"
 
 #define MAX_SKILLS_PER_TRIGGER 3
 #define NB_SKILLS_IN_GAME (MAX_BUILDERS + NUM_TOKENS)

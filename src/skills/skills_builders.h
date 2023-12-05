@@ -2,13 +2,6 @@
 #define __SKILLS_BUILDERS_H__
 
 #include "game.h"
-#include "players.h"
-#include "market.h"
-#include "builder.h"
-#include "game.h"
-#include "permutation.h"
-#include "players.h"
-#include "set.h"
 
 /*
     Rob to a random player, a random token

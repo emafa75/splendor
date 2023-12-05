@@ -1,16 +1,9 @@
 #ifndef __MARKET_H__
 #define __MARKET_H__
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
 #include "permutation.h"
-#include "token.h"
-#include "builder.h"
-#include "board_display.h"
 #include "guild.h"
-#include "color.h"
-#include "token_second_header.h"
+#include "token.h"
 
 
 #define TOKENS_PER_COLOR 5

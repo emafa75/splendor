@@ -4,11 +4,6 @@
 #include "guild.h"
 #include "market.h"
 #include "players.h"
-#include "builder.h"
-#include "token_second_header.h"
-#include "can_buy.h"
-#include <string.h>
-#include <stdio.h>
 
 #define MAX_PLAYERS 2
 #define MAX_MAX_TURNS 100

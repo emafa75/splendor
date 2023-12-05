@@ -2,7 +2,7 @@
 #define __PERMUTATION_H__
 
 #include "token.h"
-#include <stdlib.h>
+
 
 struct permutation_t{
     int permutation[NUM_TOKENS];

@@ -1,6 +1,6 @@
 #include "permutation.h"
 #include "token.h"
-
+#include <stdlib.h>
 
 struct permutation_t identity()
 {

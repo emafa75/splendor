@@ -1,6 +1,8 @@
 #include "board_display.h"
 #include "skills.h"
-
+#include <stdio.h>
+#include "ansi_color.h"
+#include "token_second_header.h"
 
 void place_token_in_board(struct token_t *tokens[NUM_TOKENS], \
 struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], \

@@ -1,14 +1,7 @@
 #ifndef __SKILLS_TOKENS_H__
 #define __SKILLS_TOKENS_H__
 
-#include "builder.h"
 #include "game.h"
-#include "market.h"
-#include "token.h"
-#include "guild.h"
-#include "permutation.h"
-#include "builder.h"
-#include <stdlib.h>
 
 
 /*

@@ -2,6 +2,8 @@
 #include "builder.h"
 #include "skills.h"
 #include <stdio.h>
+#include "builder_constants.h"
+#include <stdlib.h>
 
 
 struct guild_t create_default_guild()

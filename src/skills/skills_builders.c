@@ -3,7 +3,9 @@
 #include "market.h"
 #include "players.h"
 #include "token.h"
-
+#include "set.h"
+#include "token_second_header.h"
+#include <stdlib.h>
 
 int skill_token_rob(struct turn_t* turn, const void* trigger)
 {

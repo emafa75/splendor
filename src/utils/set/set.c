@@ -1,5 +1,6 @@
 #include "set.h"
 #include "color_second_header.h"
+#include "ansi_color.h"
 
 struct set_t SET_ZEROS = {};
 

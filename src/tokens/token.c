@@ -3,6 +3,7 @@
 #include "game.h"
 #include "token_second_header.h"
 #include "skills.h"
+#include "set.h"
 
 static struct token_t tokens[NUM_TOKENS] = {};
 

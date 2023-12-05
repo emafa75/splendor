@@ -1,10 +1,9 @@
 #ifndef __STACK_H__
 #define __STACK_H__
 
-#include <stdlib.h>
 #include "builder.h"
 #include "token.h"
-#include <string.h>
+
 
 #define MAX(__x, __y) \
   ((__x) > (__y) ? (__x) : (__y))

@@ -4,7 +4,10 @@
 #include "skills.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include "can_buy.h"
+#include "token_second_header.h"
+#include "builder.h"
 /*
 	Used to use a display function only if _x is true
 */

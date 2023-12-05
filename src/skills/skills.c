@@ -1,6 +1,8 @@
 #include "skills.h"
 #include "ansi_color.h"
 #include <stdio.h>
+#include "skills_builders.h"
+#include "skills_tokens.h"
 
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
 

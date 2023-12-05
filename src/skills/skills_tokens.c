@@ -4,7 +4,8 @@
 #include "market.h"
 #include "token.h"
 #include <stdio.h>
-
+#include "builder_constants.h"
+#include <stdlib.h>
 
 int skill_market_panic(struct turn_t* turn, const void* trigger)
 {
