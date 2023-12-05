@@ -11,7 +11,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct set_t cost = builder_requires(builder_to_buy);
 	struct set_t builder_provide;
 
-	struct set_t set_null = {};  // Used to compare to null, if all
+	struct set_t setzero = set_zero();  // Used to compare to zero, if all
 	struct set_t to_pay = cost;  // Copy to track what is still needed to pay
 
 	struct set_t token_set;
@@ -47,7 +47,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 		}
 
 		// End the calculation here if can already buy
-		if (set_are_equals(&to_pay, &set_null))
+		if (set_are_equals(&to_pay, &setzero))
 			return out;
 	}
 
@@ -77,13 +77,13 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 		}
 
 		// End the calculation here if can already buy
-		if (set_are_equals(&to_pay, &set_null))
+		if (set_are_equals(&to_pay, &setzero))
 			return out;
 	}
 
 
 	// If can't buy, set all pointers of out to null
-	if (!set_are_equals(&to_pay, &set_null))
+	if (!set_are_equals(&to_pay, &setzero))
 	{
 		for (int i = 0 ; i < NUM_TOKENS ; ++i)
 			out.market.tokens[i] = NULL;
