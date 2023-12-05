@@ -45,12 +45,6 @@ int main(int argc, char *argv[])
 	test_players();
 	test_utils();
 	
-	init_market(0);
-	
-	market_shuffle();
-
-
-
 	return EXIT_SUCCESS;
 }
 

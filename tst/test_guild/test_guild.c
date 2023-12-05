@@ -52,10 +52,12 @@ int test_init_guild()
         fprintf(stderr, RED "test_init_guild : test_init_builder didn't run successfully\n" CRESET);
         return 0;
     }
-    init_guild();
+
+    struct guild_t guild = create_default_guild();
+    init_guild(&guild);
 
     int nb_builder = num_builders();
-    int nb_builder_guild = guild_nb_builder();
+    int nb_builder_guild = guild_nb_builder(&guild);
     /*
         Check if we have the correct amount of builder in the guild
     */
@@ -72,7 +74,7 @@ int test_init_guild()
     for (int index  = 0; index < nb_builder_guild; ++index)
     {
         
-        if (make_builder(index) == NULL)
+        if (guild.builders[index] == NULL)
         {
             fprintf(stderr, RED "test_init_guild : no builder_t* in the guild\n" CRESET);
             return 0;
@@ -89,13 +91,20 @@ int test_guild_pick_builder()
         fprintf(stderr, RED "test_guild_pick_builder : test_init_guild didn't run successfully\n" CRESET);
         return 0;
     }
+
+    /*
+        Reset principal guild
+    */
     int seed = time(NULL);
     srand(seed);
-    init_guild(); //reset
+    struct guild_t guild = create_default_guild();
+    init_guild(&guild);
+
     int index_picked_builder = 0;   
     
-    struct builder_t* picked_builder = available_builders_get_builder(index_picked_builder);
-    guild_pick_builder(picked_builder);
+    struct builder_t* picked_builder = available_builders_get_builder(&guild, index_picked_builder);
+
+    guild_pick_builder(&guild, picked_builder);
 
     if (picked_builder == NULL)
     {
@@ -105,7 +114,7 @@ int test_guild_pick_builder()
     /*
         Check if the builder is no longer available for the guild
     */
-    if (guild_is_available(picked_builder))
+    if (guild_is_available(&guild, picked_builder))
     {
         fprintf(stderr, RED "test_guild_pick_builder : builder is still available. Pointer : %p\n" CRESET, picked_builder);
         builder_display(picked_builder, "Picked builder : ");
@@ -118,7 +127,7 @@ int test_guild_pick_builder()
     return 1;
 }
 
-int test_guild_put_builder()
+int test_guild_put_builder() //nonsense with the new achievement --> maybe if it is possible to steal builders.
 {
 
     if (!test_guild_pick_builder())
@@ -136,7 +145,7 @@ int test_guild_put_builder()
     // guild_pick_builder(picked_builder);
 
     // //put it back and check if he is available
-    // guild_put_builder(picked_builder);
+    //guild_put_builder(picked_builder);
 
 
 
@@ -152,11 +161,15 @@ int test_get_available_builders()
         return 0;
     }
 
+    /*
+        Reset principal guild
+    */
     int seed = time(NULL);
     srand(seed);
-    init_guild(); //reset
+    struct guild_t guild = create_default_guild();
+    init_guild(&guild);
 
-    if (guild_nb_builder() < 2)
+    if (guild_nb_builder(&guild) < 2)
     {
         fprintf(stderr, RED "test_get_available_builders : not enough builders to test, need at least 2 builders\n" CRESET);
         return 0;
@@ -165,12 +178,12 @@ int test_get_available_builders()
     //test with 2 unavailable builders
     int index_builder = 0;
 
-    guild_pick_builder(get_available_builders().builders[index_builder]);
-    guild_pick_builder(get_available_builders().builders[index_builder]);
+    guild_pick_builder(&guild, guild_get_available_builders(&guild)->builders[index_builder]);
+    guild_pick_builder(&guild, guild_get_available_builders(&guild)->builders[index_builder]);
 
-    struct available_builders available_builders = get_available_builders();
+    struct available_builders* available_builders = guild_get_available_builders(&guild);
 
-    if(available_builders.n_builders_available > MAX_BUILDERS_AVAILABLE_PER_LVL * BUILDER_MAX_LEVEL)
+    if(available_builders->n_builders_available > MAX_BUILDERS_AVAILABLE_PER_LVL * BUILDER_MAX_LEVEL)
     {
         fprintf(stderr, RED "test_get_available_builders : Too much available builders\n" CRESET);
         return 0;
@@ -179,7 +192,7 @@ int test_get_available_builders()
     return 1;
 }
 
-// int test_get_first_available_builder()
+// int test_get_first_available_builder() -- > nonsense with current achievement
 // {
 
 //     if (!test_guild_pick_builder())

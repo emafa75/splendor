@@ -3,9 +3,17 @@
 #include "color_second_header.h"
 
 
+struct set_t SET_ZEROS = {};
+
 unsigned int* set_get_colors(struct set_t* set)
 {
 	return set->c;
+}
+
+
+struct set_t set_zero(void)
+{
+	return SET_ZEROS;
 }
 
 

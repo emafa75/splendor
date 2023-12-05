@@ -1,7 +1,9 @@
 
 #include "test_market.h"
 #include "market.h"
+#include "permutation.h"
 #include "token.h"
+#include <stdlib.h>
 
 
 int test_market()
@@ -38,8 +40,10 @@ int test_market()
 
 int test_init_market(int seed)
 {
-	init_market(seed);
-	int n = market_num_tokens();
+	struct market_t market = create_default_market();
+	init_market(&market, seed);
+
+	int n = market_num_tokens(&market);
 
 	// Test if enough tokens have been created
 
@@ -73,22 +77,23 @@ int test_pick_token(int seed)
 		fprintf(stderr, RED "test_pick_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
 	}
-	init_market(seed);
-	market_shuffle();
-	struct token_t *picked_token = pick_token(get_available_tokens()->available[0]);
+	srand(seed);
+
+	struct market_t market = create_default_market();
+	init_market(&market, seed);
+
+	market_shuffle(&market);
+	struct token_t *picked_token = market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
 	if( !picked_token ) //if picked_token is NULL
 	{
 		fprintf(stderr, RED "test_pick_token: no token picked\n" CRESET);
 		return 0;
 	}
-	struct available_tokens *available_tokens = get_available_tokens();
-	for (int index = 0; index < NUM_TOKENS; ++index)
+
+	if (market_is_in_market(&market, picked_token))
 	{
-		if (available_tokens->available[index] == picked_token)
-		{
-			fprintf(stderr, RED "test_pick_token: token still present in the market\n" CRESET);
-			return 0;
-		}
+		fprintf(stderr, RED "test_pick_token: token still present in the market\n" CRESET);
+		return 0;
 	}
 
 	return 1;
@@ -108,27 +113,41 @@ int test_market_pay_token(int seed)
 		fprintf(stderr, RED "test_market_pay_token: test_pick_token didn't run successfully\n" CRESET);
 		return 0;
 	}
-	pick_token(get_available_tokens()->available[0]);
-	pick_token(get_available_tokens()->available[1]);
-	struct token_t* token = pick_token(get_available_tokens()->available[2]);
+	/*
+		Initialize the marker
+	*/
+	srand(seed);
 
-	market_pay_token(token);
+	struct market_t market = create_default_market();
+	init_market(&market, seed);
 
-	struct available_tokens *available_tokens = get_available_tokens();
+	struct token_t* token = market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]); // pick random token
+	/*
+		Pick new tokens to check if there are replace in the right order (permutation)
+	*/
+	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
+	market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
+
+	struct permutation permutation = random_permutation(seed);
+
+	market_pay_token(&market, token, permutation);
 	int null_count = 0;
+
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
-		if (!available_tokens->available[index])
+		if (!market.tokens[permutation.permutation[index]]) //there is a free place
 		{
 			++null_count;
 		}
-		if (available_tokens->available[index] == token)
+		if (market.tokens[permutation.permutation[index]] == token)
 		{
-			if(!null_count) {
-				return 1;
+			if (null_count) 
+			{
+				fprintf(stderr, RED "test_market_pay_token: token is not place on the first available place. %d NULLs before\n" CRESET, \
+				null_count);
+				return 0;
 			}
-			fprintf(stderr, RED "test_market_pay_token: token is not place on the first available place. %d NULLs before\n" CRESET, null_count);
-			return 0;
+			return 1;
 		}
 	}
 
@@ -143,10 +162,15 @@ int test_market_get_token(int seed)
 		fprintf(stderr, RED "test_market_get_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
 	}
-	init_market(seed);
+	/*
+		Initialize the marker
+	*/
 	srand(seed);
+
+	struct market_t market = create_default_market();
+	init_market(&market, seed);
 	//get random token from the market (available or not) and check if it exist
-	struct token_t *token = market_get_token(rand()%NUM_TOKENS);
+	struct token_t *token = market_get_token(rand() % NUM_TOKENS);
 	if(!token)
 	{
 		fprintf(stderr, RED "test_market_get_token: no token_t* return (NULL)\n" CRESET);

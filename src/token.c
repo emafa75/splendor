@@ -7,7 +7,7 @@
 
 struct token_t create_simple_token(enum color_t c)
 {
-	struct token_t new_token={};
+	struct token_t new_token = {};
 	unsigned int values[NUM_COLORS] = {};
 	values[c] = 1;
 	new_token.s = set_create(values);

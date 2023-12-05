@@ -12,12 +12,14 @@
 #include <time.h>
 #include <getopt.h>
 
+#include "permutation.h"
 #include "players.h"
 #include "guild.h"
 #include "market.h"
 #include "builder.h"
 #include "token.h"
 #include "can_buy.h"
+#include "game.h"
 
 #include "cli_tests.h"
 
@@ -26,7 +28,7 @@
 
 #define _NB_MIN_PARAMS_ 1
 
-#define MAX_PLAYERS 2
+
 
 
 enum choice {
@@ -44,50 +46,26 @@ enum parameters {
 	MARKET_SEED = 0,
 };
 
-struct player_t player_list[MAX_PLAYERS];
-
-
 void print_usage(char *argv[]);
-
-
-/*
-	Returns next player index
-*/
-int next_player(int index);
-
-
-/*
-	Gets a random player index
-*/
-int get_random_player(int seed);
-
-
-/*
-	Check if if someone won the game, return 1 if true
-*/
-int has_won(int size, struct player_t players[]);
-
-
-/*
-	Returns winner's index, -1 if tie
-*/
-int get_winner(int size, struct player_t[]);
-
 
 /*
 	Display options for the game
 */
 void display_options();
 
-
 /*
-		Init all options 
+		Init all parameters 
 */
-int max_turns = MAX_TURNS ;
-int points_to_win = POINTS_TO_WIN;
+
+struct game_parameters game_params = {
+	.points_to_win = POINTS_TO_WIN,
+	.max_turns = MAX_TURNS,
+	.market_seed = MARKET_SEED,
+	.builder_seed = BUILDER_SEEED,
+	.random_seed = RANDOM_SEED,
+};
+
 int random_seed = RANDOM_SEED;
-int builder_seed = BUILDER_SEEED;
-int market_seed = MARKET_SEED;
 
 
 int main(int argc, char *argv[])
@@ -252,77 +230,14 @@ int main(int argc, char *argv[])
 	return EXIT_SUCCESS;
 }
 
-
-int next_player(int index)
-{
-	return (index + 1) % MAX_PLAYERS;
-}
-
-
-int get_random_player(int seed)
-{
-	srand(seed);
-	return rand() % MAX_PLAYERS;
-}
-
-
-/*
-	Return a boolean to see if a player has won
-*/
-int has_won(int size, struct player_t players[])
-{
-	for (int index = 0; index < size ; ++index)
-	{
-		if ( players[index].current_point >= points_to_win)
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
-
-
-/*
-	Return winner id, -1 if tie
-*/
-int get_winner(int size, struct player_t players[])
-{
-	int id_max_points = 0;
-	
-	for (int index = 0; index < size; ++index)
-	{
-		int player_point = players[index].current_point;
-		if (player_point >= points_to_win)
-		{
-			return index;
-		}
-		if (player_point > players[id_max_points].current_point) 
-		{
-			id_max_points = index;
-		}
-	}
-
-	int max_points = players[id_max_points].current_point;
-	for (int index = 0; index < size; ++index)
-	{
-		if((index != id_max_points) && (max_points == players[index].current_point))
-		{
-			return -1;
-		}
-	}
-
-	return id_max_points;
-}
-
-
 void display_options()
 {
 	printf("Random seed : %d\nBuilder seed : %d\nMarket seed : %d\nPoints to win a game : %d\nMax turns : %d\n", 
-	random_seed,
-	builder_seed,
-	market_seed,
-	points_to_win,
-	max_turns
+	game_params.random_seed,
+	game_params.builder_seed,
+	game_params.market_seed,
+	game_params.points_to_win,
+	game_params.max_turns
 	);
 }
 

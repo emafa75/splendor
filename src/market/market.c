@@ -1,20 +1,20 @@
 
 #include "market.h"
 #include "color.h"
+#include "permutation/permutation.h"
 #include "set/set.h"
 #include "token.h"
 
 static struct token_t tokens[NUM_TOKENS] = {};
-static struct market market[NUM_TOKENS] = {};
 
 
-struct market create_default_market()
+struct market_t create_default_market()
 {
-	struct market new_market = {};
+	struct market_t new_market = {};
 	return new_market;
 }
 
-void init_market(struct market* market, unsigned int seed)
+void init_market(struct market_t* market, unsigned int seed)
 {
 	srand(seed);
 
@@ -53,30 +53,39 @@ void init_market(struct market* market, unsigned int seed)
 
 }
 
-int market_get_linked_tokens(struct market* market, int nb)
+int market_get_linked_tokens(struct market_t* market, int nb)
 {
 	int count = 0;
-	int index_first_linked_token = -1;
+	int index_available[NUM_TOKENS] = {};
+	int nb_available = 0;
 	for (int index = 0; index < NUM_TOKENS ; ++index)
 	{
 		if(market->tokens[index])
 		{
 			++count;
-			if (count == nb)
+			if (count >= nb)
 			{
 				
-				index_first_linked_token = index - nb + 1;
-				return index_first_linked_token;
+				index_available[nb_available] = index - nb + 1;
+				++nb_available;
 			}
 		}
 		else {
 			count = 0;
 		}
 	}
-	return index_first_linked_token;
+
+
+	if (nb_available == 0)
+	{
+		return -1;
+	}
+	
+	int rand_index = rand() % nb_available;
+	return index_available[rand_index];
 }
 
-struct token_t* market_pick_token(struct market* market, struct token_t* token)
+struct token_t* market_pick_token(struct market_t* market, struct token_t* token)
 {
 	for (int index  = 0; index < NUM_TOKENS; ++index)
 	{
@@ -96,16 +105,16 @@ struct token_t* market_get_token(int index)
 }
 
 
-void market_pay_token(struct market* market, struct token_t * token)
+void market_pay_token(struct market_t* market, struct token_t * token, struct permutation permutation)
 {
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{	
 		/*
 			If the place is available for a new token, put the new token
 		*/
-		if(!market->tokens[index])
+		if(!market->tokens[permutation.permutation[index]])
 		{
-			market->tokens[index]= token;
+			market->tokens[permutation.permutation[index]]= token;
 			return;
 		}
 	}
@@ -113,7 +122,7 @@ void market_pay_token(struct market* market, struct token_t * token)
 
 
 
-void market_display(struct market* market)
+void market_display(struct market_t* market)
 {
 	int board_size = sqrt(NUM_TOKENS);
 	struct token_t* board[board_size][board_size];
@@ -125,7 +134,7 @@ void market_display(struct market* market)
 
 
 
-int market_num_tokens(struct market* market)
+int market_num_tokens(struct market_t* market)
 {
 	int res = 0;
 
@@ -140,8 +149,7 @@ int market_num_tokens(struct market* market)
 	return res;
 }
 
-
-int market_get_first_available_token(struct market* market)
+int market_get_first_available_token(struct market_t* market)
 {
 	if (!market_num_tokens(market))
 	{
@@ -159,7 +167,7 @@ int market_get_first_available_token(struct market* market)
 }
 
 
-void market_shuffle(struct market* market)
+void market_shuffle(struct market_t* market)
 {
 	srand(time(NULL));
 
@@ -170,4 +178,16 @@ void market_shuffle(struct market* market)
       market->tokens[index] = market->tokens[rand_index] ;
       market->tokens[rand_index] = t_tmp;
     }
+}
+
+int market_is_in_market(struct market_t* market, struct token_t* token)
+{
+	for (int index = 0; index < NUM_TOKENS; ++index)
+	{
+		if(market->tokens[index] == token)
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
