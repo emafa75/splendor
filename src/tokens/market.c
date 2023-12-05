@@ -208,3 +208,29 @@ struct permutation_t* market_get_permutation(struct market_t* market)
 {
 	return &market->permutation;
 }
+
+
+int market_get_tokens_filtered(
+		struct market_t* market,
+		struct token_t* filtered_tokens[NUM_TOKENS],
+		struct set_t set_filter)
+{
+	int filtered_n = 0;
+	struct set_t setzero = set_zero();
+
+	for (int i = 0 ; i < NUM_TOKENS ; ++i)
+	{
+		struct token_t* token = market->tokens[i];
+		if (token != NULL)
+		{
+			struct set_t token_set = token_get_set(token);
+			struct set_t inter = set_inter(&set_filter, &token_set);
+
+			// Add token to filtered_tokens
+			if (!set_are_equals(&inter, &setzero))
+				filtered_tokens[filtered_n++] = token;
+		}
+	}
+
+	return filtered_n;
+}

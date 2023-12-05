@@ -95,4 +95,12 @@ struct market_t create_default_market();
 	Check if a specific token is in market (1 if true else 0)
 */
 int market_is_in_market(struct market_t* market, struct token_t* token);
+
+/*
+ *  Returns int n, the size of filtered_tokens
+ *  The first n elements of token_t* filtered_tokens are pointers to tokens that
+ *  are available and have a color in common with set_filter
+ *
+ */
+int market_get_tokens_filtered(struct market_t* market, struct token_t* filtered_tokens[NUM_TOKENS], struct set_t set_filter);
 #endif
