@@ -4,10 +4,11 @@
 #include <stdio.h>
 
 #include "color.h"
+#include "ansi_color.h"
 
 
 struct set_t {    
-  unsigned int c[NUM_COLORS];
+	unsigned int c[NUM_COLORS];
 	unsigned int num_colors;
 };
 
@@ -58,4 +59,14 @@ struct set_t set_create(unsigned int c[NUM_COLORS]);
   Compare the two sets and return 0 if different, 1 if equals
 */
 int set_are_equals(const struct set_t* s1, const struct set_t* s2);
+
+/*
+	create simple set 
+*/
+struct set_t create_simple_set(enum color_t c);
+
+/*
+	Create complex set 
+*/
+struct set_t create_complex_set(unsigned int c[NUM_COLORS]);
 #endif

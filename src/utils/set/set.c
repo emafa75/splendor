@@ -1,7 +1,5 @@
 #include "set.h"
-
 #include "color_second_header.h"
-
 
 struct set_t SET_ZEROS = {};
 
@@ -95,4 +93,26 @@ void set_short_display(const struct set_t* set, const char * prefix)
 		}
 	}
 	printf(")");
+}
+
+struct set_t create_simple_set(enum color_t c)
+{
+	struct set_t set = {};
+	set.c[c] = 1;
+	set.num_colors = 1;
+	return set;
+}
+
+struct set_t create_complex_set(unsigned int c[NUM_COLORS])
+{
+	struct set_t set = {};
+	for (int index = 0; index < NUM_COLORS; ++index)
+	{
+		if(c[index])
+		{
+			set.c[index] = c[index];
+			++set.num_colors;
+		}
+	}
+	return set;
 }
