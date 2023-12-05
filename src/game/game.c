@@ -214,7 +214,7 @@ void turn_play(struct turn_t* current_turn, int display)
 		output = stdout;
 	}
 	else {
-		output = fopen("/dev/null", "w");
+		output = stdout; /* patch for thor */
 	}
 
 	/*
@@ -225,7 +225,7 @@ void turn_play(struct turn_t* current_turn, int display)
 	struct player_t* current_player = turn_get_current_player(current_turn);
 	int player_index = turn_get_current_player_index(current_turn);
 
-	fprintf(output, "══════════════════════════════════════════════════════════════════════\n");
+	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
 
 	/*
 		Take a random decision and check if it's possible to hire a builder
@@ -239,7 +239,7 @@ void turn_play(struct turn_t* current_turn, int display)
 		/*
 			The player choosed to hire a builder and is able to do so
 		*/
-		fprintf(output, "Player id.%d choosed to hire\n", player_index);
+		DISPLAY(display,fprintf(output, "Player id.%d choosed to hire\n", player_index));
 		player_pay_builder(market, current_player, builder_to_buy);
 		player_hire_builder(guild, current_player, builder_to_buy);
 		/*
@@ -259,7 +259,7 @@ void turn_play(struct turn_t* current_turn, int display)
 		*/
 		int num_token_to_pick = rand() % 4; 
 		num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
-		fprintf(output, "Player id.%d choosed to pick %d token(s)\n" , player_index, num_token_to_pick);
+		DISPLAY(display, fprintf(output, "Player id.%d choosed to pick %d token(s)\n" , player_index, num_token_to_pick));
 
 		/*
 			Get the index of the first available token to match with the number of token that the player wanted to pick
@@ -273,7 +273,7 @@ void turn_play(struct turn_t* current_turn, int display)
 
 		if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 		{
-			fprintf(output, "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , player_index);
+			DISPLAY(display, fprintf(output, "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , player_index));
 		}else{
 			
 			struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
@@ -301,16 +301,16 @@ void turn_play(struct turn_t* current_turn, int display)
 		End of the turn, display player inventory, game market and game guild to follow the game
 	*/
 
-	fprintf(output, "Current inventory for player id.%d : \n", player_index);
+	DISPLAY(display,fprintf(output, "Current inventory for player id.%d : \n", player_index));
 	DISPLAY(display, player_display_inventory(current_player));
 	
-	fprintf(output, "══════════════════════════════════════════════════════════════════════\n");
-	fprintf(output, "Market after turn :\n");
+	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
+	DISPLAY(display,fprintf(output, "Market after turn :\n"));
 	DISPLAY(display, market_display(market)) ;
-	fprintf(output,"Game Guild  : \n");
+	DISPLAY(display,fprintf(output,"Game Guild  : \n"));
 	DISPLAY(display, guild_display(guild));
 
-	fclose(output);
+	//fclose(output);
 }
 
 void game_play(struct game_t *game, int display)
@@ -324,7 +324,7 @@ void game_play(struct game_t *game, int display)
 		output = stdout;
 	}
 	else {
-		output = fopen("/dev/null", "w");
+		output = stdout; /* Patch for Thor*/
 	}
 
 	struct turn_t* current_turn = game_get_current_turn(game);
@@ -341,9 +341,9 @@ void game_play(struct game_t *game, int display)
 		/*
 			Play turn
 		*/
-		fprintf(output, "Turn n°%d\n", turn_index);
+		DISPLAY(display,fprintf(output, "Turn n°%d\n", turn_index));
 		turn_play(current_turn, display );
-		fprintf(output, "\n");
+		DISPLAY(display, fprintf(output, "\n"));
 
 		/*
 			Give turn to the next player and save the state of the turn
@@ -352,5 +352,5 @@ void game_play(struct game_t *game, int display)
 		game_save_turn(game);
 
 	}
-	fclose(output);
+	//fclose(output);
 }
