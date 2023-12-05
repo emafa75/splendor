@@ -62,11 +62,13 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 
 # The final build step.
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
-	$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
+	#Compiles the project
+	@$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
-	$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
+	#Compiles the tests
+	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 clang_custom_lib_support:
@@ -75,8 +77,9 @@ clang_custom_lib_support:
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	#compiles $@
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean
