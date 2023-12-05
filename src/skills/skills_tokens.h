@@ -16,4 +16,11 @@ int skill_market_panic(struct turn_t* turn, const void* trigger);
 */
 int skill_guild_panic(struct turn_t* turn, const void* trigger);
 
+
+/*
+ *  Takes a favor from a random player, return 1 if successfully robs a favor
+ *  Returns 0 otherwise
+ */
+int skill_favor_rob(struct turn_t* turn, const void* trigger);
+
 #endif

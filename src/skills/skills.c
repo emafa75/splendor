@@ -13,6 +13,7 @@ skill_f skills_functions[NUM_SKILLS] = {
 	skill_gentry_master,
 	skill_masters_hand,
 	skill_market_panic,
+	skill_favor_rob,
 	skill_guild_panic,
 };
 
@@ -24,6 +25,7 @@ char *skills_strings[NUM_SKILLS] = {
 	"gentry master",
 	"masters_hand",
 	"market_panic",
+	"favor_rob",
 	"guild_panic"
 };
 
