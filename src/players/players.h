@@ -13,6 +13,7 @@ struct player_t
 {
 	struct ressources ressources;
     int current_point;
+	unsigned int favor;
 };
 
 /*
@@ -58,5 +59,14 @@ int player_get_points(struct player_t* player);
 */
 struct ressources* player_get_ressources(struct player_t* player);
 
+/*
+	Get favor from a player
+*/
+unsigned int player_get_favor(struct player_t* player);
 
+/*
+	Set number of favor for a player
+*/
+
+void player_set_favor(struct player_t* player, unsigned int favor);
 #endif

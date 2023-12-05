@@ -1,6 +1,7 @@
 #include "game.h"
 #include "guild.h"
 #include "market.h"
+#include "players.h"
 #include "skills.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,6 +34,8 @@ void init_game(struct game_t* game, struct game_parameters params)
 		Init first player
 	*/
 	first_turn->current_player = get_random_player(params.random_seed);
+	struct player_t* first_player = turn_get_current_player(first_turn);		
+	player_set_favor(first_player,0);
 
 	/*
 		Init the market

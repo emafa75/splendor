@@ -16,7 +16,8 @@ struct player_t init_player()
 			.market = create_default_market(),
 			.guild = create_default_guild()
 		}, 
-		.current_point=0
+		.current_point=0,
+		.favor =  1,
 	};
 	return new_player;
 }
@@ -151,4 +152,14 @@ int player_get_points(struct player_t* player)
 struct ressources* player_get_ressources(struct player_t* player)
 {
 	return &player->ressources;
+}
+
+unsigned int player_get_favor(struct player_t *player)
+{
+	return player->favor;
+}
+
+void player_set_favor(struct player_t *player, unsigned int favor)
+{
+	player->favor = favor;
 }
