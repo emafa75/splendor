@@ -46,6 +46,7 @@ int favor_return(struct turn_t *turn, const void *trigger)
 
 int favor_renewal(struct turn_t* turn, const void* trigger)
 {
+	UNUSED(trigger);
 	/*
 		Get turn instances
 	*/
