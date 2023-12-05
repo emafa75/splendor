@@ -35,8 +35,6 @@ void init_game(struct game_t* game, struct game_parameters params)
 		Init first player
 	*/
 	first_turn->current_player = get_random_player(params.random_seed);
-	struct player_t* first_player = turn_get_current_player(first_turn);		
-	player_set_favor(first_player,0);
 
 	/*
 		Init the market
@@ -61,6 +59,12 @@ void init_game(struct game_t* game, struct game_parameters params)
 	{
 		players[index] = init_player();
 	}
+
+	/*
+		Init the first player without favor
+	*/
+	struct player_t* first_player = turn_get_current_player(first_turn);		
+	player_set_favor(first_player,0);
 	
 	//Init the random for the rest of the game 
 	srand(params.random_seed);

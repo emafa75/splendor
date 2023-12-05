@@ -78,6 +78,12 @@ void player_hire_builder(struct guild_t* guild, struct player_t *player,struct b
 
 void player_display_inventory(struct player_t *player)
 {   
+	/*
+		Favor
+	*/
+	unsigned int favor = player_get_favor(player);
+	printf("Favor(s) : ");
+	printf(favor ? "%d\n" : "No favor\n" , favor );
 	struct ressources* player_ressources = player_get_ressources(player);
 
 	printf("Token available : \n");
