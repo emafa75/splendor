@@ -14,6 +14,7 @@ enum skills_id {
     NO_SKILL,
     TOKEN_ROB,
     TURN_ROB,
+	GENTRY_MASTER,
     MASTERS_HAND,
     MARKET_PANIC,
     GUILD_PANIC,

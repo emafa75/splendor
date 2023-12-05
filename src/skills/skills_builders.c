@@ -90,15 +90,15 @@ int skill_turn_rob(struct turn_t *turn, const void *trigger)
 	return 1;
 }
 
-int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
+int skill_masters_hand(struct turn_t* turn, const void* trigger)
 {
 	const struct builder_t* builder_bought = trigger;
 	struct set_t provides = builder_provides(builder_bought);
 
-	struct player_t* current_player = turn_get_current_player(current_turn);
+	struct player_t* current_player = turn_get_current_player(turn);
 	struct market_t* current_player_market = &player_get_ressources(current_player)->market;
 
-	struct market_t* general_market = turn_get_market(current_turn);
+	struct market_t* general_market = turn_get_market(turn);
 	//int num_tokens = market_num_tokens(general_market);
 	
 	struct token_t* filtered_tokens[NUM_TOKENS] = {};
@@ -117,3 +117,20 @@ int skill_masters_hand(struct turn_t* current_turn, const void* trigger)
 }
 
 
+int skill_gentry_master(struct turn_t* turn, const void* trigger)
+{
+	UNUSED(trigger);
+
+	/*
+		Get instances
+	*/
+
+	struct player_t* current_player = turn_get_current_player(turn);
+
+	/*
+		Add favor to the player
+	*/
+
+	player_set_favor(current_player, player_get_favor(current_player) + 1 );
+	return 1;
+}
