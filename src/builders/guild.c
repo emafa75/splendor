@@ -150,6 +150,7 @@ void guild_put_builder(struct guild_t* guild, struct builder_t* builder)
 	int builder_lvl = builder_level(builder);
 	struct queue_t* queue = guild_get_queue(guild, builder_lvl);
 	queue_append(queue, builder);
+	++guild->n_builders;
 }
 
 
