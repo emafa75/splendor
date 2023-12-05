@@ -83,6 +83,7 @@ int skill_guild_panic(struct turn_t* turn, const void* trigger)
 
 int skill_favor_rob(struct turn_t* turn, const void* trigger)
 {
+	UNUSED(trigger);
 	struct player_t* robber_player = turn_get_current_player(turn);
 	struct player_t* stolen_player;
 	int rand_index;
