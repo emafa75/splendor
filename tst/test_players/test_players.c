@@ -10,7 +10,7 @@
 #include "ansi_color.h"
 #include "token_second_header.h"
 
-
+#include <time.h>
 
 int test_players()
 {
