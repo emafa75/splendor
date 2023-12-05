@@ -60,10 +60,10 @@ unsigned int queue_append(struct queue_t* queue, void* value)
 	if (queue_get_length(queue) >= queue_get_size(queue))
 		return 0;
 
-	++queue->length;
 	int ind = (queue_get_head(queue) + queue_get_length(queue)) % queue_get_size(queue);
-
 	queue->values[ind] = value;
+	
+	++queue->length;
 	return 1;
 }
 
