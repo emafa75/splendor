@@ -25,6 +25,10 @@
 
 #define _NB_MIN_PARAMS_ 1
 
+#ifndef PRINT	
+	#define PRINT 1
+#endif
+
 enum parameters {
 	MAX_TURNS = 10,
 	POINTS_TO_WIN = 10,
@@ -103,12 +107,13 @@ int main(int argc, char *argv[])
 	/*
 		Display the init set
 	*/
+	printf("\nGame init : \n");
 	turn_display(init_turn);
 
 	/*
 		Play the game
 	*/
-	game_play(&game, 1);
+	game_play(&game, PRINT);
 
 	/*
 		End of the game, print results 
