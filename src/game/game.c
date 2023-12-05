@@ -309,6 +309,8 @@ void turn_play(struct turn_t* current_turn, int display)
 	DISPLAY(display, market_display(market)) ;
 	fprintf(output,"Game Guild  : \n");
 	DISPLAY(display, guild_display(guild));
+
+	fclose(output);
 }
 
 void game_play(struct game_t *game, int display)
@@ -350,4 +352,5 @@ void game_play(struct game_t *game, int display)
 		game_save_turn(game);
 
 	}
+	fclose(output);
 }
