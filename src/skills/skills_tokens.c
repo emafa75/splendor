@@ -1,11 +1,14 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "game.h"
 #include "skills_tokens.h"
 #include "builder.h"
 #include "guild.h"
 #include "market.h"
 #include "token.h"
-#include <stdio.h>
 #include "builder_constants.h"
-#include <stdlib.h>
+
 
 int skill_market_panic(struct turn_t* turn, const void* trigger)
 {
@@ -48,6 +51,7 @@ int skill_market_panic(struct turn_t* turn, const void* trigger)
     return 1;
 }
 
+
 int skill_guild_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
@@ -74,3 +78,33 @@ int skill_guild_panic(struct turn_t* turn, const void* trigger)
 
     return 1;
 }
+
+
+
+int skill_favor_rob(struct turn_t* turn, const void* trigger)
+{
+	UNUSED(trigger);
+	struct player_t* robber_player = turn_get_current_player(turn);
+	struct player_t* stolen_player;
+	int rand_index;
+	/*
+		Choose random player 
+	*/
+	rand_index = rand() % MAX_PLAYERS;
+	stolen_player = &turn_get_players(turn)[rand_index];
+
+	while (robber_player == stolen_player) {
+		rand_index = rand() % MAX_PLAYERS;
+		stolen_player = &turn_get_players(turn)[rand_index];
+	}
+
+	if (stolen_player->favor)
+	{
+		stolen_player->favor--;
+		robber_player->favor++;
+		return 1;
+	}
+
+	return 0;
+}
+

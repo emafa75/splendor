@@ -10,8 +10,10 @@ skill_f skills_functions[NUM_SKILLS] = {
 	NULL,
 	skill_token_rob,
 	skill_turn_rob,
+	skill_gentry_master,
 	skill_masters_hand,
 	skill_market_panic,
+	skill_favor_rob,
 	skill_guild_panic,
 };
 
@@ -20,8 +22,10 @@ char *skills_strings[NUM_SKILLS] = {
 	"no skill",
 	"token_rob",
 	"turn_rob",
+	"gentry master",
 	"masters_hand",
 	"market_panic",
+	"favor_rob",
 	"guild_panic"
 };
 
