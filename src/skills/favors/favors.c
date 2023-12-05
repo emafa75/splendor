@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include "builder_constants.h"
 
-struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
 
 skill_f favors_functions[NUM_SKILLS] = {
 	NULL,
@@ -18,7 +17,7 @@ skill_f favors_functions[NUM_SKILLS] = {
 
 
 char *favors_strings[NUM_SKILLS] = {
-	"no skill",
+	"no favors",
 	"favor_return",
 	"favor_renewal",
 };
@@ -55,7 +54,7 @@ int favor_renewal(struct turn_t* turn, const void* trigger)
 	/*
 		Choose a random level to renew
 	*/
-	int renewed_level = rand() % NUM_LEVELS;
+	unsigned int renewed_level = rand() % NUM_LEVELS;
 
 	/*
 		Get all the builder with this level wich are available
@@ -70,7 +69,7 @@ int favor_renewal(struct turn_t* turn, const void* trigger)
 	{
 		struct builder_t* builder = available_builders->builders[index];
 		unsigned int builder_lvl = builder_level(builder);
-		if( builder_lvl == renewed_level )
+		if (builder_lvl == renewed_level)
 		{
 			builders[index_b] = builder;
 			++index_b;
