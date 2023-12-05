@@ -7,11 +7,10 @@
 #define NB_SKILLS_IN_GAME (MAX_BUILDERS + NUM_TOKENS)
 
 
-typedef int (*skill_f)(struct turn_t* , const void* );
+typedef int (*skill_f)(struct turn_t* , const void*);
 
 
-
-enum skills_id{
+enum skills_id {
     NO_SKILL,
     TOKEN_ROB,
     TURN_ROB,
@@ -25,8 +24,8 @@ enum skills_id{
     NUM_SKILLS = TOKEN_LAST_SKILL + 1
 };
 
-struct skill_instance_t{
-    void*  trigger;
+struct skill_instance_t {
+    void* trigger;
     enum skills_id skills[MAX_SKILLS_PER_TRIGGER];
 };
 

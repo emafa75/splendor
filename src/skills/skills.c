@@ -7,17 +7,17 @@
 struct skill_instance_t associated_skills[NB_SKILLS_IN_GAME] = {}; 
 
 skill_f skills_functions[NUM_SKILLS] = {
-    NULL,
-    skill_token_rob,
-    skill_turn_rob,
-    skill_masters_hand,
-    skill_market_panic,
-    skill_guild_panic,
+	NULL,
+	skill_token_rob,
+	skill_turn_rob,
+	skill_masters_hand,
+	skill_market_panic,
+	skill_guild_panic,
 };
 
 
 char *skills_strings[NUM_SKILLS] = {
-    "no skill",
+	"no skill",
 	"token_rob",
 	"turn_rob",
 	"masters_hand",
