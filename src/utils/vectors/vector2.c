@@ -1,5 +1,21 @@
 #include "vector2.h"
 
+struct vector2_t VECTOR2_ZERO = {0, 0};
+struct vector2_t VECTOR2_ONES = {1, 1};
+struct vector2_t VECTOR2_UP = {0, -1};
+struct vector2_t VECTOR2_DOWN = {0, 1};
+struct vector2_t VECTOR2_LEFT = {-1, 0};
+struct vector2_t VECTOR2_RIGHT = {1, 0};
+
+
+struct vector2_t vector2_zero(void) {return VECTOR2_ZERO;}
+struct vector2_t vector2_ones(void) {return VECTOR2_ONES;}
+struct vector2_t vector2_up(void) {return VECTOR2_UP;}
+struct vector2_t vector2_down(void) {return VECTOR2_DOWN;}
+struct vector2_t vector2_left(void) {return VECTOR2_LEFT;}
+struct vector2_t vector2_right(void) {return VECTOR2_RIGHT;}
+
+
 int vector2_equals(struct vector2_t v1, struct vector2_t v2)
 {
 	return v1.x == v2.x && v1.y == v2.y;

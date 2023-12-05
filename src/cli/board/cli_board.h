@@ -32,7 +32,7 @@ struct board_t {
 /*
  *  
  */
-struct board_t market_to_board(struct market* market);
+struct board_t market_to_board(struct market_t* market);
 
 
 

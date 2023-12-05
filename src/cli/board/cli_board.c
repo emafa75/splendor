@@ -166,7 +166,7 @@ void board_display(struct vector2_t position, struct board_t* board)
 }
 
 
-struct board_t market_to_board(struct market* market)
+struct board_t market_to_board(struct market_t* market)
 {
 	unsigned int side_length = (unsigned int)sqrt(NUM_TOKENS);
 	unsigned int tile_dimension = 17;  // should be declared in a define
@@ -174,7 +174,7 @@ struct board_t market_to_board(struct market* market)
 	struct board_t board = {{}, side_length, tile_dimension};
 
 	// Used to move in board.matrix in the for loop
-	struct vector2_t direction = VECTOR2_RIGHT;
+	struct vector2_t direction = vector2_right();
 
 	// Used to know the current position in board.matrix during the for loop
 	int i = 0;
@@ -202,17 +202,17 @@ struct board_t market_to_board(struct market* market)
 			a = 0;
 			++num_turns;
 
-			if (vector2_equals(direction, VECTOR2_RIGHT))
-				direction = VECTOR2_DOWN;
+			if (vector2_equals(direction, vector2_right()))
+				direction = vector2_down();
 
-			else if (vector2_equals(direction, VECTOR2_UP))
-				direction = VECTOR2_RIGHT;
+			else if (vector2_equals(direction, vector2_up()))
+				direction = vector2_right();
 
-			else if (vector2_equals(direction, VECTOR2_LEFT))
-				direction = VECTOR2_UP;
+			else if (vector2_equals(direction, vector2_left()))
+				direction = vector2_up();
 
-			else if (vector2_equals(direction, VECTOR2_DOWN))
-				direction = VECTOR2_LEFT;
+			else if (vector2_equals(direction, vector2_down()))
+				direction = vector2_left();
 		}
 	
 		if (num_turns == turns_per_decrement)
