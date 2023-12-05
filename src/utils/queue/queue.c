@@ -46,7 +46,7 @@ void* queue_dequeue(struct queue_t* queue)
 {
 	void* out = queue->values[queue->head];
 	queue->head = (queue->head + 1) % queue_get_size(queue);
-	++queue->length;
+	--queue->length;
 	return out;
 }
 
