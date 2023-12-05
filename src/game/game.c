@@ -249,6 +249,10 @@ void turn_play(struct turn_t* current_turn, int display)
 			favor_function(current_turn, current_player /* unused */);
 			DISPLAY(display, favor_display(favor_id, "Player used "));
 			DISPLAY(display, printf("\n"));
+			/*
+				Remove the favor
+			*/
+			player_set_favor(current_player,player_get_favor(current_player) - 1); 
 		}
 		else {
 			DISPLAY(display, printf("Player had favor but he decided to keep it\n"));
