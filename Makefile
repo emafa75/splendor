@@ -26,6 +26,8 @@ TEST_MAIN_FILE_NAME := ./tst/test.c
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
 SRCS := $(filter-out $(PROJECT_MAIN_FILE_NAME),$(SRCS))
+SRCS := $(filter-out ./src/builders/builder_copy.c,$(SRCS))
+
 
 TST_SRCS := $(shell find $(TST_DIRS) -name '*.c')
 
@@ -59,6 +61,14 @@ project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 	./test
 
+build/./src/builders/builder_copy.c.o:
+	#nothing
+
+build/./src/builders/builder.c.o : ./src/builders/builder_copy.c
+	mkdir -p $(dir $@)
+	# @: $@, <: $<
+	$(CC) $(CFLAGS) -c $< -o $@
+	
 
 # The final build step.
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
