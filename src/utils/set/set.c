@@ -49,10 +49,14 @@ struct set_t set_inter(const struct set_t* set1, const struct set_t* set2)
 struct set_t set_create(unsigned int c[NUM_COLORS])
 {
     struct set_t s = {};
+
     for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
     {
         s.c[index] = c[index];
+				if (c[index])
+					s.num_colors++;
     }
+
     return s;
 }
 
