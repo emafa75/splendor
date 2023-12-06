@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ansi_color.h"
 #include "guild.h"
 #include "market.h"
 #include "players.h"
@@ -35,8 +36,6 @@ void init_game(struct game_t* game, struct game_parameters params)
 		Init first player
 	*/
 	first_turn->current_player = get_random_player(params.random_seed);
-	struct player_t* first_player = turn_get_current_player(first_turn);		
-	player_set_favor(first_player,0);
 
 	/*
 		Init the market
@@ -61,6 +60,12 @@ void init_game(struct game_t* game, struct game_parameters params)
 	{
 		players[index] = init_player();
 	}
+
+	/*
+		Init the first player without favor
+	*/
+	struct player_t* first_player = turn_get_current_player(first_turn);		
+	player_set_favor(first_player,0);
 	
 	//Init the random for the rest of the game 
 	srand(params.random_seed);
@@ -232,7 +237,6 @@ void turn_play(struct turn_t* current_turn, int display)
 	struct player_t* current_player = turn_get_current_player(current_turn);
 	int player_index = turn_get_current_player_index(current_turn);
 
-	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
 
 	/*
 		If the player has a favor he use it (or not)
@@ -247,8 +251,13 @@ void turn_play(struct turn_t* current_turn, int display)
 		{
 			skill_f favor_function = favor_by_id(favor_id);
 			favor_function(current_turn, current_player /* unused */);
-			DISPLAY(display, favor_display(favor_id, "Player used "));
-			DISPLAY(display, printf("\n"));
+			DISPLAY(display, favor_display(favor_id, HCYN "Player used "));
+			DISPLAY(display, printf("\n" CRESET));
+
+			/*
+				Remove the favor
+			*/
+			player_set_favor(current_player,player_get_favor(current_player) - 1); 
 		}
 		else {
 			DISPLAY(display, printf("Player had favor but he decided to keep it\n"));
@@ -267,7 +276,7 @@ void turn_play(struct turn_t* current_turn, int display)
 		/*
 			The player choosed to hire a builder and is able to do so
 		*/
-		DISPLAY(display,fprintf(output, "Player id.%d choosed to hire\n", player_index));
+		DISPLAY(display,fprintf(output, HCYN "Player id.%d choosed to hire\n" CRESET, player_index));
 		player_pay_builder(market, current_player, builder_to_buy);
 		player_hire_builder(guild, current_player, builder_to_buy);
 		/*
@@ -287,7 +296,7 @@ void turn_play(struct turn_t* current_turn, int display)
 		*/
 		int num_token_to_pick = rand() % 4; 
 		num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
-		DISPLAY(display, fprintf(output, "Player id.%d choosed to pick %d token(s)\n" , player_index, num_token_to_pick));
+		DISPLAY(display, fprintf(output, HCYN "Player id.%d choosed to pick %d token(s)\n"  CRESET, player_index, num_token_to_pick));
 
 		/*
 			Get the index of the first available token to match with the number of token that the player wanted to pick
@@ -301,7 +310,7 @@ void turn_play(struct turn_t* current_turn, int display)
 
 		if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 		{
-			DISPLAY(display, fprintf(output, "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , player_index));
+			DISPLAY(display, fprintf(output, RED "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" CRESET , player_index));
 		}else{
 			
 			struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
@@ -328,15 +337,17 @@ void turn_play(struct turn_t* current_turn, int display)
 	/*
 		End of the turn, display player inventory, game market and game guild to follow the game
 	*/
-
+	DISPLAY(display, fprintf(output, "\n"));
 	DISPLAY(display,fprintf(output, "Current inventory for player id.%d : \n", player_index));
 	DISPLAY(display, player_display_inventory(current_player));
-	
-	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
+	DISPLAY(display, fprintf(output, "\n"));
+
 	DISPLAY(display,fprintf(output, "Market after turn :\n"));
 	DISPLAY(display, market_display(market)) ;
+
 	DISPLAY(display,fprintf(output,"Game Guild  : \n"));
 	DISPLAY(display, guild_display(guild));
+	DISPLAY(display, fprintf(output, "\n"));
 
 	//fclose(output);
 }
@@ -369,8 +380,9 @@ void game_play(struct game_t *game, int display)
 		/*
 			Play turn
 		*/
-		DISPLAY(display,fprintf(output, "Turn n°%d\n", turn_index));
+		DISPLAY(display,fprintf(output, BBLU "════════════════════════" BRED "  TURN %d  " BBLU "════════════════════════════\n" CRESET, turn_index));
 		turn_play(current_turn, display );
+		DISPLAY(display, fprintf(output, BBLU "══════════════════════════════════════════════════════════════\n" CRESET));
 		DISPLAY(display, fprintf(output, "\n"));
 
 		/*
