@@ -24,31 +24,31 @@ int test_skills()
 	int test_passed = 0;
 
 	if(test_skill_guild_panic())
-    {
-        printf(GRN "Test skill_guild_panic passed\n" CRESET);
-        ++test_passed;
-    }
-    if(test_skill_market_panic())
-    {
-        printf(GRN "Test skill_market_panic passed\n" CRESET);
-        ++test_passed;
-    }
-    if(test_skill_masters_hand())
-    {
-        printf( GRN "Test skill_masters_hand passed\n" CRESET);
-        ++test_passed;
-    }
-    if(test_skill_token_rob())
-    {
-        printf(GRN "Test skill_token_rob passed\n" CRESET);
-        ++test_passed;
-    }
+	{
+		printf(GRN "Test skill_guild_panic passed\n" CRESET);
+		++test_passed;
+	}
+	if(test_skill_market_panic())
+	{
+		printf(GRN "Test skill_market_panic passed\n" CRESET);
+		++test_passed;
+	}
+	if(test_skill_masters_hand())
+	{
+		printf( GRN "Test skill_masters_hand passed\n" CRESET);
+		++test_passed;
+	}
+	if(test_skill_token_rob())
+	{
+		printf(GRN "Test skill_token_rob passed\n" CRESET);
+		++test_passed;
+	}
 
-    if(test_skill_turn_rob())
-    {
-        printf(GRN "Test skill_turn_rob passed\n" CRESET);
-        ++test_passed;
-    }
+	if(test_skill_turn_rob())
+	{
+		printf(GRN "Test skill_turn_rob passed\n" CRESET);
+		++test_passed;
+	}
 
 	return test_passed;
 }
@@ -92,13 +92,13 @@ int test_skill_guild_panic()
 	if (num_different_builder == 0)
 	{
 		fprintf(stderr, RED "test_skill_guild_panic: the guild panic didn't change\n" CRESET);
-        return 0;
+		return 0;
 	}
 
 	if (num_different_builder != 1)
 	{
 		fprintf(stderr, RED "test_skill_guild_panic: the guild panic change more than one builder\n" CRESET);
-        return 0;
+		return 0;
 	}
 	return 1;
 }
@@ -147,13 +147,13 @@ int test_skill_market_panic()
 	if (market_changes == 0)
 	{
 		fprintf(stderr, RED "test_skill_market_panic: no change in the market\n" CRESET);
-        return 0;
+		return 0;
 	}
 
 	if (market_changes != 2)
 	{
 		fprintf(stderr, RED "test_skill_market_panic: more than one token has been replace\n" CRESET);
-        return 0;
+		return 0;
 	}
 	return 1;
 }
@@ -192,7 +192,7 @@ int test_skill_masters_hand()
 	if (market_num_tokens(&player_get_ressources(current_player)->market) > 1)
 	{
 		fprintf(stderr, RED "test_skill_masters_hand: too much tokens picked by the player\n" CRESET);
-        return 0;
+		return 0;
 	}
 
 	if (market_num_tokens(&player_get_ressources(current_player)->market) == 0)
@@ -201,7 +201,7 @@ int test_skill_masters_hand()
 		fprintf(stdout, "Game market : \n");
 		market_display(game_market);
 		builder_display(picked_builder, "Picked Builder : \n");
-        return 0;
+		return 0;
 	}
 
 	/*
@@ -221,7 +221,7 @@ int test_skill_masters_hand()
 		fprintf(stderr, RED "test_skill_masters_hand: picked token is not provide by the picked builder\n" CRESET);
 		token_display(*picked_token, "Picked token : \n");
 		builder_display(picked_builder, "Picked builder : \n");
-        return 0;
+		return 0;
 	}
 
 
@@ -246,7 +246,7 @@ int test_skill_token_rob()
 	if (skill_token_rob(turn, turn /* unused */) != 0)
 	{
 		fprintf(stderr, RED "test_skill_token_rob: skill is doing something while no token in player inventory\n" CRESET);
-        return 0;
+		return 0;
 	}
 
 	struct player_t* players = turn_get_players(turn);
@@ -273,7 +273,7 @@ int test_skill_token_rob()
 	if (market_num_tokens(&player_get_ressources(current_player)->market) != 2)
 	{
 		fprintf(stderr, RED "test_skill_token_rob: player robbed no token\n" CRESET);
-        return 0;
+		return 0;
 	}
 	return 1;
 }
@@ -296,7 +296,7 @@ int test_skill_turn_rob()
 	if (new_player == current_player)
 	{
 		fprintf(stderr, RED "test_skill_turn_rob: next player is still the same\n" CRESET);
-        return 0;
+		return 0;
 	}
 
 	return 1;
