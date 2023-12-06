@@ -84,6 +84,10 @@ $(BUILD_DIR)/%.c.o: %.c
 
 .PHONY: clean
 
+color: 
+	make clean && DEBUG=0 PRINT=1 make
+	clear
+	@./project
 
 clean:
 	touch $(BUILD_DIR)/avoid_error
