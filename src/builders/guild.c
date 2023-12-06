@@ -1,4 +1,5 @@
 #include "guild.h"
+#include "ansi_color.h"
 #include "builder.h"
 #include "queue.h"
 #include "skills.h"
@@ -117,7 +118,7 @@ void guild_display(struct guild_t* guild)
 	}
 	if (guild_nb_builder(guild) == 0)
 	{
-		printf(" --- No builder in guild\n");
+		printf(WHT " --- No builder in guild\n" CRESET);
 	}
 }
 

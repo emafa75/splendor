@@ -107,8 +107,8 @@ void trigger_display_skill(const void* trigger)
 	{
 		if (trigger_skills[index] != NO_SKILL)
 		{
-			skill_display(trigger_skills[index], "");
-			printf(" skill execute\n");
+			skill_display(trigger_skills[index], HCYN "");
+			printf(" skill execute\n" CRESET);
 		}
 	}
 }
