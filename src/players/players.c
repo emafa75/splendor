@@ -26,11 +26,20 @@ struct player_t init_player()
 
 
 void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* picked_token){
+	/*
+		Can't take more token
+	*/
+	if(market_num_tokens(&player_get_ressources(player)->market) >= PLAYER_MAX_TOKENS)
+	{
+		return;
+	}
+	
 	struct token_t* token = market_pick_token(market, picked_token);
 	if (token == NULL)
 	{
 		return;
 	}
+	
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		/*

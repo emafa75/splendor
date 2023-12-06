@@ -294,8 +294,10 @@ void turn_play(struct turn_t* current_turn, int display)
 		/*
 			Choose how many token he wants to take (0 to 3), never more than the number of available token.
 		*/
+		int num_token_in_inventory = market_num_tokens(&player_get_ressources(current_player)->market);
 		int num_token_to_pick = rand() % 4; 
 		num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
+		num_token_to_pick = MIN(num_token_to_pick, PLAYER_MAX_TOKENS - num_token_in_inventory); //take never more than what he is able to pick
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d choosed to pick %d token(s)\n"  CRESET, player_index, num_token_to_pick));
 
 		/*
