@@ -139,7 +139,7 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 	--guild_get_available_builders(guild)->n_builders_available;
 	new_builder = queue_dequeue(builder_queue);	
 	guild_make_builder_available(guild, new_builder);
-	
+
 	// place it on builder's index
 	-- guild->n_builders;
 	return builder;
@@ -158,10 +158,7 @@ void guild_put_builder(struct guild_t* guild, struct builder_t* builder)
 	*/
 	if (guild_nb_builder_per_level(guild, builder_lvl) < MAX_BUILDERS_AVAILABLE_PER_LVL)
 	{
-		printf("DFEKLDE");
 		builder = queue_dequeue(queue);
-		if ( builder )
-			builder_display(builder, "DEQUEUE  : ");
 		guild_make_builder_available(guild, builder);
 	}
 
