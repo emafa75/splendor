@@ -12,6 +12,7 @@
 #include <time.h>
 #include <getopt.h>
 
+#include "color.h"
 #include "permutation.h"
 #include "players.h"
 #include "guild.h"
@@ -130,7 +131,10 @@ int main(int argc, char *argv[])
 		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(&turn_get_players(last_turn)[winner]));
 	}
 
+	printf("\n");
+	printf(BWHT "══════════════════════════  Game Statistics  ═════════════════════════════\n" CRESET);
 	game_stats_display(game_stats);
+	printf(BWHT "══════════════════════════════════════════════════════════════════════════\n" CRESET);
 
 	return EXIT_SUCCESS;
 }

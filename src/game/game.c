@@ -279,7 +279,6 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 	*/
 	enum choice random_choice = rand() % NUM_CHOICE; 
 	struct builder_t * builder_to_buy = select_affordable_builder(guild, current_player);
-
 	if ((random_choice == HIRE) && (builder_to_buy != NULL)) 
 	{
 		/*
@@ -460,12 +459,21 @@ void game_stats_display(struct game_statistics game_stats)
 	float forced_skip_tun = game_stats.forced_skip;
 	float nb_turns = game_stats.nb_turns;
 	float skipped_turns = (forced_skip_tun / nb_turns) * 100;
-	printf("Played turns : %d including %d skipped turn (%d%%)\nNumber of picked tokens: %d\nNumber of favors used : %d\nNumber of skills executed : %d\n",
+	printf("Played turns : " BYEL "%d " CRESET "including " RED "%d" CRESET " skipped turn (" RED "%d%%" CRESET ")\n\
+Number of picked tokens: " BYEL "%d " CRESET "\n\
+Number of favors used : " BYEL "%d " CRESET "\n\
+Number of skills executed : " BYEL "%d " CRESET " \n\
+Number of pick turn : " BYEL "%d" CRESET "\n\
+Number of hire turn : " BYEL "%d" CRESET "\n\
+Number of skipped turn : " BYEL "%d\n" CRESET,
 	game_stats.nb_turns,
 	game_stats.forced_skip,
 	(int) skipped_turns,
 	game_stats.num_picked_tokens,
 	game_stats.used_favor,
-	game_stats.used_skill
+	game_stats.used_skill,
+	game_stats.choices[PICK],
+	game_stats.choices[HIRE],
+	game_stats.choices[SKIP]
 	);
 }
