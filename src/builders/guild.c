@@ -134,13 +134,16 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 	int index = 0;
 	while (available_builders_get_builder(guild, index) != builder)
 		++index;
+	
+	guild->available_builders.builders[index] = NULL; 
+	new_builder = queue_dequeue(builder_queue);	
+	guild_make_builder_available(guild, new_builder);
 
-	new_builder = queue_dequeue(builder_queue);
 	if (new_builder == NULL)
 	{
 		--guild_get_available_builders(guild)->n_builders_available;
 	}
-	guild->available_builders.builders[index] = new_builder;  // place it on builder's index
+	// place it on builder's index
 	-- guild->n_builders;
 	return builder;
 }
@@ -152,6 +155,19 @@ void guild_put_builder(struct guild_t* guild, struct builder_t* builder)
 	struct queue_t* queue = guild_get_queue(guild, builder_lvl);
 	queue_append(queue, builder);
 	++guild->n_builders;
+
+	/*
+		If not enough builder available for hiring
+	*/
+	if (guild_nb_builder_per_level(guild, builder_lvl) < MAX_BUILDERS_AVAILABLE_PER_LVL)
+	{
+		printf("DFEKLDE");
+		builder = queue_dequeue(queue);
+		if ( builder )
+			builder_display(builder, "DEQUEUE  : ");
+		guild_make_builder_available(guild, builder);
+	}
+
 }
 
 
@@ -193,4 +209,35 @@ int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder)
 	}
 
 	return 0;
+}
+
+void guild_make_builder_available(struct guild_t *guild, struct builder_t* builder)
+{
+	if (builder == NULL)
+	{
+		return;
+	}
+	struct available_builders* available_builders = guild_get_available_builders(guild);
+	int index = 0;
+	while (available_builders_get_builder(guild, index) != NULL)
+	{
+		++index;
+	}
+	available_builders->builders[index] = builder;
+	++available_builders->n_builders_available;
+}
+
+int guild_nb_builder_per_level(struct guild_t* guild, unsigned int level)
+{
+	struct available_builders* available_builders = guild_get_available_builders(guild);
+	int count = 0;
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		struct builder_t* builder = available_builders->builders[index];
+		if (builder && builder_level(builder) == level)
+		{
+			++count;
+		}
+	}
+	return count;
 }

@@ -1,8 +1,6 @@
 #ifndef __GUILD_H__
 #define __GUILD_H__
 
-#include <stdio.h>
-
 #include "builder.h"
 #include "queue.h"
 
@@ -89,4 +87,14 @@ struct available_builders* guild_get_available_builders(struct guild_t* guild);
  *  Get the index-th buidler in guild.available_builders.builders
  */
 struct builder_t* available_builders_get_builder(struct guild_t* guild, int index);
+
+/*
+    Make builder available 
+*/
+void guild_make_builder_available(struct guild_t* guild, struct builder_t* builder );
+
+/*
+    Get number of builder available per level
+*/
+int guild_nb_builder_per_level(struct guild_t *guild, unsigned int level);
 #endif

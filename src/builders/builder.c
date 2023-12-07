@@ -14,8 +14,6 @@
 #include <time.h>
 
 #include "builder_constants.h"
-#include "ansi_color.h"
-#include "color_second_header.h"
 #include "set.h"
 #include "skills.h"
 

@@ -1,9 +1,6 @@
 
 #include "queue.h"
 
-#include <stdlib.h>
-#include <string.h>
-
 /*
  *  Create an empty queue
  */
@@ -11,6 +8,7 @@ struct queue_t create_default_queue()
 {
 	struct queue_t out = {};
 	out.size = MAX_QUEUE_SIZE;
+	out.length = 0 ;
 	return out;
 }
 

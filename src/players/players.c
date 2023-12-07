@@ -1,14 +1,12 @@
 #include "players.h"
 #include "ansi_color.h"
 #include "can_buy.h"
-#include "color.h"
 #include "guild.h"
 #include "market.h"
 #include "token.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "skills.h"
-#include "permutation.h"
 
 
 struct player_t init_player()
