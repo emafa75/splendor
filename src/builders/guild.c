@@ -136,13 +136,10 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 		++index;
 	
 	guild->available_builders.builders[index] = NULL; 
+	--guild_get_available_builders(guild)->n_builders_available;
 	new_builder = queue_dequeue(builder_queue);	
 	guild_make_builder_available(guild, new_builder);
-
-	if (new_builder == NULL)
-	{
-		--guild_get_available_builders(guild)->n_builders_available;
-	}
+	
 	// place it on builder's index
 	-- guild->n_builders;
 	return builder;

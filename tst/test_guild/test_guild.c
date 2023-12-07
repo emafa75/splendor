@@ -186,6 +186,7 @@ int test_get_available_builders()
     if(available_builders->n_builders_available > MAX_BUILDERS_AVAILABLE_PER_LVL * BUILDER_MAX_LEVEL)
     {
         fprintf(stderr, RED "test_get_available_builders : Too much available builders\n" CRESET);
+        guild_display(&guild);
         return 0;
     }
 
