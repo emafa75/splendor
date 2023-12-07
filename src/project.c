@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
 	/*
 		Play the game
 	*/
-	game_play(&game, PRINT);
+	struct game_statistics game_stats = game_play(&game, PRINT);
 
 	/*
 		End of the game, print results 
@@ -129,6 +129,8 @@ int main(int argc, char *argv[])
 	else{
 		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(&turn_get_players(last_turn)[winner]));
 	}
+
+	game_stats_display(game_stats);
 
 	return EXIT_SUCCESS;
 }
