@@ -1,8 +1,12 @@
 
 #include "can_buy.h"
 #include "builder.h"
+#include "market.h"
+#include "players.h"
 #include "set.h"
+#include "token.h"
 #include "token_second_header.h"
+#include <stdio.h>
 
 
 struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources ressources)
@@ -80,8 +84,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 		if (set_are_equals(&to_pay, &set_null))
 			return out;
 	}
-
-
+	
 	// If can't buy, set all pointers of out to null
 	if (!set_are_equals(&to_pay, &set_null))
 	{
@@ -115,8 +118,13 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 	for (unsigned int index = 0; index < MAX_BUILDERS ; ++index)
 	{
 		builder_wanted = available_builders_get_builder(guild, index); // get next builder available and check if it's possible to hire it
-		if (builder_wanted != NULL && can_buy(builder_wanted, player->ressources).market.tokens[0] != NULL)  // test if the player can buy it
+		if (builder_wanted != NULL)  // test if the player can buy it
 		{
+			struct ressources can_buy_ressources = can_buy(builder_wanted, *player_get_ressources(player));	
+			if (can_buy_ressources.guild.builders[0] == NULL && can_buy_ressources.market.tokens[0] == NULL)
+			{
+				return NULL;
+			}
 			return builder_wanted;
 		}
 	}
