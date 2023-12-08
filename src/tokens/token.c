@@ -4,6 +4,7 @@
 #include "token_second_header.h"
 #include "set.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 static struct token_t tokens[NUM_TOKENS] = {};
 
@@ -67,11 +68,10 @@ void init_tokens(unsigned int seed)
 				complex_token_colors[(color - 1) % NUM_COLORS] = 0;
 				complex_token_colors[color] = 2;
 				struct set_t set_for_complex_token = {};
-
+				set_for_complex_token.num_colors = 1;
 				for (int index = 0; index < NUM_COLORS; ++index)
 				{
 					set_for_complex_token.c[index] = complex_token_colors[index];
-					++set_for_complex_token.num_colors;
 				}
 
 				tokens[i] = create_complex_token(set_for_complex_token);	 

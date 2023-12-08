@@ -1,6 +1,8 @@
 
 #include "queue.h"
 
+#include <stdio.h>
+
 /*
  *  Create an empty queue
  */
