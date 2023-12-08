@@ -95,29 +95,8 @@ void init_tokens(unsigned int seed)
 			*/
 			int is_complex = rand() % 2;
 			
-			if(is_complex)
-			{
-				struct set_t set_for_complex_token = {};
-				for (int index = 0; index < MAX_COLORS_PER_TOKENS; ++index)
-				{
-					/*
-						Choose a random color and add it to the set
-					*/
-					enum color_t rand_color = rand() % NUM_COLORS;
-					++set_for_complex_token.c[rand_color];
-					set_for_complex_token.num_colors += (set_for_complex_token.c[index] == 1);	
-				}
+			tokens[i] = create_complex_token(create_random_set(is_complex + 1));
 
-				tokens[i] = create_complex_token(set_for_complex_token);
-			}
-			else{
-				/*
-					Create simple token with a random color
-				*/
-				enum color_t rand_color = rand() % NUM_COLORS;
-				tokens[i] = create_simple_token(rand_color);
-
-			}
 			++i;
 		}
 	}
