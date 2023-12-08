@@ -9,18 +9,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <getopt.h>
-
-#include "color.h"
-#include "permutation.h"
 #include "players.h"
-#include "guild.h"
-#include "market.h"
-#include "builder.h"
-#include "skills.h"
-#include "token.h"
-#include "can_buy.h"
 #include "game.h"
 #include "ansi_color.h"
 
@@ -55,6 +45,7 @@ struct game_parameters game_params = {
 	.market_seed = MARKET_SEED,
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
+	.display = PRINT,
 };
 
 int main(int argc, char *argv[])

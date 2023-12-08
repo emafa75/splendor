@@ -14,6 +14,12 @@
 #define MIN(__x, __y) \
   ((__x) < (__y) ? (__x) : (__y))
 
+/*
+	Used to use a display function only if _x is true
+*/
+#define DISPLAY(_x, _y)\
+	(_x) ? (_y) : UNUSED(_x);
+
 struct turn_t
 {
     struct market_t market;
@@ -21,6 +27,7 @@ struct turn_t
     struct player_t players[MAX_PLAYERS];
     unsigned int current_player;
     unsigned int points_to_win;
+	unsigned int display; /* Used to display in other functions*/
 };
 
 struct game_t
@@ -37,6 +44,7 @@ struct game_parameters
     int builder_seed;
     int market_seed;
     int random_seed;
+	int display;
 };
 
 enum choice {

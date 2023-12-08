@@ -11,11 +11,7 @@
 #include "token_second_header.h"
 #include "builder.h"
 #include "favors.h"
-/*
-	Used to use a display function only if _x is true
-*/
-#define DISPLAY(_x, _y)\
-	(_x) ? (_y) : UNUSED(_x);
+
 
 void init_game(struct game_t* game, struct game_parameters params)
 {
@@ -31,6 +27,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 	game->current_turn_index = 0; //use index 0 to save the initialisation
 	game->num_turns = params.max_turns;
 	first_turn->points_to_win = params.points_to_win;
+	first_turn->display = params.display;
 
 	/*
 		Init first player

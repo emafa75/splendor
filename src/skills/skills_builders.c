@@ -2,6 +2,7 @@
 #include "game.h"
 #include "market.h"
 #include "players.h"
+#include "skills.h"
 #include "token.h"
 #include "set.h"
 #include <stdlib.h>
@@ -90,6 +91,13 @@ int skill_masters_hand(struct turn_t* turn, const void* trigger)
 
 	market_pick_token(global_market, token);
 	market_pay_token(current_player_market, token);
+
+
+	/*
+		Execute skills from the token (if they exist)
+	*/
+	skill_exec(turn, token);
+	DISPLAY(turn->display, trigger_display_skill(token));
 
 	return 1;
 }

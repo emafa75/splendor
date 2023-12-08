@@ -41,6 +41,13 @@ int favor_return(struct turn_t *turn, const void *trigger)
 	taken_token = global_market->tokens[token_ind];
 
 	player_pick_token(global_market, current_player, taken_token);
+
+	/*
+		Execute skills from the token (if they exist)
+	*/
+	skill_exec(turn, taken_token);
+	DISPLAY(turn->display, trigger_display_skill(taken_token));
+
 	return 1;
 }
 
