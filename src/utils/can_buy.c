@@ -99,13 +99,32 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 }
 
 
-unsigned  int is_usable(struct set_t *set, struct set_t cost)
+unsigned int is_usable(struct set_t *set, struct set_t cost)
 {
 	for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 	{
 		if (cost.c[j] != 0 && set->c[j] != 0)  // tests if the builder can helps with paying builder_to_buy
 			return 1;
 	}
+
+	return 0;
+}
+
+
+int cant_buy(struct ressources* can_buy_out)
+{
+	for (int i = 0 ; i < can_buy_out->guild.n_builders ; ++i)
+	{
+		if (can_buy_out->guild.builders[i] != NULL)
+			return 1;
+	}
+
+	for (int i = 0 ; i < NUM_TOKENS ; ++i)
+	{
+		if (can_buy_out->market.tokens[i] != NULL)
+			return 1;
+	}
+
 
 	return 0;
 }
@@ -121,7 +140,7 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 		if (builder_wanted != NULL)  // test if the player can buy it
 		{
 			struct ressources can_buy_ressources = can_buy(builder_wanted, *player_get_ressources(player));	
-			if (can_buy_ressources.guild.builders[0] == NULL && can_buy_ressources.market.tokens[0] == NULL)
+			if (cant_buy(&can_buy_ressources))
 			{
 				return NULL;
 			}

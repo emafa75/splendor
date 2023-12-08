@@ -277,10 +277,12 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 	/*
 		Take a random decision and check if it's possible to hire a builder
 	*/
-	enum choice random_choice = rand() % NUM_CHOICE; 
-	struct builder_t * builder_to_buy = select_affordable_builder(guild, current_player);
-	if ((random_choice == HIRE) && (builder_to_buy != NULL)) 
+	enum choice random_choice = rand() % 100; 
+	printf("choice: %d\n", random_choice);
+	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
+	if ((random_choice <= 50) && (builder_to_buy != NULL)) 
 	{
+		stats.choice = HIRE;
 		/*
 			The player choosed to hire a builder and is able to do so
 		*/
@@ -299,11 +301,13 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 		*/
 		stats.used_skill += trigger_num_skills(builder_to_buy); 
 	}
-	else if ((random_choice == PICK) || ((random_choice == HIRE) && (builder_to_buy == NULL)))
+	else if (random_choice <= 90)
 	{
+		stats.choice = PICK;
 		//change random choice to fit with the current action
-		if ((random_choice == HIRE) && (builder_to_buy == NULL)) 
-			random_choice = PICK ;
+		// if ((random_choice == HIRE) && (builder_to_buy == NULL)) 
+		// 	random_choice = PICK ;
+
 		/*
 			The player choosed to pick a token or is unable to hire a builder (default choice)
 		*/
@@ -326,10 +330,12 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 			If his choice is impossible, he skip his turn;
 		*/
 
-		if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
+		if (index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 		{
 			DISPLAY(display, fprintf(output, RED "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" CRESET , player_index));
-		}else{
+		}
+		else
+		{
 			
 			struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
 
@@ -364,8 +370,9 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 			++stats.forced_skip;
 		}
 		
-	}else if (random_choice == SKIP)
+	}else 
 	{
+		stats.choice = SKIP;
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d skipped his turn\n" CRESET, player_index));
 	}
 
@@ -388,7 +395,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 		Add statistics
 	*/
 
-	stats.choice = random_choice;
+	// stats.choice = random_choice;
 
 	//fclose(output);
 
