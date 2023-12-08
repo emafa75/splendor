@@ -1,8 +1,6 @@
 #ifndef __SET_H__
 #define __SET_H__
 
-#include <stdio.h>
-
 #include "color.h"
 
 

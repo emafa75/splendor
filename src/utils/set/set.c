@@ -1,6 +1,7 @@
 #include "set.h"
 #include "color_second_header.h"
 #include "ansi_color.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 struct set_t SET_ZEROS = {};
@@ -133,7 +134,7 @@ struct set_t create_random_set(int num_colors)
 		*/
 		enum color_t rand_color = rand() % NUM_COLORS;
 		++set_for_complex_token.c[rand_color];
-		set_for_complex_token.num_colors += (set_for_complex_token.c[index] == 1);	
+		set_for_complex_token.num_colors += (set_for_complex_token.c[rand_color] == 1);	
 	}
 
 	return set_for_complex_token;
