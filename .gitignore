@@ -15,3 +15,8 @@ vgcore.*
 
 tmp/
 tmp/**/*
+
+
+evaluator
+tmp.out
+

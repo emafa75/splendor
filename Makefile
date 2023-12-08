@@ -13,7 +13,7 @@ CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) # -fstack-usage
 
 PROJECT_TARGET_EXEC := project
 TEST_TARGET_EXEC := test
-
+EVALUATOR_TARGET_EXEC := evaluator
 
 BUILD_DIR := ./build
 SRC_DIRS := ./src
@@ -21,6 +21,7 @@ TST_DIRS := ./tst
 
 PROJECT_MAIN_FILE_NAME := ./src/project.c
 TEST_MAIN_FILE_NAME := ./tst/test.c
+EVALUATOR_MAIN_FILE_NAME := ./evaluator_src/main.c
 
 
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
@@ -33,6 +34,7 @@ TST_SRCS := $(shell find $(TST_DIRS) -name '*.c')
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 PROJECT_OBJS := $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TST_SRCS:%=$(BUILD_DIR)/%.o)
+EVALUATOR_OBJS := $(EVALUATOR_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 
 
 # String substitution (suffix version without %).
@@ -53,6 +55,7 @@ CFLAGS := $(CFLAGS) $(INC_FLAGS) # -MMD -MP
 
 all: project
 
+evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
@@ -60,15 +63,22 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 	./test
 
 
-# The final build step.
+# The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
 	#Compiles the project
 	@$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
+# The final build step for tests
 $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 	#Compiles the tests
 	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
+
+
+# The final build step for evaluator
+$(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC): $(EVALUATOR_OBJS)
+	#Compiles the evaluator
+	$(CC) $(EVALUATOR_OBJS) -o $(EVALUATOR_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 clang_custom_lib_support:
@@ -92,7 +102,9 @@ color:
 clean:
 	touch $(BUILD_DIR)/avoid_error
 	rm -r $(BUILD_DIR)/*
-	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC)
+	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC)
+
+
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
