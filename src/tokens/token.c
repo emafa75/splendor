@@ -1,9 +1,7 @@
 
 #include "token.h"
 #include "color.h"
-#include "game.h"
 #include "token_second_header.h"
-#include "skills.h"
 #include "set.h"
 #include <stdlib.h>
 

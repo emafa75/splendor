@@ -2,7 +2,6 @@
 #define  __SKILLS_H__
 
 #include "game.h"
-#include <complex.h>
 
 #define MAX_SKILLS_PER_TRIGGER 3
 #define NB_SKILLS_IN_GAME (MAX_BUILDERS + NUM_TOKENS)

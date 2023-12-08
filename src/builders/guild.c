@@ -21,6 +21,7 @@ void init_guild(struct guild_t* guild)
 	struct builder_t* builder;
 	struct queue_t* queue;
 	int builder_lvl;
+
 	//reset stacks
 	for (int index = 0 ; index < NUM_LEVELS ; ++index)
 	{
@@ -116,6 +117,10 @@ void guild_display(struct guild_t* guild)
 
 struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* builder)
 {
+	if (builder == NULL)
+	{
+		return NULL;
+	}
 	int builder_lvl = builder_level(builder);
 	struct builder_t* new_builder;
 
