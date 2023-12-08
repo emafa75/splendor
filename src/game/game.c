@@ -278,7 +278,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 		Take a random decision and check if it's possible to hire a builder
 	*/
 	enum choice random_choice = rand() % 100; 
-	printf("choice: %d\n", random_choice);
+	//printf("choice: %d\n", random_choice);
 	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
 	if ((random_choice <= 50) && (builder_to_buy != NULL)) 
 	{
