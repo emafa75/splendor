@@ -21,11 +21,6 @@ void init_guild(struct guild_t* guild)
 	struct builder_t* builder;
 	struct queue_t* queue;
 	int builder_lvl;
-
-	struct available_builders* available_builders;
-
-	int available_builders_index = 0;
-
 	//reset stacks
 	for (int index = 0 ; index < NUM_LEVELS ; ++index)
 	{
@@ -49,12 +44,8 @@ void init_guild(struct guild_t* guild)
 		{
 			queue = guild_get_queue(guild, level);
 			builder = queue_dequeue(queue);
-			available_builders = guild_get_available_builders(guild);
 
-			// Not really clean but this is init function, and
-			available_builders->builders[available_builders_index] = builder;
-			++available_builders->n_builders_available;
-			++available_builders_index;
+			guild_make_builder_available(guild, builder);
 		}
 	}
 }
