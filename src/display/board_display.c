@@ -8,8 +8,8 @@
 #define PRINT_CARACT(_n, _c)\
 	for (int i = 0; i < (_n); ++i)  printf(_c);
 
-#define TILE_LENGTH 30
-#define TILE_WIDTH 8
+#define TILE_LENGTH 14
+#define TILE_WIDTH 3
 
 void place_token_in_board(struct token_t *tokens[NUM_TOKENS], \
 struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], \
