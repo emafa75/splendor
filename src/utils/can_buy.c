@@ -144,7 +144,7 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 			struct ressources can_buy_ressources = can_buy(builder_wanted, *player_get_ressources(player));	
 			if (cant_buy(&can_buy_ressources))
 			{
-				return NULL;
+				continue;
 			}
 			return builder_wanted;
 		}
