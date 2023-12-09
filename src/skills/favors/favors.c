@@ -32,6 +32,17 @@ int favor_return(struct turn_t *turn, const void *trigger)
 	struct player_t* current_player = turn_get_current_player(turn);
 	struct token_t* taken_token;
 
+	/*
+		If player has already the max of token then stop the execution
+	*/
+	
+	struct market_t* current_player_market = &player_get_ressources(current_player)->market;
+	
+	if(market_num_tokens(current_player_market) >= PLAYER_MAX_TOKENS)
+	{
+		return 0;
+	}
+
 	// Get the index of a random token in global_market
 	int token_ind = market_get_linked_tokens(global_market, 1);
 

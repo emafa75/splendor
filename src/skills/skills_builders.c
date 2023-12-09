@@ -15,6 +15,17 @@ int skill_token_rob(struct turn_t* turn, const void* trigger)
 
 	struct player_t* robber_player = turn_get_current_player(turn);
 	/*
+		If player has already the max of token then stop the execution
+	*/
+	
+	struct market_t* current_player_market = &player_get_ressources(robber_player)->market;
+	
+	if(market_num_tokens(current_player_market) >= PLAYER_MAX_TOKENS)
+	{
+		return 0;
+	}
+
+	/*
 		Choose random player 
 	*/
 	int rand_index = rand() % MAX_PLAYERS;
@@ -77,6 +88,15 @@ int skill_masters_hand(struct turn_t* turn, const void* trigger)
 
 	struct player_t* current_player = turn_get_current_player(turn);
 	struct market_t* current_player_market = &player_get_ressources(current_player)->market;
+	
+	/*
+		If player has already the max of token then stop the execution
+	*/
+
+	if(market_num_tokens(current_player_market) >= PLAYER_MAX_TOKENS)
+	{
+		return 0;
+	}
 
 	struct market_t* global_market = turn_get_market(turn);
 	
