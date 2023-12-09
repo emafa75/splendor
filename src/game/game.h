@@ -72,6 +72,7 @@ struct game_statistics
 	int num_picked_tokens;
 	int forced_skip;
 	int nb_turns;
+	int result;
 };
 
 /*

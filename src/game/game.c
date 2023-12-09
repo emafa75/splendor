@@ -454,6 +454,7 @@ struct game_statistics game_play(struct game_t *game, int display)
 		game_save_turn(game);
 
 	}
+	game_stats.result = (has_won(current_turn));
 
 	return game_stats;
 }
