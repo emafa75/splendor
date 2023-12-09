@@ -22,3 +22,6 @@ tmp.out
 
 #outputs
 *.out
+
+#python 
+*.py
