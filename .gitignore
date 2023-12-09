@@ -20,3 +20,5 @@ tmp/**/*
 evaluator
 tmp.out
 
+#outputs
+*.out
