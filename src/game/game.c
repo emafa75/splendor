@@ -209,7 +209,6 @@ void turn_display(struct turn_t* turn)
 	printf("\n");
 	printf("Game Guild :\n");
 	guild_display(turn_get_guild(turn));
-
 }
 
 struct turn_statistics turn_play(struct turn_t* current_turn, int display)
@@ -355,7 +354,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn, int display)
 					Add statistics
 				*/
 				stats.used_skill += trigger_num_skills(picked_tokens[index]); 
-			}			
+			}	
 		}
 
 		/*

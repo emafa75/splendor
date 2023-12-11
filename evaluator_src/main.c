@@ -105,21 +105,30 @@ int main(int argc, char *argv[])
 	// display_options();
 	print_stats_header(stdout);
 
-	int n = 10;
+	int n2 = 10;
+	int n = 100;
+	int offset = 1;
+	int k = 0;
 
-	for (int r_seed = 0 ; r_seed < n ; ++r_seed)
+	for (int b_seed = 1 ; b_seed < n2 + 1 ; ++b_seed)
 	{
-		for (int b_seed = 0 ; b_seed < n ; ++b_seed)
+		for (int t_seed = 1 ; t_seed < n2 + 1 ; ++t_seed)
 		{
-			for (int t_seed = 0 ; t_seed < n ; ++t_seed)
+			for (int r_seed = offset ; r_seed < n + offset ; ++r_seed)
 			{
+				fprintf(stderr, "Current seeds: r: %d, t: %d, b: %d\n", r_seed, t_seed, b_seed);
+				k++;
+				if (k % 100 == 0)
+					fprintf(stderr, "%d\n", k);
+
+				struct game_t game = {};
+
 				game_params.random_seed = r_seed;
 				game_params.builder_seed = b_seed;
 				game_params.market_seed = t_seed;
 				/*
 					Init all instances
 				*/
-				struct game_t game = {};
 				init_game(&game, game_params);
 
 				/*
@@ -130,10 +139,6 @@ int main(int argc, char *argv[])
 				/*
 					End of the game, print results 
 				*/
-				struct turn_t* last_turn = game_get_current_turn(&game);
-				int winner = get_winner(last_turn);
-
-
 				display_stats(game_stats, game_params, stdout);
 			}
 		}
@@ -144,7 +149,7 @@ int main(int argc, char *argv[])
 
 void print_stats_header(FILE* file)
 {
-	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forces_skip;nb_turns\n");
+	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns\n");
 }
 
 
