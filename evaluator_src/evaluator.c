@@ -151,8 +151,12 @@ int main(int argc, char *argv[])
 				/*
 					End of the game, print results 
 				*/
+<<<<<<< HEAD:evaluator_src/evaluator.c
 
 				//display_stats(game_stats, game_params, stdout);
+=======
+				display_stats(game_stats, game_params, stdout);
+>>>>>>> 20e89b7 (merge):evaluator_src/main.c
 			}
 			average_stats.forced_skip /= tested_seeds;
 			average_stats.nb_turns /= tested_seeds;
@@ -174,7 +178,11 @@ int main(int argc, char *argv[])
 
 void print_stats_header(FILE* file)
 {
+<<<<<<< HEAD:evaluator_src/evaluator.c
 	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns;result\n");
+=======
+	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns\n");
+>>>>>>> 20e89b7 (merge):evaluator_src/main.c
 }
 
 
