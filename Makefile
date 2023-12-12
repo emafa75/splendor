@@ -21,7 +21,7 @@ TST_DIRS := ./tst
 
 PROJECT_MAIN_FILE_NAME := ./src/project.c
 TEST_MAIN_FILE_NAME := ./tst/test.c
-EVALUATOR_MAIN_FILE_NAME := ./evaluator_src/main.c
+EVALUATOR_MAIN_FILE_NAME := ./evaluator_src/evaluator.c
 
 
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
@@ -35,11 +35,6 @@ TST_SRCS := $(shell find $(TST_DIRS) -name '*.c')
 PROJECT_OBJS := $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TST_SRCS:%=$(BUILD_DIR)/%.o)
 EVALUATOR_OBJS := $(EVALUATOR_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
-
-
-# String substitution (suffix version without %).
-# As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
-DEPS := $(OBJS:.o=.d)
 
 
 # Every folder in ./src will need to be passed to GCC so that it can find header files
@@ -78,7 +73,7 @@ $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 # The final build step for evaluator
 $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC): $(EVALUATOR_OBJS)
 	#Compiles the evaluator
-	$(CC) $(EVALUATOR_OBJS) -o $(EVALUATOR_TARGET_EXEC) $(LDFLAGS)  # $@
+	@$(CC) $(EVALUATOR_OBJS) -o $(EVALUATOR_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 clang_custom_lib_support:
@@ -100,8 +95,7 @@ color:
 	@./project
 
 clean:
-	touch $(BUILD_DIR)/avoid_error
-	rm -r $(BUILD_DIR)/*
+	rm -rf $(BUILD_DIR)/*
 	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC)
 
 
