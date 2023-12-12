@@ -9,18 +9,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <getopt.h>
 
-#include "color.h"
-#include "permutation.h"
-#include "players.h"
-#include "guild.h"
-#include "market.h"
-#include "builder.h"
-#include "skills.h"
-#include "token.h"
-#include "can_buy.h"
 #include "game.h"
 
 
@@ -38,13 +28,24 @@ enum parameters {
 	MARKET_SEED = 0,
 };
 
+struct game_float_statistics
+{
+	float choices[NUM_CHOICE];
+	float used_favor;
+	float used_skill;
+	float num_picked_tokens;
+	float forced_skip;
+	float nb_turns;
+	float result;
+};
+
 void print_usage(char *argv[]);
 
 /*
  *	Display the stats for evaluator
  */
 void print_stats_header(FILE* file);
-void display_stats(struct game_statistics stats, struct game_parameters game_parameters, FILE* file);
+void display_stats(struct game_float_statistics stats, struct game_parameters game_parameters, FILE* file);
 
 
 /*
@@ -105,18 +106,16 @@ int main(int argc, char *argv[])
 	// display_options();
 	print_stats_header(stdout);
 
-	int n2 = 10;
-	int n = 100;
-	int offset = 1;
+	int n = 10;
+	int tested_seeds = 100;
 	int k = 0;
-
-	for (int b_seed = 1 ; b_seed < n2 + 1 ; ++b_seed)
+	for (int t_seed = 0 ; t_seed < n; ++t_seed)
 	{
-		for (int t_seed = 1 ; t_seed < n2 + 1 ; ++t_seed)
+		for (int b_seed = 1 ; b_seed < n ; ++b_seed)
 		{
-			for (int r_seed = offset ; r_seed < n + offset ; ++r_seed)
+			struct game_float_statistics average_stats = {};
+			for (int r_seed = 0 ; r_seed < tested_seeds ; ++r_seed)
 			{
-				fprintf(stderr, "Current seeds: r: %d, t: %d, b: %d\n", r_seed, t_seed, b_seed);
 				k++;
 				if (k % 100 == 0)
 					fprintf(stderr, "%d\n", k);
@@ -126,6 +125,7 @@ int main(int argc, char *argv[])
 				game_params.random_seed = r_seed;
 				game_params.builder_seed = b_seed;
 				game_params.market_seed = t_seed;
+
 				/*
 					Init all instances
 				*/
@@ -136,11 +136,36 @@ int main(int argc, char *argv[])
 				*/
 				struct game_statistics game_stats = game_play(&game, PRINT);
 
+				average_stats.forced_skip += game_stats.forced_skip;
+				average_stats.nb_turns += game_stats.nb_turns;
+				average_stats.num_picked_tokens += game_stats.num_picked_tokens;
+				average_stats.result += game_stats.result;
+				average_stats.used_favor += game_stats.used_favor;
+				average_stats.used_skill += game_stats.used_skill;
+				
+				for (int index = 0; index < NUM_CHOICE; ++index)
+				{
+					average_stats.choices[index] += game_stats.choices[index];
+				}
+
 				/*
 					End of the game, print results 
 				*/
-				display_stats(game_stats, game_params, stdout);
+
+				//display_stats(game_stats, game_params, stdout);
 			}
+			average_stats.forced_skip /= tested_seeds;
+			average_stats.nb_turns /= tested_seeds;
+			average_stats.num_picked_tokens /= tested_seeds;
+			average_stats.result /= tested_seeds;
+			average_stats.used_favor /= tested_seeds;
+			average_stats.used_skill /= tested_seeds;
+			
+			for (int index = 0; index < NUM_CHOICE; ++index)
+			{
+				average_stats.choices[index] /= tested_seeds;
+			}
+			display_stats(average_stats, game_params, stdout);
 		}
 	}
 	return EXIT_SUCCESS;
@@ -149,11 +174,11 @@ int main(int argc, char *argv[])
 
 void print_stats_header(FILE* file)
 {
-	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns\n");
+	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns;result\n");
 }
 
 
-void display_stats(struct game_statistics stats, struct game_parameters game_parameters, FILE* file)
+void display_stats(struct game_float_statistics stats, struct game_parameters game_parameters, FILE* file)
 {
 	fprintf(file, "%d;%d;%d;",
 			game_parameters.random_seed,
@@ -162,16 +187,17 @@ void display_stats(struct game_statistics stats, struct game_parameters game_par
 
 
 	for (int i = 0 ; i < NUM_CHOICE - 1 ; ++i)
-		fprintf(file, "%d,", stats.choices[i]);
+		fprintf(file, "%f,", stats.choices[i]);
 
-	fprintf(file, "%d;", stats.choices[NUM_CHOICE - 1]);
+	fprintf(file, "%f;", stats.choices[NUM_CHOICE - 1]);
 
-	fprintf(file, "%d;%d;%d;%d;%d\n",
+	fprintf(file, "%f;%f;%f;%f;%f;%f\n",
 			stats.used_favor,
 			stats.used_skill,
 			stats.num_picked_tokens,
 			stats.forced_skip,
-			stats.nb_turns
+			stats.nb_turns,
+			stats.result
 			);
 
 }
