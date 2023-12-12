@@ -108,7 +108,6 @@ int main(int argc, char *argv[])
 
 	int n = 10;
 	int tested_seeds = 100;
-	int k = 0;
 	for (int t_seed = 0 ; t_seed < n; ++t_seed)
 	{
 		for (int b_seed = 1 ; b_seed < n ; ++b_seed)
@@ -116,10 +115,6 @@ int main(int argc, char *argv[])
 			struct game_float_statistics average_stats = {};
 			for (int r_seed = 0 ; r_seed < tested_seeds ; ++r_seed)
 			{
-				k++;
-				if (k % 100 == 0)
-					fprintf(stderr, "%d\n", k);
-
 				struct game_t game = {};
 
 				game_params.random_seed = r_seed;
@@ -151,12 +146,8 @@ int main(int argc, char *argv[])
 				/*
 					End of the game, print results 
 				*/
-<<<<<<< HEAD:evaluator_src/evaluator.c
 
 				//display_stats(game_stats, game_params, stdout);
-=======
-				display_stats(game_stats, game_params, stdout);
->>>>>>> 20e89b7 (merge):evaluator_src/main.c
 			}
 			average_stats.forced_skip /= tested_seeds;
 			average_stats.nb_turns /= tested_seeds;
@@ -178,11 +169,7 @@ int main(int argc, char *argv[])
 
 void print_stats_header(FILE* file)
 {
-<<<<<<< HEAD:evaluator_src/evaluator.c
 	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns;result\n");
-=======
-	fprintf(file, "random_seed;seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns\n");
->>>>>>> 20e89b7 (merge):evaluator_src/main.c
 }
 
 
