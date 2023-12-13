@@ -153,7 +153,7 @@ unsigned int get_random_player(int random_seed);
     Play a turn, has a display option
 */
 
-struct turn_statistics turn_play(struct turn_t* current_turn, int display);
+struct turn_statistics turn_play(struct turn_t* current_turn);
 
 /*
 	Display the stats of a game
