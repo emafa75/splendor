@@ -28,11 +28,12 @@ int skill_token_rob(struct turn_t* turn, const void* trigger)
 	/*
 		Choose random player 
 	*/
-	int rand_index = rand() % MAX_PLAYERS;
+	int num_player = turn_get_num_player(turn);
+	int rand_index = rand() % num_player;
 	struct player_t* stolen_player = &turn_get_players(turn)[rand_index];
 
 	while (robber_player == stolen_player) {
-		int rand_index = rand() % MAX_PLAYERS;
+		int rand_index = rand() % num_player;
 		stolen_player = &turn_get_players(turn)[rand_index];
 	}
 

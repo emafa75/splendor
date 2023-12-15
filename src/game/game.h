@@ -5,12 +5,20 @@
 #include "market.h"
 #include "players.h"
 
-#include "utils.h"
-
-#define MAX_PLAYERS 2
+#define MAX_PLAYERS 4
 #define MAX_MAX_TURNS 100
 
 #define TIE -1
+
+#define UNUSED(x) (void)(x)
+#define MIN(__x, __y) \
+  ((__x) < (__y) ? (__x) : (__y))
+
+/*
+	Used to use a display function only if _x is true
+*/
+#define DISPLAY(_x, _y)\
+	(_x) ? (_y) : UNUSED(_x);
 
 struct turn_t
 {
@@ -20,6 +28,7 @@ struct turn_t
     unsigned int current_player;
     unsigned int points_to_win;
 	unsigned int display; /* Used to display in other functions*/
+	int num_player;
 };
 
 struct game_t
@@ -37,6 +46,7 @@ struct game_parameters
     int market_seed;
     int random_seed;
 	int display;
+	int num_player;
 };
 
 enum choice {
@@ -117,6 +127,11 @@ struct player_t* turn_get_current_player(struct turn_t* turn);
 int turn_get_current_player_index(struct turn_t* turn);
 
 /*
+	Get number of player in the turn
+*/
+int turn_get_num_player(struct turn_t* turn);
+
+/*
     Display the current state of the turn
 */
 void turn_display(struct turn_t* turn);
@@ -139,7 +154,7 @@ int get_winner(struct turn_t* current_turn);
 /*
     Returns a random index of a player
 */
-unsigned int get_random_player(int random_seed);
+unsigned int get_random_player(int random_seed, int num_player);
 
 /*
     Play a turn, has a display option
