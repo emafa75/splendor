@@ -139,3 +139,14 @@ struct set_t create_random_set(int num_colors)
 
 	return set_for_complex_token;
 }
+
+int set_num_ressources(struct set_t* set)
+{
+	int num_ressources = 0;
+	for (int index = 0; index < NUM_COLORS; ++index)
+	{
+		num_ressources += set->c[index];
+	}
+
+	return num_ressources;
+}

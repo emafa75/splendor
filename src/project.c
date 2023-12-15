@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	*/
 	int options;
 
-	while ((options = getopt(argc,argv, "s:m:c:p:t:")) != -1)
+	while ((options = getopt(argc,argv, "s:m:c:p:t:v")) != -1)
 	{
 		switch (options) {
 			case 's':
@@ -79,6 +79,9 @@ int main(int argc, char *argv[])
 				break;
 			case 't':
 				game_params.market_seed = atoi(optarg);
+				break;
+			case 'v':
+				game_params.display = 1;
 				break;
 			default: 
 				print_usage(argv);
@@ -105,7 +108,7 @@ int main(int argc, char *argv[])
 	/*
 		Play the game
 	*/
-	struct game_statistics game_stats = game_play(&game, PRINT);
+	struct game_statistics game_stats = game_play(&game, game_params.display);
 
 	/*
 		End of the game, print results 

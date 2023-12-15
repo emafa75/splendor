@@ -211,8 +211,12 @@ void turn_display(struct turn_t* turn)
 	guild_display(turn_get_guild(turn));
 }
 
-struct turn_statistics turn_play(struct turn_t* current_turn, int display)
+struct turn_statistics turn_play(struct turn_t* current_turn)
 {
+	/*
+		Display
+	*/
+	int display = current_turn->display;
 	/*
 		If we need a display
 	*/
@@ -432,7 +436,7 @@ struct game_statistics game_play(struct game_t *game, int display)
 			Play turn
 		*/
 		DISPLAY(display,fprintf(output, BBLU "════════════════════════" BRED "  TURN %d  " BBLU "════════════════════════════\n" CRESET, turn_index));
-		struct turn_statistics turn_stats = turn_play(current_turn, display );
+		struct turn_statistics turn_stats = turn_play(current_turn);
 		DISPLAY(display, fprintf(output, BBLU "══════════════════════════════════════════════════════════════\n" CRESET));
 		DISPLAY(display, fprintf(output, "\n"));
 
