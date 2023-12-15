@@ -1,6 +1,7 @@
 
 #include "can_buy.h"
 #include "builder.h"
+#include "guild.h"
 #include "market.h"
 #include "players.h"
 #include "set.h"
@@ -15,7 +16,7 @@ struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources re
 	struct set_t cost = builder_requires(builder_to_buy);
 	struct set_t builder_provide;
 
-	struct set_t set_null = {};  // Used to compare to null, if all
+	struct set_t set_null = set_zero();  // Used to compare to null, if all
 	struct set_t to_pay = cost;  // Copy to track what is still needed to pay
 
 	struct set_t token_set;
@@ -153,4 +154,137 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 	return NULL;
 }
 
+/*
+	Returns 1 if we can pay the set with the provided tokens (stock in the market)
+*/
+int can_use_market(struct set_t to_pay, struct market_t* market)
+{
+	struct token_t* token = NULL;
+	struct set_t zero = set_zero();
 
+	for (int index = 0; index < NUM_TOKENS; ++index)
+	{
+		token = market->tokens[index];
+
+		if (token != NULL)
+		{
+			// reduce to_pay with the token
+			for (enum color_t color = 0 ; color < NUM_COLORS ; ++color)
+			{
+				if (to_pay.c[color] > token->s.c[color])
+					to_pay.c[color] = to_pay.c[color] - token->s.c[color];
+				else
+					to_pay.c[color] = 0;
+			}
+			/*
+				Check if we can already buy it
+			*/
+			if (set_are_equals(&to_pay, &zero))
+			{
+				return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+struct market_t get_best_market( struct market_t first_market, struct market_t second_market, struct set_t to_pay)
+{
+	struct market_t best_market = first_market;
+	return best_market;
+}
+
+struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources ressources)
+{
+	struct set_t cost = builder_requires(builder_to_buy);
+
+	struct ressources needed_ressources = {};
+
+	struct guild_t* guild = &ressources.guild;
+	struct market_t* market = &ressources.market;
+
+
+	/*
+		Use builders to pay first 
+	*/
+
+	//tmp variables
+	struct set_t builder_provide;
+	struct builder_t* builder;
+
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		builder = guild->builders[index];
+		if (builder != NULL)
+		{
+			/*
+				Reduce the cost with the ressources provided by the builder
+			*/
+			builder_provide = builder_provides(builder);
+			for (enum color_t color = 0 ; color < NUM_COLORS ; ++color)
+			{
+				if (cost.c[color] > builder_provide.c[color])
+				{
+					cost.c[color] -= builder_provide.c[color];
+				}
+				else
+				{
+					cost.c[color] = 0;
+				}
+			}
+			
+		}	
+	}
+
+	struct set_t to_pay = cost;
+
+	/*
+		Create a clean market (all the tokens at the start)
+	*/
+	struct market_t clean_market = create_default_market();
+	
+	for (int index = 0; index < NUM_TOKENS; ++index)
+	{
+		if (market->tokens[index] != NULL)
+		{
+			market_pay_token(&clean_market, market->tokens[index]);
+		}
+	}
+
+	/*
+		Test every combinaison of token to pay the exact price
+	*/
+	int num_ressources = set_num_ressources(&to_pay);
+
+	/*
+		Avec deux tokens
+	*/
+
+	struct market_t test_market = create_default_market();
+
+	for (int index = 0; index < NUM_TOKENS-1; ++index)
+	{
+		market_pay_token(&test_market, market->tokens[index]);
+		for (int j = index + 1; j < NUM_TOKENS; ++j)
+		{
+			market_pay_token(&test_market, market->tokens[j]);
+			if (can_use_market(to_pay, &test_market))
+			{
+				needed_ressources.market = get_best_market(needed_ressources.market, test_market, to_pay);
+			}
+			market_pick_token(&test_market, market->tokens[j]);
+		}
+		market_pick_token(&test_market, market->tokens[index]);
+	}
+
+	for (int nb_token = 0; nb_token < num_ressources; ++nb_token)
+	{
+
+	}
+	return needed_ressources;
+}
+
+void every_combinaison(int num_tokens, int num_desired_token, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay)
+{
+	
+}
