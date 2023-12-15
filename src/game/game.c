@@ -11,7 +11,7 @@
 #include "token_second_header.h"
 #include "builder.h"
 #include "favors.h"
-
+#include "utils.h"
 
 void init_game(struct game_t* game, struct game_parameters params)
 {

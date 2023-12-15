@@ -10,10 +10,6 @@
 
 #define TIE -1
 
-#define UNUSED(x) (void)(x)
-#define MIN(__x, __y) \
-  ((__x) < (__y) ? (__x) : (__y))
-
 /*
 	Used to use a display function only if _x is true
 */
