@@ -59,12 +59,7 @@ struct set_t set_create(unsigned int c[NUM_COLORS])
     for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
     {
         s.c[index] = c[index];
-<<<<<<< HEAD
-
-				if (c[index] != 0)
-=======
 				if (c[index])
->>>>>>> master
 					s.num_colors++;
     }
 

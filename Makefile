@@ -60,12 +60,8 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 
 # The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
-<<<<<<< HEAD
-	$(CC) $(PROJECT_OBJS) -lm -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
-=======
 	#Compiles the project
 	@$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
->>>>>>> master
 
 
 # The final build step for tests
