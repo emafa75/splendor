@@ -3,6 +3,7 @@
 
 #include "set.h"
 #include "token.h"
+#define MAX_COLORS_PER_TOKENS 2
 
 
 /*

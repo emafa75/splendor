@@ -4,9 +4,7 @@
 #include "builder.h"
 #include "token.h"
 
-
-#define MAX(__x, __y) \
-  ((__x) > (__y) ? (__x) : (__y))
+#include "utils.h"
 
 #define MAX_STACK_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
 

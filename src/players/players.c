@@ -1,4 +1,5 @@
 #include "players.h"
+#include "ansi_color.h"
 #include "can_buy.h"
 #include "guild.h"
 #include "market.h"
@@ -6,7 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "skills.h"
-#include "permutation.h"
 
 
 struct player_t init_player()
@@ -24,11 +24,20 @@ struct player_t init_player()
 
 
 void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* picked_token){
+	/*
+		Can't take more token
+	*/
+	if(market_num_tokens(&player_get_ressources(player)->market) >= PLAYER_MAX_TOKENS)
+	{
+		return;
+	}
+	
 	struct token_t* token = market_pick_token(market, picked_token);
 	if (token == NULL)
 	{
 		return;
 	}
+	
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		/*
@@ -78,9 +87,24 @@ void player_hire_builder(struct guild_t* guild, struct player_t *player,struct b
 
 void player_display_inventory(struct player_t *player)
 {   
+	/*
+		Points
+	*/
+	unsigned int points = player_get_points(player);
+	printf(BOLD "Point(s) : " HYEL "%d\n\n" CRESET , points );
+
+	/*
+		Favors
+	*/
+	unsigned int favor = player_get_favor(player);
+	printf(BOLD "Favor(s) : " CRESET);
+	printf(favor ?  BYEL "%d\n\n"  CRESET:  WHT "No favor\n\n" CRESET , favor );
 	struct ressources* player_ressources = player_get_ressources(player);
 
-	printf("Token available : \n");
+	/*
+		Tokens
+	*/
+	printf(BOLD "Tokens : \n" CRESET);
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		struct token_t* token = player_ressources->market.tokens[index];
@@ -108,10 +132,14 @@ void player_display_inventory(struct player_t *player)
 	}
 	if(market_num_tokens(&player_ressources->market) == 0 )
 	{
-		printf(" --- No token\n");
+		printf(WHT " --- No token\n" CRESET);
 	}
+	printf("\n");
 
-	printf("Builders : \n");
+	/*
+		Builders
+	*/
+	printf(BOLD "Builders : \n" CRESET );
 	for (unsigned int index = 0; index < MAX_BUILDERS; ++index)
 	{
 		if(player->ressources.guild.builders[index]) {
@@ -120,7 +148,7 @@ void player_display_inventory(struct player_t *player)
 	}
 	if (guild_nb_builder(&player_ressources->guild) == 0)
 	{
-		printf(" --- No builder\n");
+		printf(WHT " --- No builder\n" CRESET);
 	}
 }
 

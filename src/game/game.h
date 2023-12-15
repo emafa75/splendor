@@ -5,14 +5,12 @@
 #include "market.h"
 #include "players.h"
 
+#include "utils.h"
+
 #define MAX_PLAYERS 2
 #define MAX_MAX_TURNS 100
 
 #define TIE -1
-
-#define UNUSED(x) (void)(x)
-#define MIN(__x, __y) \
-  ((__x) < (__y) ? (__x) : (__y))
 
 struct turn_t
 {
@@ -21,6 +19,7 @@ struct turn_t
     struct player_t players[MAX_PLAYERS];
     unsigned int current_player;
     unsigned int points_to_win;
+	unsigned int display; /* Used to display in other functions*/
 };
 
 struct game_t
@@ -37,13 +36,35 @@ struct game_parameters
     int builder_seed;
     int market_seed;
     int random_seed;
+	int display;
 };
 
 enum choice {
 	HIRE,
 	PICK,
+	SKIP,
 	NUM_CHOICE,
 	FIRST_CHOICE = HIRE
+};
+
+struct turn_statistics
+{
+	enum choice choice;
+	int used_favor;
+	int used_skill;
+	int num_picked_tokens;
+	int forced_skip;
+};
+
+struct game_statistics
+{
+	int choices[NUM_CHOICE];
+	int used_favor;
+	int used_skill;
+	int num_picked_tokens;
+	int forced_skip;
+	int nb_turns;
+	int result;
 };
 
 /*
@@ -69,7 +90,7 @@ void game_save_turn(struct game_t* game);
 /*
     Play a full game, with a display option
 */
-void game_play(struct game_t* game, int display);
+struct game_statistics game_play(struct game_t* game, int display);
 
 /*
     Get the market from a turn
@@ -124,6 +145,10 @@ unsigned int get_random_player(int random_seed);
     Play a turn, has a display option
 */
 
-void turn_play(struct turn_t* current_turn, int display);
+struct turn_statistics turn_play(struct turn_t* current_turn);
 
+/*
+	Display the stats of a game
+*/
+void game_stats_display(struct game_statistics game_stats);
 #endif

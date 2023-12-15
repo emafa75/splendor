@@ -1,10 +1,8 @@
 #ifndef __SET_H__
 #define __SET_H__
 
-#include <stdio.h>
-
 #include "color.h"
-#include "ansi_color.h"
+
 
 
 struct set_t {    
@@ -69,4 +67,14 @@ struct set_t create_simple_set(enum color_t c);
 	Create complex set 
 */
 struct set_t create_complex_set(unsigned int c[NUM_COLORS]);
+
+/*
+	Create a random set with max color and min color
+*/
+struct set_t create_random_set(int num_colors);
+
+/*
+	Returns the number of ressources of the set
+*/
+int set_num_ressources(struct set_t* set);
 #endif

@@ -26,6 +26,7 @@
 #define BMAG ""
 #define BCYN ""
 #define BWHT ""
+#define BOLD ""
 
 //Regular underline text
 #define UBLK ""
@@ -106,6 +107,7 @@
 #define BMAG "\e[1;35m"
 #define BCYN "\e[1;36m"
 #define BWHT "\e[1;37m"
+#define BOLD "\e[1m"
 
 //Regular underline text
 #define UBLK "\e[4;30m"

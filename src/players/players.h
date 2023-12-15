@@ -6,7 +6,7 @@
 #include "guild.h"
 #include "market.h"
 
-
+#define PLAYER_MAX_TOKENS 10
 
 
 struct player_t
@@ -28,7 +28,7 @@ struct player_t init_player();
 void player_take_token(struct market_t* market, struct player_t* player, struct token_t* token);
 
 /*
-    Take token from the specified market, if the token is not in the marketn do nothing
+    Take token from the specified market, if the token is not in the marketn do nothing and if the player has already the max of token, do nothing
 */
 void player_pick_token(struct market_t* market, struct player_t* player, struct token_t* token);
 

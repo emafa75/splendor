@@ -14,7 +14,7 @@ enum skills_id {
     NO_SKILL,
     TOKEN_ROB,
     TURN_ROB,
-		GENTRY_MASTER,
+	GENTRY_MASTER,
     MASTERS_HAND,
     MARKET_PANIC,
     FAVOR_ROB,
@@ -29,6 +29,7 @@ enum skills_id {
 struct skill_instance_t {
     void* trigger;
     enum skills_id skills[MAX_SKILLS_PER_TRIGGER];
+	int nb_skill;
 };
 
 
@@ -72,4 +73,9 @@ void skill_exec(struct turn_t* turn, const void* trigger);
 	Display skills execute by a trigger
 */
 void trigger_display_skill(const void* trigger);
+
+/*
+	Returns the number of associated skills from a trigger
+*/
+int trigger_num_skills(const void* trigger);
 #endif

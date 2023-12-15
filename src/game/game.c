@@ -1,4 +1,5 @@
 #include "game.h"
+#include "ansi_color.h"
 #include "guild.h"
 #include "market.h"
 #include "players.h"
@@ -9,11 +10,8 @@
 #include "can_buy.h"
 #include "token_second_header.h"
 #include "builder.h"
-/*
-	Used to use a display function only if _x is true
-*/
-#define DISPLAY(_x, _y)\
-	(_x) ? (_y) : UNUSED(_x);
+#include "favors.h"
+
 
 void init_game(struct game_t* game, struct game_parameters params)
 {
@@ -29,13 +27,12 @@ void init_game(struct game_t* game, struct game_parameters params)
 	game->current_turn_index = 0; //use index 0 to save the initialisation
 	game->num_turns = params.max_turns;
 	first_turn->points_to_win = params.points_to_win;
+	first_turn->display = params.display;
 
 	/*
 		Init first player
 	*/
 	first_turn->current_player = get_random_player(params.random_seed);
-	struct player_t* first_player = turn_get_current_player(first_turn);		
-	player_set_favor(first_player,0);
 
 	/*
 		Init the market
@@ -60,6 +57,12 @@ void init_game(struct game_t* game, struct game_parameters params)
 	{
 		players[index] = init_player();
 	}
+
+	/*
+		Init the first player without favor
+	*/
+	struct player_t* first_player = turn_get_current_player(first_turn);		
+	player_set_favor(first_player,0);
 	
 	//Init the random for the rest of the game 
 	srand(params.random_seed);
@@ -206,11 +209,14 @@ void turn_display(struct turn_t* turn)
 	printf("\n");
 	printf("Game Guild :\n");
 	guild_display(turn_get_guild(turn));
-
 }
 
-void turn_play(struct turn_t* current_turn, int display)
+struct turn_statistics turn_play(struct turn_t* current_turn)
 {
+	/*
+		Display
+	*/
+	int display = current_turn->display;
 	/*
 		If we need a display
 	*/
@@ -222,6 +228,11 @@ void turn_play(struct turn_t* current_turn, int display)
 	else {
 		output = stdout; /* patch for thor */
 	}
+	/*
+		Create statistic container
+	*/
+
+	struct turn_statistics stats = {};
 
 	/*
 		Get place where to stock the action of the current turn
@@ -231,41 +242,83 @@ void turn_play(struct turn_t* current_turn, int display)
 	struct player_t* current_player = turn_get_current_player(current_turn);
 	int player_index = turn_get_current_player_index(current_turn);
 
-	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
+
+	/*
+		If the player has a favor he use it (or not)
+	*/
+
+	int favors = player_get_favor(current_player);
+
+	if(favors)
+	{
+		enum favor_id favor_id = rand() % NUM_FAVOR; //if NO_FAVOR then the player decided to not use it
+		if(favor_id != NO_FAVOR)
+		{
+			skill_f favor_function = favor_by_id(favor_id);
+			favor_function(current_turn, current_player /* unused */);
+			DISPLAY(display, favor_display(favor_id, HCYN "Player used "));
+			DISPLAY(display, printf("\n" CRESET));
+
+			/*
+				Remove the favor
+			*/
+			player_set_favor(current_player,player_get_favor(current_player) - 1); 
+
+			/*
+				Add statistic
+			*/
+			++stats.used_favor;
+		}
+		else {
+			DISPLAY(display, printf("Player had favor but he decided to keep it\n"));
+		}
+	}
 
 	/*
 		Take a random decision and check if it's possible to hire a builder
 	*/
-	enum choice random_choice = rand() % NUM_CHOICE; 
-	struct builder_t * builder_to_buy = select_affordable_builder(guild, current_player);
-
-
-	if ((random_choice == HIRE) && (builder_to_buy != NULL)) 
+	enum choice random_choice = rand() % 100; 
+	//printf("choice: %d\n", random_choice);
+	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
+	if ((random_choice <= 50) && (builder_to_buy != NULL)) 
 	{
+		stats.choice = HIRE;
 		/*
 			The player choosed to hire a builder and is able to do so
 		*/
-		DISPLAY(display,fprintf(output, "Player id.%d choosed to hire\n", player_index));
+		DISPLAY(display,fprintf(output, HCYN "Player id.%d choosed to hire\n" CRESET, player_index));
 		player_pay_builder(market, current_player, builder_to_buy);
 		player_hire_builder(guild, current_player, builder_to_buy);
+
 		/*
 			Execute the skill associate to the builder
 		*/
 		skill_exec(current_turn, builder_to_buy);
 		DISPLAY(display, trigger_display_skill(builder_to_buy));
+
+		/*
+			Add statistics
+		*/
+		stats.used_skill += trigger_num_skills(builder_to_buy); 
 	}
-	else 
+	else if (random_choice <= 90)
 	{
+		stats.choice = PICK;
+		//change random choice to fit with the current action
+		// if ((random_choice == HIRE) && (builder_to_buy == NULL)) 
+		// 	random_choice = PICK ;
+
 		/*
 			The player choosed to pick a token or is unable to hire a builder (default choice)
-			If he choose to pick 0 token, he skip his turn
 		*/
 		/*
-			Choose how many token he wants to take (0 to 3), never more than the number of available token.
+			Choose how many token he wants to take (1 to 3), never more than the number of available token and never more that what he can take.
 		*/
-		int num_token_to_pick = rand() % 4; 
+		int num_token_in_inventory = market_num_tokens(&player_get_ressources(current_player)->market);
+		int num_token_to_pick =  1 + rand() % 3; 
 		num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
-		DISPLAY(display, fprintf(output, "Player id.%d choosed to pick %d token(s)\n" , player_index, num_token_to_pick));
+		num_token_to_pick = MIN(num_token_to_pick, PLAYER_MAX_TOKENS - num_token_in_inventory); //take never more than what he is able to pick
+		DISPLAY(display, fprintf(output, HCYN "Player id.%d choosed to pick %d token(s)\n"  CRESET, player_index, num_token_to_pick));
 
 		/*
 			Get the index of the first available token to match with the number of token that the player wanted to pick
@@ -277,10 +330,12 @@ void turn_play(struct turn_t* current_turn, int display)
 			If his choice is impossible, he skip his turn;
 		*/
 
-		if(index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
+		if (index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 		{
-			DISPLAY(display, fprintf(output, "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" , player_index));
-		}else{
+			DISPLAY(display, fprintf(output, RED "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" CRESET , player_index));
+		}
+		else
+		{
 			
 			struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
 
@@ -298,28 +353,56 @@ void turn_play(struct turn_t* current_turn, int display)
 			{
 				skill_exec(current_turn, picked_tokens[index]);
 				DISPLAY(display, trigger_display_skill(picked_tokens[index]));
-			}
-			
+
+				/*
+					Add statistics
+				*/
+				stats.used_skill += trigger_num_skills(picked_tokens[index]); 
+			}	
 		}
+
+		/*
+			Add statistics
+		*/
+		stats.num_picked_tokens += num_token_to_pick;
+		if (num_token_to_pick == 0 )
+		{
+			++stats.forced_skip;
+		}
+		
+	}else 
+	{
+		stats.choice = SKIP;
+		DISPLAY(display, fprintf(output, HCYN "Player id.%d skipped his turn\n" CRESET, player_index));
 	}
 
 	/*
 		End of the turn, display player inventory, game market and game guild to follow the game
 	*/
-
-	DISPLAY(display,fprintf(output, "Current inventory for player id.%d : \n", player_index));
+	DISPLAY(display, fprintf(output, "\n"));
+	DISPLAY(display, fprintf(output, "Current inventory for player id.%d : \n", player_index));
 	DISPLAY(display, player_display_inventory(current_player));
-	
-	DISPLAY(display, fprintf(output, "══════════════════════════════════════════════════════════════════════\n"));
-	DISPLAY(display,fprintf(output, "Market after turn :\n"));
+	DISPLAY(display, fprintf(output, "\n"));
+
+	DISPLAY(display, fprintf(output, "Market after turn :\n"));
 	DISPLAY(display, market_display(market)) ;
-	DISPLAY(display,fprintf(output,"Game Guild  : \n"));
+
+	DISPLAY(display, fprintf(output,"Game Guild  : \n"));
 	DISPLAY(display, guild_display(guild));
+	DISPLAY(display, fprintf(output, "\n"));
+
+	/*
+		Add statistics
+	*/
+
+	// stats.choice = random_choice;
 
 	//fclose(output);
+
+	return stats;
 }
 
-void game_play(struct game_t *game, int display)
+struct game_statistics game_play(struct game_t *game, int display)
 {
 	/*
 		If we need a display
@@ -332,6 +415,11 @@ void game_play(struct game_t *game, int display)
 	else {
 		output = stdout; /* Patch for Thor*/
 	}
+
+	/*
+		Create statistics for the game
+	*/
+	struct game_statistics game_stats = {};
 
 	struct turn_t* current_turn = game_get_current_turn(game);
 
@@ -347,9 +435,20 @@ void game_play(struct game_t *game, int display)
 		/*
 			Play turn
 		*/
-		DISPLAY(display,fprintf(output, "Turn n°%d\n", turn_index));
-		turn_play(current_turn, display );
+		DISPLAY(display,fprintf(output, BBLU "════════════════════════" BRED "  TURN %d  " BBLU "════════════════════════════\n" CRESET, turn_index));
+		struct turn_statistics turn_stats = turn_play(current_turn);
+		DISPLAY(display, fprintf(output, BBLU "══════════════════════════════════════════════════════════════\n" CRESET));
 		DISPLAY(display, fprintf(output, "\n"));
+
+		/*
+			Update game statistics
+		*/
+		++game_stats.choices[turn_stats.choice];
+		++game_stats.nb_turns;
+		game_stats.forced_skip += turn_stats.forced_skip;
+		game_stats.num_picked_tokens += turn_stats.num_picked_tokens;
+		game_stats.used_favor += turn_stats.used_favor;
+		game_stats.used_skill += turn_stats.used_skill;
 
 		/*
 			Give turn to the next player and save the state of the turn
@@ -358,5 +457,31 @@ void game_play(struct game_t *game, int display)
 		game_save_turn(game);
 
 	}
-	//fclose(output);
+	game_stats.result = (has_won(current_turn));
+
+	return game_stats;
+}
+
+void game_stats_display(struct game_statistics game_stats)
+{
+	float forced_skip_tun = game_stats.forced_skip;
+	float nb_turns = game_stats.nb_turns;
+	float skipped_turns = (forced_skip_tun / nb_turns) * 100;
+	printf("Played turns : " BYEL "%d " CRESET "including " RED "%d" CRESET " skipped turn (" RED "%d%%" CRESET ")\n\
+Number of picked tokens: " BYEL "%d " CRESET "\n\
+Number of favors used : " BYEL "%d " CRESET "\n\
+Number of skills executed : " BYEL "%d " CRESET " \n\
+Number of pick turn : " BYEL "%d" CRESET "\n\
+Number of hire turn : " BYEL "%d" CRESET "\n\
+Number of skipped turn : " BYEL "%d\n" CRESET,
+	game_stats.nb_turns,
+	game_stats.forced_skip,
+	(int) skipped_turns,
+	game_stats.num_picked_tokens,
+	game_stats.used_favor,
+	game_stats.used_skill,
+	game_stats.choices[PICK],
+	game_stats.choices[HIRE],
+	game_stats.choices[SKIP]
+	);
 }

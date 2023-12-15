@@ -14,8 +14,6 @@
 #include <time.h>
 
 #include "builder_constants.h"
-#include "ansi_color.h"
-#include "color_second_header.h"
 #include "set.h"
 #include "skills.h"
 
@@ -41,50 +39,54 @@ void init_builders(unsigned int seed)
 
 	n_builders = MAX_BUILDERS;
 
-	while (i < n_builders)
+	if (seed ==  0)
 	{
-		next_color = (color + 1) % NUM_COLORS;
+		while (i < n_builders)
+		{
+			next_color = (color + 1) % NUM_COLORS;
 
-		builders[i].lvl = lvl;
-		builders[i].pts = 5 * (lvl + 1);
+			builders[i].lvl = lvl;
+			builders[i].pts = 5 * (lvl + 1);
 
-		enum color_t c[NUM_COLORS] = {};  // Used to create requries and provides
-		for (unsigned int i = 0 ; i < lvl + 2 ; ++i)
-			c[(color + i) % NUM_COLORS] = 1;
+			enum color_t c[NUM_COLORS] = {};  // Used to create requries and provides
+			for (unsigned int i = 0 ; i < lvl + 2 ; ++i)
+				c[(color + i) % NUM_COLORS] = 1;
 
-		builders[i].requires = set_create(c);
-		// builders[i].requires.c = color;
-		// builders[i].requires.n = lvl + 1;
+			builders[i].requires = set_create(c);
+			// builders[i].requires.c = color;
+			// builders[i].requires.n = lvl + 1;
 
-		enum color_t c2[NUM_COLORS] = {};  // Used to create requries and provides
-		for (unsigned int i = 0 ; i < lvl + 1 ; ++i)
-			c2[(color + i) % NUM_COLORS] = 1;
+			enum color_t c2[NUM_COLORS] = {};  // Used to create requries and provides
+			for (unsigned int i = 0 ; i < lvl + 1 ; ++i)
+				c2[(color + i) % NUM_COLORS] = 1;
 
-		builders[i].provides = set_create(c2);
-		// builders[i].provides.c = next_color;
-		// builders[i].provides.n = lvl;
+			builders[i].provides = set_create(c2);
+			// builders[i].provides.c = next_color;
+			// builders[i].provides.n = lvl;
 
-		lvl += (color == NUM_COLORS - 1);
-		lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
-		color = next_color;
-		++i;
+			lvl += (color == NUM_COLORS - 1);
+			lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
+			color = next_color;
+			++i;
+		}
+	}	
+	else
+	{
+		n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
+	
+		for (int i = 0 ; i < n_builders ; ++i)
+		{
+			int builder_level = rand() % NUM_LEVELS;
+			builders[i].lvl = builder_level;
+			builders[i].pts = (builder_level + 1) * 5;
+		
+			builders[i].provides = create_random_set((builder_level + 1));
+		
+			builders[i].requires = create_random_set((builder_level + 2));
+		
+		}
 	}
 	
-
-	// n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
-	//
-	// for (int i = 0 ; i < n_builders ; ++i)
-	// {
-	// 	builders[i].lvl = rand() % NUM_LEVELS;
-	// 	builders[i].pts = BUILDER_MIN_PTS + rand() % (BUILDER_MAX_PTS - BUILDER_MIN_PTS +1);
-	//
-	// 	builders[i].provides.c = rand() % NUM_COLORS;
-	// 	builders[i].provides.n = BUILDER_MIN_PROVIDES + rand() % (BUILDER_MAX_PROVIDES - BUILDER_MIN_PROVIDES + 1);
-	//
-	// 	builders[i].requires.c = rand() % NUM_COLORS;
-	// 	builders[i].requires.n = BUILDER_MIN_COST +  rand() % (BUILDER_MAX_COST - BUILDER_MIN_COST + 1);
-	//
-	// }
 }
 
 

@@ -9,19 +9,10 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 #include <getopt.h>
-
-#include "permutation.h"
 #include "players.h"
-#include "guild.h"
-#include "market.h"
-#include "builder.h"
-#include "skills.h"
-#include "token.h"
-#include "can_buy.h"
 #include "game.h"
-
+#include "ansi_color.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -54,6 +45,7 @@ struct game_parameters game_params = {
 	.market_seed = MARKET_SEED,
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
+	.display = PRINT,
 };
 
 int main(int argc, char *argv[])
@@ -70,7 +62,7 @@ int main(int argc, char *argv[])
 	*/
 	int options;
 
-	while ((options = getopt(argc,argv, "s:m:c:p:t:")) != -1)
+	while ((options = getopt(argc,argv, "s:m:c:p:t:v")) != -1)
 	{
 		switch (options) {
 			case 's':
@@ -87,6 +79,9 @@ int main(int argc, char *argv[])
 				break;
 			case 't':
 				game_params.market_seed = atoi(optarg);
+				break;
+			case 'v':
+				game_params.display = 1;
 				break;
 			default: 
 				print_usage(argv);
@@ -113,7 +108,7 @@ int main(int argc, char *argv[])
 	/*
 		Play the game
 	*/
-	game_play(&game, PRINT);
+	struct game_statistics game_stats = game_play(&game, game_params.display);
 
 	/*
 		End of the game, print results 
@@ -129,6 +124,11 @@ int main(int argc, char *argv[])
 	else{
 		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(&turn_get_players(last_turn)[winner]));
 	}
+
+	printf("\n");
+	printf(BWHT "══════════════════════════  Game Statistics  ═════════════════════════════\n" CRESET);
+	game_stats_display(game_stats);
+	printf(BWHT "══════════════════════════════════════════════════════════════════════════\n" CRESET);
 
 	return EXIT_SUCCESS;
 }

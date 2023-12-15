@@ -35,9 +35,14 @@ void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_P
     int index_skill = is_associate_to_a_skill(trigger);
     if(index_skill >= 0) //the trigger has already associated skills
     {
+		associated_skills[index_skill].nb_skill = 0;
 		for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
 		{
 			associated_skills[index_skill].skills[index] = skills_to_add[index];
+			if(skills_to_add[index] != NO_SKILL)
+			{
+				++associated_skills[index_skill].nb_skill;
+			}
 		}
        return;
     }else {
@@ -53,6 +58,10 @@ void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_P
                 for (int skill_index = 0; skill_index < MAX_SKILLS_PER_TRIGGER; ++skill_index)
                 {
                    associated_skills[index].skills[skill_index] = skills_to_add[skill_index];
+				   if(skills_to_add[skill_index] != NO_SKILL)
+				   {
+						++associated_skills[index].nb_skill;
+				   }
                 }
                 return;
             }
@@ -107,8 +116,8 @@ void trigger_display_skill(const void* trigger)
 	{
 		if (trigger_skills[index] != NO_SKILL)
 		{
-			skill_display(trigger_skills[index], "");
-			printf(" skill execute\n");
+			skill_display(trigger_skills[index], HCYN "");
+			printf(" skill execute\n" CRESET);
 		}
 	}
 }
@@ -143,4 +152,17 @@ void skill_exec(struct turn_t *turn, const void* trigger)
 			skill_function(turn, trigger);
 		}
 	}
+}
+
+int trigger_num_skills(const void* trigger)
+{
+    int skill_instance_index = is_associate_to_a_skill(trigger);
+
+	if (skill_instance_index < 0)
+	{
+		return 0;
+	}
+
+	return associated_skills[skill_instance_index].nb_skill;
+
 }

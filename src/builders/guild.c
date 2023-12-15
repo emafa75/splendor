@@ -1,4 +1,5 @@
 #include "guild.h"
+#include "ansi_color.h"
 #include "builder.h"
 #include "queue.h"
 #include "skills.h"
@@ -20,10 +21,6 @@ void init_guild(struct guild_t* guild)
 	struct builder_t* builder;
 	struct queue_t* queue;
 	int builder_lvl;
-
-	struct available_builders* available_builders;
-
-	int available_builders_index = 0;
 
 	//reset stacks
 	for (int index = 0 ; index < NUM_LEVELS ; ++index)
@@ -48,12 +45,8 @@ void init_guild(struct guild_t* guild)
 		{
 			queue = guild_get_queue(guild, level);
 			builder = queue_dequeue(queue);
-			available_builders = guild_get_available_builders(guild);
 
-			// Not really clean but this is init function, and
-			available_builders->builders[available_builders_index] = builder;
-			++available_builders->n_builders_available;
-			++available_builders_index;
+			guild_make_builder_available(guild, builder);
 		}
 	}
 }
@@ -117,13 +110,17 @@ void guild_display(struct guild_t* guild)
 	}
 	if (guild_nb_builder(guild) == 0)
 	{
-		printf(" --- No builder in guild\n");
+		printf(WHT " --- No builder in guild\n" CRESET);
 	}
 }
 
 
 struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* builder)
 {
+	if (builder == NULL)
+	{
+		return NULL;
+	}
 	int builder_lvl = builder_level(builder);
 	struct builder_t* new_builder;
 
@@ -133,13 +130,13 @@ struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t* bu
 	int index = 0;
 	while (available_builders_get_builder(guild, index) != builder)
 		++index;
+	
+	guild->available_builders.builders[index] = NULL; 
+	--guild_get_available_builders(guild)->n_builders_available;
+	new_builder = queue_dequeue(builder_queue);	
+	guild_make_builder_available(guild, new_builder);
 
-	new_builder = queue_dequeue(builder_queue);
-	if (new_builder == NULL)
-	{
-		--guild_get_available_builders(guild)->n_builders_available;
-	}
-	guild->available_builders.builders[index] = new_builder;  // place it on builder's index
+	// place it on builder's index
 	-- guild->n_builders;
 	return builder;
 }
@@ -150,6 +147,17 @@ void guild_put_builder(struct guild_t* guild, struct builder_t* builder)
 	int builder_lvl = builder_level(builder);
 	struct queue_t* queue = guild_get_queue(guild, builder_lvl);
 	queue_append(queue, builder);
+	++guild->n_builders;
+
+	/*
+		If not enough builder available for hiring
+	*/
+	if (guild_nb_builder_per_level(guild, builder_lvl) < MAX_BUILDERS_AVAILABLE_PER_LVL)
+	{
+		builder = queue_dequeue(queue);
+		guild_make_builder_available(guild, builder);
+	}
+
 }
 
 
@@ -191,4 +199,35 @@ int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder)
 	}
 
 	return 0;
+}
+
+void guild_make_builder_available(struct guild_t *guild, struct builder_t* builder)
+{
+	if (builder == NULL)
+	{
+		return;
+	}
+	struct available_builders* available_builders = guild_get_available_builders(guild);
+	int index = 0;
+	while (available_builders_get_builder(guild, index) != NULL)
+	{
+		++index;
+	}
+	available_builders->builders[index] = builder;
+	++available_builders->n_builders_available;
+}
+
+int guild_nb_builder_per_level(struct guild_t* guild, unsigned int level)
+{
+	struct available_builders* available_builders = guild_get_available_builders(guild);
+	int count = 0;
+	for (int index = 0; index < MAX_BUILDERS; ++index)
+	{
+		struct builder_t* builder = available_builders->builders[index];
+		if (builder && builder_level(builder) == level)
+		{
+			++count;
+		}
+	}
+	return count;
 }
