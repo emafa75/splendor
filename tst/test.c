@@ -9,8 +9,7 @@
 
 #include "test_can_buy.h"
 #include "test_players.h"
-#include "token.h"
-#include <math.h>
+#include "test_skills.h"
 #define SEED 0
 
 #include <stdlib.h>
@@ -20,10 +19,7 @@
 #include "test_tokens.h"
 #include "test_guild.h"
 #include "test_market.h"
-#include "ansi_color.h"
-#include "board_display.h"
 
-#include "market.h"
 #define _NB_MIN_PARAMS_ 1
 
 
@@ -44,6 +40,7 @@ int main(int argc, char *argv[])
 	test_guild();
 	test_players();
 	test_utils();
+	test_skills();
 	
 	return EXIT_SUCCESS;
 }

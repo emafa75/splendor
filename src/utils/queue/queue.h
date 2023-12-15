@@ -1,14 +1,12 @@
 #ifndef __QUEUE_H__
 #define __QUEUE_H__
 
-#include <stdlib.h>
-#include <string.h>
 
 #include "builder.h"
 #include "token.h"
 
-#define MAX(__x, __y) \
-  ((__x) > (__y) ? (__x) : (__y))
+#include "utils.h"
+
 
 #define MAX_QUEUE_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
 

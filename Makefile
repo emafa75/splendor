@@ -5,14 +5,15 @@ NUM_COLORS ?= 5
 NUM_LEVELS ?= 2
 NUM_TOKENS ?= 25
 DEBUG ?= 1
+PRINT ?= 0
 
-MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG)
-CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS)
+MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG) -DPRINT=$(PRINT)
+CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) # -fstack-usage
 
 
 PROJECT_TARGET_EXEC := project
 TEST_TARGET_EXEC := test
-
+EVALUATOR_TARGET_EXEC := evaluator
 
 BUILD_DIR := ./build
 SRC_DIRS := ./src
@@ -20,6 +21,7 @@ TST_DIRS := ./tst
 
 PROJECT_MAIN_FILE_NAME := ./src/project.c
 TEST_MAIN_FILE_NAME := ./tst/test.c
+EVALUATOR_MAIN_FILE_NAME := ./evaluator_src/evaluator.c
 
 
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
@@ -32,11 +34,7 @@ TST_SRCS := $(shell find $(TST_DIRS) -name '*.c')
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 PROJECT_OBJS := $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TST_SRCS:%=$(BUILD_DIR)/%.o)
-
-
-# String substitution (suffix version without %).
-# As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
-DEPS := $(OBJS:.o=.d)
+EVALUATOR_OBJS := $(EVALUATOR_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
 
 
 # Every folder in ./src will need to be passed to GCC so that it can find header files
@@ -52,6 +50,7 @@ CFLAGS := $(CFLAGS) $(INC_FLAGS) # -MMD -MP
 
 all: project
 
+evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
@@ -59,13 +58,26 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 	./test
 
 
-# The final build step.
+# The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
+<<<<<<< HEAD
 	$(CC) $(PROJECT_OBJS) -lm -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
+=======
+	#Compiles the project
+	@$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
+>>>>>>> master
 
 
+# The final build step for tests
 $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
-	$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
+	#Compiles the tests
+	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
+
+
+# The final build step for evaluator
+$(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC): $(EVALUATOR_OBJS)
+	#Compiles the evaluator
+	@$(CC) $(EVALUATOR_OBJS) -o $(EVALUATOR_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
 clang_custom_lib_support:
@@ -74,17 +86,26 @@ clang_custom_lib_support:
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+	#compiles $@
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean
 
+color: 
+	make clean && DEBUG=0 PRINT=1 make
+	clear
+	@./project
 
 clean:
-	touch $(BUILD_DIR)/avoid_error
-	rm -r $(BUILD_DIR)/*
-	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC)
+	rm -rf $(BUILD_DIR)/*
+	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC)
+
+dep:
+	gcc -MM $(SRCS) $(INC_FLAGS)
+
+
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those

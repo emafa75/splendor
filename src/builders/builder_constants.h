@@ -1,3 +1,6 @@
+#ifndef __BUILDER_CONSTANTS_H__
+#define __BUILDER_CONSTANTS_H__
+
 #define BUILDER_MIN_COST 1
 #define BUILDER_MAX_COST 3
 
@@ -14,3 +17,4 @@
  
 
 #define MAX_BUILDERS_AVAILABLE_PER_LVL 3
+#endif

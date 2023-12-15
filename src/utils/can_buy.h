@@ -6,24 +6,21 @@
 #include "set.h"
 #include "market.h"
 #include "guild.h"
-#include "token.h"
 #include "players.h"
 
-
 /*
- *  Returns a set of int representing the tokens to use to buy the builder
- *		out.available[i] = 1 if you need to use the i-th token to pay the builder
- *		out.available[i] = 0 if you don't need to use the i-th token to pay the builder
- *
- *  If it can't be bought, all the values of the array are set to NULL  
- */
-struct ressources can_buy(struct builder_t *builder, struct ressources ressources);
-
-
+	Returns 1 if intersection is not null
+*/
 unsigned int is_usable(struct set_t *set, struct set_t cost);
 
 /*
     Select the first affordable builder in the guild, other return -1
 */
 struct builder_t * select_affordable_builder(struct guild_t* guild, struct player_t *player);
+
+/*
+	New can_buy functionn is he impossible to buy, then returns a ressources with NULL everywhere
+*/
+struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources ressources);
+
 #endif

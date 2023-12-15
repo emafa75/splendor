@@ -1,12 +1,16 @@
+#include <stdlib.h>
+#include <stdio.h>
+
+#include "game.h"
 #include "skills_tokens.h"
 #include "builder.h"
 #include "guild.h"
 #include "market.h"
 #include "token.h"
-#include <stdio.h>
+#include "builder_constants.h"
 
 
-int market_panic(struct turn_t* turn, void* trigger)
+int skill_market_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct market_t* market = turn_get_market(turn);
@@ -28,15 +32,10 @@ int market_panic(struct turn_t* turn, void* trigger)
         rand_index = rand() % NUM_TOKENS ; 
         token_to_move = market->tokens[rand_index];
     }
-    /*
-        Remove token in case if it is the only available and we need to replace it at the same place
-    */
-    market_pick_token(market, token_to_move);
-    
+
     /*
         Find a place to replace it
     */
-
     rand_index = rand() % NUM_TOKENS;
     while (market->tokens[rand_index] != NULL)
     {
@@ -46,16 +45,14 @@ int market_panic(struct turn_t* turn, void* trigger)
     /*
         Make the change
     */
-
-    // create a permutation that begin with the index where to place the token
-    struct permutation permutation = identity();
-    permutation.permutation[0] = rand_index;
-    market_pay_token(market, token_to_move, permutation);
+    market_pick_token(market, token_to_move);
+    market->tokens[rand_index] = token_to_move;
 
     return 1;
 }
 
-int guild_panic(struct turn_t* turn, void* trigger)
+
+int skill_guild_panic(struct turn_t* turn, const void* trigger)
 {
     UNUSED(trigger);
     struct guild_t* guild = turn_get_guild(turn);
@@ -81,3 +78,34 @@ int guild_panic(struct turn_t* turn, void* trigger)
 
     return 1;
 }
+
+
+
+int skill_favor_rob(struct turn_t* turn, const void* trigger)
+{
+	UNUSED(trigger);
+	struct player_t* robber_player = turn_get_current_player(turn);
+	struct player_t* stolen_player;
+	int rand_index;
+	/*
+		Choose random player 
+	*/
+	int num_player = turn_get_num_player(turn);
+	rand_index = rand() % num_player;
+	stolen_player = &turn_get_players(turn)[rand_index];
+
+	while (robber_player == stolen_player) {
+		rand_index = rand() % num_player;
+		stolen_player = &turn_get_players(turn)[rand_index];
+	}
+
+	if (stolen_player->favor)
+	{
+		stolen_player->favor--;
+		robber_player->favor++;
+		return 1;
+	}
+
+	return 0;
+}
+

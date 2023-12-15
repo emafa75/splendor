@@ -26,6 +26,7 @@
 #define BMAG ""
 #define BCYN ""
 #define BWHT ""
+#define BOLD ""
 
 //Regular underline text
 #define UBLK ""
@@ -77,10 +78,14 @@
 #define BHCYN ""
 #define BHWHT ""
 
+//BLINK TEXT
+#define BLINK ""
+
 //Reset
 #define reset ""
 #define CRESET ""
 #define COLOR_RESET ""
+#define BLINK_RESET ""
 
 #else
 //Regular text
@@ -102,6 +107,7 @@
 #define BMAG "\e[1;35m"
 #define BCYN "\e[1;36m"
 #define BWHT "\e[1;37m"
+#define BOLD "\e[1m"
 
 //Regular underline text
 #define UBLK "\e[4;30m"
@@ -153,10 +159,14 @@
 #define BHCYN "\e[1;96m"
 #define BHWHT "\e[1;97m"
 
+//BLINK TEXT
+#define BLINK "\033[5m"
+
 //Reset
 #define reset "\e[0m"
 #define CRESET "\e[0m"
 #define COLOR_RESET "\e[0m"
+#define BLINK_RESET "\033[0m"
 
 #endif
 

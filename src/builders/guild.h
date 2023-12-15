@@ -1,11 +1,9 @@
 #ifndef __GUILD_H__
 #define __GUILD_H__
 
-#include <stdio.h>
-
 #include "builder.h"
-#include "stack.h"
-#include "builder_constants.h"
+#include "queue.h"
+
 
 
 struct available_builders {
@@ -18,7 +16,7 @@ struct guild_t
 {
 	struct builder_t *builders[MAX_BUILDERS];
 	int n_builders;
-	struct stack_t available_stack[NUM_LEVELS];
+	struct queue_t available_queue[NUM_LEVELS];
 	struct available_builders available_builders;
 };
 
@@ -35,11 +33,15 @@ struct guild_t create_default_guild();
  */
 void init_guild(struct guild_t* guild);
 
+/*
+    Associate skills for the builders
+*/
+void init_builder_skills();
 
 /*
- *  Returns a pointer to the guild's stack storing builders of level builder_lvl
+ *  Returns a pointer to the guild's queue storing builders of level builder_lvl
  */
-struct stack_t* guild_get_stack(struct guild_t* guild, unsigned int builder_lvl);
+struct queue_t* guild_get_queue(struct guild_t* guild, unsigned int builder_lvl);
 
 
 /*
@@ -85,4 +87,14 @@ struct available_builders* guild_get_available_builders(struct guild_t* guild);
  *  Get the index-th buidler in guild.available_builders.builders
  */
 struct builder_t* available_builders_get_builder(struct guild_t* guild, int index);
+
+/*
+    Make builder available 
+*/
+void guild_make_builder_available(struct guild_t* guild, struct builder_t* builder );
+
+/*
+    Get number of builder available per level
+*/
+int guild_nb_builder_per_level(struct guild_t *guild, unsigned int level);
 #endif

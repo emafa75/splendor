@@ -1,13 +1,10 @@
 #ifndef __BOARD_DISPLAY_H__
 #define __BOARD_DISPLAY_H__
 
-#include <stdio.h>
+
 #include "token.h"
-#include "token_second_header.h"
 #include "math.h"
-#include "ansi_color.h"
-#include <math.h>
-#include <stdio.h>
+
 
 /*
     Display the game market board, need to give the list of the token in a matrix

@@ -1,13 +1,12 @@
 #ifndef __SET_H__
 #define __SET_H__
 
-#include <stdio.h>
-
 #include "color.h"
 
 
+
 struct set_t {    
-  unsigned int c[NUM_COLORS];
+	unsigned int c[NUM_COLORS];
 	unsigned int num_colors;
 };
 
@@ -64,4 +63,24 @@ unsigned int set_get_num_els(struct set_t set);
   Compare the two sets and return 0 if different, 1 if equals
 */
 int set_are_equals(const struct set_t* s1, const struct set_t* s2);
+
+/*
+	create simple set 
+*/
+struct set_t create_simple_set(enum color_t c);
+
+/*
+	Create complex set 
+*/
+struct set_t create_complex_set(unsigned int c[NUM_COLORS]);
+
+/*
+	Create a random set with max color and min color
+*/
+struct set_t create_random_set(int num_colors);
+
+/*
+	Returns the number of ressources of the set
+*/
+int set_num_ressources(struct set_t* set);
 #endif

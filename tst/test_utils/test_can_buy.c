@@ -1,7 +1,7 @@
 
 #include "test_can_buy.h"
 #include "guild.h"
-
+#include <time.h>
 
 
 int test_utils()

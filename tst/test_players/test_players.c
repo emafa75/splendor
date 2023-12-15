@@ -8,8 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ansi_color.h"
+#include "token_second_header.h"
 
-
+#include <time.h>
 
 int test_players()
 {
@@ -134,7 +135,7 @@ int test_player_pick_token()
     init_market(&market,rand());
 
     struct player_t new_player = init_player();
-    struct token_t* picked_token = market_get_token(0); //the picked token need to be the first available
+    struct token_t* picked_token = make_token(0); //the picked token need to be the first available
 
     player_pick_token(&market, &new_player, picked_token);
     
@@ -169,12 +170,12 @@ int test_player_take_token()
     init_market(&market,rand());
 
     struct player_t new_player = init_player();
-    struct token_t* picked_token = market_get_token(0); //the picked token need to be the first 
-    struct token_t* second_picked_token = market_get_token(1);
+    struct token_t* picked_token = make_token(0); //the picked token need to be the first 
+    struct token_t* second_picked_token = make_token(1);
     player_pick_token(&market, &new_player, picked_token);
     player_pick_token(&market, &new_player, second_picked_token);
 
-    player_take_token(&market, &new_player, picked_token, identity());
+    player_take_token(&market, &new_player, picked_token);
 
     //check if the token is  no longer in player's inventory
     if(market_is_in_market(&new_player.ressources.market, picked_token))
