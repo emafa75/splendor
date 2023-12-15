@@ -108,14 +108,15 @@ int main(int argc, char *argv[])
 
 	int n = 10;
 	int tested_seeds = 100;
-
 	for (int t_seed = 0 ; t_seed < n; ++t_seed)
 	{
-		for (int b_seed = 0 ; b_seed < n ; ++b_seed)
+		for (int b_seed = 1 ; b_seed < n ; ++b_seed)
 		{
 			struct game_float_statistics average_stats = {};
 			for (int r_seed = 0 ; r_seed < tested_seeds ; ++r_seed)
 			{
+				struct game_t game = {};
+
 				game_params.random_seed = r_seed;
 				game_params.builder_seed = b_seed;
 				game_params.market_seed = t_seed;
@@ -123,7 +124,6 @@ int main(int argc, char *argv[])
 				/*
 					Init all instances
 				*/
-				struct game_t game = {};
 				init_game(&game, game_params);
 
 				/*

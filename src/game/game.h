@@ -5,20 +5,12 @@
 #include "market.h"
 #include "players.h"
 
+#include "utils.h"
+
 #define MAX_PLAYERS 2
 #define MAX_MAX_TURNS 100
 
 #define TIE -1
-
-#define UNUSED(x) (void)(x)
-#define MIN(__x, __y) \
-  ((__x) < (__y) ? (__x) : (__y))
-
-/*
-	Used to use a display function only if _x is true
-*/
-#define DISPLAY(_x, _y)\
-	(_x) ? (_y) : UNUSED(_x);
 
 struct turn_t
 {
