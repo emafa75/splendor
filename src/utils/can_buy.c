@@ -210,10 +210,13 @@ float eff(struct market_t market, struct set_t to_pay)
 
 	for (int i = 0 ; i < NUM_TOKENS ; ++i)
 	{
-		tmp_set = &market.tokens[i]->s;
+		if (market.tokens[i])
+		{
+			tmp_set = &market.tokens[i]->s;
 
-		tmp_inter = set_inter(tmp_set, &to_pay);
-		out += (float)(set_num_ressources(&tmp_inter)) / (float)(set_num_ressources(tmp_set));
+			tmp_inter = set_inter(tmp_set, &to_pay);
+			out += (float)(set_num_ressources(&tmp_inter)) / (float)(set_num_ressources(tmp_set));
+		}
 	}
 
 	return out;
