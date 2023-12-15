@@ -254,8 +254,9 @@ int test_skill_token_rob()
 	/*
 		Give a token to every player so that we can rob it 
 	*/
+	int num_player = turn_get_num_player(turn);
 
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	for (int index = 0; index < num_player; ++index)
 	{
 		int token_index = market_get_linked_tokens(game_market, 1);
 		struct token_t* picked_token = game_market->tokens[token_index];

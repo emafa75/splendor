@@ -90,11 +90,12 @@ int skill_favor_rob(struct turn_t* turn, const void* trigger)
 	/*
 		Choose random player 
 	*/
-	rand_index = rand() % MAX_PLAYERS;
+	int num_player = turn_get_num_player(turn);
+	rand_index = rand() % num_player;
 	stolen_player = &turn_get_players(turn)[rand_index];
 
 	while (robber_player == stolen_player) {
-		rand_index = rand() % MAX_PLAYERS;
+		rand_index = rand() % num_player;
 		stolen_player = &turn_get_players(turn)[rand_index];
 	}
 

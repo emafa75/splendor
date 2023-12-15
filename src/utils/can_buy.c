@@ -9,6 +9,7 @@
 #include "token.h"
 #include "token_second_header.h"
 #include <stdio.h>
+
 /*
 	Test every combinaison of num_desired_token to pay "to_pay"
 	Replace best_market with the best combinaison of market to pay "to_pay"
@@ -230,12 +231,10 @@ struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources
 	/*
 		Test every combinaison of token to pay the exact price
 	*/
-	int num_ressources = set_num_ressources(&to_pay);
-
-	
+	int num_ressources = set_num_ressources(&to_pay);	
 
 	struct market_t test_market = create_default_market();
-	//stock the best token
+	//stock the best tokens to pay
 	struct market_t best_market = create_default_market();
 	
 	for (int num_desired_token = 1; num_desired_token <= num_ressources ; ++num_desired_token)

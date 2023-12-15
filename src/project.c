@@ -46,6 +46,7 @@ struct game_parameters game_params = {
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
 	.display = PRINT,
+	.num_player = MAX_PLAYERS,
 };
 
 int main(int argc, char *argv[])
@@ -62,7 +63,7 @@ int main(int argc, char *argv[])
 	*/
 	int options;
 
-	while ((options = getopt(argc,argv, "s:m:c:p:t:v")) != -1)
+	while ((options = getopt(argc,argv, "s:m:c:p:t:vn:")) != -1)
 	{
 		switch (options) {
 			case 's':
@@ -82,6 +83,9 @@ int main(int argc, char *argv[])
 				break;
 			case 'v':
 				game_params.display = 1;
+				break;
+			case 'n':
+				game_params.num_player = atoi(optarg);
 				break;
 			default: 
 				print_usage(argv);
@@ -135,18 +139,19 @@ int main(int argc, char *argv[])
 
 void display_options()
 {
-	printf("Random seed : %d\nBuilder seed : %d\nMarket seed : %d\nPoints to win a game : %d\nMax turns : %d\n", 
+	printf("Random seed : %d\nBuilder seed : %d\nMarket seed : %d\nPoints to win a game : %d\nMax turns : %d\nNumber of player : %d\n", 
 		game_params.random_seed,
 		game_params.builder_seed,
 		game_params.market_seed,
 		game_params.points_to_win,
-		game_params.max_turns
+		game_params.max_turns,
+		game_params.num_player
 	);
 }
 
 
 void print_usage(char *argv[])
 {
-	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win]\n", argv[0]);
+	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win] [-n number of player]\n", argv[0]);
 	return;
 }

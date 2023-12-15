@@ -28,11 +28,8 @@ void init_game(struct game_t* game, struct game_parameters params)
 	game->num_turns = params.max_turns;
 	first_turn->points_to_win = params.points_to_win;
 	first_turn->display = params.display;
+	first_turn->num_player = MIN(params.num_player, MAX_PLAYERS);
 
-	/*
-		Init first player
-	*/
-	first_turn->current_player = get_random_player(params.random_seed);
 
 	/*
 		Init the market
@@ -42,6 +39,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 	init_tokens(params.market_seed);
 	init_market(market , params.market_seed);
 	init_tokens_skills();
+
 	/*
 		Init builders in game and then guild
 	*/
@@ -52,11 +50,17 @@ void init_game(struct game_t* game, struct game_parameters params)
 	/*
 		Init the players
 	*/
+	int num_player = first_turn->num_player;
 	struct player_t* players = turn_get_players(first_turn);
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	for (int index = 0; index < num_player; ++index)
 	{
 		players[index] = init_player();
 	}
+
+	/*
+		Init first player
+	*/
+	first_turn->current_player = get_random_player(params.random_seed, num_player) ;
 
 	/*
 		Init the first player without favor
@@ -85,13 +89,15 @@ void game_save_turn(struct game_t* game)
 void next_player(struct turn_t* current_turn)
 {
 	unsigned int current_player = current_turn->current_player;
-	current_player = (current_player + 1) % MAX_PLAYERS;
+	int num_player = current_turn->num_player;
+	current_player = (current_player + 1) % num_player;
 	current_turn->current_player = current_player;
 }
 
 int has_won(struct turn_t *current_turn)
 {
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	int num_player = turn_get_num_player(current_turn);
+	for (int index = 0; index < num_player; ++index)
 	{
 		struct player_t* player = &current_turn->players[index];
 		int points_to_win = current_turn->points_to_win;
@@ -109,9 +115,10 @@ int get_winner(struct turn_t *current_turn)
 	int id_max_points = 0;
 	int points_to_win = current_turn->points_to_win;
 	struct player_t* players = current_turn->players;
-	
+	int num_player = turn_get_num_player(current_turn);
+
 	//get index of the player with the max of points
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	for (int index = 0; index < num_player; ++index)
 	{
 		struct player_t* player = &current_turn->players[index];
 		int player_point = player_get_points(player);
@@ -130,7 +137,7 @@ int get_winner(struct turn_t *current_turn)
 	//Check if the player with the max points has the same amount of points than an other player
 	int max_points = player_get_points(&players[id_max_points]);
 
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	for (int index = 0; index < num_player; ++index)
 	{
 		if((index != id_max_points) && (max_points == players[index].current_point))
 		{
@@ -175,10 +182,10 @@ int turn_get_current_player_index(struct turn_t* turn)
 	return turn->current_player;
 }
 
-unsigned int get_random_player(int random_seed)
+unsigned int get_random_player(int random_seed, int num_player)
 {
 	srand(random_seed);
-	return  rand() % MAX_PLAYERS;
+	return  rand() % num_player;
 }
 
 void turn_display(struct turn_t* turn)
@@ -188,7 +195,9 @@ void turn_display(struct turn_t* turn)
 	*/
 	printf("\n");
 	struct player_t* players = turn_get_players(turn);
-	for (int index = 0; index < MAX_PLAYERS; ++index)
+	int num_player = turn_get_num_player(turn);
+
+	for (int index = 0; index < num_player; ++index)
 	{
 		struct player_t* player = &players[index];
 		printf("Inventory of player id.%d\n", index);
@@ -484,4 +493,9 @@ Number of skipped turn : " BYEL "%d\n" CRESET,
 	game_stats.choices[HIRE],
 	game_stats.choices[SKIP]
 	);
+}
+
+int turn_get_num_player(struct turn_t* turn)
+{
+	return turn->num_player;
 }
