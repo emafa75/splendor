@@ -1,8 +1,11 @@
+#include <stdio.h>
+#include <stdlib.h>
+
 #include "set.h"
 #include "color_second_header.h"
 #include "ansi_color.h"
-#include <stdio.h>
-#include <stdlib.h>
+
+#include "utils.h"
 
 struct set_t SET_ZEROS = {};
 
@@ -40,7 +43,7 @@ struct set_t set_inter(const struct set_t* set1, const struct set_t* set2)
 	for (int i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		cmp = (set1->c[i] && set2->c[i]);
-		out.c[i] = (set1->c[i] + set2->c[i]) * cmp;
+		out.c[i] = MIN(set1->c[i], set2->c[i]) * cmp;
 		out.num_colors += cmp;
 	}
 
@@ -139,6 +142,7 @@ struct set_t create_random_set(int num_colors)
 
 	return set_for_complex_token;
 }
+
 
 int set_num_ressources(struct set_t* set)
 {
