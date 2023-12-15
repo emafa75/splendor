@@ -10,7 +10,7 @@
 #include "token_second_header.h"
 #include <stdio.h>
 
-void every_combinaison(int num_tokens, int num_desired_token, int last_index, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay);
+void every_combinaison_test(int num_tokens, int num_desired_token, int last_index, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay);
 
 
 struct ressources can_buy(struct builder_t *builder_to_buy, struct ressources ressources)
@@ -265,57 +265,42 @@ struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources
 	//stock the best token
 	struct market_t best_market = create_default_market();
 	
+	for (int num_desired_token = 1; num_desired_token <= num_ressources ; ++num_desired_token)
+	{
+		every_combinaison_test(market_num_tokens(&clean_market), num_desired_token, 0, &clean_market, &best_market, &test_market, to_pay );
+	}
 
-
-	every_combinaison(market_num_tokens(&clean_market), num_ressources, 0, &clean_market, &best_market, &test_market, to_pay );
-
-	market_display(&best_market);
-	/*
-		Avec deux tokens
-	*/
-	// for (int index = 0; index < NUM_TOKENS-1; ++index)
-	// {
-	// 	market_pay_token(&test_market, market->tokens[index]);
-	// 	for (int j = index + 1; j < NUM_TOKENS; ++j)
-	// 	{
-	// 		market_pay_token(&test_market, market->tokens[j]);
-	// 		if (can_use_market(to_pay, &test_market))
-	// 		{
-	// 			needed_ressources.market = get_best_market(needed_ressources.market, test_market, to_pay);
-	// 		}
-	// 		market_pick_token(&test_market, market->tokens[j]);
-	// 	}
-	// 	market_pick_token(&test_market, market->tokens[index]);
-	// }
-
-	// for (int nb_token = 0; nb_token < num_ressources; ++nb_token)
-	// {
-
-	// }
+	if(market_num_tokens(&best_market) ==  0) //impossible to pay
+	{
+		/*
+			Returns a struct ressources with nothing inside
+		*/
+		struct ressources null_ressources = {};
+		
+		return null_ressources;
+	}
 
 	needed_ressources.market = best_market;
 
 	return needed_ressources;
 }
 
-void every_combinaison(int num_tokens, int num_desired_token, int last_index, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay)
+void every_combinaison_test(int num_tokens, int num_desired_token, int last_index, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay)
 {
 	int num_tokens_in_test_market = market_num_tokens(test_market);
-	printf(" num token in test market :%d\n", num_tokens_in_test_market);
 	if (num_tokens_in_test_market == num_desired_token)
 	{
-		
 		if (can_use_market(to_pay, test_market))
 		{
 			*best_market = get_best_market(*test_market, *best_market, to_pay); 
 		}
-		return;
-	}
-	for (int index = last_index ; index < num_tokens; ++index)
-	{
-		market_pay_token(test_market, clean_market->tokens[index]);
-		token_display(*clean_market->tokens[index], "this token is place in test market  :");
-		every_combinaison(num_tokens, num_desired_token, index, clean_market, best_market, test_market, to_pay);
-		market_pick_token(test_market, clean_market->tokens[index]);
+		
+	}else{
+		for (int index = last_index ; index < num_tokens; ++index)
+		{
+			market_pay_token(test_market, clean_market->tokens[index]);
+			every_combinaison_test(num_tokens, num_desired_token, index+1, clean_market, best_market, test_market, to_pay);
+			market_pick_token(test_market, clean_market->tokens[index]);
+		}
 	}
 }
