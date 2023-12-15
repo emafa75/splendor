@@ -16,7 +16,8 @@ static struct game_parameters game_parameters ={
 	.market_seed = 0,
 	.random_seed = 0,
 	.max_turns = 10,
-	.points_to_win = 20
+	.points_to_win = 20,
+	.num_player = 2
 } ;
 
 int test_skills()
