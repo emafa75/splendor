@@ -46,7 +46,7 @@ struct game_parameters game_params = {
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
 	.display = PRINT,
-	.num_player = MAX_PLAYERS,
+	.num_player = 2,
 };
 
 int main(int argc, char *argv[])
