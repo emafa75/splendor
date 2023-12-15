@@ -98,6 +98,9 @@ clean:
 	rm -rf $(BUILD_DIR)/*
 	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC)
 
+dep:
+	gcc -MM $(SRCS) $(INC_FLAGS)
+
 
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
