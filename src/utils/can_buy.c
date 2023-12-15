@@ -9,6 +9,7 @@
 #include "token.h"
 #include "token_second_header.h"
 #include <stdio.h>
+
 /*
 	Test every combinaison of num_desired_token to pay "to_pay"
 	Replace best_market with the best combinaison of market to pay "to_pay"
@@ -104,10 +105,70 @@ int can_use_market(struct set_t to_pay, struct market_t* market)
 	return 0;
 }
 
-struct market_t get_best_market( struct market_t first_market, struct market_t second_market, struct set_t to_pay)
+
+/*
+ *  Returns the sum of the efficiency of every tokens of market to pay to_pay
+ *
+ *  Efficiency of a token: sum of ressources of the intersection of to_pay with the token
+ *		then divided by the num of ressources of the token
+ *
+ *	Ex: eff of {1, 1, 2, 0, 0} to buy {1, 0, 1, 0, 0}
+ *     	-> returns (1 + 0 + 1 + 0 + 0) / 4 = 1/2
+ *       We only use hald of the token to buy the set
+ */
+float eff(struct market_t market, struct set_t to_pay)
 {
-	struct market_t best_market = first_market;
-	return best_market;
+	float out = 0;  // efficiency of market to buy to_pay
+	struct set_t* tmp_set;  // Used to store current set in for
+	struct set_t tmp_inter;  // Used to compute inter of tmp_set with to_pay
+
+	for (int i = 0 ; i < NUM_TOKENS ; ++i)
+	{
+		if (market.tokens[i])
+		{
+			tmp_set = &market.tokens[i]->s;
+
+			tmp_inter = set_inter(tmp_set, &to_pay);
+			out += (float)(set_num_ressources(&tmp_inter)) / (float)(set_num_ressources(tmp_set));
+		}
+	}
+
+	return out;
+}
+
+
+
+/*
+ *  Returns 1 if eff(first_market) < eff(second_market)
+ *
+ *         -1 if eff(second_market) < eff(first_market)
+ *
+ *          0 if eff(first_market) = eff(second_market)
+ */
+int market_cmp(struct market_t first_market, struct market_t second_market, struct set_t to_pay)
+{
+	float first_eff = eff(first_market, to_pay);
+	float second_eff = eff(second_market, to_pay);
+
+	if (first_eff < second_eff)
+		return 1;
+
+	else if (first_eff > second_eff)
+		return -1;
+
+	return 0;
+}
+
+
+/*
+ *  Returns first_market if it has better or equal efficiency to buy to_pay than second_market
+ */
+struct market_t get_best_market(struct market_t first_market, struct market_t second_market, struct set_t to_pay)
+{
+	if (market_cmp(first_market, second_market, to_pay) == 1)
+		return second_market;
+
+	return first_market;
 }
 
 struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources ressources)
@@ -170,12 +231,10 @@ struct ressources is_buyable(struct builder_t *builder_to_buy, struct ressources
 	/*
 		Test every combinaison of token to pay the exact price
 	*/
-	int num_ressources = set_num_ressources(&to_pay);
-
-	
+	int num_ressources = set_num_ressources(&to_pay);	
 
 	struct market_t test_market = create_default_market();
-	//stock the best token
+	//stock the best tokens to pay
 	struct market_t best_market = create_default_market();
 	
 	for (int num_desired_token = 1; num_desired_token <= num_ressources ; ++num_desired_token)
