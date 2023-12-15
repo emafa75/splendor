@@ -25,3 +25,6 @@ tmp.out
 
 #python 
 *.py
+graph
+graph/**/*
+graph.csv
