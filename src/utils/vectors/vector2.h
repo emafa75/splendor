@@ -1,13 +1,6 @@
 #ifndef __VECTOR2_H__
 #define __VECTOR2_H__
 
-#include <stdio.h>
-#include <math.h>
-
-#include "token.h"
-#include "market.h"
-
-
 struct vector2_t {
 	double x;
 	double y;

@@ -1,11 +1,14 @@
 #include "vector2.h"
+#include "cli_utils.h"
+#include <math.h>
+#include <stdio.h>
 
 struct vector2_t VECTOR2_ZERO = {0, 0};
-struct vector2_t VECTOR2_ONES = {1, 1};
-struct vector2_t VECTOR2_UP = {0, -1};
-struct vector2_t VECTOR2_DOWN = {0, 1};
-struct vector2_t VECTOR2_LEFT = {-1, 0};
-struct vector2_t VECTOR2_RIGHT = {1, 0};
+struct vector2_t VECTOR2_ONES = {LINE_SIZE, LINE_SIZE};
+struct vector2_t VECTOR2_UP = {0, -LINE_SIZE};
+struct vector2_t VECTOR2_DOWN = {0, LINE_SIZE};
+struct vector2_t VECTOR2_LEFT = {-LINE_SIZE, 0};
+struct vector2_t VECTOR2_RIGHT = {LINE_SIZE, 0};
 
 
 struct vector2_t vector2_zero(void) {return VECTOR2_ZERO;}

@@ -29,33 +29,7 @@ void init_market(struct market_t* market, unsigned int seed)
 
 	while (i < NUM_TOKENS)
 	{
-<<<<<<< HEAD:src/market/market.c
-		// Create first the complex tokens
-		if (i < NUM_COLORS)
-		{
-			complex_token_colors[(color - 1) % NUM_COLORS] = 0;
-			complex_token_colors[color] = 2;
-			struct set_t set_for_complex_token = {};
-			set_for_complex_token.num_colors = 1;
-
-			for (int index = 0 ; index < NUM_COLORS; ++index)
-			{
-				set_for_complex_token.c[index] = complex_token_colors[index];
-			}
-
-			tokens[i] = create_complex_token(set_for_complex_token);	 
-		}
-		else
-		{
-			tokens[i] = create_simple_token(color);
-		}
-
-		market->tokens[i] = &tokens[i];
-
-		color = (color + 1) % NUM_COLORS;
-=======
 		market->tokens[i] = make_token(i);
->>>>>>> master:src/tokens/market.c
 		++i;
 	}
 

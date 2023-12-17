@@ -8,8 +8,8 @@ DEBUG ?= 1
 PRINT ?= 0
 
 MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG) -DPRINT=$(PRINT)
-CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) # -fstack-usage
-
+CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) -lm # -fstack-usage
+LDFLAGS := -lm
 
 PROJECT_TARGET_EXEC := project
 TEST_TARGET_EXEC := test
@@ -55,6 +55,7 @@ evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
 test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
+	clear
 	./test
 
 
@@ -67,7 +68,7 @@ $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
 # The final build step for tests
 $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 	#Compiles the tests
-	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS)  # $@
+	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS) # $@
 
 
 # The final build step for evaluator

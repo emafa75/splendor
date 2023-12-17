@@ -2,11 +2,12 @@
 #define __CLI_UTILS_H__
 
 
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+
+#define LINE_SIZE 1
 
 
 /*
@@ -19,9 +20,9 @@ int getch(void);
 
 
 /*
- *  Prints the character c at pos i, j of the screen
+ *  Prints the character c at pos x, y of the screen
  */
-void printToCoordinates(unsigned int i, unsigned int j, char *str);
+void printToCoordinates(unsigned int x, unsigned int y, char *str);
 
 
 /*
@@ -31,4 +32,9 @@ void printToCoordinates(unsigned int i, unsigned int j, char *str);
  *
  */
 struct winsize get_terminal_dimensions(void);
+
+/*
+	Clear the terminal output
+*/
+void clear_terminal(void);
 #endif

@@ -1,15 +1,13 @@
 #ifndef __CLI_BOARD_H__
 #define __CLI_BOARD_H__
 
-#include <math.h>
-
 #include "token.h"
 #include "vector2.h"
-#include "cli_utils.h"
+#include "market.h"
 
 #define BOARD_SIZE NUM_TOKENS
 
-
+#define TILE_DIMENSION 5
 /*
  *
  */
