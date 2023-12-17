@@ -3,6 +3,9 @@
 #include "vector2.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "utils.h"
+
 int getch(void)
 {
 	int ch;
@@ -53,7 +56,7 @@ void cli_jump_line(struct vector2_t* position)
 
 void terminal_cursor(int toggle)
 {
-	if (toggle )
+	if (toggle)
 	{
 		printf("\e[?25h"); //enable the cursor
 	}
@@ -61,4 +64,66 @@ void terminal_cursor(int toggle)
 		printf("\e[?25l");
 	}
 	
+}
+
+void cli_popup(char* str)
+{
+	struct winsize winsize = get_terminal_dimensions();
+
+	struct vector2_t center = {(int) winsize.ws_col/2,(int) winsize.ws_row/2};
+	int offset = 2;
+	int popup_lenght = str_len_special(str) + 2 * offset;
+	int popup_width = 1 + 2 * offset; 
+	center.y -= offset;
+	center.x -= str_len_special(str)/2 + offset;
+
+	for (int x = center.x; x < center.x + popup_lenght; ++x)
+	{
+		for (int y = center.y; y < center.y + popup_width; ++y)
+		{
+			printToCoordinates(x, y, " ");
+		}
+	}
+
+	printToCoordinates(center.x + offset  , center.y + offset, str);
+	/*
+		Print a box around	
+	*/
+	struct vector2_t end_popup = {center.x + popup_lenght - 1, center.y + popup_width - 1};
+	//center = vector2_add(center, vector2_opposite(vector2_ones()));
+
+	
+	cli_wrap_box(center, end_popup);
+}
+
+void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
+{
+	/*
+		Print corners
+	*/
+	printToCoordinates(begin.x, end.y, "└");  //bottom left
+	printToCoordinates(begin.x, begin.y, "┌");  // top left
+	printToCoordinates(end.x, begin.y ,"┐");  // top right┘└┐
+	printToCoordinates(end.x, end.y,  "┘");  // bottom right
+
+	/*
+		Draw top and bottom
+	*/
+
+	for (int x = begin.x + 1; x < end.x; ++x)
+	{
+		printToCoordinates(x, begin.y, "─");
+		printToCoordinates(x, end.y, "─");
+	}
+
+	/*
+		Draw left and right side
+	*/
+
+	for (int y = begin.y + 1; y < end.y; ++y)
+	{
+		printToCoordinates(begin.x, y , "│");	
+		printToCoordinates(end.x, y, "│");	
+	}
+
 }

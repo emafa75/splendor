@@ -49,4 +49,13 @@ void cli_jump_line(struct vector2_t* position);
 */
 void terminal_cursor(int toggle);
 
+/*
+	Display a popup on the center of the screen
+*/
+void cli_popup(char* str);
+
+/*
+	Wrap a box on this position (rectangle)
+*/
+void cli_wrap_box(struct vector2_t begin, struct vector2_t end);
 #endif

@@ -14,6 +14,7 @@
 #include "cli_turn.h"
 #include "cli_utils.h"
 #include "game.h"
+#include "ansi_color.h"
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -121,6 +122,7 @@ int main(int argc, char *argv[])
 		Loop to display the turns	
 	*/
 	int ch = 0;
+	int print = 1;
 	while( ch != 'q'){
 		switch (ch) {
 			case 'n':
@@ -128,6 +130,11 @@ int main(int argc, char *argv[])
 				{
 					turn = game_get_turn(&game, ++turn_index);
 					clear_terminal();
+					print = 1;
+				}
+				else {
+					cli_popup(RED "No turn left" CRESET);
+					print = 0;
 				}
 				break;
 			case 'p':
@@ -135,15 +142,22 @@ int main(int argc, char *argv[])
 				{
 					turn = game_get_turn(&game, --turn_index);
 					clear_terminal();
+					print = 1;
+				}
+				else {
+					cli_popup(RED "It's already the init turn" CRESET);
+					print = 0;
 				}
 				break;
 			case 0:
 				break;
 			default:
-				printf("\nUnknown command");
+				cli_popup(RED "Unknown Command" CRESET);
+				print = 0;
 		} 
 
-		cli_turn_display(turn);
+		if (print)
+			cli_turn_display(turn);
 
 		ch = getch();
 	}
@@ -175,3 +189,4 @@ void print_usage(char *argv[])
 	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win] [-n number of player]\n", argv[0]);
 	return;
 }
+

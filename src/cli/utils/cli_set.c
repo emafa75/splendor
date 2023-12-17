@@ -7,11 +7,13 @@
 
 void cli_set_display(char *buffer, struct set_t* set)
 {
+	char tmp_buffer[100] = {};
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if (set->c[i] != 0)
 		{
-			sprintf(buffer,"%s%s%s=%d (Q:%d),", color_prefix(i), color_to_short_string(i), CRESET, i, set->c[i]);	  
+			sprintf(tmp_buffer,"%s%s%s=%d (Q:%d),", color_prefix(i), color_to_short_string(i), CRESET, i, set->c[i]);	  
+			strcat(buffer, tmp_buffer);
 		}
 	}
 }
