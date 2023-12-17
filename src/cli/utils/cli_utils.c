@@ -3,8 +3,8 @@
 #include "vector2.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "utils.h"
+#include "ansi_color.h"
 
 int getch(void)
 {
@@ -125,5 +125,58 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 		printToCoordinates(begin.x, y , "│");	
 		printToCoordinates(end.x, y, "│");	
 	}
+
+}
+
+struct vector2_t cli_display_options(struct vector2_t position, struct game_parameters params)
+{
+	char buffer[BUFFER_SIZE] = {};
+
+	/*
+		Points to win
+	*/
+	sprintf(buffer, "Points to win : " HYEL "%d" CRESET, params.points_to_win);
+	printToCoordinates(position.x, position.y, buffer);
+
+	/* Jump line*/
+	cli_jump_line(&position);
+
+	/*
+		Max turns
+	*/
+	sprintf(buffer, "Max turns : " HYEL "%d" CRESET, params.max_turns);
+	printToCoordinates(position.x, position.y, buffer);
+
+	/* Jump line*/
+	cli_jump_line(&position);
+
+	/*
+		Builder seed
+	*/
+	sprintf(buffer, "Builder seed : " HYEL "%d" CRESET, params.builder_seed);
+	printToCoordinates(position.x, position.y, buffer);
+
+	/* Jump line*/
+	cli_jump_line(&position);
+
+	/*
+		Token seed
+	*/
+	sprintf(buffer, "Token seed : " HYEL "%d" CRESET, params.market_seed);
+	printToCoordinates(position.x, position.y, buffer);
+
+	/* Jump line*/
+	cli_jump_line(&position);
+
+	/*
+		Random seed
+	*/
+	sprintf(buffer, "Random seed : " HYEL "%d" CRESET, params.random_seed);
+	printToCoordinates(position.x, position.y, buffer);
+
+	/* Jump line*/
+	cli_jump_line(&position);
+
+	return position;
 
 }

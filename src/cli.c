@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
-#include "cli_tests.h"
 #include "cli_turn.h"
 #include "cli_utils.h"
 #include "game.h"

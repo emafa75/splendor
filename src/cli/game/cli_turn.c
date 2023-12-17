@@ -67,15 +67,84 @@ void cli_turn_display(struct turn_t *turn)
 		Display global guild
 	*/
 	coord.x += end_market.x + 2;
-	struct vector2_t end_guild = display_global_guild(coord, guild);
+	struct vector2_t start_guild = coord;
+	struct vector2_t end_guild = display_global_guild(start_guild, guild);
 	cli_jump_line(&end_guild);
 
 	/*
 		Display current player inventory
 	*/
-	struct vector2_t start_player_inventory = {coord.x, coord.y + (1+ MAX_BUILDERS_AVAILABLE_PER_LVL * NUM_LEVELS) + 1};
+	struct vector2_t start_player_inventory = {start_guild.x, start_guild.y + (1+ MAX_BUILDERS_AVAILABLE_PER_LVL * NUM_LEVELS) + 1};
 	
 	cli_player_display_inventory(start_player_inventory, current_player);
 
-	
+	/*
+		Display short display for all the players
+	*/
+	unsigned int num_player = turn_get_num_player(turn);
+	struct vector2_t start_short_inventory_display = {winsize.ws_col - 22 , start_guild.y};
+
+	/* Title of the section */
+	printToCoordinates(start_short_inventory_display.x, start_short_inventory_display.y, BOLD "Players" CRESET);
+	cli_jump_line(&start_short_inventory_display);
+	cli_jump_line(&start_short_inventory_display);
+	start_short_inventory_display = vector2_add(start_short_inventory_display,vector2_right()); //tabulation
+
+	struct vector2_t end_short_inventory_display = start_short_inventory_display;
+
+	for (int index = 0; index < num_player; ++index)
+	{
+		end_short_inventory_display = cli_player_short_display(end_short_inventory_display, &players[index]);
+	}
+
+	/*
+		Draw box around players
+	*/
+
+	struct vector2_t start_players_box = start_short_inventory_display;
+	start_players_box = vector2_add(start_players_box , vector2_opposite(vector2_ones()));
+	start_players_box.x -= 1 ;//manual adjustement 
+	struct vector2_t end_players_box = {winsize.ws_col - 1, end_short_inventory_display.y};
+
+	cli_wrap_box(start_players_box, end_players_box);
+
+	/*
+		Display game options
+	*/
+
+	struct vector2_t start_option_display = {end_short_inventory_display.x, num_player * 6 + 3};
+	cli_jump_line(&start_option_display);
+
+	/* Title of the section */
+	printToCoordinates(start_option_display.x, start_option_display.y, BOLD "Game parameters " CRESET);
+	cli_jump_line(&start_option_display);
+	cli_jump_line(&start_option_display);
+	start_option_display = vector2_add(start_option_display,vector2_right()); //tabulation
+
+
+	struct vector2_t end_option_display = cli_display_options(start_option_display, *turn_get_params(turn));
+
+
+	/*
+		Context box
+	*/
+
+	struct vector2_t start_context_box = {0, end_market.y};
+	start_context_box = vector2_add(start_context_box, margin);
+
+	struct vector2_t end_context_box = {end_option_display.x - 2 , winsize.ws_row};
+	end_context_box = vector2_add( end_context_box,vector2_opposite(margin));
+	/*
+		Remove the margin from the bottom, not perfect
+	*/
+	cli_jump_line(&end_context_box);
+	cli_jump_line(&end_context_box);
+	cli_wrap_box(start_context_box, end_context_box);
+
+	/* Context legend */
+	start_context_box = vector2_add(start_context_box, vector2_right());
+	start_context_box = vector2_add(start_context_box, vector2_right());
+	start_context_box = vector2_add(start_context_box, vector2_down());
+
+	printToCoordinates(start_context_box.x, start_context_box.y,URED BOLD  "Context :" CRESET);
 }

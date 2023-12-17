@@ -6,6 +6,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include "game.h"
 #include "vector2.h"
 
 #define LINE_SIZE 1
@@ -58,4 +59,10 @@ void cli_popup(char* str);
 	Wrap a box on this position (rectangle)
 */
 void cli_wrap_box(struct vector2_t begin, struct vector2_t end);
+
+/*
+	Display game options
+	Returns the position at the end of the display
+*/
+struct vector2_t cli_display_options(struct vector2_t position, struct game_parameters);
 #endif
