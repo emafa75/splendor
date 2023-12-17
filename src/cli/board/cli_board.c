@@ -23,7 +23,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 		{
 			for (unsigned int y = 0 ; y < tile_dimension ; ++y)
 			{
-					printToCoordinates(position.y + y, position.x + x, " ");
+					printToCoordinates(position.x + x, position.y + y, " ");
 			}
 		}
 		return;
@@ -88,11 +88,11 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 			{
 				const char* prefix_color = color_prefix(non_null_colors[index_non_null_color]);
 				sprintf(colored_pixel, "%s█%s", prefix_color, CRESET);
-				printToCoordinates(position.y + y, position.x + x, colored_pixel);
+				printToCoordinates(position.x + x, position.y + y, colored_pixel);
 			}
 			else
 			{
-				printToCoordinates(position.y + y, position.x + x, " ");
+				printToCoordinates(position.x + x, position.y + y, " ");
 			}
 		}
 	}
@@ -188,8 +188,8 @@ void board_display(struct vector2_t position, struct board_t* board)
 		for (unsigned int j = 0 ; j < board_dimension ; ++j)
 		{
 			// Draw tile
-			board_tile_start_pos.x = i * (board->tile_dimension + 1) + position.x + 1;
-			board_tile_start_pos.y = j * (board->tile_dimension + 1) + position.y + 1;
+			board_tile_start_pos.x = i * (tile_dimension + 1) + position.x + 1;
+			board_tile_start_pos.y = j * (tile_dimension + 1) + position.y + 1;
 
 			board_display_tile(board_tile_start_pos, tile_dimension, &board->matrix[i][j]);
 		}

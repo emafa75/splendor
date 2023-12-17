@@ -13,8 +13,6 @@ void display_global_guild(struct vector2_t position, struct guild_t* guild)
 
 	// Nb dispo
 	
-	position = vector2_add(position, vector2_down());
-
 	/*
 		Print available builders
 	*/
@@ -22,7 +20,8 @@ void display_global_guild(struct vector2_t position, struct guild_t* guild)
 	struct builder_t* builder;
 
 	sprintf(text, "Game guild (%d) : ", available_builders->n_builders_available);
-	printToCoordinates(position.y, position.x, text);
+	printToCoordinates(position.x, position.y, text);
+	position = vector2_add(position, vector2_down());
 
 	for (int index = 0; index < MAX_BUILDERS; ++index)
 	{

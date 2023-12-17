@@ -1,7 +1,7 @@
 
 #include "cli_utils.h"
 #include <stdio.h>
-
+#include <stdlib.h>
 int getch(void)
 {
 	int ch;
@@ -24,7 +24,7 @@ int getch(void)
 
 void printToCoordinates(unsigned int x, unsigned int y, char *str)
 {
-    printf("\033[%d;%dH%s\n", y, x, str);
+    printf("\033[%d;%dH%s", y, x, str);
 }
 
 
@@ -38,5 +38,6 @@ struct winsize get_terminal_dimensions(void)
 
 void clear_terminal()
 {
-	printf("\e[1;1H\e[2J");
+	// /printf("\e[1;1H\e[2J");
+	system("clear");
 }
