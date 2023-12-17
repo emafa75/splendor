@@ -25,6 +25,7 @@ struct turn_t
     unsigned int points_to_win;
 	unsigned int display; /* Used to display in other functions*/
 	int num_player;
+	unsigned int id;
 };
 
 struct game_t
@@ -131,6 +132,11 @@ int turn_get_num_player(struct turn_t* turn);
     Display the current state of the turn
 */
 void turn_display(struct turn_t* turn);
+
+/*
+	Gets turn id
+*/
+unsigned int turn_get_id(struct turn_t* turn);
 
 /*
     change current player to next player.

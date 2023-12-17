@@ -91,7 +91,7 @@ void player_display_inventory(struct player_t *player)
 		Points
 	*/
 	unsigned int points = player_get_points(player);
-	printf(BOLD "Point(s) : " HYEL "%d\n\n" CRESET , points );
+	printf(BOLD "Point(s) : " BYEL "%d\n\n" CRESET , points );
 
 	/*
 		Favors

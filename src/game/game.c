@@ -55,6 +55,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 	for (int index = 0; index < num_player; ++index)
 	{
 		players[index] = init_player();
+		players[index].id = index;
 	}
 
 	/*
@@ -84,6 +85,8 @@ void game_save_turn(struct game_t* game)
 		memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));       
 	}
 	++ game->current_turn_index ;
+	struct turn_t* new_turn = game_get_current_turn(game);
+	new_turn->id = game->current_turn_index;
 }
 
 void next_player(struct turn_t* current_turn)
@@ -439,12 +442,12 @@ struct game_statistics game_play(struct game_t *game, int display)
 	{	
 		
 		current_turn = game_get_current_turn(game);
-		int turn_index = game->current_turn_index;
+		//int turn_index = game->current_turn_index;
 
 		/*
 			Play turn
 		*/
-		DISPLAY(display,fprintf(output, BBLU "════════════════════════" BRED "  TURN %d  " BBLU "════════════════════════════\n" CRESET, turn_index));
+		DISPLAY(display,fprintf(output, BBLU "════════════════════════" BRED "  TURN %d  " BBLU "════════════════════════════\n" CRESET, turn_get_id(current_turn)));
 		struct turn_statistics turn_stats = turn_play(current_turn);
 		DISPLAY(display, fprintf(output, BBLU "══════════════════════════════════════════════════════════════\n" CRESET));
 		DISPLAY(display, fprintf(output, "\n"));
@@ -498,4 +501,9 @@ Number of skipped turn : " BYEL "%d\n" CRESET,
 int turn_get_num_player(struct turn_t* turn)
 {
 	return turn->num_player;
+}
+
+unsigned int turn_get_id(struct turn_t* turn)
+{
+	return turn->id;
 }
