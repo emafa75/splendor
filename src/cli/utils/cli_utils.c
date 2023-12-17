@@ -1,5 +1,6 @@
 
 #include "cli_utils.h"
+#include "vector2.h"
 #include <stdio.h>
 #include <stdlib.h>
 int getch(void)
@@ -40,4 +41,12 @@ void clear_terminal()
 {
 	// /printf("\e[1;1H\e[2J");
 	system("clear");
+}
+
+void cli_jump_line(struct vector2_t* position)
+{
+	struct vector2_t new_position = vector2_add(*position,vector2_down());
+
+	position->x = new_position.x;
+	position->y = new_position.y;
 }

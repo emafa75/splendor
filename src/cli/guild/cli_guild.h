@@ -2,7 +2,6 @@
 #define __CLI_GUILD_H__
 
 #include "guild.h"
-#include "cli_utils.h"
 #include "vector2.h"
 
 void display_global_guild(struct vector2_t position, struct guild_t* guild);

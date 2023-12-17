@@ -10,8 +10,8 @@
 
 void cli_builder_display(struct vector2_t position , const struct builder_t* builder, char* prefix)
 {
-	char buffer[200] = {};
-	char tmp_buffer[100] = {};
+	char buffer[BUFFER_SIZE] = {};
+	char tmp_buffer[BUFFER_SIZE] = {};
 	struct set_t builder_require = builder_requires(builder);
 	struct set_t builder_provide = builder_provides(builder);
 	

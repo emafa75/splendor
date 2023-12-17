@@ -36,11 +36,3 @@ void display_global_guild(struct vector2_t position, struct guild_t* guild)
 }
 
 
-void display_global_guild_stacks(struct vector2_t position, struct guild_t* guild, struct vector2_t dimension)
-{
-	printToCoordinates(position.y, position.x, "niv");
-
-
-}
-
-
