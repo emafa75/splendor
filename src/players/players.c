@@ -191,3 +191,8 @@ void player_set_favor(struct player_t *player, unsigned int favor)
 {
 	player->favor = favor;
 }
+
+unsigned int player_get_id(struct player_t* player)
+{
+	return player->id;
+}
