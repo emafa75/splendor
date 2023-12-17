@@ -2,6 +2,7 @@
 #include "builder.h"
 #include "cli_board.h"
 #include "cli_guild.h"
+#include "cli_turn.h"
 #include "cli_utils.h"
 #include "game.h"
 #include "guild.h"
@@ -14,6 +15,23 @@
 
 void cli_tests(void)
 {
+	/**
+		Init a default game
+	*/
+	struct game_parameters game_params = {
+		.points_to_win = 10,
+		.max_turns = 20,
+		.market_seed = 0,
+		.builder_seed = 0,
+		.random_seed = 0,
+		.display = 1,
+		.num_player = 2,
+	};
+	
+	struct game_t game = {};
+	init_game(&game, game_params);
+
+	struct turn_t* turn = game_get_current_turn(&game);
 	/*
 		Init market
 	*/
@@ -29,13 +47,11 @@ void cli_tests(void)
 	init_builders(0);
 	init_guild(&guild);
 
-	/*
-		Init players 
-	*/
+
 	/*
 		Init the players
 	*/
-	int num_player = 4;
+	int num_player = 2;
 	struct player_t players[MAX_PLAYERS] = {} ;
 	for (int index = 0; index < num_player; ++index)
 	{
@@ -54,35 +70,36 @@ void cli_tests(void)
 	while( ch != 'q'){
 		clear_terminal();
 				
-		struct vector2_t coord = {10, 10};
+		// struct vector2_t coord = {10, 10};
 		
-		/*
-			Display global market
-		*/
-		printToCoordinates(coord.x, coord.y, "Global Market : ");
-		/* Jump a line */
-		coord = vector2_add(coord,vector2_down());
+		// /*
+		// 	Display global market
+		// */
+		// printToCoordinates(coord.x, coord.y, "Global Market : ");
+		// /* Jump a line */
+		// coord = vector2_add(coord,vector2_down());
 
-		struct board_t market_board = market_to_board(&market);
-		board_display(coord, &market_board);
+		// struct board_t market_board = market_to_board(&market);
+		// board_display(coord, &market_board);
 
-		/*
-			Display global_guild
-		*/
+		// /*
+		// 	Display global_guild
+		// */
 
-		coord.x = 10;
-		coord.y = 10;
-		coord.x += market_board.tile_dimension * market_board.n + 10;
-		display_global_guild(coord, &guild);
+		// coord.x = 10;
+		// coord.y = 10;
+		// coord.x += market_board.tile_dimension * market_board.n + 10;
+		// display_global_guild(coord, &guild);
 
-		/*
-			Display players_inventory
-		*/
+		// /*
+		// 	Display players_inventory
+		// */
 		
-		coord.x += 80;
-		for (int index = 0; index < num_player; ++index){
-			coord = cli_player_display_inventory(coord, &players[index]);
-		}
+		// coord.x += 80;
+		// for (int index = 0; index < num_player; ++index){
+		// 	coord = cli_player_display_inventory(coord, &players[index]);
+		// }
+		cli_turn_display(turn);
 
 		ch = getch();
 	}

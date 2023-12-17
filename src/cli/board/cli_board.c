@@ -100,7 +100,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 
 
 
-void board_display(struct vector2_t position, struct board_t* board)
+struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 {
 	struct vector2_t board_tile_start_pos = {};
 	
@@ -194,6 +194,9 @@ void board_display(struct vector2_t position, struct board_t* board)
 			board_display_tile(board_tile_start_pos, tile_dimension, &board->matrix[i][j]);
 		}
 	}
+
+	struct vector2_t last_position = {board_dimension * (tile_dimension + 1) + position.x , board_dimension * (tile_dimension + 1) + position.y};
+	return last_position;
 }
 
 

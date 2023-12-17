@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <getopt.h>
 #include "cli_tests.h"
+#include "cli_turn.h"
+#include "cli_utils.h"
 #include "game.h"
 
 #define _NB_MIN_PARAMS_ 1
@@ -94,7 +96,42 @@ int main(int argc, char *argv[])
 
 	display_options();
 	
-	cli_tests();
+	/*
+		Init all instances
+	*/
+	struct game_t game = {};
+	init_game(&game, game_params);
+
+	/*
+		Play the game
+	*/
+	struct game_statistics game_stats = game_play(&game, game_params.display);
+
+	/*
+		Get the first turn
+	*/
+	struct turn_t* turn = game_get_turn(&game, 0);
+	int turn_index = turn_get_id(turn);
+
+	int ch = 0;
+	while( ch != 'q'){
+		switch (ch) {
+			case 'n':
+				if(turn_index < game_stats.nb_turns)
+					turn = game_get_turn(&game, ++turn_index);
+				break;
+			case 'p':
+				if(turn_index > 0) 
+					turn = game_get_turn(&game, --turn_index);
+				break;
+		} 
+
+		cli_turn_display(turn);
+
+		ch = getch();
+	}
+
+	
 
 	return EXIT_SUCCESS;
 }

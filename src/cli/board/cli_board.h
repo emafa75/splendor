@@ -47,7 +47,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 /*
  *  Display the board, start at position
  */
-void board_display(struct vector2_t position, struct board_t* board);
+struct vector2_t board_display(struct vector2_t position, struct board_t* board);
 
 
 #endif
