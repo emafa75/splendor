@@ -5,11 +5,13 @@
 #include "color.h"
 #include "market.h"
 #include "set.h"
+#include "skills.h"
 #include "token.h"
 #include "token_second_header.h"
 #include "vector2.h"
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "color_second_header.h"
 
@@ -87,7 +89,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 			if (dist_to_center < radius)
 			{
 				const char* prefix_color = color_prefix(non_null_colors[index_non_null_color]);
-				sprintf(colored_pixel, "%s█%s", prefix_color, CRESET);
+				sprintf(colored_pixel, has_skills(token) ? "%s" BLINK "█" BLINK_RESET "%s"  : "%s█%s", prefix_color, CRESET);
 				printToCoordinates(position.x + x, position.y + y, colored_pixel);
 			}
 			else
