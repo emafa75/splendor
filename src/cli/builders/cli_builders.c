@@ -15,7 +15,7 @@ void cli_builder_display(struct vector2_t position , const struct builder_t* bui
 	struct set_t builder_require = builder_requires(builder);
 	struct set_t builder_provide = builder_provides(builder);
 	
-	sprintf(buffer,"%sBuilder(lvl=%d, points=%d, ", \
+	sprintf(buffer,"%sB(lvl=%d, points=%d, ", \
 			prefix, \
 			builder_level(builder) + 1, \
 			builder_points(builder)

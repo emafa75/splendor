@@ -113,17 +113,34 @@ int main(int argc, char *argv[])
 	struct turn_t* turn = game_get_turn(&game, 0);
 	int turn_index = turn_get_id(turn);
 
+	//disable the cursor
+	terminal_cursor(0);
+	clear_terminal();
+
+	/*
+		Loop to display the turns	
+	*/
 	int ch = 0;
 	while( ch != 'q'){
 		switch (ch) {
 			case 'n':
 				if(turn_index < game_stats.nb_turns)
+				{
 					turn = game_get_turn(&game, ++turn_index);
+					clear_terminal();
+				}
 				break;
 			case 'p':
 				if(turn_index > 0) 
+				{
 					turn = game_get_turn(&game, --turn_index);
+					clear_terminal();
+				}
 				break;
+			case 0:
+				break;
+			default:
+				printf("\nUnknown command");
 		} 
 
 		cli_turn_display(turn);
@@ -131,6 +148,10 @@ int main(int argc, char *argv[])
 		ch = getch();
 	}
 
+	/*
+		Reenable the cursor
+	*/
+	terminal_cursor(1);
 	
 
 	return EXIT_SUCCESS;

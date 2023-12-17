@@ -44,4 +44,9 @@ void clear_terminal(void);
 */
 void cli_jump_line(struct vector2_t* position);
 
+/*
+	Enable or disable the terminal cursor
+*/
+void terminal_cursor(int toggle);
+
 #endif

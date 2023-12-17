@@ -6,8 +6,9 @@
 #include "guild.h"
 #include "vector2.h"
 #include <stdio.h>
+#include "ansi_color.h"
 
-void display_global_guild(struct vector2_t position, struct guild_t* guild)
+struct vector2_t display_global_guild(struct vector2_t position, struct guild_t* guild)
 {
 	char text[100] = {};
 
@@ -19,7 +20,7 @@ void display_global_guild(struct vector2_t position, struct guild_t* guild)
 	struct available_builders* available_builders = guild_get_available_builders(guild);
 	struct builder_t* builder;
 
-	sprintf(text, "Game guild (%d) : ", available_builders->n_builders_available);
+	sprintf(text, BOLD "Game guild (%d) : " CRESET, available_builders->n_builders_available);
 	printToCoordinates(position.x, position.y, text);
 	position = vector2_add(position, vector2_down());
 
@@ -32,6 +33,8 @@ void display_global_guild(struct vector2_t position, struct guild_t* guild)
 			position = vector2_add(position, vector2_down());
 		}
 	}
+
+	return position;
 	
 }
 

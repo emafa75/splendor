@@ -463,10 +463,11 @@ struct game_statistics game_play(struct game_t *game, int display)
 		game_stats.used_skill += turn_stats.used_skill;
 
 		/*
-			Give turn to the next player and save the state of the turn
+			Save the state of the turn and give turn to the next player 
 		*/
-		next_player(current_turn);
 		game_save_turn(game);
+
+		next_player(game_get_current_turn(game));
 
 	}
 	game_stats.result = (has_won(current_turn));

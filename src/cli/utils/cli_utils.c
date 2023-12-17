@@ -50,3 +50,15 @@ void cli_jump_line(struct vector2_t* position)
 	position->x = new_position.x;
 	position->y = new_position.y;
 }
+
+void terminal_cursor(int toggle)
+{
+	if (toggle )
+	{
+		printf("\e[?25h"); //enable the cursor
+	}
+	else {
+		printf("\e[?25l");
+	}
+	
+}
