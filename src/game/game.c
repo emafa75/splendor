@@ -29,6 +29,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 	first_turn->points_to_win = params.points_to_win;
 	first_turn->display = params.display;
 	first_turn->num_player = MIN(params.num_player, MAX_PLAYERS);
+	first_turn->params = params;
 
 
 	/*
@@ -507,4 +508,9 @@ int turn_get_num_player(struct turn_t* turn)
 unsigned int turn_get_id(struct turn_t* turn)
 {
 	return turn->id;
+}
+
+struct game_parameters* turn_get_params(struct turn_t* turn)
+{
+	return &turn->params;
 }
