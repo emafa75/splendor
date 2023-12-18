@@ -59,7 +59,6 @@ evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
 test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
-	clear
 	./test
 
 cli: $(BUILD_DIR)/$(CLI_TARGET_EXEC)
