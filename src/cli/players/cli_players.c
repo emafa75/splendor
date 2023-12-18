@@ -39,7 +39,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 		Favors
 	*/
 	unsigned int favor = player_get_favor(player);
-	sprintf(buffer, favor ?  BOLD "Favor(s)\t: " CRESET HYEL "%d"  CRESET: BOLD "Favor(s) : " CRESET WHT "No favor\n\n" CRESET , favor );
+	sprintf(buffer, favor ?  BOLD "Favor(s)\t: " CRESET HYEL "%d"  CRESET: BOLD "Favor(s)\t: " CRESET WHT "No favor\n\n" CRESET , favor );
 	printToCoordinates(position.x, position.y, buffer);
 
 

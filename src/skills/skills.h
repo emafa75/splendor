@@ -78,4 +78,9 @@ void trigger_display_skill(const void* trigger);
 	Returns the number of associated skills from a trigger
 */
 int trigger_num_skills(const void* trigger);
+
+/*
+	Returns the string associated to the skill
+*/
+char* skill_string(enum skills_id skill_id);
 #endif

@@ -64,6 +64,9 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 
 cli: $(BUILD_DIR)/$(CLI_TARGET_EXEC)
 
+color_cli :
+	DEBUG=0 make cli
+
 # The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
 	#Compiles the project
@@ -75,6 +78,7 @@ $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 	#Compiles the tests
 	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS) # $@
 
+# The final build step for cli
 $(BUILD_DIR)/$(CLI_TARGET_EXEC): $(CLI_OBJS)
 	#Compiles the cli executable
 	@$(CC) $(CLI_OBJS) -o $(CLI_TARGET_EXEC) $(LDFLAGS) # $@

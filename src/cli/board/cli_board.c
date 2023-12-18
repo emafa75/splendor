@@ -89,7 +89,17 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 			if (dist_to_center < radius)
 			{
 				const char* prefix_color = color_prefix(non_null_colors[index_non_null_color]);
-				sprintf(colored_pixel, has_skills(token) ? "%s" BLINK "█" BLINK_RESET "%s"  : "%s█%s", prefix_color, CRESET);
+				/*
+					If the token has skill, print gold circle
+				*/
+				if (radius - dist_to_center < 1  && has_skills(token))
+				{
+					sprintf(colored_pixel, "%s" BLINK "█" BLINK_RESET "%s", YEL , CRESET);
+				}
+				else {
+					sprintf(colored_pixel, "%s█%s", prefix_color, CRESET);
+					
+				}
 				printToCoordinates(position.x + x, position.y + y, colored_pixel);
 			}
 			else
