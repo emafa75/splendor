@@ -35,15 +35,14 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	// test_token();
-	// test_builders();
-	// test_market();
-	// test_guild();
-	// test_players();
-	// test_utils();
-	// test_skills();
+	test_token();
+	test_builders();
+	test_market();
+	test_guild();
+	test_players();
+	test_utils();
+	test_skills();
 	
-	cli_tests();
 	return EXIT_SUCCESS;
 }
 
