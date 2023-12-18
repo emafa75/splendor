@@ -135,7 +135,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	/*
 		Points to win
 	*/
-	sprintf(buffer, "Points to win : " HYEL "%d" CRESET, params.points_to_win);
+	sprintf(buffer, "Points to win\t: " HYEL "%d" CRESET, params.points_to_win);
 	printToCoordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
@@ -144,7 +144,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	/*
 		Max turns
 	*/
-	sprintf(buffer, "Max turns : " HYEL "%d" CRESET, params.max_turns);
+	sprintf(buffer, "Max turns\t: " HYEL "%d" CRESET, params.max_turns);
 	printToCoordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
@@ -153,7 +153,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	/*
 		Builder seed
 	*/
-	sprintf(buffer, "Builder seed : " HYEL "%d" CRESET, params.builder_seed);
+	sprintf(buffer, "Builder seed\t: " HYEL "%d" CRESET, params.builder_seed);
 	printToCoordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
@@ -162,7 +162,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	/*
 		Token seed
 	*/
-	sprintf(buffer, "Token seed : " HYEL "%d" CRESET, params.market_seed);
+	sprintf(buffer, "Token seed\t: " HYEL "%d" CRESET, params.market_seed);
 	printToCoordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
@@ -171,7 +171,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	/*
 		Random seed
 	*/
-	sprintf(buffer, "Random seed : " HYEL "%d" CRESET, params.random_seed);
+	sprintf(buffer, "Random seed\t: " HYEL "%d" CRESET, params.random_seed);
 	printToCoordinates(position.x, position.y, buffer);
 
 	/* Jump line*/

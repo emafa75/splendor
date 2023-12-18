@@ -31,7 +31,7 @@ void cli_turn_display(struct turn_t *turn)
 	struct market_t* market = turn_get_market(turn);
 	struct guild_t* guild = turn_get_guild(turn);
 	struct player_t* players = turn_get_players(turn);
-	int nb_players = turn_get_num_player(turn);
+	unsigned int num_player = turn_get_num_player(turn);
 	struct player_t* current_player = turn_get_current_player(turn);
 
 	//printf("Dimensions : %d lines, %d columns\n", winsize.ws_row, winsize.ws_col );
@@ -81,7 +81,6 @@ void cli_turn_display(struct turn_t *turn)
 	/*
 		Display short display for all the players
 	*/
-	unsigned int num_player = turn_get_num_player(turn);
 	struct vector2_t start_short_inventory_display = {winsize.ws_col - 22 , start_guild.y};
 
 	/* Title of the section */
@@ -92,7 +91,7 @@ void cli_turn_display(struct turn_t *turn)
 
 	struct vector2_t end_short_inventory_display = start_short_inventory_display;
 
-	for (int index = 0; index < num_player; ++index)
+	for (unsigned int index = 0; index < num_player; ++index)
 	{
 		end_short_inventory_display = cli_player_short_display(end_short_inventory_display, &players[index]);
 	}
