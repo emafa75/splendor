@@ -30,7 +30,7 @@ const char * str_short_color[] = {
 };
 
 const char* prefix_color[MAX_COLORS] ={
-  BLK,
+  HBLK,
   BLU,
   GRN,
   RED,
