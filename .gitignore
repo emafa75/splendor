@@ -18,6 +18,7 @@ vgcore.*
 tmp/
 tmp/**/*
 
+<<<<<<< HEAD
 
 evaluator
 tmp.out
@@ -30,3 +31,7 @@ tmp.out
 graph
 graph/**/*
 graph.csv
+=======
+**/*.py
+tmp.out
+>>>>>>> c248ae2 (before merge master)
