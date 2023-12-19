@@ -1,7 +1,7 @@
-
 #include "color.h"
 #include "color_second_header.h"
 #include "ansi_color.h"
+
 
 const char * str_color[] = {
   "Black" ,
@@ -16,6 +16,7 @@ const char * str_color[] = {
   "Chestnut" 
 };
 
+
 const char * str_short_color[] = {
   "K",
   "B",
@@ -28,6 +29,7 @@ const char * str_short_color[] = {
   "O",
   "C" 
 };
+
 
 const char* prefix_color[MAX_COLORS] ={
   HBLK,
@@ -42,19 +44,20 @@ const char* prefix_color[MAX_COLORS] ={
   CRESET
 };
 
+
 const char* color_to_string(enum color_t c)
 {
   return  str_color[c];
-  
 }
+
 
 const char* color_prefix(enum color_t c)
 {
   return prefix_color[c];
 }
+
+
 const char* color_to_short_string(enum color_t c)
 {
   return str_short_color[c];
 }
-  
-  

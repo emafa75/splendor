@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 
+
 /*
  *  Create an empty queue
  */
@@ -45,12 +46,15 @@ unsigned int queue_get_length(struct queue_t* queue)
 void* queue_dequeue(struct queue_t* queue)
 {
 	if (queue_get_length(queue) == 0)
-	{
 		return NULL;
-	}
-	void* out = queue->values[queue->head];
-	queue->head = (queue->head + 1) % queue_get_size(queue);
+
+	unsigned int head = queue_get_head(queue);
+
+	void* out = queue->values[head];  // Value to return
+	
+	queue->head = (head + 1) % queue_get_size(queue);
 	--queue->length;
+
 	return out;
 }
 
@@ -64,8 +68,9 @@ unsigned int queue_append(struct queue_t* queue, void* value)
 	if (queue_get_length(queue) >= queue_get_size(queue))
 		return 0;
 
-	int ind = (queue_get_head(queue) + queue_get_length(queue)) % queue_get_size(queue);
-	queue->values[ind] = value;
+	// May need loop in the queue if head != 0 -> get the modulo
+	int append_ind = (queue_get_head(queue) + queue_get_length(queue)) % queue_get_size(queue);
+	queue->values[append_ind] = value;
 	
 	++queue->length;
 	return 1;

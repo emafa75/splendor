@@ -8,6 +8,7 @@ struct permutation_t{
 	int permutation[NUM_TOKENS];
 };
 
+
 /*
 	Returns the identity permutation
 */
