@@ -10,7 +10,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
-#include "players.h"
+#include "cli_turn.h"
+#include "cli_utils.h"
 #include "game.h"
 #include "ansi_color.h"
 
@@ -94,20 +95,12 @@ int main(int argc, char *argv[])
 	}
 
 	display_options();
-
+	
 	/*
 		Init all instances
 	*/
 	struct game_t game = {};
 	init_game(&game, game_params);
-
-	struct turn_t* init_turn = game_get_current_turn(&game);
-
-	/*
-		Display the init set
-	*/
-	printf("\nGame init : \n");
-	turn_display(init_turn);
 
 	/*
 		Play the game
@@ -115,24 +108,64 @@ int main(int argc, char *argv[])
 	struct game_statistics game_stats = game_play(&game, game_params.display);
 
 	/*
-		End of the game, print results 
+		Get the first turn
 	*/
-	printf("End of the game !\nResult of the game : ");
-	struct turn_t* last_turn = game_get_current_turn(&game);
-	int winner = get_winner(last_turn);
+	struct turn_t* turn = game_get_turn(&game, 0);
+	int turn_index = turn_get_id(turn);
 
-	if (winner <= -1)
-	{
-		printf("TIE\n");
-	}
-	else{
-		printf("Player id.%d won with %d point(s) !\n", winner, player_get_points(&turn_get_players(last_turn)[winner]));
+	//disable the cursor
+	terminal_cursor(0);
+	clear_terminal();
+
+	/*
+		Loop to display the turns	
+	*/
+	int ch = 0;
+	int print = 1;
+	while( ch != 'q'){
+		switch (ch) {
+			case 'n':
+				if(turn_index < game_stats.nb_turns)
+				{
+					turn = game_get_turn(&game, ++turn_index);
+					clear_terminal();
+					print = 1;
+				}
+				else {
+					cli_popup(RED "No turn left" CRESET);
+					print = 0;
+				}
+				break;
+			case 'p':
+				if(turn_index > 0) 
+				{
+					turn = game_get_turn(&game, --turn_index);
+					clear_terminal();
+					print = 1;
+				}
+				else {
+					cli_popup(RED "It's already the init turn" CRESET);
+					print = 0;
+				}
+				break;
+			case 0:
+				break;
+			default:
+				cli_popup(RED "Unknown Command" CRESET);
+				print = 0;
+		} 
+
+		if (print)
+			cli_turn_display(turn);
+
+		ch = getch();
 	}
 
-	printf("\n");
-	printf(BWHT "══════════════════════════  Game Statistics  ═════════════════════════════\n" CRESET);
-	game_stats_display(game_stats);
-	printf(BWHT "══════════════════════════════════════════════════════════════════════════\n" CRESET);
+	/*
+		Reenable the cursor
+	*/
+	terminal_cursor(1);
+	
 
 	return EXIT_SUCCESS;
 }
@@ -155,3 +188,4 @@ void print_usage(char *argv[])
 	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win] [-n number of player]\n", argv[0]);
 	return;
 }
+

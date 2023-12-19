@@ -149,6 +149,7 @@ void market_display(struct market_t* market)
 int market_num_tokens(struct market_t* market)
 {
 	int res = 0;
+
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		if (market->tokens[index])
@@ -156,6 +157,7 @@ int market_num_tokens(struct market_t* market)
 			++res;
 		}
 	}
+
 	return res;
 }
 

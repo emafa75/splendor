@@ -14,6 +14,7 @@ struct player_t
 	struct ressources ressources;
     int current_point;
 	unsigned int favor;
+	unsigned int id;
 };
 
 /*
@@ -69,4 +70,9 @@ unsigned int player_get_favor(struct player_t* player);
 */
 
 void player_set_favor(struct player_t* player, unsigned int favor);
+
+/*
+	Get unique id from the player
+*/
+unsigned int player_get_id(struct player_t* player);
 #endif

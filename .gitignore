@@ -4,7 +4,8 @@
 # Bins
 project
 test
-cli
+evaluator
+cli 
 
 # jsp
 test_project
@@ -17,7 +18,6 @@ vgcore.*
 tmp/
 tmp/**/*
 
-
 evaluator
 tmp.out
 
@@ -25,7 +25,8 @@ tmp.out
 *.out
 
 #python 
-*.py
 graph
 graph/**/*
 graph.csv
+**/*.py
+tmp.out

@@ -11,7 +11,7 @@ struct set_t SET_ZEROS = {};
 
 unsigned int* set_get_colors(struct set_t* set)
 {
-    return set->c;
+	return set->c;
 }
 
 
@@ -80,13 +80,19 @@ int set_are_equals(const struct set_t* s1, const struct set_t* s2)
 }
 
 
-void set_display(const struct set_t *set)
+unsigned int set_get_num_els(struct set_t set)
+{
+	return set.num_colors;
+}
+
+
+void set_display(const struct set_t* set)
 {
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if (set->c[i] != 0)
 		{
-			printf("%s%s%s=%d (Q:%d)," ,color_prefix(i), color_to_short_string(i),CRESET, i, set->c[i]);	  
+			printf("%s%s%s=%d (Q:%d),", color_prefix(i), color_to_short_string(i), CRESET, i, set->c[i]);	  
 		}
 	}
 }

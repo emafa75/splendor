@@ -5,29 +5,17 @@
 #include "market.h"
 #include "players.h"
 
-#include "utils.h"
-
-#define MAX_PLAYERS 2
+#define MAX_PLAYERS 4
 #define MAX_MAX_TURNS 100
 
 #define TIE -1
 
-struct turn_t
-{
-    struct market_t market;
-    struct guild_t guild;
-    struct player_t players[MAX_PLAYERS];
-    unsigned int current_player;
-    unsigned int points_to_win;
-	unsigned int display; /* Used to display in other functions*/
-};
+/*
+	Used to use a display function only if _x is true
+*/
+#define DISPLAY(_x, _y)\
+	(_x) ? (_y) : UNUSED(_x);
 
-struct game_t
-{
-    struct turn_t turns[MAX_MAX_TURNS + 1 + 1]; //+1 because the first state is for the init +1 for the final state
-    unsigned int num_turns;
-    unsigned int current_turn_index;
-};
 
 struct game_parameters
 {
@@ -37,7 +25,30 @@ struct game_parameters
     int market_seed;
     int random_seed;
 	int display;
+	int num_player;
 };
+
+struct turn_t
+{
+    struct market_t market;
+    struct guild_t guild;
+    struct player_t players[MAX_PLAYERS];
+    unsigned int current_player;
+    unsigned int points_to_win;
+	unsigned int display; /* Used to display in other functions*/
+	int num_player;
+	unsigned int id;
+	struct game_parameters params;
+};
+
+struct game_t
+{
+    struct turn_t turns[MAX_MAX_TURNS + 1 + 1]; //+1 because the first state is for the init +1 for the final state
+    unsigned int num_turns;
+    unsigned int current_turn_index;
+};
+
+
 
 enum choice {
 	HIRE,
@@ -117,9 +128,24 @@ struct player_t* turn_get_current_player(struct turn_t* turn);
 int turn_get_current_player_index(struct turn_t* turn);
 
 /*
+	Get number of player in the turn
+*/
+int turn_get_num_player(struct turn_t* turn);
+
+/*
     Display the current state of the turn
 */
 void turn_display(struct turn_t* turn);
+
+/*
+	Gets turn id
+*/
+unsigned int turn_get_id(struct turn_t* turn);
+
+/*
+	Get turn params
+*/
+struct game_parameters* turn_get_params(struct turn_t* turn);
 
 /*
     change current player to next player.
@@ -139,7 +165,7 @@ int get_winner(struct turn_t* current_turn);
 /*
     Returns a random index of a player
 */
-unsigned int get_random_player(int random_seed);
+unsigned int get_random_player(int random_seed, int num_player);
 
 /*
     Play a turn, has a display option
