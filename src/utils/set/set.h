@@ -5,7 +5,7 @@
 
 
 
-struct set_t {    
+struct set_t {	
 	unsigned int c[NUM_COLORS];
 	unsigned int num_colors;
 };
@@ -32,7 +32,7 @@ struct set_t set_inter(const struct set_t* set1, const struct set_t* set2);
 
 
 /*
-    Display set
+	Display set
 */
 void set_display(const struct set_t* set);
 /*

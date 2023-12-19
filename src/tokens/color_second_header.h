@@ -4,7 +4,7 @@
 #include "color.h"
 
 /*
-    Return the prefix for the color
+	Return the prefix for the color
 */
 const char* color_prefix(enum color_t color);
 

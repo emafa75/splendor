@@ -34,7 +34,7 @@ struct guild_t create_default_guild();
 void init_guild(struct guild_t* guild);
 
 /*
-    Associate skills for the builders
+	Associate skills for the builders
 */
 void init_builder_skills();
 
@@ -45,40 +45,40 @@ struct queue_t* guild_get_queue(struct guild_t* guild, unsigned int builder_lvl)
 
 
 /*
-    Display all available builders in a guild
+	Display all available builders in a guild
 */
 void guild_display(struct guild_t* guild);
 
 
 /*
-    Returns nb of builders in the guild (available or not)
+	Returns nb of builders in the guild (available or not)
 */
 int guild_nb_builder(struct guild_t* guild);
 
 
 /*
-    Check if pointer of builder is available to hire in the guild
+	Check if pointer of builder is available to hire in the guild
 */
 int guild_is_available(struct guild_t* guild, struct builder_t* builder);
 
 /*
-    Check if a builder is present in guild
+	Check if a builder is present in guild
 */
 int guild_is_present_in_guild(struct guild_t* guild, struct builder_t* builder);
 /*
-    Pick builder from a guild and make it unavailable
+	Pick builder from a guild and make it unavailable
 */
 struct builder_t* guild_pick_builder(struct guild_t* guild, struct builder_t *builder);
 
 
 /*
-    Put builder in the guild
+	Put builder in the guild
 */
 void guild_put_builder(struct guild_t* guild, struct builder_t* builder);
 
 
 /*
-    Get struct available_builders with the number of available builders and list of builder_t pointer
+	Get struct available_builders with the number of available builders and list of builder_t pointer
 */
 struct available_builders* guild_get_available_builders(struct guild_t* guild);
 
@@ -89,12 +89,12 @@ struct available_builders* guild_get_available_builders(struct guild_t* guild);
 struct builder_t* available_builders_get_builder(struct guild_t* guild, int index);
 
 /*
-    Make builder available 
+	Make builder available 
 */
 void guild_make_builder_available(struct guild_t* guild, struct builder_t* builder );
 
 /*
-    Get number of builder available per level
+	Get number of builder available per level
 */
 int guild_nb_builder_per_level(struct guild_t *guild, unsigned int level);
 #endif

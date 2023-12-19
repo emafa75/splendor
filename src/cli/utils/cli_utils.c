@@ -28,7 +28,7 @@ int getch(void)
 
 void printToCoordinates(unsigned int x, unsigned int y, char *str)
 {
-    printf("\033[%d;%dH%s", y, x, str);
+	printf("\033[%d;%dH%s", y, x, str);
 }
 
 

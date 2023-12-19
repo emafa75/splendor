@@ -169,7 +169,7 @@ struct builder_t* available_builders_get_builder(struct guild_t* guild, int inde
 
 struct available_builders* guild_get_available_builders(struct guild_t* guild)
 {
-    return &guild->available_builders;
+	return &guild->available_builders;
 }
 
 

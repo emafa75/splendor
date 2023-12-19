@@ -34,7 +34,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 
 	/*
 		Init the market
-	*/    
+	*/	
 	struct market_t* market = turn_get_market(first_turn);
 	*market = create_default_market(); 
 	init_tokens(params.market_seed);
@@ -85,7 +85,7 @@ void game_save_turn(struct game_t* game)
 	unsigned int current_turn_index = game -> current_turn_index;
 	if (current_turn_index <= game->num_turns)
 	{ 
-		memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));       
+		memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));	   
 	}
 	++ game->current_turn_index ;
 	struct turn_t* new_turn = game_get_current_turn(game);

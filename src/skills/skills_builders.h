@@ -4,12 +4,12 @@
 #include "game.h"
 
 /*
-    Rob to a random player, a random token
-    Returns 0 if impossible, -1 if success
+	Rob to a random player, a random token
+	Returns 0 if impossible, -1 if success
 */
 int skill_token_rob(struct turn_t* turn, const void* trigger);
 /*
-    Skip the turn of the next player
+	Skip the turn of the next player
 */
 int skill_turn_rob(struct turn_t* turn, const void* trigger);
 

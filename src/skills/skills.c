@@ -32,9 +32,9 @@ char *skills_strings[NUM_SKILLS] = {
 
 void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_PER_TRIGGER])
 {
-    int index_skill = is_associate_to_a_skill(trigger);
-    if(index_skill >= 0) //the trigger has already associated skills
-    {
+	int index_skill = is_associate_to_a_skill(trigger);
+	if(index_skill >= 0) //the trigger has already associated skills
+	{
 		associated_skills[index_skill].nb_skill = 0;
 		for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
 		{
@@ -44,58 +44,58 @@ void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_P
 				++associated_skills[index_skill].nb_skill;
 			}
 		}
-       return;
-    }else {
-        /*
-            Find a place to place new skill instance
-        */
-        for (int index = 0; index < NB_SKILLS_IN_GAME; ++index)
-        {
-            if (associated_skills[index].trigger == NULL)
-            {
-                
-                associated_skills[index].trigger = trigger;
-                for (int skill_index = 0; skill_index < MAX_SKILLS_PER_TRIGGER; ++skill_index)
-                {
-                   associated_skills[index].skills[skill_index] = skills_to_add[skill_index];
+	   return;
+	}else {
+		/*
+			Find a place to place new skill instance
+		*/
+		for (int index = 0; index < NB_SKILLS_IN_GAME; ++index)
+		{
+			if (associated_skills[index].trigger == NULL)
+			{
+				
+				associated_skills[index].trigger = trigger;
+				for (int skill_index = 0; skill_index < MAX_SKILLS_PER_TRIGGER; ++skill_index)
+				{
+				   associated_skills[index].skills[skill_index] = skills_to_add[skill_index];
 				   if(skills_to_add[skill_index] != NO_SKILL)
 				   {
 						++associated_skills[index].nb_skill;
 				   }
-                }
-                return;
-            }
-        }
-    }
+				}
+				return;
+			}
+		}
+	}
 
 }
 
 int is_associate_to_a_skill(const void* trigger)
 {
-    for (int index = 0; index < NB_SKILLS_IN_GAME; ++index)
-    {
-        if(associated_skills[index].trigger == trigger && trigger != NULL)
-        {
-            return index;            
-        }
+	for (int index = 0; index < NB_SKILLS_IN_GAME; ++index)
+	{
+		if(associated_skills[index].trigger == trigger && trigger != NULL)
+		{
+			return index;			
+		}
 
-    }
-    return -1;
+	}
+	return -1;
 }
 
 enum skills_id* skills_get_by_trigger(const void* trigger){
-    int index_skill = is_associate_to_a_skill(trigger);
+	int index_skill = is_associate_to_a_skill(trigger);
 
-    if (index_skill < 0 )
-    {
-        return NULL;
-    }
-    return associated_skills[index_skill].skills;
+	if (index_skill < 0 )
+	{
+		return NULL;
+	}
+	return associated_skills[index_skill].skills;
 }
 
 skill_f skill_by_id(enum skills_id skill)
 {
-    return skills_functions[skill];
+	return skills_functions[skill];
 }
 
 
@@ -129,16 +129,16 @@ void trigger_display_skill(const void* trigger)
 
 int has_skills(const void *trigger)
 {
-    int skill_instance_index = is_associate_to_a_skill(trigger);
-    if (skill_instance_index < 0)
-    {
-        return 0;
-    }
-    if (associated_skills[skill_instance_index].skills[0] != NO_SKILL) //check if the first associated skill is a real skill
-    {
-        return 1;
-    }
-    return 0;
+	int skill_instance_index = is_associate_to_a_skill(trigger);
+	if (skill_instance_index < 0)
+	{
+		return 0;
+	}
+	if (associated_skills[skill_instance_index].skills[0] != NO_SKILL) //check if the first associated skill is a real skill
+	{
+		return 1;
+	}
+	return 0;
 }
 
 void skill_exec(struct turn_t *turn, const void* trigger)
@@ -161,7 +161,7 @@ void skill_exec(struct turn_t *turn, const void* trigger)
 
 int trigger_num_skills(const void* trigger)
 {
-    int skill_instance_index = is_associate_to_a_skill(trigger);
+	int skill_instance_index = is_associate_to_a_skill(trigger);
 
 	if (skill_instance_index < 0)
 	{

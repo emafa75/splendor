@@ -54,29 +54,29 @@ struct set_t set_inter(const struct set_t* set1, const struct set_t* set2)
 
 struct set_t set_create(unsigned int c[NUM_COLORS])
 {
-    struct set_t s = {};
+	struct set_t s = {};
 
-    for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
-    {
-        s.c[index] = c[index];
+	for (unsigned int index = 0 ; index < NUM_COLORS ; ++index)
+	{
+		s.c[index] = c[index];
 				if (c[index])
 					s.num_colors++;
-    }
+	}
 
-    return s;
+	return s;
 }
 
 
 int set_are_equals(const struct set_t* s1, const struct set_t* s2)
 {
-    for(int index = 0 ; index < NUM_COLORS ; ++index)
-    {
-        if (s1->c[index] != s2->c[index])
-        {
-            return 0;
-        }
-    }
-    return 1;
+	for(int index = 0 ; index < NUM_COLORS ; ++index)
+	{
+		if (s1->c[index] != s2->c[index])
+		{
+			return 0;
+		}
+	}
+	return 1;
 }
 
 
@@ -100,7 +100,7 @@ void set_display(const struct set_t* set)
 
 void set_short_display(const struct set_t* set, const char * prefix)
 {
-    printf("%s(", prefix);
+	printf("%s(", prefix);
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if(set->c[i] != 0)

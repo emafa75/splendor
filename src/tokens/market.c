@@ -182,12 +182,12 @@ int market_get_first_available_token(struct market_t* market)
 void market_shuffle(struct market_t* market)
 {
   	for (int index = 0; index< NUM_TOKENS;++index)
-    {
-      struct token_t * t_tmp = market->tokens[index];
-      int rand_index = index + rand() %  (NUM_TOKENS-index) ;
-      market->tokens[index] = market->tokens[rand_index] ;
-      market->tokens[rand_index] = t_tmp;
-    }
+	{
+	  struct token_t * t_tmp = market->tokens[index];
+	  int rand_index = index + rand() %  (NUM_TOKENS-index) ;
+	  market->tokens[index] = market->tokens[rand_index] ;
+	  market->tokens[rand_index] = t_tmp;
+	}
 }
 
 int market_is_in_market(struct market_t* market, struct token_t* token)

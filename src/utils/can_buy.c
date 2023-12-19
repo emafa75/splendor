@@ -113,8 +113,8 @@ int can_use_market(struct set_t to_pay, struct market_t* market)
  *		then divided by the num of ressources of the token
  *
  *	Ex: eff of {1, 1, 2, 0, 0} to buy {1, 0, 1, 0, 0}
- *     	-> returns (1 + 0 + 1 + 0 + 0) / 4 = 1/2
- *       We only use hald of the token to buy the set
+ *	 	-> returns (1 + 0 + 1 + 0 + 0) / 4 = 1/2
+ *	   We only use hald of the token to buy the set
  */
 float eff(struct market_t market, struct set_t to_pay)
 {
@@ -141,9 +141,9 @@ float eff(struct market_t market, struct set_t to_pay)
 /*
  *  Returns 1 if eff(first_market) < eff(second_market)
  *
- *         -1 if eff(second_market) < eff(first_market)
+ *		 -1 if eff(second_market) < eff(first_market)
  *
- *          0 if eff(first_market) = eff(second_market)
+ *		  0 if eff(first_market) = eff(second_market)
  */
 int market_cmp(struct market_t first_market, struct market_t second_market, struct set_t to_pay)
 {

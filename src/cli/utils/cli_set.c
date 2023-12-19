@@ -21,7 +21,7 @@ void cli_set_display(char *buffer, struct set_t* set)
 void cli_set_short_display(char *buffer, struct set_t *set, char* prefix)
 {
 	char tmp_buffer[100] = {};
-    sprintf(buffer, "%s", prefix);
+	sprintf(buffer, "%s", prefix);
 	
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
