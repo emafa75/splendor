@@ -54,7 +54,10 @@ double vector2_norm(struct vector2_t v)
 	return sqrt(v.x * v.x + v.y * v.y);  // sqrt(x**2 + y**2)
 }
 
-
+double vector2_norm2(struct vector2_t v)
+{
+	return sqrt( 0.25 *v.x * v.x + v.y * v.y);
+}
 void vector2_display(struct vector2_t v)
 {
 	printf("Vec2: (x, y) = (%f, %f)\n", v.x, v.y);

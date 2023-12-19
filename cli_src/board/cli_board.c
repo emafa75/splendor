@@ -36,7 +36,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 
 	struct vector2_t center = {};
 
-	center.x = floor(double_tile_dimension / 2);
+	center.x = floor(double_tile_dimension );
 	center.y = floor(double_tile_dimension / 2);
 
 	// Used to store the tile position in loop
@@ -48,7 +48,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 	enum color_t* colors = set_get_colors(&token_set);
 
 	unsigned int num_colors = set_get_num_els(token_set);
-	unsigned int pixel_per_color = (tile_dimension * tile_dimension )/ num_colors;
+	unsigned int pixel_per_color = (tile_dimension * tile_dimension * 2 )/ num_colors;
 	enum color_t non_null_colors[num_colors];
 
 	int last_index = 0;
@@ -65,7 +65,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 	unsigned int num_colored_pixels = 0;
 	unsigned int index_non_null_color = 0;
 
-	for (unsigned int x = 0 ; x < tile_dimension ; ++x)
+	for (unsigned int x = 0 ; x < tile_dimension * 2 ; ++x)
 	{
 		for (unsigned int y = 0 ; y < tile_dimension ; ++y)
 		{	
@@ -84,7 +84,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 			current_position.y = y;
 		
 			// = |center - current_position|
-			dist_to_center = vector2_norm(vector2_add(vector2_opposite(current_position), center));
+			dist_to_center = vector2_norm2(vector2_add(vector2_opposite(current_position), center));
 
 			if (dist_to_center < radius)
 			{
@@ -119,26 +119,27 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 	unsigned int tile_dimension = board->tile_dimension;
 	unsigned int board_dimension = board->n;
 	unsigned int end_offset = board_dimension * (tile_dimension + 1);
+	unsigned int abs_offset = board_dimension * (tile_dimension * 2 +1);
 
 	// draw corners
 	printToCoordinates(position.x, position.y + end_offset, "└");  //bottom left
 	printToCoordinates(position.x, position.y, "┌");  // top left
-	printToCoordinates(position.x + end_offset, position.y, "┐");  // top right┘└┐
-	printToCoordinates(position.x + end_offset, position.y + end_offset, "┘");  // bottom right
+	printToCoordinates(position.x + abs_offset, position.y, "┐");  // top right┘└┐
+	printToCoordinates(position.x + abs_offset, position.y + end_offset, "┘");  // bottom right
 
 	// draw top side
-	for (unsigned int j = 1 ; j < end_offset ; ++j)
+	for (unsigned int j = 1 ; j < abs_offset ; ++j)
 	{
-		if (j % (tile_dimension + 1) == 0)
+		if (j % (tile_dimension * 2 + 1) == 0)
 			printToCoordinates(position.x + j, position.y, "┬");
 		else
 			printToCoordinates(position.x + j, position.y, "─");
 	}
 
 	// draw bottom side
-	for (unsigned int j = 1 ; j < end_offset ; ++j)
+	for (unsigned int j = 1 ; j < abs_offset ; ++j)
 	{
-		if (j % (tile_dimension + 1) == 0)
+		if (j % (tile_dimension * 2 + 1) == 0)
 			printToCoordinates(position.x + j , position.y + end_offset, "┴");
 		else
 			printToCoordinates(position.x + j , position.y + end_offset, "─");
@@ -158,9 +159,9 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 	for (unsigned int i = 1 ; i < end_offset ; ++i)
 	{
 		if (i % (tile_dimension + 1) == 0)
-			printToCoordinates(position.x + end_offset, position.y + i, "┤");
+			printToCoordinates(position.x + abs_offset, position.y + i, "┤");
 		else
-			printToCoordinates(position.x + end_offset ,position.y + i, "│");
+			printToCoordinates(position.x + abs_offset ,position.y + i, "│");
 	}
 
 	// draw carrefour
@@ -168,10 +169,10 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 	{
 		for (unsigned int j = 0 ; j < board_dimension - 1 ; ++j)
 		{
-			board_tile_start_pos.x = j * (tile_dimension + 1) + position.x + 1;
+			board_tile_start_pos.x = j * (tile_dimension * 2 + 1) + position.x + 1;
 			board_tile_start_pos.y = i * (tile_dimension + 1) + position.y + 1;
 
-			printToCoordinates(board_tile_start_pos.x + tile_dimension, board_tile_start_pos.y + tile_dimension, "┼");
+			printToCoordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + tile_dimension, "┼");
 		}
 	}
 
@@ -180,15 +181,19 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 	{
 		for (unsigned int j = 0 ; j < board_dimension ; ++j)
 		{
-			board_tile_start_pos.x = j * (tile_dimension + 1) + position.x + 1;
+			board_tile_start_pos.x = j * (tile_dimension * 2 + 1) + position.x + 1;
 			board_tile_start_pos.y = i * (tile_dimension + 1) + position.y + 1;
+
+			for (unsigned int k = 0 ; k < tile_dimension * 2 ; ++k)
+			{
+				//draw horizontal
+				printToCoordinates(board_tile_start_pos.x + k, board_tile_start_pos.y + tile_dimension, "─");
+			}
 
 			for (unsigned int k = 0 ; k < tile_dimension ; ++k)
 			{
 				//draw vertical
-				printToCoordinates(board_tile_start_pos.x + tile_dimension, board_tile_start_pos.y + k, "│");
-				//draw horizontal
-				printToCoordinates(board_tile_start_pos.x + k, board_tile_start_pos.y + tile_dimension, "─");
+				printToCoordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + k, "│");
 			}
 		}
 	}
@@ -200,14 +205,14 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 		for (unsigned int j = 0 ; j < board_dimension ; ++j)
 		{
 			// Draw tile
-			board_tile_start_pos.x = i * (tile_dimension + 1) + position.x + 1;
+			board_tile_start_pos.x = i * (tile_dimension * 2 + 1) + position.x + 1;
 			board_tile_start_pos.y = j * (tile_dimension + 1) + position.y + 1;
 
 			board_display_tile(board_tile_start_pos, tile_dimension, &board->matrix[i][j]);
 		}
 	}
 
-	struct vector2_t last_position = {board_dimension * (tile_dimension + 1) + position.x , board_dimension * (tile_dimension + 1) + position.y};
+	struct vector2_t last_position = {board_dimension * (tile_dimension * 2 + 1) + position.x , board_dimension * (tile_dimension + 1) + position.y};
 	return last_position;
 }
 

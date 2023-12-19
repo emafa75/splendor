@@ -48,6 +48,13 @@ double vector2_norm(struct vector2_t v);
 
 
 /*
+ *  Returns |v| 2, adapted to the text size (give more importance to the x axe)
+ */
+double vector2_norm2(struct vector2_t v);
+
+
+
+/*
  *  Display a vector2 coordinates
  */
 void vector2_display(struct vector2_t v);
