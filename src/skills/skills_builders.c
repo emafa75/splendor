@@ -5,6 +5,7 @@
 #include "skills.h"
 #include "token.h"
 #include "set.h"
+
 #include <stdlib.h>
 
 int skill_token_rob(struct turn_t* turn, const void* trigger)
@@ -14,16 +15,15 @@ int skill_token_rob(struct turn_t* turn, const void* trigger)
 	UNUSED(trigger_builder);
 
 	struct player_t* robber_player = turn_get_current_player(turn);
+
 	/*
 		If player has already the max of token then stop the execution
 	*/
-	
+
 	struct market_t* current_player_market = &player_get_ressources(robber_player)->market;
 	
-	if(market_num_tokens(current_player_market) >= PLAYER_MAX_TOKENS)
-	{
+	if (market_num_tokens(current_player_market) >= PLAYER_MAX_TOKENS)
 		return 0;
-	}
 
 	/*
 		Choose random player 

@@ -7,6 +7,9 @@ test
 evaluator
 cli 
 
+# build 
+build
+
 # jsp
 test_project
 

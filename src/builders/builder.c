@@ -1,21 +1,12 @@
-/**
- *
- * @filename builder.c
- * @date 2023-11-07 14:29
- * @author Nemo D'ACREMONT <nemo.dacremont@enseirb-matmeca.fr>
- * @brief ...
- *
- */
-
 #include "builder.h"
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <time.h>
-
 #include "builder_constants.h"
 #include "set.h"
+
 #include "skills.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+
 
 struct builder_t {
 	unsigned int lvl;
@@ -53,16 +44,12 @@ void init_builders(unsigned int seed)
 				c[(color + i) % NUM_COLORS] = 1;
 
 			builders[i].requires = set_create(c);
-			// builders[i].requires.c = color;
-			// builders[i].requires.n = lvl + 1;
 
 			enum color_t c2[NUM_COLORS] = {};  // Used to create requries and provides
 			for (unsigned int i = 0 ; i < lvl + 1 ; ++i)
 				c2[(color + i) % NUM_COLORS] = 1;
 
 			builders[i].provides = set_create(c2);
-			// builders[i].provides.c = next_color;
-			// builders[i].provides.n = lvl;
 
 			lvl += (color == NUM_COLORS - 1);
 			lvl = BUILDER_MIN_LEVEL + lvl % (BUILDER_MAX_LEVEL - BUILDER_MIN_LEVEL);
@@ -73,7 +60,7 @@ void init_builders(unsigned int seed)
 	else
 	{
 		n_builders = BUILDER_MIN_COUNT + rand() % (MAX_BUILDERS - BUILDER_MIN_COUNT);
-	
+
 		for (int i = 0 ; i < n_builders ; ++i)
 		{
 			int builder_level = rand() % NUM_LEVELS;
@@ -83,10 +70,8 @@ void init_builders(unsigned int seed)
 			builders[i].provides = create_random_set((builder_level + 1));
 		
 			builders[i].requires = create_random_set((builder_level + 2));
-		
 		}
 	}
-	
 }
 
 
@@ -138,26 +123,26 @@ void builder_display(const struct builder_t *g, const char *prefix)
 			prefix, \
 			g->lvl + 1, \
 			builder_points(g)
-			);
+		);
 
 
 	set_short_display(&builder_require, "requires=");
 	printf(", ");
 	set_short_display(&builder_provide, "provides=");
+
 	if (has_skills(g))
 	{
 		printf(", skill(s)=");
 		enum skills_id* skills= skills_get_by_trigger(g);
+
 		for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
 		{
 			if (skills[index] != NO_SKILL)
 			{
 				skill_display(skills[index],(index != 0) ? ", " : "");
-				
 			}
 		}
-
 	}
+
 	printf(")\n");
 }
-

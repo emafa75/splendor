@@ -8,13 +8,18 @@ size_t str_len_special(const char* string)
 	while (*string != '\0') 
 	{
 		if (*string == '\e')
-		{ // Checks if the character is the beginning of an ANSI color sequence (escape sequence)
+		{
+			// Checks if the character is the beginning of an ANSI color sequence (escape sequence)
 			in_color_code = 1;
-		} else if (*string == 'm' && in_color_code) 
+		}
+
+		else if (*string == 'm' && in_color_code) 
 		{ 
 			// Checks the end of the color sequence
 			in_color_code = 0;
-		} else if (!in_color_code) 
+		}
+
+		else if (!in_color_code) 
 		{ 
 			// Increments the size if not in a color sequence
 			++size;

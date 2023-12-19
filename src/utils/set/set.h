@@ -4,7 +4,6 @@
 #include "color.h"
 
 
-
 struct set_t {	
 	unsigned int c[NUM_COLORS];
 	unsigned int num_colors;
@@ -23,6 +22,7 @@ struct set_t set_union(const struct set_t* set1, const struct set_t* set2);
  *  Returns a set full of 0s
  */
 struct set_t set_zero(void);
+
 
 /*
  *  Returns the intersection of set1 and set2
@@ -64,20 +64,24 @@ unsigned int set_get_num_els(struct set_t set);
 */
 int set_are_equals(const struct set_t* s1, const struct set_t* s2);
 
+
 /*
 	create simple set 
 */
 struct set_t create_simple_set(enum color_t c);
+
 
 /*
 	Create complex set 
 */
 struct set_t create_complex_set(unsigned int c[NUM_COLORS]);
 
+
 /*
 	Create a random set with max color and min color
 */
 struct set_t create_random_set(int num_colors);
+
 
 /*
 	Returns the number of ressources of the set

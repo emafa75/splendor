@@ -4,9 +4,10 @@
 #include "guild.h"
 #include "market.h"
 #include "token.h"
+#include "skills.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "skills.h"
 
 
 struct player_t init_player()
@@ -19,6 +20,7 @@ struct player_t init_player()
 		.current_point=0,
 		.favor =  1,
 	};
+
 	return new_player;
 }
 
@@ -28,15 +30,11 @@ void player_pick_token(struct market_t* market, struct player_t* player, struct 
 		Can't take more token
 	*/
 	if(market_num_tokens(&player_get_ressources(player)->market) >= PLAYER_MAX_TOKENS)
-	{
 		return;
-	}
 	
 	struct token_t* token = market_pick_token(market, picked_token);
 	if (token == NULL)
-	{
 		return;
-	}
 	
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
@@ -62,8 +60,8 @@ void player_take_token(struct market_t* market, struct player_t* player, struct 
 			return;
 		}
 	} 
- 
 }
+
 
 void player_hire_builder(struct guild_t* guild, struct player_t *player,struct builder_t* builder_to_hire)
 {
@@ -75,9 +73,11 @@ void player_hire_builder(struct guild_t* guild, struct player_t *player,struct b
 		if(player->ressources.guild.builders[index] == NULL)
 		{
 			player->ressources.guild.builders[index] = builder_to_hire;
-			++player->ressources.guild.n_builders ;
+			++player->ressources.guild.n_builders;
 			player->current_point += builder_points(builder_to_hire);
+
 			guild_pick_builder(guild, builder_to_hire);
+
 			return;
 		}
 	}
@@ -105,7 +105,7 @@ void player_display_inventory(struct player_t *player)
 		Tokens
 	*/
 	printf(BOLD "Tokens : \n" CRESET);
-	for (int index = 0; index < NUM_TOKENS; ++index)
+	for (int index = 0 ; index < NUM_TOKENS ; ++index)
 	{
 		struct token_t* token = player_ressources->market.tokens[index];
 		if(token)
@@ -118,7 +118,7 @@ void player_display_inventory(struct player_t *player)
 			{
 				printf(" skill(s)=");
 				enum skills_id* skills = skills_get_by_trigger(token);
-				for (int index = 0; index < MAX_SKILLS_PER_TRIGGER; ++index)
+				for (int index = 0 ; index < MAX_SKILLS_PER_TRIGGER ; ++index)
 				{
 					if (skills[index] != NO_SKILL)
 					{
@@ -130,22 +130,26 @@ void player_display_inventory(struct player_t *player)
 			printf(")\n");
 		}
 	}
-	if(market_num_tokens(&player_ressources->market) == 0 )
+
+	if (market_num_tokens(&player_ressources->market) == 0 )
 	{
 		printf(WHT " --- No token\n" CRESET);
 	}
+
 	printf("\n");
 
 	/*
 		Builders
 	*/
 	printf(BOLD "Builders : \n" CRESET );
-	for (unsigned int index = 0; index < MAX_BUILDERS; ++index)
+	for (unsigned int index = 0 ; index < MAX_BUILDERS ; ++index)
 	{
-		if(player->ressources.guild.builders[index]) {
+		if(player->ressources.guild.builders[index])
+		{
 			builder_display(player_ressources->guild.builders[index]," --- ");
 		}
 	}
+
 	if (guild_nb_builder(&player_ressources->guild) == 0)
 	{
 		printf(WHT " --- No builder\n" CRESET);
@@ -156,41 +160,46 @@ void player_display_inventory(struct player_t *player)
 int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire)
 {
 	struct ressources ressources = is_buyable(builder_to_hire, player->ressources);
+
 	if (ressources.market.tokens[0] == NULL)  // All elements are NULL if cannot pay
-	{
 		return 0;
-	}
 
 	// Pays the tokens he has to in order to buy the builder
-	for (int index = 0; index < NUM_TOKENS; ++index)
+	for (int index = 0 ; index < NUM_TOKENS ; ++index)
 	{
 		if(ressources.market.tokens[index])
 		{
 			player_take_token(market, player,ressources.market.tokens[index]);
 		}
 	}
+
 	return 1;
 }
+
 
 int player_get_points(struct player_t* player)
 {
 	return player->current_point;
 }
 
+
 struct ressources* player_get_ressources(struct player_t* player)
 {
 	return &player->ressources;
 }
+
 
 unsigned int player_get_favor(struct player_t *player)
 {
 	return player->favor;
 }
 
+
 void player_set_favor(struct player_t *player, unsigned int favor)
 {
 	player->favor = favor;
 }
+
 
 unsigned int player_get_id(struct player_t* player)
 {

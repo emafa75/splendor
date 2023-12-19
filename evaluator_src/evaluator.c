@@ -1,24 +1,15 @@
-/**
- *
- * @filename main.c
- * @date 2023-11-07 14:14
- * @author Nemo D'ACREMONT <nemo.dacremont@enseirb-matmeca.fr>, Martin EYBEN <martin.eyben@enseirb-matmeca.fr>
- * @brief ...
- *
- */
+#include "game.h"
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
-
-#include "game.h"
-
 
 #define _NB_MIN_PARAMS_ 1
 
 #ifndef PRINT	
 	#define PRINT 1
 #endif
+
 
 enum parameters {
 	MAX_TURNS = 10,
@@ -27,6 +18,7 @@ enum parameters {
 	BUILDER_SEEED = 0,
 	MARKET_SEED = 0,
 };
+
 
 struct game_float_statistics
 {
@@ -39,7 +31,9 @@ struct game_float_statistics
 	float result;
 };
 
+
 void print_usage(char *argv[]);
+
 
 /*
  *	Display the stats for evaluator
@@ -56,7 +50,6 @@ void display_options();
 /*
 	Init all parameters 
 */
-
 struct game_parameters game_params = {
 	.points_to_win = POINTS_TO_WIN,
 	.max_turns = MAX_TURNS,
@@ -66,15 +59,15 @@ struct game_parameters game_params = {
 	.num_player = 2
 };
 
+
 int main(int argc, char *argv[])
 {
-	
 	if (argc < _NB_MIN_PARAMS_)
 	{
 		print_usage(argv);
 		return EXIT_FAILURE;
 	}
-	
+
 	/*
 		Get optionnal parameters 
 	*/
@@ -164,6 +157,7 @@ int main(int argc, char *argv[])
 			display_stats(average_stats, game_params, stdout);
 		}
 	}
+
 	return EXIT_SUCCESS;
 }
 
@@ -179,7 +173,8 @@ void display_stats(struct game_float_statistics stats, struct game_parameters ga
 	fprintf(file, "%d;%d;%d;",
 			game_parameters.random_seed,
 			game_parameters.builder_seed,
-			game_parameters.market_seed);
+			game_parameters.market_seed
+		);
 
 
 	for (int i = 0 ; i < NUM_CHOICE - 1 ; ++i)
@@ -194,8 +189,7 @@ void display_stats(struct game_float_statistics stats, struct game_parameters ga
 			stats.forced_skip,
 			stats.nb_turns,
 			stats.result
-			);
-
+		);
 }
 
 

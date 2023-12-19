@@ -1,13 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-
 #include "set.h"
 #include "color_second_header.h"
 #include "ansi_color.h"
-
 #include "utils.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
+
 struct set_t SET_ZEROS = {};
+
 
 unsigned int* set_get_colors(struct set_t* set)
 {
@@ -90,6 +91,7 @@ void set_display(const struct set_t* set)
 {
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
+		// Only print colors with non-zero occurences
 		if (set->c[i] != 0)
 		{
 			printf("%s%s%s=%d (Q:%d),", color_prefix(i), color_to_short_string(i), CRESET, i, set->c[i]);	  
@@ -101,6 +103,7 @@ void set_display(const struct set_t* set)
 void set_short_display(const struct set_t* set, const char * prefix)
 {
 	printf("%s(", prefix);
+
 	for (enum color_t i = 0 ; i < NUM_COLORS ; ++i)
 	{
 		if(set->c[i] != 0)
@@ -108,21 +111,27 @@ void set_short_display(const struct set_t* set, const char * prefix)
 			printf("%s%s=%d%s", color_prefix(i), color_to_short_string(i), set->c[i], CRESET);
 		}
 	}
+
 	printf(")");
 }
+
 
 struct set_t create_simple_set(enum color_t c)
 {
 	struct set_t set = {};
+
 	set.c[c] = 1;
 	set.num_colors = 1;
+
 	return set;
 }
+
 
 struct set_t create_complex_set(unsigned int c[NUM_COLORS])
 {
 	struct set_t set = {};
-	for (int index = 0; index < NUM_COLORS; ++index)
+
+	for (int index = 0 ; index < NUM_COLORS ; ++index)
 	{
 		if(c[index])
 		{
@@ -130,13 +139,16 @@ struct set_t create_complex_set(unsigned int c[NUM_COLORS])
 			++set.num_colors;
 		}
 	}
+
 	return set;
 }
+
 
 struct set_t create_random_set(int num_colors)
 {
 	struct set_t set_for_complex_token = {};
-	for (int index = 0; index < num_colors; ++index)
+
+	for (int index = 0 ; index < num_colors ; ++index)
 	{
 		/*
 			Choose a random color and add it to the set
@@ -153,6 +165,7 @@ struct set_t create_random_set(int num_colors)
 int set_num_ressources(struct set_t* set)
 {
 	int num_ressources = 0;
+
 	for (int index = 0; index < NUM_COLORS; ++index)
 	{
 		num_ressources += set->c[index];

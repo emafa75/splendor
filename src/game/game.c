@@ -4,14 +4,16 @@
 #include "market.h"
 #include "players.h"
 #include "skills.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "can_buy.h"
 #include "token_second_header.h"
 #include "builder.h"
 #include "favors.h"
 #include "utils.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 
 void init_game(struct game_t* game, struct game_parameters params)
 {
@@ -53,7 +55,8 @@ void init_game(struct game_t* game, struct game_parameters params)
 	*/
 	int num_player = first_turn->num_player;
 	struct player_t* players = turn_get_players(first_turn);
-	for (int index = 0; index < num_player; ++index)
+
+	for (int index = 0 ; index < num_player ; ++index)
 	{
 		players[index] = init_player();
 		players[index].id = index;
@@ -77,40 +80,44 @@ void init_game(struct game_t* game, struct game_parameters params)
 
 	//save this init state  
 	game_save_turn(game);
-	
-}   
+}
+
 
 void game_save_turn(struct game_t* game)
 {
 	unsigned int current_turn_index = game -> current_turn_index;
+
 	if (current_turn_index <= game->num_turns)
 	{ 
 		memcpy(game_get_turn(game, current_turn_index + 1), game_get_current_turn(game), sizeof(struct turn_t));	   
 	}
-	++ game->current_turn_index ;
+
+	++game->current_turn_index;
 	struct turn_t* new_turn = game_get_current_turn(game);
 	new_turn->id = game->current_turn_index;
 }
+
 
 void next_player(struct turn_t* current_turn)
 {
 	unsigned int current_player = current_turn->current_player;
 	int num_player = current_turn->num_player;
+
 	current_player = (current_player + 1) % num_player;
 	current_turn->current_player = current_player;
 }
 
+
 int has_won(struct turn_t *current_turn)
 {
 	int num_player = turn_get_num_player(current_turn);
-	for (int index = 0; index < num_player; ++index)
+
+	for (int index = 0 ; index < num_player ; ++index)
 	{
 		struct player_t* player = &current_turn->players[index];
 		int points_to_win = current_turn->points_to_win;
 		if (player_get_points(player) >= points_to_win)
-		{
 			return 1;
-		}
 		
 	}
 	return 0;
@@ -124,15 +131,13 @@ int get_winner(struct turn_t *current_turn)
 	int num_player = turn_get_num_player(current_turn);
 
 	//get index of the player with the max of points
-	for (int index = 0; index < num_player; ++index)
+	for (int index = 0 ; index < num_player ; ++index)
 	{
 		struct player_t* player = &current_turn->players[index];
 		int player_point = player_get_points(player);
 
 		if (player_point >= points_to_win)
-		{
 			return index;
-		}
 
 		if (player_point > player_get_points(&players[id_max_points])) 
 		{
@@ -143,55 +148,63 @@ int get_winner(struct turn_t *current_turn)
 	//Check if the player with the max points has the same amount of points than an other player
 	int max_points = player_get_points(&players[id_max_points]);
 
-	for (int index = 0; index < num_player; ++index)
+	for (int index = 0 ; index < num_player ; ++index)
 	{
 		if((index != id_max_points) && (max_points == players[index].current_point))
-		{
 			return TIE;
-		}
 	}
+
 	return id_max_points;
 }
+
 
 struct turn_t* game_get_turn(struct game_t* game, int index)
 {
 	return &game->turns[index];
 }
 
+
 struct turn_t* game_get_current_turn(struct game_t* game)
 {
 	return game_get_turn(game, game->current_turn_index);
 }
+
 
 struct market_t* turn_get_market(struct turn_t* turn)
 {
 	return &turn->market;
 }
 
+
 struct guild_t* turn_get_guild(struct turn_t* turn)
 {
 	return &turn->guild;
 }
+
 
 struct player_t* turn_get_players(struct turn_t* turn)
 {
 	return turn->players;
 }
 
+
 struct player_t* turn_get_current_player(struct turn_t* turn)
 {
 	return &turn_get_players(turn)[turn->current_player];
 }
+
 
 int turn_get_current_player_index(struct turn_t* turn)
 {
 	return turn->current_player;
 }
 
+
 unsigned int get_random_player(int num_player)
 {
 	return  rand() % num_player;
 }
+
 
 void turn_display(struct turn_t* turn)
 {
@@ -202,9 +215,10 @@ void turn_display(struct turn_t* turn)
 	struct player_t* players = turn_get_players(turn);
 	int num_player = turn_get_num_player(turn);
 
-	for (int index = 0; index < num_player; ++index)
+	for (int index = 0 ; index < num_player ; ++index)
 	{
 		struct player_t* player = &players[index];
+
 		printf("Inventory of player id.%d\n", index);
 		player_display_inventory(player);
 		printf("\n");
@@ -225,21 +239,25 @@ void turn_display(struct turn_t* turn)
 	guild_display(turn_get_guild(turn));
 }
 
+
 struct turn_statistics turn_play(struct turn_t* current_turn)
 {
 	/*
 		Display
 	*/
 	int display = current_turn->display;
+
 	/*
 		If we need a display
 	*/
 	FILE * output;
+
 	if (display)
 	{
 		output = stdout;
 	}
-	else {
+	else
+	{
 		output = stdout; /* patch for thor */
 	}
 	/*
@@ -260,12 +278,12 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 	/*
 		If the player has a favor he use it (or not)
 	*/
-
 	int favors = player_get_favor(current_player);
 
-	if(favors)
+	if (favors)
 	{
 		enum favor_id favor_id = rand() % NUM_FAVOR; //if NO_FAVOR then the player decided to not use it
+
 		if(favor_id != NO_FAVOR)
 		{
 			skill_f favor_function = favor_by_id(favor_id);
@@ -283,7 +301,8 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 			*/
 			++stats.used_favor;
 		}
-		else {
+		else
+		{
 			DISPLAY(display, printf("Player had favor but he decided to keep it\n"));
 		}
 	}
@@ -292,8 +311,8 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		Take a random decision and check if it's possible to hire a builder
 	*/
 	enum choice random_choice = rand() % 100; 
-	//printf("choice: %d\n", random_choice);
 	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
+
 	if ((random_choice <= 50) && (builder_to_buy != NULL)) 
 	{
 		stats.choice = HIRE;
@@ -332,6 +351,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		int num_token_to_pick =  1 + rand() % 3; 
 		num_token_to_pick = MIN(num_token_to_pick, market_num_tokens(market));
 		num_token_to_pick = MIN(num_token_to_pick, PLAYER_MAX_TOKENS - num_token_in_inventory); //take never more than what he is able to pick
+
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d choosed to pick %d token(s)\n"  CRESET, player_index, num_token_to_pick));
 
 		/*
@@ -350,10 +370,9 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		}
 		else
 		{
-			
 			struct token_t* picked_tokens[num_token_to_pick]; //stock picked token to execute skills after the turn
 
-			for (int index = 0; index < num_token_to_pick ; ++index)
+			for (int index = 0 ; index < num_token_to_pick ; ++index)
 			{
 				struct token_t* picked_token = market->tokens[index_first_token_to_pick+index] ;
 				picked_tokens[index] = picked_token;
@@ -363,7 +382,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 			/*
 				Execute associated skills
 			*/
-			for (int index = 0; index < num_token_to_pick ; ++index)
+			for (int index = 0 ; index < num_token_to_pick ; ++index)
 			{
 				skill_exec(current_turn, picked_tokens[index]);
 				DISPLAY(display, trigger_display_skill(picked_tokens[index]));
@@ -379,12 +398,12 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 			Add statistics
 		*/
 		stats.num_picked_tokens += num_token_to_pick;
-		if (num_token_to_pick == 0 )
+		if (num_token_to_pick == 0)
 		{
 			++stats.forced_skip;
 		}
-		
-	}else 
+	}
+	else 
 	{
 		stats.choice = SKIP;
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d skipped his turn\n" CRESET, player_index));
@@ -411,10 +430,11 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 
 	// stats.choice = random_choice;
 
-	//fclose(output);
+	// fclose(output);
 
 	return stats;
 }
+
 
 struct game_statistics game_play(struct game_t *game, int display)
 {
@@ -422,11 +442,13 @@ struct game_statistics game_play(struct game_t *game, int display)
 		If we need a display
 	*/
 	FILE * output;
+
 	if (display)
 	{
 		output = stdout;
 	}
-	else {
+	else
+	{
 		output = stdout; /* Patch for Thor*/
 	}
 
@@ -442,7 +464,6 @@ struct game_statistics game_play(struct game_t *game, int display)
 	*/
 	while (!has_won(current_turn) && game->current_turn_index <= game->num_turns)
 	{	
-		
 		current_turn = game_get_current_turn(game);
 		//int turn_index = game->current_turn_index;
 
@@ -459,6 +480,7 @@ struct game_statistics game_play(struct game_t *game, int display)
 		*/
 		++game_stats.choices[turn_stats.choice];
 		++game_stats.nb_turns;
+
 		game_stats.forced_skip += turn_stats.forced_skip;
 		game_stats.num_picked_tokens += turn_stats.num_picked_tokens;
 		game_stats.used_favor += turn_stats.used_favor;
@@ -470,18 +492,19 @@ struct game_statistics game_play(struct game_t *game, int display)
 		game_save_turn(game);
 
 		next_player(game_get_current_turn(game));
-
 	}
 	game_stats.result = (has_won(current_turn));
 
 	return game_stats;
 }
 
+
 void game_stats_display(struct game_statistics game_stats)
 {
 	float forced_skip_tun = game_stats.forced_skip;
 	float nb_turns = game_stats.nb_turns;
 	float skipped_turns = (forced_skip_tun / nb_turns) * 100;
+
 	printf("Played turns : " BYEL "%d " CRESET "including " RED "%d" CRESET " skipped turn (" RED "%d%%" CRESET ")\n\
 Number of picked tokens: " BYEL "%d " CRESET "\n\
 Number of favors used : " BYEL "%d " CRESET "\n\
@@ -501,15 +524,18 @@ Number of skipped turn : " BYEL "%d\n" CRESET,
 	);
 }
 
+
 int turn_get_num_player(struct turn_t* turn)
 {
 	return turn->num_player;
 }
 
+
 unsigned int turn_get_id(struct turn_t* turn)
 {
 	return turn->id;
 }
+
 
 struct game_parameters* turn_get_params(struct turn_t* turn)
 {

@@ -4,7 +4,7 @@
 #include "token.h"
 
 
-struct permutation_t{
+struct permutation_t {
 	int permutation[NUM_TOKENS];
 };
 
