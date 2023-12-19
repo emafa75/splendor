@@ -91,7 +91,7 @@ void init_tokens(unsigned int seed)
 			/*
 				Choose to have a complex or simple token randomly
 			*/
-			int is_complex = rand() % 2;
+			int is_complex = rand() % MAX_COLORS_PER_TOKENS;
 			
 			tokens[i] = create_complex_token(create_random_set(is_complex + 1));
 
