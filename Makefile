@@ -99,7 +99,8 @@ clean:
 	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC)
 
 dep:
-	gcc -MM $(SRCS) $(INC_FLAGS)
+	gcc -MM $(SRCS) $(INC_FLAGS) | sed -z 's/\\\n//g' > graph.raw
+	./deps.py graph.raw > graph.csv
 
 
 

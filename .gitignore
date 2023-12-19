@@ -4,6 +4,7 @@
 # Bins
 project
 test
+cli
 
 # jsp
 test_project
