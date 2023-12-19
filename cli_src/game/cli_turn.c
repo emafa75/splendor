@@ -146,4 +146,16 @@ void cli_turn_display(struct turn_t *turn)
 	start_context_box = vector2_add(start_context_box, vector2_down());
 
 	printToCoordinates(start_context_box.x, start_context_box.y,URED BOLD  "Context :" CRESET);
+
+	/* Print the context */
+	struct vector2_t context_text = start_context_box;
+	cli_jump_line(&context_text);
+	
+	struct context* context = turn_get_context(turn);
+
+	for (int index = 0; index < context->num_actions ; ++index)
+	{
+		printToCoordinates(context_text.x + 9 /* tabulation */, context_text.y, context->actions[index]);
+		cli_jump_line(&context_text);
+	}
 }

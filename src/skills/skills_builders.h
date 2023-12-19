@@ -5,7 +5,7 @@
 
 /*
 	Rob to a random player, a random token
-	Returns 0 if impossible, -1 if success
+	Returns 0 if impossible, 1 if success
 */
 int skill_token_rob(struct turn_t* turn, const void* trigger);
 

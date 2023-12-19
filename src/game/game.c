@@ -77,7 +77,10 @@ void init_game(struct game_t* game, struct game_parameters params)
 	struct player_t* first_player = turn_get_current_player(first_turn);		
 	player_set_favor(first_player,0);
 	
-
+	/*
+		Set the init context 
+	*/
+	turn_add_context(first_turn, HCYN "Init turn" CRESET);
 
 	//save this init state  
 	game_save_turn(game);
@@ -94,15 +97,20 @@ void game_save_turn(struct game_t* game)
 	}
 
 	++game->current_turn_index;
+
+	/* Save the id of the turn in the turn */
 	struct turn_t* new_turn = game_get_current_turn(game);
 	new_turn->id = game->current_turn_index;
+
+	/* Reset the context for the new turn*/
+	turn_reset_context(new_turn);
 }
 
 
 void next_player(struct turn_t* current_turn)
 {
-	unsigned int current_player = current_turn->current_player;
-	int num_player = current_turn->num_player;
+	unsigned int current_player = turn_get_current_player_index(current_turn);
+	int num_player = turn_get_num_player(current_turn);
 
 	current_player = (current_player + 1) % num_player;
 	current_turn->current_player = current_player;
@@ -247,6 +255,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		Display
 	*/
 	int display = current_turn->display;
+	char buffer[CONTEXT_SIZE] = {}; //use to use sprintf to put in the context of the turn
 
 	/*
 		If we need a display
@@ -325,6 +334,12 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		player_hire_builder(guild, current_player, builder_to_buy);
 
 		/*
+			Add hire action to the context
+		*/
+
+		turn_add_context(current_turn, HCYN "Player choosed to hire" CRESET);
+
+		/*	
 			Execute the skill associate to the builder
 		*/
 		skill_exec(current_turn, builder_to_buy);
@@ -354,9 +369,15 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		num_token_to_pick = MIN(num_token_to_pick, PLAYER_MAX_TOKENS - num_token_in_inventory); //take never more than what he is able to pick
 
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d choosed to pick %d token(s)\n"  CRESET, player_index, num_token_to_pick));
+		
+		/*
+			Add pick action to the context
+		*/
+		sprintf(buffer, HCYN "Player choosed to pick %d token(s)\n"  CRESET, num_token_to_pick);
+		turn_add_context(current_turn, buffer);
 
 		/*
-			Get the index of the first available token to match with the number of token that the player wanted to pick
+			Get the index of a random available token to match with the number of token that the player wanted to pick
 		*/
 		int index_first_token_to_pick = market_get_linked_tokens(market, num_token_to_pick);
 
@@ -368,6 +389,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		if (index_first_token_to_pick == -1 && num_token_to_pick != 0) // impossible choice 
 		{
 			DISPLAY(display, fprintf(output, RED "Player id.%d choosed to pick too much tokens, not enough linked token available. Turn skipped.\n" CRESET , player_index));
+			turn_add_context(current_turn, RED "Player id choosed to pick too much tokens, not enough linked token available. Turn skipped." CRESET);
 		}
 		else
 		{
@@ -408,6 +430,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 	{
 		stats.choice = SKIP;
 		DISPLAY(display, fprintf(output, HCYN "Player id.%d skipped his turn\n" CRESET, player_index));
+		turn_add_context(current_turn, HCYN "Player skipped his turn" CRESET);
 	}
 
 	/*
@@ -541,4 +564,46 @@ unsigned int turn_get_id(struct turn_t* turn)
 struct game_parameters* turn_get_params(struct turn_t* turn)
 {
 	return &turn->params;
+}
+
+struct context* turn_get_context(struct turn_t* turn)
+{
+	return &turn->context;
+}
+
+void turn_add_context(struct turn_t* turn, char* action)
+{
+	struct context* actual_context = turn_get_context(turn);
+	int num_actions = actual_context->num_actions;
+
+	if (num_actions == MAX_ACTIONS)
+	{
+		return;
+	}
+	/*
+		Sec the action in the next place in context
+	*/
+	strcat(actual_context->actions[num_actions], action);
+
+	/* Increment number of action present in context*/
+	++actual_context->num_actions;
+
+	return;
+}
+
+
+void turn_reset_context(struct turn_t* turn)
+{
+	struct context* actual_context = turn_get_context(turn);
+
+	/*
+		Put everything to NULL
+	*/
+	for (int index = 0; index < actual_context->num_actions; ++index)
+	{
+		actual_context->actions[index][0] = 0 ; //set the first to 0 is enought because we use it as a string
+	}
+
+	actual_context->num_actions = 0;
+
 }

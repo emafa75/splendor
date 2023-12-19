@@ -8,6 +8,8 @@
 
 #define MAX_PLAYERS 4
 #define MAX_MAX_TURNS 100
+#define CONTEXT_SIZE 1000
+#define MAX_ACTIONS 10
 
 #define TIE -1
 
@@ -29,6 +31,11 @@ struct game_parameters
 	int num_player;
 };
 
+struct context 
+{
+	char actions[MAX_ACTIONS][CONTEXT_SIZE]; //Stock the context in a array to separate different actions 
+	int num_actions;
+};
 
 struct turn_t
 {
@@ -41,6 +48,7 @@ struct turn_t
 	int num_player;
 	unsigned int id;
 	struct game_parameters params;
+	struct context context;
 };
 
 
@@ -164,6 +172,20 @@ unsigned int turn_get_id(struct turn_t* turn);
 */
 struct game_parameters* turn_get_params(struct turn_t* turn);
 
+/*
+	Get context from a turn
+*/
+struct context* turn_get_context(struct turn_t* turn);
+
+/*
+	Add action to the turn
+*/
+void turn_add_context(struct turn_t* turn, char* action);
+
+/*
+	Reset the context for a turn 
+*/
+void turn_reset_context(struct turn_t* turn);
 
 /*
 	change current player to next player.
