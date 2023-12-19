@@ -165,7 +165,7 @@ int get_winner(struct turn_t* current_turn);
 /*
     Returns a random index of a player
 */
-unsigned int get_random_player(int random_seed, int num_player);
+unsigned int get_random_player(int num_player);
 
 /*
     Play a turn, has a display option

@@ -17,6 +17,6 @@ struct permutation_t identity();
 /*
     Returns a random permutation
 */
-struct permutation_t random_permutation(int random_seed);
+struct permutation_t random_permutation();
 
 #endif

@@ -95,8 +95,6 @@ int test_guild_pick_builder()
     /*
         Reset principal guild
     */
-    int seed = time(NULL);
-    srand(seed);
     struct guild_t guild = create_default_guild();
     init_guild(&guild);
 
@@ -135,21 +133,7 @@ int test_guild_put_builder() //nonsense with the new achievement --> maybe if it
         fprintf(stderr, RED "test_guild_put_builder : test_guild_pick_builder didn't run successfully\n" CRESET);
         return 0;
     }
-    // int seed = time(NULL);
-    // srand(seed);
-    // init_guild(); //reset
-    // int index_picked_builder = rand()  %  get_available_builders().n_builders_available;
-    // struct builder_t* picked_builder = get_available_builders().builders[index_picked_builder];
-
-    // //pick a random builder
-    // guild_pick_builder(picked_builder);
-
-    // //put it back and check if he is available
-    //guild_put_builder(picked_builder);
-
-
-
-
+  
     return 1;
 }
 
@@ -164,8 +148,7 @@ int test_get_available_builders()
     /*
         Reset principal guild
     */
-    int seed = time(NULL);
-    srand(seed);
+   
     struct guild_t guild = create_default_guild();
     init_guild(&guild);
 
@@ -203,8 +186,6 @@ int test_get_available_builders()
 //     }
 
 //     int seed = time(NULL);
-//     srand(seed);
-//     init_guild(); //reset
 
 //     if (get_first_available_builder(0) > 0)
 //     {

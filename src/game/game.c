@@ -59,10 +59,13 @@ void init_game(struct game_t* game, struct game_parameters params)
 		players[index].id = index;
 	}
 
+	//Init the random for the rest of the game 
+	srand(params.random_seed);
+
 	/*
 		Init first player
 	*/
-	first_turn->current_player = get_random_player(params.random_seed, num_player) ;
+	first_turn->current_player = get_random_player(num_player) ;
 
 	/*
 		Init the first player without favor
@@ -70,8 +73,7 @@ void init_game(struct game_t* game, struct game_parameters params)
 	struct player_t* first_player = turn_get_current_player(first_turn);		
 	player_set_favor(first_player,0);
 	
-	//Init the random for the rest of the game 
-	srand(params.random_seed);
+
 
 	//save this init state  
 	game_save_turn(game);
@@ -186,9 +188,8 @@ int turn_get_current_player_index(struct turn_t* turn)
 	return turn->current_player;
 }
 
-unsigned int get_random_player(int random_seed, int num_player)
+unsigned int get_random_player(int num_player)
 {
-	srand(random_seed);
 	return  rand() % num_player;
 }
 

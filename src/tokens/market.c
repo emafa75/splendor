@@ -181,8 +181,6 @@ int market_get_first_available_token(struct market_t* market)
 
 void market_shuffle(struct market_t* market)
 {
-	srand(time(NULL));
-
   	for (int index = 0; index< NUM_TOKENS;++index)
     {
       struct token_t * t_tmp = market->tokens[index];

@@ -17,7 +17,6 @@ int test_players()
     /*
         Init all needed instances
     */
-    srand(time(NULL));
     init_builders(rand());
     
 
@@ -92,7 +91,6 @@ int test_hire_builder()
 		fprintf(stderr, RED "test_hire_builder: test_init_players didn't run successfully\n" CRESET);
 		return 0;
 	}
-    srand(time(NULL));
     struct player_t new_player = init_player();
     int index_hired_builder = 0;
 
