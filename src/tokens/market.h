@@ -30,7 +30,7 @@ struct ressources {
 /*
 	Init the initial market for the game.
 */
-void init_market(struct market_t* market, unsigned int seed);
+void init_market(struct market_t* market);
 
 /*
 	Associate skill to every token present in array tokens

@@ -17,7 +17,7 @@ struct market_t create_default_market()
 	return new_market;
 }
 
-void init_market(struct market_t* market, unsigned int seed)
+void init_market(struct market_t* market)
 {
 	int i = 0;
 

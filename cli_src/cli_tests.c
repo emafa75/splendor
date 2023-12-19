@@ -1,17 +1,13 @@
 #include "cli_tests.h"
 #include "builder.h"
-#include "cli_board.h"
-#include "cli_guild.h"
 #include "cli_turn.h"
 #include "cli_utils.h"
 #include "game.h"
 #include "guild.h"
 #include "market.h"
 #include "players.h"
-#include "players/cli_players.h"
 #include "token.h"
 #include "token_second_header.h"
-#include "vector2.h"
 
 void cli_tests(void)
 {
@@ -37,7 +33,7 @@ void cli_tests(void)
 	*/
 	struct market_t market = create_default_market();
 	init_tokens(8);
-	init_market(&market, 8);
+	init_market(&market);
 
 	/*
 		Init guild

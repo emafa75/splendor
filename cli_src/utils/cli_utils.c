@@ -70,12 +70,12 @@ void cli_popup(char* str)
 {
 	struct winsize winsize = get_terminal_dimensions();
 
-	struct vector2_t center = {(double) winsize.ws_col/2,(double) winsize.ws_row/2};
+	struct vector2_t center = {winsize.ws_col/2, winsize.ws_row/2};
 	int offset = 2;
 	int popup_lenght = str_len_special(str) + 2 * offset;
 	int popup_width = 1 + 2 * offset; 
 	center.y -= offset;
-	center.x -= (double)str_len_special(str) / 2 + offset;
+	center.x -= str_len_special(str) / 2 + offset;
 
 	for (int x = center.x; x < center.x + popup_lenght; ++x)
 	{
