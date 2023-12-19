@@ -13,6 +13,7 @@ test_project
 # Clang
 compile_flags.txt
 
+# valgrind
 vgcore.*
 
 tmp/
@@ -24,9 +25,11 @@ tmp.out
 #outputs
 *.out
 
-#python 
+# Graphs
 graph
 graph/**/*
 graph.csv
+graph.raw
+
+#python 
 **/*.py
-tmp.out

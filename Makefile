@@ -100,16 +100,28 @@ $(BUILD_DIR)/%.c.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 
-.PHONY: clean
-
 color: 
 	make clean && DEBUG=0 PRINT=1 make
 	clear
 	@./project
 
-clean:
+
+clean_build:
 	rm -rf $(BUILD_DIR)/*
+
+
+clean_bin:
 	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC) $(CLI_TARGET_EXEC)
+
+
+clean_graph:
+	rm -f graph.csv
+	rm -f graph.raw
+
+
+.PHONY: clean
+clean: clean_build clean_bin
+
 
 dep:
 	gcc -MM $(SRCS) $(INC_FLAGS) | sed -z 's/\\\n//g' > graph.raw
