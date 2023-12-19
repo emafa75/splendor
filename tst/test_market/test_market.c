@@ -4,31 +4,32 @@
 #include "permutation.h"
 #include "token.h"
 #include "token_second_header.h"
+#include "ansi_color.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
 int test_market()
 {
 	int test_passed = 0;
-	int seed = 0;
 
-	if(test_init_market(seed))
+	if(test_init_market())
 	{
 		printf(GRN "test_init_market passed\n" CRESET);
 		++test_passed;
 	}
 
-	if(test_pick_token(seed))
+	if(test_pick_token())
 	{
 		printf(GRN "test_pick_token passed\n" CRESET);
 		++test_passed;
 	}
-	if(test_market_pay_token(seed))
+	if(test_market_pay_token())
 	{
 		printf(GRN "test_market_pay_token passed\n" CRESET);
 		++test_passed;
 	}
-	if(test_market_get_token(seed))
+	if(test_market_get_token())
 	{
 		printf(GRN "test_market_get_token passed\n" CRESET);
 		++test_passed;
@@ -39,10 +40,10 @@ int test_market()
 }
 
 
-int test_init_market(int seed)
+int test_init_market()
 {
 	struct market_t market = create_default_market();
-	init_market(&market, seed);
+	init_market(&market);
 
 	int n = market_num_tokens(&market);
 
@@ -69,18 +70,18 @@ int test_init_market(int seed)
 	return 1;
 }
 
-int test_pick_token(int seed)
+int test_pick_token()
 {
 	
 
-	if (!test_init_market(seed))
+	if (!test_init_market())
 	{
 		fprintf(stderr, RED "test_pick_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
 	}
 
 	struct market_t market = create_default_market();
-	init_market(&market, seed);
+	init_market(&market);
 
 	market_shuffle(&market);
 	struct token_t *picked_token = market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]);
@@ -99,16 +100,16 @@ int test_pick_token(int seed)
 	return 1;
 }
 
-int test_market_pay_token(int seed)
+int test_market_pay_token()
 {
 	
-	if (!test_init_market(seed))
+	if (!test_init_market())
 	{
 		fprintf(stderr, RED "test_market_pay_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
 	}
 	
-	if (!test_pick_token(seed))
+	if (!test_pick_token())
 	{
 		fprintf(stderr, RED "test_market_pay_token: test_pick_token didn't run successfully\n" CRESET);
 		return 0;
@@ -118,7 +119,7 @@ int test_market_pay_token(int seed)
 	*/
 
 	struct market_t market = create_default_market();
-	init_market(&market, seed);
+	init_market(&market);
 
 	struct token_t* token = market_pick_token(&market, market.tokens[rand() % NUM_TOKENS]); // pick random token
 	/*
@@ -153,9 +154,9 @@ int test_market_pay_token(int seed)
 	return 0;
 }
 
-int test_market_get_token(int seed)
+int test_market_get_token()
 {
-	if (!test_init_market(seed))
+	if (!test_init_market())
 	{
 		fprintf(stderr, RED "test_market_get_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
@@ -165,7 +166,7 @@ int test_market_get_token(int seed)
 	*/
 
 	struct market_t market = create_default_market();
-	init_market(&market, seed);
+	init_market(&market);
 	//get random token from the market (available or not) and check if it exist
 	struct token_t *token = make_token(rand() % NUM_TOKENS);
 	if(!token)

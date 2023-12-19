@@ -93,7 +93,7 @@ int test_hire_builder()
     int index_hired_builder = 0;
 
     struct market_t market = create_default_market();
-    init_market(&market,rand());
+    init_market(&market);
 
     struct guild_t guild = create_default_guild();
     init_guild(&guild);
@@ -128,7 +128,7 @@ int test_player_pick_token()
 	}
 
     struct market_t market = create_default_market();
-    init_market(&market,rand());
+    init_market(&market);
 
     struct player_t new_player = init_player();
     struct token_t* picked_token = make_token(0); //the picked token need to be the first available
@@ -163,7 +163,7 @@ int test_player_take_token()
 	}
 
     struct market_t market = create_default_market();
-    init_market(&market,rand());
+    init_market(&market);
 
     struct player_t new_player = init_player();
     struct token_t* picked_token = make_token(0); //the picked token need to be the first 
