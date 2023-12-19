@@ -5,7 +5,7 @@
 project
 test
 evaluator
-cli
+cli 
 
 # jsp
 test_project
@@ -13,11 +13,11 @@ test_project
 # Clang
 compile_flags.txt
 
+# valgrind
 vgcore.*
 
 tmp/
 tmp/**/*
-
 
 evaluator
 tmp.out
@@ -25,8 +25,11 @@ tmp.out
 #outputs
 *.out
 
-#python 
-*.py
+# Graphs
 graph
 graph/**/*
 graph.csv
+graph.raw
+
+#python 
+**/*.py

@@ -99,9 +99,14 @@ skill_f skill_by_id(enum skills_id skill)
 }
 
 
+char* skill_string(enum skills_id skill_id)
+{
+	return skills_strings[skill_id];
+}
+
 void skill_display(enum skills_id skill, char* prefix)
 {
-	printf("%s%s", prefix, skills_strings[skill]);
+	printf("%s%s", prefix, skill_string(skill));
 }
 
 void trigger_display_skill(const void* trigger)

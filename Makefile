@@ -63,6 +63,9 @@ test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 
 cli: $(BUILD_DIR)/$(CLI_TARGET_EXEC)
 
+color_cli :
+	DEBUG=0 make cli
+
 # The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
 	#Compiles the project
@@ -74,6 +77,7 @@ $(BUILD_DIR)/$(TEST_TARGET_EXEC): $(TEST_OBJS)
 	#Compiles the tests
 	@$(CC) $(TEST_OBJS) -o $(TEST_TARGET_EXEC) $(LDFLAGS) # $@
 
+# The final build step for cli
 $(BUILD_DIR)/$(CLI_TARGET_EXEC): $(CLI_OBJS)
 	#Compiles the cli executable
 	@$(CC) $(CLI_OBJS) -o $(CLI_TARGET_EXEC) $(LDFLAGS) # $@
@@ -95,19 +99,32 @@ $(BUILD_DIR)/%.c.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 
-.PHONY: clean
-
 color: 
 	make clean && DEBUG=0 PRINT=1 make
 	clear
 	@./project
 
-clean:
+
+clean_build:
 	rm -rf $(BUILD_DIR)/*
+
+
+clean_bin:
 	rm -f $(PROJECT_TARGET_EXEC) $(TEST_TARGET_EXEC) $(EVALUATOR_TARGET_EXEC) $(CLI_TARGET_EXEC)
 
+
+clean_graph:
+	rm -f graph.csv
+	rm -f graph.raw
+
+
+.PHONY: clean
+clean: clean_build clean_bin
+
+
 dep:
-	gcc -MM $(SRCS) $(INC_FLAGS)
+	gcc -MM $(SRCS) $(INC_FLAGS) | sed -z 's/\\\n//g' > graph.raw
+	./deps.py graph.raw > graph.csv
 
 
 
