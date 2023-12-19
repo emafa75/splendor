@@ -63,6 +63,7 @@ struct game_parameters game_params = {
 	.market_seed = MARKET_SEED,
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
+	.num_player = 2
 };
 
 int main(int argc, char *argv[])
