@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "game.h"
 #include "skills_tokens.h"
 #include "builder.h"
@@ -9,17 +6,16 @@
 #include "token.h"
 #include "builder_constants.h"
 
+#include <stdlib.h>
+#include <stdio.h>
 
 int skill_market_panic(struct turn_t* turn, const void* trigger)
 {
 	UNUSED(trigger);
 	struct market_t* market = turn_get_market(turn);
 
-
 	if( market_num_tokens(market) == 0) // no tokens to move
-	{
 		return 0;
-	}
 
 	/*
 		Choose a random token in the market
@@ -58,9 +54,7 @@ int skill_guild_panic(struct turn_t* turn, const void* trigger)
 	struct guild_t* guild = turn_get_guild(turn);
 
 	if (guild->available_builders.n_builders_available == 0)
-	{
 		return 0;
-	}
 
 	/*
 		Choose a builder to replace
@@ -68,6 +62,7 @@ int skill_guild_panic(struct turn_t* turn, const void* trigger)
 
 	int rand_index = 0; 
 	struct builder_t* removed_builder = NULL;
+
 	while(removed_builder == NULL)
 	{
 		rand_index = rand() % (MAX_BUILDERS_AVAILABLE_PER_LVL * NUM_LEVELS) ;
@@ -87,6 +82,7 @@ int skill_favor_rob(struct turn_t* turn, const void* trigger)
 	struct player_t* robber_player = turn_get_current_player(turn);
 	struct player_t* stolen_player;
 	int rand_index;
+
 	/*
 		Choose random player 
 	*/
@@ -94,7 +90,8 @@ int skill_favor_rob(struct turn_t* turn, const void* trigger)
 	rand_index = rand() % num_player;
 	stolen_player = &turn_get_players(turn)[rand_index];
 
-	while (robber_player == stolen_player) {
+	while (robber_player == stolen_player)
+	{
 		rand_index = rand() % num_player;
 		stolen_player = &turn_get_players(turn)[rand_index];
 	}

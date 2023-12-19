@@ -1,5 +1,5 @@
-
 #include "stack.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,12 +14,10 @@ struct stack_t create_default_stack()
 }
 
 
-
 unsigned int stack_get_head(struct stack_t * stack)
 {
 	return stack->head;
 }
-
 
 
 void * stack_pop(struct stack_t * stack)
@@ -31,7 +29,6 @@ void * stack_pop(struct stack_t * stack)
 	stack->head--;
 	return out;
 }
-
 
 
 unsigned int stack_append(struct stack_t *stack, void *value)
@@ -53,12 +50,10 @@ unsigned int stack_append(struct stack_t *stack, void *value)
 }
 
 
-
 unsigned int stack_is_empty(struct stack_t *stack)
 {
 	return stack->head == 0;
 }
-
 
 
 unsigned int stack_get_values(struct stack_t *stack, void *values, unsigned int size)

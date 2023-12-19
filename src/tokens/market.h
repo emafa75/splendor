@@ -32,10 +32,12 @@ struct ressources {
 */
 void init_market(struct market_t* market);
 
+
 /*
 	Associate skill to every token present in array tokens
 */
 void init_tokens_skills();
+
 
 /*
  * Pick a specific token from the market
@@ -60,41 +62,48 @@ void market_pay_token(struct market_t* market, struct token_t * token);
 */
 void market_display(struct market_t* market);
 
+
 /*
 	Returns number of token avalable in market
 */
-
 int market_num_tokens(struct market_t* market);
+
 
 /*
 	Return position from the first available token, -1 if impossible
 */
 int market_get_first_available_token(struct market_t* market);
 
+
 /*
 	Shuffle the market, decide the path of the board
 */
 void market_shuffle(struct market_t* market);
+
 
 /*
 	Get the index from a available token of a group of nb-linked tokens, -1 if impossible
 */
 int market_get_linked_tokens(struct market_t* market, int nb);
 
+
 /*
 	Returns market permutation
 */
 struct permutation_t* market_get_permutation(struct market_t* market);
+
 
 /*
 	Returns a default market
 */
 struct market_t create_default_market();
 
+
 /*
 	Check if a specific token is in market (1 if true else 0)
 */
 int market_is_in_market(struct market_t* market, struct token_t* token);
+
 
 /*
  *  Returns int n, the size of filtered_tokens

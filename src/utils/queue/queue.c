@@ -1,4 +1,3 @@
-
 #include "queue.h"
 
 #include <stdio.h>
@@ -10,8 +9,10 @@
 struct queue_t create_default_queue()
 {
 	struct queue_t out = {};
+
 	out.size = MAX_QUEUE_SIZE;
 	out.length = 0 ;
+
 	return out;
 }
 
@@ -85,5 +86,3 @@ unsigned int queue_is_empty(struct queue_t* queue)
 {
 	return queue_get_length(queue) == 0;
 }
-
-

@@ -5,7 +5,6 @@
 #include "queue.h"
 
 
-
 struct available_builders {
 	struct builder_t *builders[MAX_BUILDERS];
 	unsigned int n_builders_available;
@@ -33,10 +32,12 @@ struct guild_t create_default_guild();
  */
 void init_guild(struct guild_t* guild);
 
+
 /*
 	Associate skills for the builders
 */
 void init_builder_skills();
+
 
 /*
  *  Returns a pointer to the guild's queue storing builders of level builder_lvl
@@ -60,6 +61,7 @@ int guild_nb_builder(struct guild_t* guild);
 	Check if pointer of builder is available to hire in the guild
 */
 int guild_is_available(struct guild_t* guild, struct builder_t* builder);
+
 
 /*
 	Check if a builder is present in guild
@@ -88,10 +90,12 @@ struct available_builders* guild_get_available_builders(struct guild_t* guild);
  */
 struct builder_t* available_builders_get_builder(struct guild_t* guild, int index);
 
+
 /*
 	Make builder available 
 */
 void guild_make_builder_available(struct guild_t* guild, struct builder_t* builder );
+
 
 /*
 	Get number of builder available per level

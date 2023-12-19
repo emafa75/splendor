@@ -3,15 +3,17 @@
 
 #include "builder.h"
 #include "token.h"
-
 #include "utils.h"
 
+
 #define MAX_STACK_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
+
 
 struct stack_t {
 	int head;
 	void *values[MAX_STACK_SIZE];
 };
+
 
 /*
  *  Create an empty stack
@@ -49,5 +51,4 @@ unsigned int stack_is_empty(struct stack_t* stack);
  *  Returns the size of values void *values[] 
  */
 unsigned int stack_get_values(struct stack_t* stack, void* values, unsigned int values_size);
-
 #endif

@@ -1,7 +1,9 @@
 #include "vector2.h"
 #include "cli_utils.h"
+
 #include <math.h>
 #include <stdio.h>
+
 
 struct vector2_t VECTOR2_ZERO = {0, 0};
 struct vector2_t VECTOR2_ONES = {LINE_SIZE, LINE_SIZE};

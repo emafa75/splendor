@@ -1,6 +1,7 @@
 #ifndef __VECTOR2_H__
 #define __VECTOR2_H__
 
+
 struct vector2_t {
 	double x;
 	double y;

@@ -4,11 +4,11 @@
 
 #include "builder.h"
 #include "token.h"
-
 #include "utils.h"
 
 
 #define MAX_QUEUE_SIZE MAX(MAX_BUILDERS, NUM_TOKENS)
+
 
 /*
  *  Size is the maximum number of elements the queue can store
@@ -20,6 +20,7 @@ struct queue_t {
 	unsigned int length;
 	void* values[MAX_QUEUE_SIZE];
 };
+
 
 /*
  *  Create an empty queue
