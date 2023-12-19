@@ -78,7 +78,6 @@ int test_pick_token(int seed)
 		fprintf(stderr, RED "test_pick_token: test_init_market didn't run successfully\n" CRESET);
 		return 0;
 	}
-	srand(seed);
 
 	struct market_t market = create_default_market();
 	init_market(&market, seed);
@@ -117,7 +116,6 @@ int test_market_pay_token(int seed)
 	/*
 		Initialize the marker
 	*/
-	srand(seed);
 
 	struct market_t market = create_default_market();
 	init_market(&market, seed);
@@ -165,7 +163,6 @@ int test_market_get_token(int seed)
 	/*
 		Initialize the marker
 	*/
-	srand(seed);
 
 	struct market_t market = create_default_market();
 	init_market(&market, seed);

@@ -23,7 +23,7 @@ void init_market(struct market_t* market, unsigned int seed)
 	/*
 		Choose a random permutation for the replacement of tokens in the market
 	*/
-	struct permutation_t market_permutation = random_permutation(seed);
+	struct permutation_t market_permutation = random_permutation();
 	
 	market->permutation = market_permutation;
 
