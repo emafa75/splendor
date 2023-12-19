@@ -2,7 +2,6 @@
 #include "builder.h"
 #include "guild.h"
 #include "market.h"
-#include "permutation.h"
 #include "players.h"
 #include "token.h"
 #include <stdio.h>
@@ -10,7 +9,6 @@
 #include "ansi_color.h"
 #include "token_second_header.h"
 
-#include <time.h>
 
 int test_players()
 {
