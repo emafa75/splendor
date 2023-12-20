@@ -36,6 +36,10 @@ void print_usage(char *argv[]);
 void display_options();
 
 /*
+	Deprecated version
+*/
+void print_deprecated_version();
+/*
 	Init all parameters 
 */
 
@@ -95,6 +99,9 @@ int main(int argc, char *argv[])
 
 	display_options();
 
+	/* deprecated version*/
+	print_deprecated_version();
+
 	/*
 		Init all instances
 	*/
@@ -134,6 +141,9 @@ int main(int argc, char *argv[])
 	game_stats_display(game_stats);
 	printf(BWHT "══════════════════════════════════════════════════════════════════════════\n" CRESET);
 
+	/* deprecated version*/
+	print_deprecated_version();
+
 	return EXIT_SUCCESS;
 }
 
@@ -154,4 +164,13 @@ void print_usage(char *argv[])
 {
 	fprintf(stderr, "Usage: %s [-s random_seed] [-m max_turns] [-c builder_seed] [-t token seed] [-p points_to_win] [-n number of player]\n", argv[0]);
 	return;
+}
+
+void print_deprecated_version()
+{
+	printf( HRED "══════════════════════════════════════════════════════════════════════════\n" CRESET);
+	printf(RED "This version is deprecated. Please consider to use the cli version\n" CRESET);
+	printf(RED "Use make color_cli and execute ./cli with the options you want.\n" CRESET);
+	printf(RED "More information in the readme\n" CRESET);
+	printf( HRED "══════════════════════════════════════════════════════════════════════════\n" CRESET);
 }
