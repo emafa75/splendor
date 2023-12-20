@@ -123,8 +123,15 @@ int main(int argc, char *argv[])
 	int ch = 0;
 	int print = 1;
 	while( ch != 'q'){
+		if (ch == '\033') // if arrow
+		{
+			getch(); //skip the next value wich is [
+			ch = getch();
+		}
+
 		switch (ch) {
 			case 'n':
+			case 67 :
 				if(turn_index < game_stats.nb_turns)
 				{
 					turn = game_get_turn(&game, ++turn_index);
@@ -137,6 +144,7 @@ int main(int argc, char *argv[])
 				}
 				break;
 			case 'p':
+			case 68 :
 				if(turn_index > 0) 
 				{
 					turn = game_get_turn(&game, --turn_index);
