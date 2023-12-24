@@ -5,6 +5,45 @@
 #include <stdlib.h>
 #include "utils.h"
 #include "ansi_color.h"
+#include <fcntl.h>
+#include <unistd.h>
+
+int getkey_unlocked() {
+    int ch;
+    struct termios oldt, newt;
+    fd_set set;
+    struct timeval timeout;
+
+    tcgetattr(STDIN_FILENO, &oldt); /* Store old settings */
+    newt = oldt; /* Copy old settings to new settings */
+    newt.c_lflag &= ~(ICANON | ECHO); /* Make one change to old settings in new settings */
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt); /* Apply the new settings immediately */
+
+    FD_ZERO(&set);
+    FD_SET(STDIN_FILENO, &set); /* Add STDIN_FILENO to the set */
+
+    timeout.tv_sec = 0; // 1 second timeout
+    timeout.tv_usec = 10000;
+
+    // Monitor the standard input for any activity within the timeout
+    int activity = select(STDIN_FILENO + 1, &set, NULL, NULL, &timeout);
+
+    if (activity == -1) {
+        // Error occurred in select
+        perror("Error in select");
+        return -1;
+    } else if (activity == 0) {
+        // Timeout occurred, no input received within the specified time
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /* Reapply the old settings */
+        return 0;
+    } else {
+        // Input received, proceed to read character
+        ch = getchar(); /* Standard getchar call */
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /* Reapply the old settings */
+        return ch; /* Return received char */
+    }
+}
 
 int getch(void)
 {
@@ -24,7 +63,8 @@ int getch(void)
 
 	return ch; /*return received char */
 }
-   
+
+
 
 void printToCoordinates(unsigned int x, unsigned int y, char *str)
 {

@@ -20,6 +20,8 @@
  */
 int getch(void);
 
+int getkey_unlocked (void);
+
 
 /*
  *  Prints the character c at pos x, y of the screen

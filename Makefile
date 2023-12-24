@@ -8,7 +8,7 @@ DEBUG ?= 1
 PRINT ?= 0
 
 MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG) -DPRINT=$(PRINT)
-CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) -lm -fstack-usage
+CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) -lm -fstack-usage -std=gnu11
 LDFLAGS := -lm
 
 PROJECT_TARGET_EXEC := project
@@ -24,7 +24,7 @@ CLI_DIRS := ./cli_src
 PROJECT_MAIN_FILE_NAME := ./src/project.c
 TEST_MAIN_FILE_NAME := ./tst/test.c
 EVALUATOR_MAIN_FILE_NAME := ./evaluator_src/evaluator.c
-CLI_MAIN_FILE_NAME := ./cli/cli.c
+CLI_MAIN_FILE_NAME := ./cli_src/cli.c
 
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.c')
@@ -33,14 +33,14 @@ SRCS := $(filter-out $(PROJECT_MAIN_FILE_NAME),$(SRCS))
 
 TST_SRCS := $(shell find $(TST_DIRS) -name '*.c')
 CLI_SRCS := $(shell find $(CLI_DIRS) -name '*.c')
-
+CLI_SRCS := $(filter-out $(CLI_MAIN_FILE_NAME),$(CLI_SRCS))
 
 # Prepends BUILD_DIR and appends .o to every src file
 # As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
 PROJECT_OBJS := $(PROJECT_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
-TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TST_SRCS:%=$(BUILD_DIR)/%.o)
+TEST_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(TST_SRCS:%=$(BUILD_DIR)/%.o) $(CLI_SRCS:%=$(BUILD_DIR)/%.o)
 EVALUATOR_OBJS := $(EVALUATOR_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o) $(SRCS:%=$(BUILD_DIR)/%.o) 
-CLI_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(CLI_SRCS:%=$(BUILD_DIR)/%.o) 
+CLI_OBJS := $(SRCS:%=$(BUILD_DIR)/%.o) $(CLI_SRCS:%=$(BUILD_DIR)/%.o) $(CLI_MAIN_FILE_NAME:%=$(BUILD_DIR)/%.o)
 
 
 # Every folder in ./src will need to be passed to GCC so that it can find header files
@@ -60,7 +60,7 @@ evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 
 project: $(BUILD_DIR)/$(PROJECT_TARGET_EXEC)
 
-test: clean $(BUILD_DIR)/$(TEST_TARGET_EXEC)
+test: $(BUILD_DIR)/$(TEST_TARGET_EXEC)
 	./test
 
 cli: $(BUILD_DIR)/$(CLI_TARGET_EXEC)
