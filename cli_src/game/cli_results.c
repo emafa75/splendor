@@ -38,7 +38,6 @@ int cli_display_results(struct turn_t* last_turn)
 	
 	char ch = 0;
 	clear_terminal();
-	terminal_cursor(0);
 
 	/*
 		Disable echo
@@ -72,7 +71,6 @@ int cli_display_results(struct turn_t* last_turn)
 		}
 	}
 
-	terminal_cursor(1);
 
 	system("stty echo"); /* reenable echo*/
 
