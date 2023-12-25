@@ -20,8 +20,8 @@ int cli_display_results(struct turn_t* last_turn)
 	*/
 
 	int winner_index = get_winner(last_turn);
-	sprintf(buffer,BBLU "════════════════════════" BRED " Player id.%d won " BLU "════════════════════════" CRESET, winner_index);
-	printToCoordinates(winsize.ws_col/2 - 31, 0 , buffer); //31 to center
+	sprintf(buffer,BBLU "════════════════════════" BRED " Results " BLU "════════════════════════" CRESET);
+	printToCoordinates(winsize.ws_col/2 - 29, 0 , buffer); //31 to center
 
 	/*
 		Firework launch
@@ -44,7 +44,14 @@ int cli_display_results(struct turn_t* last_turn)
 		Disable echo
 	*/
 	system("stty -echo");
-	sprintf(buffer,RED "Player id.%d won" CRESET, winner_index);
+	if (winner_index == TIE)
+	{
+		sprintf(buffer,RED "Tie, no winner" CRESET);
+
+	}
+	else {
+		sprintf(buffer,RED "Player id.%d won" CRESET, winner_index);
+	}
 	while(ch != 'q' && ch != 'p' && ch != 68) {
 		for (int index = 0; index < NUM_FIREWORK; ++index)
 		{ 
