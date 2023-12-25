@@ -26,7 +26,6 @@ void cli_tests(void)
 		init_firework(&fireworks[index], top_left, bottom_right);
 	}
 	
-	char ch = 0;
 	clear_terminal();
 	terminal_cursor(0);
 	vector2_display(bottom_right);
