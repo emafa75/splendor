@@ -62,3 +62,19 @@ void vector2_display(struct vector2_t v)
 {
 	printf("Vec2: (x, y) = (%f, %f)\n", v.x, v.y);
 }
+
+int vector2_is_inside(struct vector2_t vector, struct vector2_t top_left, struct vector2_t bottom_right)
+{	
+	/* Doesn't work for the left and above section because of the doubles*/
+	// return (vector.x > top_left.x && vector.x < bottom_right.x && vector.y > top_left.y && vector.y < bottom_right.y) ;
+
+	if (vector.x - top_left.x < 1 )
+		return 0;
+	if (vector.x >= bottom_right.x )
+		return 0;
+	if (vector.y - top_left.y < 1)
+		return 0;
+	if (vector.y >= bottom_right.y)
+		return 0;
+	return 1;
+}

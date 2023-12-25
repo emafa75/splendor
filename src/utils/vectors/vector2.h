@@ -58,4 +58,10 @@ double vector2_norm2(struct vector2_t v);
  *  Display a vector2 coordinates
  */
 void vector2_display(struct vector2_t v);
+
+/*
+	Returns 1 if the vector is inside the sqare describe by two corners
+	Strict (borders not included)
+*/
+int vector2_is_inside(struct vector2_t vector, struct vector2_t top_left, struct vector2_t bottom_right);
 #endif
