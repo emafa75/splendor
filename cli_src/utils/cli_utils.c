@@ -23,7 +23,7 @@ int getkey_unlocked() {
     FD_ZERO(&set);
     FD_SET(STDIN_FILENO, &set); /* Add STDIN_FILENO to the set */
 
-    timeout.tv_sec = 0; // 1 second timeout
+    timeout.tv_sec = 0; 
     timeout.tv_usec = 10000;
 
     // Monitor the standard input for any activity within the timeout
@@ -117,10 +117,15 @@ void cli_popup(char* str)
 	center.y -= offset;
 	center.x -= str_len_special(str) / 2 + offset;
 
-	for (int x = center.x; x < center.x + popup_lenght; ++x)
+
+	printToCoordinates(center.x + offset  , center.y + offset, str);
+
+	for (int x = center.x + 1; x < center.x + popup_lenght - 1; ++x)
 	{
-		for (int y = center.y; y < center.y + popup_width; ++y)
-		{
+		for (int y = center.y + 1; y < center.y + popup_width - 1; ++y)
+		{	
+			if ((y == (center.y + offset)) && (x >= center.x + offset) && (x <= center.x + offset + str_len_special(str))) //no need to erase cherre text is write
+				continue;
 			printToCoordinates(x, y, " ");
 		}
 	}

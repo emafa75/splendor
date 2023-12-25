@@ -4,8 +4,9 @@
 #include "color.h"
 #include "vector2.h"
 
-#define MAX_PARTICULES 100
-#define MIN_PARTICULES 25
+#define MAX_PARTICULES 150
+#define MIN_PARTICULES 50
+#define DT 0.1
 
 struct particule_t
 {
@@ -24,9 +25,14 @@ struct firework_t
 	float radius;
 	struct vector2_t center;
 	int exploded;
+	struct vector2_t top_left;
+	struct vector2_t bottom_right; //use to reinit the firework
 };
 
-void init_firework(struct firework_t* firework);
+/*
+	Init the firework with random options in the sqare define by the two vectors
+*/
+void init_firework(struct firework_t* firework, struct vector2_t top_left, struct vector2_t bottom_right);
 
 /*
 	Update particule position

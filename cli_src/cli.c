@@ -14,6 +14,8 @@
 #include "cli_utils.h"
 #include "game.h"
 #include "ansi_color.h"
+#include "cli_results.h"
+
 
 #define _NB_MIN_PARAMS_ 1
 
@@ -139,8 +141,10 @@ int main(int argc, char *argv[])
 					print = 1;
 				}
 				else {
-					cli_popup(RED "No turn left" CRESET);
+					ch = cli_display_results(game_get_turn(&game,++turn_index));
+					//cli_popup(RED "No turn left" CRESET);
 					print = 0;
+					continue;
 				}
 				break;
 			case 'p':

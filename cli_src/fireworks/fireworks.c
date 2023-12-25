@@ -9,21 +9,24 @@
 #include "vector2.h"
 
 
-void init_firework(struct firework_t* firework)
+void init_firework(struct firework_t* firework, struct vector2_t top_left, struct vector2_t bottom_right)
 {
-	struct winsize winsize = get_terminal_dimensions();
+	/* max positions */
+	firework->top_left = top_left;
+	firework->bottom_right = bottom_right;
+
 	firework->exploded = 0;
-	firework->flight_duration = 10 + rand() % (30 - 10);
+	
 	firework->flight_time = 0;
-	// firework->num_particules =  MIN_PARTICULES + rand() % (MAX_PARTICULES - MIN_PARTICULES);
-	firework->num_particules = 70;
+	firework->num_particules =  MIN_PARTICULES + rand() % (MAX_PARTICULES - MIN_PARTICULES);
+	//firework->num_particules = 70;
 	firework->radius = 10;
 
 	struct particule_t* particule;
 
-	double start_position_x = rand() % winsize.ws_col;
-	double start_position_y = winsize.ws_row - 1; //begin from bottom
-	enum color_t color = rand() % NUM_COLORS;
+	double start_position_x = top_left.x + rand() % (int) (bottom_right.x - top_left.x);
+	double start_position_y = bottom_right.y; //begin from bottom
+	enum color_t color = 1 + rand() % (NUM_COLORS - 1); //no black
 
 	for (int index = 0; index < firework->num_particules; ++index)
 	{
@@ -34,6 +37,10 @@ void init_firework(struct firework_t* firework)
 		particule->velocity.y = -2; 
 		particule->color = color;
 	}
+	/* Setup flight duration */
+	double max_duration = (bottom_right.y - top_left.y) / ((-firework->particules[0].velocity.y) * 0.6) ; //explode at 60% of the time
+	double min_duration = 0.3 * max_duration;
+	firework->flight_duration = min_duration + rand() % (int) ((0.9 * max_duration) - min_duration);
 }
 
 void particule_update(struct particule_t* particule, double dt)
@@ -61,25 +68,28 @@ void firework_display(struct firework_t* firework)
 
 		if (particule != NULL)
 		{
-			//get particule display 
-			sprintf(buffer,"%so" CRESET, color_prefix(particule->color));
-
-			/*
-				Check if we need to display it
-			*/
-			if (firework->exploded)
+			if ( vector2_is_inside(particule->position, firework->top_left, firework->bottom_right)) //is in the display box
 			{
-				//check if the particule is not to far away
-				dist_to_center = vector2_norm2(vector2_add(vector2_opposite(particule->position), firework->center));
+				//get particule display 
+				sprintf(buffer,"%so" CRESET, color_prefix(particule->color));
 
-				if (dist_to_center < firework->radius)
+				/*
+					Check if we need to display it
+				*/
+				if (firework->exploded)
 				{
-					
+					//check if the particule is not to far away
+					dist_to_center = vector2_norm2(vector2_add(vector2_opposite(particule->position), firework->center));
+
+					if (dist_to_center < firework->radius)
+					{
+						
+						printToCoordinates(particule->position.x, particule->position.y, buffer);
+					}
+				}
+				else {
 					printToCoordinates(particule->position.x, particule->position.y, buffer);
 				}
-			}
-			else {
-				printToCoordinates(particule->position.x, particule->position.y, buffer);
 			}
 		}
 	}
@@ -96,18 +106,21 @@ void firework_erase(struct firework_t* firework)
 
 		if (particule)
 		{
-			if (firework->exploded)
+			if ( vector2_is_inside(particule->position, firework->top_left, firework->bottom_right)) //is in the display box
 			{
-				//check if the particule is not to far away
-				dist_to_center = vector2_norm2(vector2_add(vector2_opposite(particule->position), firework->center));
-
-				if (dist_to_center < firework->radius)
+				if (firework->exploded)
 				{
+					//check if the particule is not to far away
+					dist_to_center = vector2_norm2(vector2_add(vector2_opposite(particule->position), firework->center));
+
+					if (dist_to_center < firework->radius)
+					{
+						printToCoordinates(particule->position.x, particule->position.y, RED " " CRESET);
+					}
+				}
+				else {
 					printToCoordinates(particule->position.x, particule->position.y, RED " " CRESET);
 				}
-			}
-			else {
-				printToCoordinates(particule->position.x, particule->position.y, RED " " CRESET);
 			}
 		}
 	}
@@ -147,7 +160,8 @@ void firework_update(struct firework_t* firework, double dt)
 
 	if (firework->flight_time > 0.99 * firework->flight_duration) //firework is dead, reinit it
 	{
-		init_firework(firework);
+		firework_erase(firework);
+		init_firework(firework, firework->top_left, firework->bottom_right);
 	}
 
 	/*
