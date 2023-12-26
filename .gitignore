@@ -1,38 +1,37 @@
+# Editors
 *~
+/.vscode
+## Used for clang
+/compile_flags.txt
+
+
+# Building files
 *.o
+/build
+
 
 # Bins
-project
-test
-evaluator
-cli 
+/project
+/test
+/evaluator
+/cli 
 
-# build 
-build
 
-# jsp
-test_project
-
-# Clang
-compile_flags.txt
-
-# valgrind
+# Valgrind
 vgcore.*
 
-tmp/
-tmp/**/*
 
-evaluator
-tmp.out
+# Tmp dirs and files, should be used for temporary tests
+tmp**/*
 
-#outputs
+
+# Outputs, used for debug
 *.out
 
-# Graphs
-graph
-graph/**/*
-graph.csv
-graph.raw
 
-#python 
+# Dependencies graph generation
+/graph**/*
+
+
+# Python
 **/*.py
