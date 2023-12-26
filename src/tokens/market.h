@@ -2,7 +2,6 @@
 #define __MARKET_H__
 
 #include "permutation.h"
-#include "guild.h"
 #include "token.h"
 
 
@@ -21,10 +20,6 @@ struct available_tokens {
 };
 
 
-struct ressources {
-	struct market_t market;
-	struct guild_t guild;
-};
 
 
 /*

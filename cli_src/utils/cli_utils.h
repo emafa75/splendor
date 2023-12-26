@@ -1,11 +1,10 @@
 #ifndef __CLI_UTILS_H__
 #define __CLI_UTILS_H__
 
-
-
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+
 #include "game.h"
 #include "vector2.h"
 

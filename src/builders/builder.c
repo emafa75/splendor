@@ -1,8 +1,8 @@
 #include "builder.h"
 #include "builder_constants.h"
 #include "set.h"
-
 #include "skills.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

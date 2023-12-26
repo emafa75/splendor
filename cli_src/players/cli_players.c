@@ -1,18 +1,16 @@
 #include "cli_players.h"
-#include "ansi_color.h"
 #include "cli_builders.h"
 #include "cli_utils.h"
-#include "guild.h"
-#include "market.h"
-#include "players.h"
-#include "vector2.h"
-#include <stdio.h>
 #include "cli_token.h"
+
+#include "ressources.h"
+#include "ansi_color.h"
+
+#include <stdio.h>
+
 
 struct vector2_t cli_player_display_inventory(struct vector2_t position, struct player_t* player)
 {
-
-
 	char buffer[BUFFER_SIZE] = {};
 
 	/*
@@ -46,7 +44,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	/* Jump a line */
 	cli_jump_line(&position);
 
-	struct ressources* player_ressources = player_get_ressources(player);
+	struct ressources_t* player_ressources = player_get_ressources(player);
 	
 	/*
 		Tokens
@@ -57,6 +55,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	for (int index = 0; index < NUM_TOKENS; ++index)
 	{
 		struct token_t* token = player_ressources->market.tokens[index];
+
 		if(token)
 		{
 			cli_token_display(position, token, " --- ");

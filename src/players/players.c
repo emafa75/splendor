@@ -99,7 +99,7 @@ void player_display_inventory(struct player_t *player)
 	unsigned int favor = player_get_favor(player);
 	printf(BOLD "Favor(s) : " CRESET);
 	printf(favor ?  BYEL "%d\n\n"  CRESET:  WHT "No favor\n\n" CRESET , favor );
-	struct ressources* player_ressources = player_get_ressources(player);
+	struct ressources_t* player_ressources = player_get_ressources(player);
 
 	/*
 		Tokens
@@ -159,7 +159,7 @@ void player_display_inventory(struct player_t *player)
 
 int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire)
 {
-	struct ressources ressources = is_buyable(builder_to_hire, player->ressources);
+	struct ressources_t ressources = is_buyable(builder_to_hire, player->ressources);
 
 	if (ressources.market.tokens[0] == NULL)  // All elements are NULL if cannot pay
 		return 0;
@@ -183,7 +183,7 @@ int player_get_points(struct player_t* player)
 }
 
 
-struct ressources* player_get_ressources(struct player_t* player)
+struct ressources_t* player_get_ressources(struct player_t* player)
 {
 	return &player->ressources;
 }

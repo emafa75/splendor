@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
+
 #include "players.h"
 #include "game.h"
 #include "ansi_color.h"

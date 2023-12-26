@@ -5,13 +5,14 @@
 #include "token.h"
 #include "guild.h"
 #include "market.h"
+#include "ressources.h"
 
 #define PLAYER_MAX_TOKENS 10
 
 
 struct player_t
 {
-	struct ressources ressources;
+	struct ressources_t ressources;
 	int current_point;
 	unsigned int favor;
 	unsigned int id;
@@ -58,7 +59,7 @@ int player_get_points(struct player_t* player);
 /*
 	Get player ressources
 */
-struct ressources* player_get_ressources(struct player_t* player);
+struct ressources_t* player_get_ressources(struct player_t* player);
 
 /*
 	Get favor from a player

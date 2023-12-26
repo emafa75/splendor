@@ -7,14 +7,15 @@
  *
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <getopt.h>
 #include "cli_turn.h"
 #include "cli_utils.h"
 #include "game.h"
 #include "ansi_color.h"
 #include "cli_results.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <getopt.h>
 
 
 #define _NB_MIN_PARAMS_ 1
