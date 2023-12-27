@@ -43,6 +43,7 @@ struct turn_t
 	struct guild_t guild;
 	struct player_t players[MAX_PLAYERS];
 	unsigned int current_player;
+	unsigned int next_player;
 	unsigned int points_to_win;
 	unsigned int display; /* Used to display in other functions*/
 	unsigned int num_player;
@@ -171,6 +172,16 @@ unsigned int turn_get_id(struct turn_t* turn);
 	Get turn params
 */
 struct game_parameters* turn_get_params(struct turn_t* turn);
+
+/*
+	Get next player id
+*/
+unsigned int turn_get_next_player_index(struct turn_t* turn);
+
+/*
+	Set next player 
+*/
+void turn_set_next_player(struct turn_t *turn, unsigned int next_player_index);
 
 /*
 	Get context from a turn

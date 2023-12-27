@@ -109,11 +109,24 @@ void game_save_turn(struct game_t* game)
 
 void next_player(struct turn_t* current_turn)
 {
-	unsigned int current_player = turn_get_current_player_index(current_turn);
+	unsigned int next_player = turn_get_next_player_index(current_turn);
 	int num_player = turn_get_num_player(current_turn);
 
-	current_player = (current_player + 1) % num_player;
-	current_turn->current_player = current_player;
+	/* Set current player to the next player (wich was stock in the turn because it can change with skills)*/
+	current_turn->current_player = next_player;
+
+	/* Change the next player */
+	turn_set_next_player(current_turn, (next_player + 1) % num_player);
+}
+
+unsigned int turn_get_next_player_index(struct turn_t* turn)
+{
+	return turn->next_player;
+}
+
+void turn_set_next_player(struct turn_t *turn, unsigned int next_player_index)
+{
+	turn->next_player = next_player_index;
 }
 
 

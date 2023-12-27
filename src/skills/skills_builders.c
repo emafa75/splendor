@@ -87,14 +87,13 @@ int skill_token_rob(struct turn_t* turn, const void* trigger)
 int skill_turn_rob(struct turn_t *turn, const void *trigger)
 {
 	UNUSED(trigger);
+	unsigned int num_player = turn_get_num_player(turn);
+	unsigned int next_player_index = turn_get_next_player_index(turn);
 
-	next_player(turn);
+	turn_set_next_player(turn, (next_player_index + 1) % num_player);
 
 	/* Add to the context */
 	turn_add_context(turn,GRN "Skill turn rob execute. Next player will skip his turn." CRESET);
-	
-	/* Need to be change because cli won't work otherwise*/
-	turn_add_context(turn, RED "/!\\ The current player displayed on the cli is not the one who played (bug)" CRESET);
 	
 	return 1;
 }
