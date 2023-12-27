@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 	/*
 		Play the game
 	*/
-	struct game_statistics game_stats = game_play(&game, game_params.display);
+	struct game_statistics game_stats = game_play(&game);
 
 	/*
 		End of the game, print results 

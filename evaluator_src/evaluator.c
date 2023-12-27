@@ -56,7 +56,8 @@ struct game_parameters game_params = {
 	.market_seed = MARKET_SEED,
 	.builder_seed = BUILDER_SEEED,
 	.random_seed = RANDOM_SEED,
-	.num_player = 2
+	.num_player = 2,
+	.display = 0
 };
 
 
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
 				/*
 					Play the game
 				*/
-				struct game_statistics game_stats = game_play(&game, PRINT);
+				struct game_statistics game_stats = game_play(&game);
 
 				average_stats.forced_skip += game_stats.forced_skip;
 				average_stats.nb_turns += game_stats.nb_turns;

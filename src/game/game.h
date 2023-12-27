@@ -119,7 +119,7 @@ void game_save_turn(struct game_t* game);
 /*
 	Play a full game, with a display option
 */
-struct game_statistics game_play(struct game_t* game, int display);
+struct game_statistics game_play(struct game_t* game);
 
 
 /*
@@ -223,7 +223,7 @@ unsigned int get_random_player(int num_player);
 
 
 /*
-	Play a turn, has a display option
+	Play a turn
 */
 struct turn_statistics turn_play(struct turn_t* current_turn);
 

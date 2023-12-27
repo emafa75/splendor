@@ -333,10 +333,10 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 	/*
 		Take a random decision and check if it's possible to hire a builder
 	*/
-	enum choice random_choice = rand() % 100; 
+	unsigned int random_choice = rand() % 100; 
 	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
 
-	if ((random_choice <= 50) && (builder_to_buy != NULL)) 
+	if ((random_choice < 50) && (builder_to_buy != NULL)) 
 	{
 		stats.choice = HIRE;
 		/*
@@ -363,7 +363,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 		*/
 		stats.used_skill += trigger_num_skills(builder_to_buy); 
 	}
-	else if (random_choice <= 90)
+	else if (random_choice < 90)
 	{
 		stats.choice = PICK;
 		//change random choice to fit with the current action
@@ -473,14 +473,14 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 }
 
 
-struct game_statistics game_play(struct game_t *game, int display)
+struct game_statistics game_play(struct game_t *game)
 {
 	/*
 		If we need a display
 	*/
 	FILE * output;
 
-	if (display)
+	if (1)
 	{
 		output = stdout;
 	}
@@ -495,6 +495,8 @@ struct game_statistics game_play(struct game_t *game, int display)
 	struct game_statistics game_stats = {};
 
 	struct turn_t* current_turn = game_get_current_turn(game);
+
+	int display = current_turn->display;
 
 	/*
 		Game loop
