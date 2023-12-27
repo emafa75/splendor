@@ -22,13 +22,13 @@
 
 struct game_parameters
 {
-	int max_turns ;
-	int points_to_win;
-	int builder_seed;
-	int market_seed;
-	int random_seed;
-	int display;
-	int num_player;
+	unsigned int max_turns;
+	unsigned int points_to_win;
+	unsigned int builder_seed;
+	unsigned int market_seed;
+	unsigned int random_seed;
+	unsigned int display;
+	unsigned int num_player;
 };
 
 struct context 
@@ -45,7 +45,7 @@ struct turn_t
 	unsigned int current_player;
 	unsigned int points_to_win;
 	unsigned int display; /* Used to display in other functions*/
-	int num_player;
+	unsigned int num_player;
 	unsigned int id;
 	struct game_parameters params;
 	struct context context;
