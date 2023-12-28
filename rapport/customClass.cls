@@ -4,12 +4,19 @@
 
 %--------------------- Packages ------------------------
 
-\RequirePackage[utf8]{inputenc} % Caractères spéciaux
 \RequirePackage[section]{placeins} % Pour placement de section
 
-\RequirePackage[T1]{fontenc} %Quelques lettres qui sont pas inclus dans UTF-8
 
 \RequirePackage{mathtools} %Paquet pour des équations et symboles mathématiques
+
+% Include all the packages, authors, etc..
+% \usepackage{babel}
+% \usepackage{hyphsubst}  % For hyphen babel error
+\RequirePackage[utf8]{inputenc} % Caractères spéciaux
+\usepackage[T1]{fontenc}
+\usepackage{xspace}
+\usepackage[cyr]{aeguill}
+\usepackage[french]{babel}
 
 \RequirePackage{graphicx} %Paquet pour insérer des images
 \RequirePackage{float} %Pour placement d'images
@@ -30,10 +37,9 @@
 %Configuration de la page
 \RequirePackage{enumitem}
 
-% Include all the packages, authors, etc..
-% \usepackage{babel}
-\usepackage{hyphsubst}  % For hyphen babel error
-\usepackage[french]{babel}
+%affichage image pgf
+\usepackage{pgf}
+\usepackage{lmodern}
 
 % Adds unnumbered sectoin
 \usepackage{titletoc}
@@ -78,7 +84,7 @@
 % Figures
 \usepackage{graphicx}
 \usepackage{float}  % better figure placement, have no idea of what im doing
-\usepackage[T1]{fontenc}
+
 
 \renewcommand\thesection{\Roman{section}}
 \renewcommand\thesubsection{\hspace{1em}\arabic{subsection}}
@@ -119,7 +125,8 @@
 \newcommand{\fairemarges}{
 \makenomenclature
 \pagestyle{fancy}
-\fancyheadoffset{0.5cm}
+\fancyheadoffset{1cm}
+\setlength{\headheight}{20pt}
 
 
 \lhead{\includegraphics[scale=0.03]{img/logoecole.png}\hspace{0.5em}}

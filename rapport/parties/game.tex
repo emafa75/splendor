@@ -45,7 +45,7 @@ struct game_t
 };
 \end{lstlisting}
 
-Chaque partie stocke l'ensemble des tours qui ont été joués, et contient au plus MAX\_MAX\_TURNS tours (toujours pour éviter l'utilisation de \code{malloc} cf \ref{nomalloc}).\\
+Chaque partie stocke l'ensemble des tours qui ont été joués, et contient au plus\\ MAX\_MAX\_TURNS tours (toujours pour éviter l'utilisation de \code{malloc} cf \ref{nomalloc}).\\
 num\_turns indique le nombre de tours maximum de la partie (par défaut 10 mais peut être spécifié avec le paramètre -m) et current\_turn\_index l'indice du tour actuellement joué.
 
 \subsection{Fonctionnement d'une partie}
@@ -85,7 +85,8 @@ La fonction \code{rand} étant non ré-entrante, il s'agit de l'unique endroit o
 \begin{lstlisting}[frame=single, caption={Implémentation de l'exécution d'un tour}]
 struct turn_statistics turn_play(struct turn_t* current_turn)
 {
-
+    /* Favors execution */
+    
 	/*
         Take a random decision and check if it's possible to hire a builder
 	*/
@@ -149,4 +150,4 @@ struct game_statistics game_play(struct game_t* game)
 }
 \end{lstlisting}
 
-La boucle de jeu consiste à jouer des tours tant que la partie n'a pas été gagné et que l'on n'ai pas atteint le nombre max de tours.
+La boucle de jeu consiste à jouer des tours tant que la partie n'a pas été gagné et que l'on n'ai pas atteint le nombre maximum de tours.
