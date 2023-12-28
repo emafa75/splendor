@@ -35,3 +35,10 @@ tmp**/*
 
 # Python
 **/*.py
+
+#Latex
+*.log
+*.aux
+*.nlo
+*.toc
+*.pdf
