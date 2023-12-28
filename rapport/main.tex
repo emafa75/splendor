@@ -1,0 +1,67 @@
+%%
+%% @filename rapport.tex
+%% @date 2023-11-22 14:10
+%% @author Nemo D'ACREMONT and Martin EYBEN <nemo.d'acremont@enseirb-matmeca.fr> and <martin.eyben@enseirb-matmeca.fr>
+%% @brief ...
+%%
+\documentclass{customClass}
+
+%----------- Informations du rapport ---------
+\title{Rapport Projet 1 -- Munificence}
+\author{Nemo D'ACREMONT, Martin EYBEN}
+
+\titre{Rapport Projet 1 -- Munificence} % Titre du fichier
+
+\lieuprojet{Enseirb-Matmeca -- I1} % Pour le bas de la page
+\basdepage{Munificence}
+\eleve{Nemo D'ACREMONT, Martin EYBEN}
+\sujetprojet{Munificence}
+
+\dates{
+    S5 - Année universitaire 2023-2024
+}
+\shortdates{2023-2024}
+
+\graphicspath{{./img}}
+
+
+\begin{document}
+
+%
+%  Page de garde
+%
+\mainPage
+\tableofcontents{}
+\pagebreak{}
+
+% Initialisation 
+
+\fairemarges
+
+%
+%  Parties
+%
+\setcounter{section}{0}  % Fait joli
+
+
+%
+%  Introduction
+%
+\input{parties/introduction}
+
+\input{parties/organisation}
+
+\input{parties/game}
+
+\input{parties/evaluator}
+\lstset{language=C}
+\begin{lstlisting}[frame=single]
+#include "fre.h"
+void test(struct market_t market);
+\end{lstlisting}
+
+
+
+
+
+\end{document}
