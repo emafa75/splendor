@@ -3,6 +3,7 @@
 #include "guild.h"
 #include "market.h"
 #include "players.h"
+#include "ressources.h"
 #include "token.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -52,17 +53,18 @@ int test_players()
 
 int test_init_players()
 {
-    return 1;
     struct player_t new_player = init_player();
-    if(new_player.current_point != 0)
+
+    if(player_get_points(&new_player) != 0)
     {
         fprintf(stderr,RED"test_init_players : Wrong initial point for player\n" CRESET);
         return 0;
     }
 
+	struct ressources_t* player_ressources = player_get_ressources(&new_player);
     for (int index = 0 ; index < MAX_BUILDERS ; ++index)
     {
-        if (new_player.ressources.guild.builders[index]) 
+        if (player_ressources->guild.builders[index]) 
         {
             fprintf(stderr,RED "test_init_players : Player has initial builders in his inventory\n" CRESET);
             return 0;
@@ -71,7 +73,7 @@ int test_init_players()
 
     for (int index = 0 ; index < NUM_TOKENS ; ++index)
     {
-        if (new_player.ressources.market.tokens[index]) 
+        if (player_ressources->market.tokens[index]) 
         {
             fprintf(stderr,RED "Player has initial tokens in his inventory\n" CRESET);
             return 0;
