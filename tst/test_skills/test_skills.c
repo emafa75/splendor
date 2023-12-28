@@ -293,7 +293,11 @@ int test_skill_turn_rob()
 
 	skill_turn_rob(turn, turn /* unused */);
 
-	struct player_t* new_player = turn_get_current_player(turn);
+	game_save_turn(&game);
+
+	next_player(game_get_current_turn(&game));
+
+	struct player_t* new_player = turn_get_current_player(game_get_current_turn(&game));
 
 	if (new_player == current_player)
 	{
