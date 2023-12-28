@@ -105,7 +105,7 @@ int main(int argc, char *argv[])
 	int tested_seeds = 100;
 	for (int t_seed = 0 ; t_seed < n; ++t_seed)
 	{
-		for (int b_seed = 1 ; b_seed < n ; ++b_seed)
+		for (int b_seed = 0 ; b_seed < n ; ++b_seed)
 		{
 			struct game_float_statistics average_stats = {};
 			for (int r_seed = 0 ; r_seed < tested_seeds ; ++r_seed)
