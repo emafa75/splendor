@@ -4,19 +4,17 @@
 
 %--------------------- Packages ------------------------
 
-\RequirePackage[french]{babel} %Langue du document
-\RequirePackage[utf8]{inputenc} %Caractères spéciaux
-\RequirePackage[section]{placeins}%Pour placement de section
+\RequirePackage[utf8]{inputenc} % Caractères spéciaux
+\RequirePackage[section]{placeins} % Pour placement de section
 
 \RequirePackage[T1]{fontenc} %Quelques lettres qui sont pas inclus dans UTF-8
 
 \RequirePackage{mathtools} %Paquet pour des équations et symboles mathématiques
-\RequirePackage{siunitx} %Pour écrire avec la notation scientifique (Ex.: \num{2e+9})
 
 \RequirePackage{graphicx} %Paquet pour insérer des images
 \RequirePackage{float} %Pour placement d'images
 
-\RequirePackage[justification=centering]{caption} %Pour les légendes centralisées
+\RequirePackage[justification=centering]{caption} % Pour les légendes centralisées
 \RequirePackage{subcaption}
 \RequirePackage{wallpaper}
 \RequirePackage{nomencl}
@@ -67,12 +65,12 @@
 \usepackage{hyperref}
 
 % Algortihmes
-\usepackage[vlined,lined,linesnumbered,boxed,french]{algorithm2e}
-\DeclareMathOperator*{\argmin}{argmin}
-\DeclareMathOperator{\myfunc}{myfunc}
-\DeclareMathOperator*{\sign}{sign}
-\DeclareMathOperator*{\imwh}{width}
-\DeclareMathOperator*{\imht}{height}
+%\usepackage[vlined,lined,linesnumbered,boxed,french]{algorithm2e}
+%\DeclareMathOperator*{\argmin}{argmin}
+%\DeclareMathOperator{\myfunc}{myfunc}
+%\DeclareMathOperator*{\sign}{sign}
+%\DeclareMathOperator*{\imwh}{width}
+%\DeclareMathOperator*{\imht}{height}
 
 % Extra
 \usepackage[left=2.5cm,right=2.5cm,top=2cm,bottom=2cm]{geometry}
