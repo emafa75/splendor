@@ -33,6 +33,10 @@ void init_game(struct game_t* game, struct game_parameters params)
 	first_turn->num_player = MIN(params.num_player, MAX_PLAYERS);
 	first_turn->params = params;
 
+	/*
+		Reset skills
+	*/
+	reset_associated_skills();
 
 	/*
 		Init the market

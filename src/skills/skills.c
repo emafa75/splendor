@@ -30,6 +30,15 @@ char *skills_strings[NUM_SKILLS] = {
 	"guild_panic"
 };
 
+void reset_associated_skills()
+{
+	struct skill_instance_t null_instance = {};
+
+	for (int index = 0; index < NB_SKILLS_IN_GAME; ++index)
+	{
+		associated_skills[index] = null_instance;
+	}
+}
 
 void add_skill_instance(void* trigger, enum skills_id skills_to_add[MAX_SKILLS_PER_TRIGGER])
 {
