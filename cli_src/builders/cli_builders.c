@@ -39,6 +39,6 @@ void cli_builder_display(struct vector2_t position , const struct builder_t* bui
 	sprintf(tmp_buffer, ")");
 	strcat(buffer, tmp_buffer);
 
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 }

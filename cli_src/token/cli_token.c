@@ -41,5 +41,5 @@ void cli_token_display(struct vector2_t position, struct token_t* token, char* p
 	/* Replace it in buffer */
 	strcpy(buffer, tmp_buffer);
 
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 }

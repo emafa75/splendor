@@ -53,7 +53,7 @@ void cli_turn_display(struct turn_t *turn)
 	*/
 	unsigned int turn_id = turn_get_id(turn);
 	sprintf(buffer,BBLU "════════════════════════" BRED " TURN %d " BLU "════════════════════════" CRESET, turn_id);
-	printToCoordinates(winsize.ws_col/2 - 28, 0 , buffer); //28 to center
+	print_to_coordinates(winsize.ws_col/2 - 28, 0 , buffer); //28 to center
 
 	/*
 		Display market
@@ -61,7 +61,7 @@ void cli_turn_display(struct turn_t *turn)
 	coord = vector2_add(coord,margin);
 	struct vector2_t end_market = cli_market_display(coord, market);
 	cli_jump_line(&end_market);
-	printToCoordinates(end_market.x - (TILE_DIMENSION * ((int) sqrt(NUM_TOKENS) + 1)), end_market.y , BOLD "Global Market" CRESET);
+	print_to_coordinates(end_market.x - (TILE_DIMENSION * ((int) sqrt(NUM_TOKENS) + 1)), end_market.y , BOLD "Global Market" CRESET);
 
 	/*
 		Display global guild
@@ -84,7 +84,7 @@ void cli_turn_display(struct turn_t *turn)
 	struct vector2_t start_short_inventory_display = {winsize.ws_col - 22 , start_guild.y};
 
 	/* Title of the section */
-	printToCoordinates(start_short_inventory_display.x, start_short_inventory_display.y, BOLD "Players" CRESET);
+	print_to_coordinates(start_short_inventory_display.x, start_short_inventory_display.y, BOLD "Players" CRESET);
 	cli_jump_line(&start_short_inventory_display);
 	cli_jump_line(&start_short_inventory_display);
 	start_short_inventory_display = vector2_add(start_short_inventory_display,vector2_right()); //tabulation
@@ -115,7 +115,7 @@ void cli_turn_display(struct turn_t *turn)
 	cli_jump_line(&start_option_display);
 
 	/* Title of the section */
-	printToCoordinates(start_option_display.x, start_option_display.y, BOLD "Game parameters " CRESET);
+	print_to_coordinates(start_option_display.x, start_option_display.y, BOLD "Game parameters " CRESET);
 	cli_jump_line(&start_option_display);
 	cli_jump_line(&start_option_display);
 	start_option_display = vector2_add(start_option_display,vector2_right()); //tabulation
@@ -145,7 +145,7 @@ void cli_turn_display(struct turn_t *turn)
 	start_context_box = vector2_add(start_context_box, vector2_right());
 	start_context_box = vector2_add(start_context_box, vector2_down());
 
-	printToCoordinates(start_context_box.x, start_context_box.y,URED BOLD  "Context :" CRESET);
+	print_to_coordinates(start_context_box.x, start_context_box.y,URED BOLD  "Context :" CRESET);
 
 	/* Print the context */
 	struct vector2_t context_text = start_context_box;
@@ -155,7 +155,7 @@ void cli_turn_display(struct turn_t *turn)
 
 	for (int index = 0; index < context->num_actions ; ++index)
 	{
-		printToCoordinates(context_text.x + 9 /* tabulation */, context_text.y, context->actions[index]);
+		print_to_coordinates(context_text.x + 9 /* tabulation */, context_text.y, context->actions[index]);
 		cli_jump_line(&context_text);
 	}
 }

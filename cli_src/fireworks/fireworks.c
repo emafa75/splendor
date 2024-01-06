@@ -84,11 +84,11 @@ void firework_display(struct firework_t* firework)
 					if (dist_to_center < firework->radius)
 					{
 						
-						printToCoordinates(particule->position.x, particule->position.y, buffer);
+						print_to_coordinates(particule->position.x, particule->position.y, buffer);
 					}
 				}
 				else {
-					printToCoordinates(particule->position.x, particule->position.y, buffer);
+					print_to_coordinates(particule->position.x, particule->position.y, buffer);
 				}
 			}
 		}
@@ -115,11 +115,11 @@ void firework_erase(struct firework_t* firework)
 
 					if (dist_to_center < firework->radius)
 					{
-						printToCoordinates(particule->position.x, particule->position.y, RED " " CRESET);
+						print_to_coordinates(particule->position.x, particule->position.y, RED " " CRESET);
 					}
 				}
 				else {
-					printToCoordinates(particule->position.x, particule->position.y, RED " " CRESET);
+					print_to_coordinates(particule->position.x, particule->position.y, RED " " CRESET);
 				}
 			}
 		}

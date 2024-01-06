@@ -21,7 +21,7 @@ int cli_display_results(struct turn_t* last_turn)
 
 	int winner_index = get_winner(last_turn);
 	sprintf(buffer,BBLU "════════════════════════" BRED " Results " BLU "════════════════════════" CRESET);
-	printToCoordinates(winsize.ws_col/2 - 29, 0 , buffer); //31 to center
+	print_to_coordinates(winsize.ws_col/2 - 29, 0 , buffer); //31 to center
 
 	/*
 		Firework launch

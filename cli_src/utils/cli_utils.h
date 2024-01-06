@@ -25,7 +25,7 @@ int getkey_unlocked (void);
 /*
  *  Prints the character c at pos x, y of the screen
  */
-void printToCoordinates(unsigned int x, unsigned int y, char *str);
+void print_to_coordinates(unsigned int x, unsigned int y, char *str);
 
 
 /*

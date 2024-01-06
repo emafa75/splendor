@@ -17,7 +17,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 		Display header
 	*/
 	sprintf(buffer, BOLD " ── Inventory of player " CRESET RED "id.%d " CRESET BOLD "──" CRESET, player_get_id(player));
-	printToCoordinates(position.x,position.y, buffer);
+	print_to_coordinates(position.x,position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -28,7 +28,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	unsigned int points = player_get_points(player);
 	sprintf(buffer,BOLD "Point(s)\t: " HYEL "%d" CRESET , points );
 
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump a line */
 	cli_jump_line(&position);
@@ -38,7 +38,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	*/
 	unsigned int favor = player_get_favor(player);
 	sprintf(buffer, favor ?  BOLD "Favor(s)\t: " CRESET HYEL "%d"  CRESET: BOLD "Favor(s)\t: " CRESET WHT "No favor\n\n" CRESET , favor );
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 
 	/* Jump a line */
@@ -49,7 +49,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	/*
 		Tokens
 	*/
-	printToCoordinates(position.x, position.y, BOLD "Tokens\t: " CRESET);
+	print_to_coordinates(position.x, position.y, BOLD "Tokens\t: " CRESET);
 	cli_jump_line(&position);
 
 	for (int index = 0; index < NUM_TOKENS; ++index)
@@ -64,7 +64,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	}
 	if(market_num_tokens(&player_ressources->market) == 0 )
 	{
-		printToCoordinates(position.x, position.y, WHT " --- No token" CRESET);
+		print_to_coordinates(position.x, position.y, WHT " --- No token" CRESET);
 		cli_jump_line(&position);
 	}
 	
@@ -75,7 +75,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 		Builders
 	*/
 
-	printToCoordinates(position.x, position.y, BOLD "Builders\t:" CRESET);
+	print_to_coordinates(position.x, position.y, BOLD "Builders\t:" CRESET);
 	cli_jump_line(&position);
 
 	for (unsigned int index = 0; index < MAX_BUILDERS; ++index)
@@ -87,7 +87,7 @@ struct vector2_t cli_player_display_inventory(struct vector2_t position, struct 
 	}
 	if (guild_nb_builder(&player_ressources->guild) == 0)
 	{
-		printToCoordinates(position.x, position.y, WHT " --- No builder" CRESET);
+		print_to_coordinates(position.x, position.y, WHT " --- No builder" CRESET);
 		cli_jump_line(&position);
 	}
 
@@ -105,7 +105,7 @@ struct vector2_t cli_player_short_display(struct vector2_t position, struct play
 		Header
 	*/
 	sprintf(buffer,RED "Player id.%d" CRESET, player_get_id(player));
-	printToCoordinates(position.x,position.y, buffer);
+	print_to_coordinates(position.x,position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -116,7 +116,7 @@ struct vector2_t cli_player_short_display(struct vector2_t position, struct play
 	unsigned int points = player_get_points(player);
 	sprintf(buffer,BOLD " Point(s)\t: " HYEL "%d" CRESET , points );
 
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line */
 	cli_jump_line(&position);
@@ -129,7 +129,7 @@ struct vector2_t cli_player_short_display(struct vector2_t position, struct play
 	if (favors)
 	{
 		sprintf(buffer,BOLD " Favor(s)\t: " CRESET HYEL "%d"  CRESET, favors);
-		printToCoordinates(position.x, position.y, buffer);
+		print_to_coordinates(position.x, position.y, buffer);
 
 		/* Jump line*/
 		cli_jump_line(&position);
@@ -140,7 +140,7 @@ struct vector2_t cli_player_short_display(struct vector2_t position, struct play
 	*/
 	unsigned int num_tokens = market_num_tokens(&player_get_ressources(player)->market);
 	sprintf(buffer,BOLD " Token(s)\t: " CRESET HYEL "%d"  CRESET, num_tokens);
-	printToCoordinates(position.x, position.y , buffer);
+	print_to_coordinates(position.x, position.y , buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -150,7 +150,7 @@ struct vector2_t cli_player_short_display(struct vector2_t position, struct play
 	*/
 	unsigned int num_builders = guild_nb_builder(&player_get_ressources(player)->guild);
 	sprintf(buffer,BOLD " Builder(s)\t: " CRESET HYEL "%d"  CRESET, num_builders);
-	printToCoordinates(position.x, position.y , buffer);
+	print_to_coordinates(position.x, position.y , buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);

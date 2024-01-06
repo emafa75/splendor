@@ -21,7 +21,7 @@ struct vector2_t display_global_guild(struct vector2_t position, struct guild_t*
 	struct builder_t* builder;
 
 	sprintf(text, BOLD "Game guild (%d) : " CRESET, available_builders->n_builders_available);
-	printToCoordinates(position.x, position.y, text);
+	print_to_coordinates(position.x, position.y, text);
 	position = vector2_add(position, vector2_down());
 
 	for (int index = 0; index < MAX_BUILDERS; ++index)

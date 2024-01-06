@@ -24,7 +24,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 		{
 			for (unsigned int y = 0 ; y < tile_dimension ; ++y)
 			{
-					printToCoordinates(position.x + x, position.y + y, " ");
+					print_to_coordinates(position.x + x, position.y + y, " ");
 			}
 		}
 		return;
@@ -99,11 +99,11 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 					sprintf(colored_pixel, "%s█%s", prefix_color, CRESET);
 					
 				}
-				printToCoordinates(position.x + x, position.y + y, colored_pixel);
+				print_to_coordinates(position.x + x, position.y + y, colored_pixel);
 			}
 			else
 			{
-				printToCoordinates(position.x + x, position.y + y, " ");
+				print_to_coordinates(position.x + x, position.y + y, " ");
 			}
 		}
 	}
@@ -121,36 +121,36 @@ struct vector2_t cli_board_display(struct vector2_t position, struct board_t* bo
 	unsigned int abs_offset = board_dimension * (tile_dimension * 2 +1);
 
 	// draw corners
-	printToCoordinates(position.x, position.y + end_offset, "└");  //bottom left
-	printToCoordinates(position.x, position.y, "┌");  // top left
-	printToCoordinates(position.x + abs_offset, position.y, "┐");  // top right┘└┐
-	printToCoordinates(position.x + abs_offset, position.y + end_offset, "┘");  // bottom right
+	print_to_coordinates(position.x, position.y + end_offset, "└");  //bottom left
+	print_to_coordinates(position.x, position.y, "┌");  // top left
+	print_to_coordinates(position.x + abs_offset, position.y, "┐");  // top right┘└┐
+	print_to_coordinates(position.x + abs_offset, position.y + end_offset, "┘");  // bottom right
 
 	// draw top side
 	for (unsigned int j = 1 ; j < abs_offset ; ++j)
 	{
 		if (j % (tile_dimension * 2 + 1) == 0)
-			printToCoordinates(position.x + j, position.y, "┬");
+			print_to_coordinates(position.x + j, position.y, "┬");
 		else
-			printToCoordinates(position.x + j, position.y, "─");
+			print_to_coordinates(position.x + j, position.y, "─");
 	}
 
 	// draw bottom side
 	for (unsigned int j = 1 ; j < abs_offset ; ++j)
 	{
 		if (j % (tile_dimension * 2 + 1) == 0)
-			printToCoordinates(position.x + j , position.y + end_offset, "┴");
+			print_to_coordinates(position.x + j , position.y + end_offset, "┴");
 		else
-			printToCoordinates(position.x + j , position.y + end_offset, "─");
+			print_to_coordinates(position.x + j , position.y + end_offset, "─");
 	}
 
 	// draw left side
 	for (unsigned int i = 1 ; i < end_offset ; ++i)
 	{
 		if (i % (tile_dimension + 1) == 0)
-			printToCoordinates(position.x , position.y + i, "├");
+			print_to_coordinates(position.x , position.y + i, "├");
 		else
-			printToCoordinates(position.x, position.y + i , "│");
+			print_to_coordinates(position.x, position.y + i , "│");
 	}
 
 
@@ -158,9 +158,9 @@ struct vector2_t cli_board_display(struct vector2_t position, struct board_t* bo
 	for (unsigned int i = 1 ; i < end_offset ; ++i)
 	{
 		if (i % (tile_dimension + 1) == 0)
-			printToCoordinates(position.x + abs_offset, position.y + i, "┤");
+			print_to_coordinates(position.x + abs_offset, position.y + i, "┤");
 		else
-			printToCoordinates(position.x + abs_offset ,position.y + i, "│");
+			print_to_coordinates(position.x + abs_offset ,position.y + i, "│");
 	}
 
 	// draw carrefour
@@ -171,7 +171,7 @@ struct vector2_t cli_board_display(struct vector2_t position, struct board_t* bo
 			board_tile_start_pos.x = j * (tile_dimension * 2 + 1) + position.x + 1;
 			board_tile_start_pos.y = i * (tile_dimension + 1) + position.y + 1;
 
-			printToCoordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + tile_dimension, "┼");
+			print_to_coordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + tile_dimension, "┼");
 		}
 	}
 
@@ -186,13 +186,13 @@ struct vector2_t cli_board_display(struct vector2_t position, struct board_t* bo
 			for (unsigned int k = 0 ; k < tile_dimension * 2 ; ++k)
 			{
 				//draw horizontal
-				printToCoordinates(board_tile_start_pos.x + k, board_tile_start_pos.y + tile_dimension, "─");
+				print_to_coordinates(board_tile_start_pos.x + k, board_tile_start_pos.y + tile_dimension, "─");
 			}
 
 			for (unsigned int k = 0 ; k < tile_dimension ; ++k)
 			{
 				//draw vertical
-				printToCoordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + k, "│");
+				print_to_coordinates(board_tile_start_pos.x + tile_dimension * 2, board_tile_start_pos.y + k, "│");
 			}
 		}
 	}

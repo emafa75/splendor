@@ -66,7 +66,7 @@ int getch(void)
 
 
 
-void printToCoordinates(unsigned int x, unsigned int y, char *str)
+void print_to_coordinates(unsigned int x, unsigned int y, char *str)
 {
 	printf("\033[%d;%dH%s", y, x, str);
 }
@@ -118,7 +118,7 @@ void cli_popup(char* str)
 	center.x -= str_len_special(str) / 2 + offset;
 
 
-	printToCoordinates(center.x + offset  , center.y + offset, str);
+	print_to_coordinates(center.x + offset  , center.y + offset, str);
 
 	for (int x = center.x + 1; x < center.x + popup_lenght - 1; ++x)
 	{
@@ -126,11 +126,11 @@ void cli_popup(char* str)
 		{	
 			if ((y == (center.y + offset)) && (x >= center.x + offset) && (x <= center.x + offset + str_len_special(str))) //no need to erase cherre text is write
 				continue;
-			printToCoordinates(x, y, " ");
+			print_to_coordinates(x, y, " ");
 		}
 	}
 
-	printToCoordinates(center.x + offset  , center.y + offset, str);
+	print_to_coordinates(center.x + offset  , center.y + offset, str);
 	/*
 		Print a box around	
 	*/
@@ -146,10 +146,10 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 	/*
 		Print corners
 	*/
-	printToCoordinates(begin.x, end.y, "└");  //bottom left
-	printToCoordinates(begin.x, begin.y, "┌");  // top left
-	printToCoordinates(end.x, begin.y ,"┐");  // top right┘└┐
-	printToCoordinates(end.x, end.y,  "┘");  // bottom right
+	print_to_coordinates(begin.x, end.y, "└");  //bottom left
+	print_to_coordinates(begin.x, begin.y, "┌");  // top left
+	print_to_coordinates(end.x, begin.y ,"┐");  // top right┘└┐
+	print_to_coordinates(end.x, end.y,  "┘");  // bottom right
 
 	/*
 		Draw top and bottom
@@ -157,8 +157,8 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 
 	for (int x = begin.x + 1; x < end.x; ++x)
 	{
-		printToCoordinates(x, begin.y, "─");
-		printToCoordinates(x, end.y, "─");
+		print_to_coordinates(x, begin.y, "─");
+		print_to_coordinates(x, end.y, "─");
 	}
 
 	/*
@@ -167,8 +167,8 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 
 	for (int y = begin.y + 1; y < end.y; ++y)
 	{
-		printToCoordinates(begin.x, y , "│");	
-		printToCoordinates(end.x, y, "│");	
+		print_to_coordinates(begin.x, y , "│");	
+		print_to_coordinates(end.x, y, "│");	
 	}
 
 }
@@ -181,7 +181,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 		Points to win
 	*/
 	sprintf(buffer, "Points to win : " HYEL "%d" CRESET, params.points_to_win);
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -190,7 +190,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 		Max turns
 	*/
 	sprintf(buffer, "Max turns : " HYEL "%d" CRESET, params.max_turns);
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -199,7 +199,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 		Builder seed
 	*/
 	sprintf(buffer, "Builder seed : " HYEL "%d" CRESET, params.builder_seed);
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -208,7 +208,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 		Token seed
 	*/
 	sprintf(buffer, "Token seed : " HYEL "%d" CRESET, params.market_seed);
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
@@ -217,7 +217,7 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 		Random seed
 	*/
 	sprintf(buffer, "Random seed : " HYEL "%d" CRESET, params.random_seed);
-	printToCoordinates(position.x, position.y, buffer);
+	print_to_coordinates(position.x, position.y, buffer);
 
 	/* Jump line*/
 	cli_jump_line(&position);
