@@ -41,9 +41,4 @@ struct board_t market_to_board(struct market_t* market);
 */
 void board_display(const struct board_t* board);
 
-
-/*
-	Place tokens in a matrice board[rac(NUM_TOKENS)][rac(NUM_TOKENS)] and fills the tags with the direction
-*/
-void place_token_in_board(struct token_t* tokens[NUM_TOKENS], struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], char *tags[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)]);
 #endif
