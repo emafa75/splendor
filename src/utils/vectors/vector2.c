@@ -78,3 +78,33 @@ int vector2_is_inside(struct vector2_t vector, struct vector2_t top_left, struct
 		return 0;
 	return 1;
 }
+
+
+char* vector2_char(struct vector2_t v)
+{
+	if (vector2_equals(v, vector2_right())) // we are going to the rigt
+	{
+		return "→";
+	}
+
+	if (vector2_equals(v, vector2_left())) //we are going to the left
+	{
+		return "←";
+	}
+
+	if (vector2_equals(v, vector2_down())) // we are going down
+	{
+		return "↓";
+	}
+
+	if (vector2_equals(v, vector2_up())) // we are going up
+	{
+		return "↑";
+	}
+
+	if (vector2_equals(v, vector2_zero())) // last position
+	{
+		return "•";
+	}
+	return "";
+}

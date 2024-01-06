@@ -3,7 +3,6 @@
 #include "ansi_color.h"
 #include "cli_utils.h"
 #include "color.h"
-#include "market.h"
 #include "set.h"
 #include "skills.h"
 #include "token.h"
@@ -112,7 +111,7 @@ void board_display_tile(struct vector2_t position, unsigned int tile_dimension, 
 
 
 
-struct vector2_t board_display(struct vector2_t position, struct board_t* board)
+struct vector2_t cli_board_display(struct vector2_t position, struct board_t* board)
 {
 	struct vector2_t board_tile_start_pos = {};
 	
@@ -215,74 +214,3 @@ struct vector2_t board_display(struct vector2_t position, struct board_t* board)
 	struct vector2_t last_position = {board_dimension * (tile_dimension * 2 + 1) + position.x , board_dimension * (tile_dimension + 1) + position.y};
 	return last_position;
 }
-
-
-struct board_t market_to_board(struct market_t* market)
-{
-	unsigned int side_length = (unsigned int)sqrt(NUM_TOKENS);
-	unsigned int tile_dimension = TILE_DIMENSION;  // should be declared in a define
-
-	struct board_t board = {{}, side_length, tile_dimension};
-
-	// Used to move in board.matrix in the for loop
-	struct vector2_t direction = vector2_right();
-
-	// Used to know the current position in board.matrix during the for loop
-	int i = 0;
-	int j = 0;
-
-	// Store the number of tiles on the line (makes no sense but idc)
-	unsigned int steps = 0;
-	unsigned int step_limit = side_length;
-
-	// Decrement n each turns_per_decrement, use num_turns as accumulator
-	unsigned int num_turns = 0;
-	unsigned int turns_per_decrement = 2;
-
-
-	for (int k = 0 ; k < NUM_TOKENS ; ++k)
-	{
-		board.matrix[i][j].token = market->tokens[k];
-
-		++steps;
-
-
-		if (steps == step_limit )
-		{
-			steps = 1;
-
-			if (num_turns == turns_per_decrement)
-			{
-				--step_limit;
-				num_turns = 0;
-			}
-
-			++num_turns;
-
-			/*
-				Change direction for next replacement
-			*/
-			if (vector2_equals(direction, vector2_right()))
-				direction = vector2_down();
-
-			else if (vector2_equals(direction, vector2_up()))
-				direction = vector2_right();
-
-			else if (vector2_equals(direction, vector2_left()))
-				direction = vector2_up();
-
-			else if (vector2_equals(direction, vector2_down()))
-				direction = vector2_left();
-		}
-
-		/*
-			Go to the following case in the matrix
-		*/
-		i += direction.y;
-		j += direction.x;
-		
-	}
-
-	return board;
-}
-

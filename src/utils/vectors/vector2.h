@@ -60,6 +60,11 @@ double vector2_norm2(struct vector2_t v);
 void vector2_display(struct vector2_t v);
 
 /*
+	Returns the char from a vector (→,←,↓,↑,•)
+*/
+char* vector2_char(struct vector2_t v);
+
+/*
 	Returns 1 if the vector is inside the sqare describe by two corners
 	Strict (borders not included)
 */

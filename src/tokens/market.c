@@ -136,12 +136,8 @@ void market_pay_token(struct market_t* market, struct token_t * token)
 
 void market_display(struct market_t* market)
 {
-	int board_size = sqrt(NUM_TOKENS);
-	struct token_t* board[board_size][board_size];
-	char * tags[board_size][board_size];
-
-	place_token_in_board(market->tokens, board, tags);
-	display_board(board,tags);
+	struct board_t board = market_to_board(market);
+	board_display(&board);
 }
 
 

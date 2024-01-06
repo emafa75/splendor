@@ -1,7 +1,8 @@
 #include "board_display.h"
-#include "skills.h"
 #include "ansi_color.h"
 #include "token_second_header.h"
+#include "vector2.h"
+#include "skills.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -13,89 +14,116 @@
 #define TILE_LENGTH 14
 #define TILE_WIDTH 3
 
-
-void place_token_in_board(struct token_t *tokens[NUM_TOKENS],
-	struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)],
-	char* tags[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)])
+struct board_t market_to_board(struct market_t* market)
 {
-	int dx = 1;
-	int dy = 0;
-	int i = 0;
-	int j = 0;
-	int board_size = sqrt(NUM_TOKENS);
+	unsigned int side_length = (unsigned int)sqrt(NUM_TOKENS);
+	unsigned int tile_dimension = TILE_DIMENSION;  // should be declared in a define
 
-	int steps = 0;
-	int step_limit = board_size ;
-	int direction_changes = 0;
+	struct board_t board = {{}, side_length, tile_dimension};
 
-	for (int index = 0 ; index < NUM_TOKENS ; ++index)
+	// Used to move in board.matrix in the for loop
+	struct vector2_t direction = vector2_right();
+
+	// Used to know the current position in board.matrix during the for loop
+	unsigned int i = 0;
+	unsigned int j = 0;
+
+	// Store the number of tiles on the line (makes no sense but idc)
+	unsigned int steps = 0;
+	unsigned int step_limit = side_length;
+
+	// Decrement n each turns_per_decrement, use num_turns as accumulator
+	unsigned int num_turns = 0;
+	unsigned int turns_per_decrement = 2;
+
+
+	for (int k = 0 ; k < NUM_TOKENS ; ++k)
 	{
-		if ((i < board_size ) && (i  >= 0) && (j < board_size) && (j >= 0))
-		{
-			board[i][j] = tokens[index];
-		}
+		board.matrix[i][j].token = market->tokens[k];
 
 		++steps;
 
-		if (steps == step_limit)
+
+		if (steps == step_limit )
 		{
 			steps = 1;
 
-
-			if (direction_changes == 2)
+			if (num_turns == turns_per_decrement)
 			{
-				direction_changes = 0;
 				--step_limit;
+				num_turns = 0;
 			}
 
-			++direction_changes;
+			++num_turns;
 
-			int tmp = dx;
-			dx = -dy;
-			dy = tmp;
+			/*
+				Change direction for next replacement
+			*/
+			if (vector2_equals(direction, vector2_right()))
+				direction = vector2_down();
+
+			else if (vector2_equals(direction, vector2_up()))
+				direction = vector2_right();
+
+			else if (vector2_equals(direction, vector2_left()))
+				direction = vector2_up();
+
+			else if (vector2_equals(direction, vector2_down()))
+				direction = vector2_left();
 		}
 
-		if ((i < board_size ) && (i  >= 0) && (j < board_size) && (j >= 0))
+		if ((i < side_length ) && (j < side_length))
 		{
-			if (dx == 1) // we are going to the rigt
+			if (vector2_equals(direction, vector2_right())) // we are going to the rigt
 			{
-				tags[i][j] = "→";
+				board.matrix[i][j].next_direction = vector2_right();
 			}
 
-			if (dx == -1 ) //we are going to the left
+			if (vector2_equals(direction, vector2_left())) //we are going to the left
 			{
-				tags[i][j] = "←";
+				board.matrix[i][j].next_direction = vector2_left();
 			}
 
-			if (dy == 1) // we are going down
+			if (vector2_equals(direction, vector2_down())) // we are going down
 			{
-				tags[i][j] = "↓";
+				board.matrix[i][j].next_direction = vector2_down();
 			}
 
-			if (dy == -1 ) // we are going up
+			if (vector2_equals(direction, vector2_up())) // we are going up
 			{
-				tags[i][j] = "↑";
+				board.matrix[i][j].next_direction = vector2_up();
 			}
 
-			if (index == NUM_TOKENS -1 ) // last position
+			if (k == NUM_TOKENS -1 ) // last position
 			{
-				tags[i][j] = "•";
+				board.matrix[i][j].next_direction = vector2_zero();
 			}
 		}
 
-		i += dy;
-		j += dx;
+		/*
+			Go to the following case in the matrix
+		*/
+		i += direction.y;
+		j += direction.x;
+		
 	}
+
+	return board;
 }
 
 
-void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)], char* tags[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_TOKENS)]) {
-	int size = sqrt(NUM_TOKENS);
+void board_display(const struct board_t* board) 
+{
+	int size = board->n;
 	int i = 0;
 	int j = 0;
 	int num_color_in_token = 0;
 	int free_space = 0;
+	char * direction;
 
+	/*
+		Print above line
+	*/
 	for (j = 0 ; j < size ; ++j)
 	{
 		printf((j != 0 ) ? "┬" : "┌");
@@ -113,19 +141,19 @@ void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_
 
 				if (line == TILE_WIDTH / 2 )
 				{
-					if (board[i][j] != NULL)
+					if (board->matrix[i][j].token != NULL)
 					{
 						/*
 							Get num_color from the token to adapt the print in the tile
 						*/
-						num_color_in_token = board[i][j]->s.num_colors;
+						num_color_in_token = board->matrix[i][j].token->s.num_colors;
 						free_space = TILE_LENGTH - (3 * num_color_in_token + 3);
-						if (has_skills(board[i][j]))
+						if (has_skills(board->matrix[i][j].token))
 						{
 							free_space -= 2; //because of the *
 							PRINT_CARACT(free_space / 2," ");
 							printf("*");
-							token_short_diplay(*board[i][j]);
+							token_short_diplay(*board->matrix[i][j].token);
 							printf("*");
 							PRINT_CARACT(free_space / 2 + free_space % 2, " ");
 							printf("│");
@@ -133,7 +161,7 @@ void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_
 						else
 						{
 							PRINT_CARACT(free_space / 2 , " ");
-							token_short_diplay(*board[i][j]);
+							token_short_diplay(*board->matrix[i][j].token);
 							PRINT_CARACT(free_space / 2 + free_space % 2 , " ");
 							printf("│");
 						}
@@ -146,9 +174,10 @@ void display_board(struct token_t* board[(int) sqrt(NUM_TOKENS)][(int) sqrt(NUM_
 				}
 				else if (line == 0)
 				{
-					int tag_length = strlen(tags[i][j]);
+					direction = vector2_char(board->matrix[i][j].next_direction);
+					int tag_length = strlen(direction);
 					PRINT_CARACT(TILE_LENGTH - tag_length + 1, " ");
-					printf(RED "%s" CRESET, tags[i][j]);
+					printf(RED "%s" CRESET, direction);
 					printf(" │");
 				}
 				else

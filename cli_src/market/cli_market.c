@@ -5,6 +5,6 @@
 struct vector2_t cli_market_display(struct vector2_t position, struct market_t* market)
 {
 	struct board_t market_board = market_to_board(market);
-	struct vector2_t last_position = board_display(position, &market_board);
+	struct vector2_t last_position = cli_board_display(position, &market_board);
 	return last_position;
 }
