@@ -14,14 +14,6 @@ struct market_t {
 	struct permutation_t permutation;
 };
 
-
-struct available_tokens {
-	struct token_t* available[NUM_TOKENS];
-};
-
-
-
-
 /*
 	Init the initial market for the game.
 */
