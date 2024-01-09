@@ -1,0 +1,27 @@
+
+
+\subsubsection{Les marchés}
+\label{market}
+
+
+Les marchés servent avant tout à stocker les jetons, un marché global permettant aux joueurs de piocher des jetons est créé, puis chaque joueur peut utiliser son propre marché pour ensuite stocker ses jetons.
+
+
+Nous définissons le type \code{struct market\_t} de la manière suivante : 
+
+
+\begin{lstlisting}[frame=single, caption={implémentation du type struct market\_t}]
+struct market_t {
+	struct token_t* tokens[NUM_TOKENS];
+	struct permutation_t permutation;
+};
+\end{lstlisting}
+
+
+Nous utilisons le tableau \code{tokens} pour stocker les pointeurs de jetons présent initialement dans le marché global. \code{permutation} permet d'appliquer une permutation sur le replacement des jetons dans le marché (utilisé pour le marché global).
+
+
+\subsubsection*{Particularité du marché global}
+
+
+Les joueurs doivent pouvoir piocher uniquement des jetons qui sont connexes. Pour cela la fonction \code{market\_get\_linked\_tokens} permet de renvoyer l'indice du premier jeton d'un groupe de nb-jetons connexes du marché global (cf \ref{linkedtokens}). 

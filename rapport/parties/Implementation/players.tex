@@ -1,0 +1,22 @@
+
+\label{players}
+
+Les joueurs sont essentiellement une structure capable de stocker des architectes et des jetons. Pour cela on décide de les implémenter de la sorte : 
+
+\begin{lstlisting}[frame=single, caption={Implémentation des joueurs}]
+struct ressources_t 
+{
+	struct market_t market;
+	struct guild_t guild;
+};
+
+struct player_t
+{
+	struct ressources_t ressources;
+	int current_point;
+	unsigned int favor;
+	unsigned int id;
+};
+\end{lstlisting}
+
+Chaque joueur possède sa guilde et son marché ainsi que son nombre de point et le nombre de faveur qu'il possède. De cette manière on peut implémenter les méthodes liées aux joueurs à l'aide des fonctions liées aux marchés et aux guildes.

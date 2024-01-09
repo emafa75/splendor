@@ -1,0 +1,21 @@
+\subsection{Récupérer des jetons connexes d'un marché}
+\label{linkedtokens}
+
+Pour récupérer nb-jetons connexes d'un marché, on parcourt ce dernier du début à la fin avec un compteur.
+
+\noindent Différents cas de figure :
+\begin{itemize}
+    \item Si le pointeur n'est pas \code{NULL} (la case du marché contient un jeton) :
+    \begin{itemize}
+        \item Si le compteur est égal à nb alors on ajoute l'indice à une liste sans incrémenter le compteur.
+        \item Sinon on incrémente le compteur de 1
+    \end{itemize}
+    \item Si le pointeur est \code{NULL} (la case du marché est vide) :
+    \begin{itemize}
+        \item On remet le compteur à 0.
+    \end{itemize}
+\end{itemize}
+
+Ainsi à l'issue de la boucle on peut retourner un indice présent dans la liste pris de manière aléatoire. Si la liste est vide, on retourne -1.
+
+La complexité de cet algorithme est $\theta(n)$, avec n le nombre de jetons dans la partie. 

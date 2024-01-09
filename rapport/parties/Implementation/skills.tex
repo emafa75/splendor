@@ -1,0 +1,35 @@
+\subsubsection{Pouvoirs}
+
+\label{skills}
+
+\subsubsection*{Problématique}
+
+Pour implémenter les pouvoirs, il était nécessaire qu'ils partagent tous la même signature pour que l'on puisse stocker les adresses des fonctions avec les jetons / architectes. Par ailleurs il n'est pas possible de modifier la structure des architectes et des jetons, il faut donc réfléchir à un autre moyen de les relier.
+
+\subsection*{Implémentation des pouvoirs}
+
+Les pouvoirs partagent donc la même signature qui contient le tour actuel (cf \ref{game}) et ce qui à provoquer l'exécution du pouvoir. On définit un nouveau type \code{skill\_f}:
+
+\begin{lstlisting}[frame=single, caption={Signature des pouvoirs}]
+typedef int (*skill_f)(struct turn_t* turn, const void* trigger);
+\end{lstlisting}
+
+Le développement des pouvoirs se faire alors aisément à l'aide des nombreuses sous fonctions, un pouvoir étant une suite d'actions qui auraient pu être exécuté lors d'un tour (un joueur étant composé d'un marché et d'une guilde (cf \ref{players}), les interactions entre joueurs deviennent des interactions avec un marché ou une guilde).
+
+Le pouvoir \code{Main de maître} a demandé plus d'attention. En effet on a dû filtrer les jetons du marché pour ne récupérer que les jetons qui ont une intersection avec ce que procure l'architecte. Pour cela on a créé une fonction capable de retourner l'intersection de deux \code{set\_t}.
+
+\subsection*{Comment lier les pouvoirs aux jetons / architectes}
+
+\subsubsection*{Stockage des pouvoirs}
+Pour ne pas avoir à modifier la structure des jetons et des architectes, nous avons décidé de recréer une sorte de dictionnaire. On associe une adresse (de jeton ou architecte), à un tableau d'identifiants de pouvoirs contenant au plus \code{MAX\_SKILLS\_PER\_TRIGGER}.
+
+Pour cela on initialise un tableau en statique avec une structure contenant le couple (\code{void*} , \code{enum skills\_id skills[MAX\_SKILLS\_PER\_TRIGGER]}). \\
+De cette manière on peut récupérer les pouvoirs à l'aide de la fonction suivante qui parcourt le tableau à la recherche du pointeur. 
+
+\begin{lstlisting}[frame=single, caption={Récupération des pouvoirs}]
+enum skills_id* skills_get_by_trigger(const void* trigger);
+\end{lstlisting}
+
+\subsubsection*{Exécution des pouvoirs}
+
+On peut ensuite exécuter les pouvoirs associés en récupérant les pointeurs de fonction associé à l'id du pouvoir à l'aide de la fonction \code{skill\_exec}.
