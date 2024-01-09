@@ -9,7 +9,7 @@ PRINT ?= 0
 
 # CC = c99
 MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG) -DPRINT=$(PRINT)
-CFLAGS1 := -O0 -Wall -Wextra -std=c99 -std=gnu11 -g3 -lm $(MUNIFICENCE_FLAGS)  # -fstack-usage
+CFLAGS1 := -O0 -Wall -Wextra -std=gnu11 -g3 -lm $(MUNIFICENCE_FLAGS)  # -std=c99 -fstack-usage
 LDFLAGS := -lm
 
 PROJECT_TARGET_EXEC := project
