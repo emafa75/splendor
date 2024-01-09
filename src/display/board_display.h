@@ -3,7 +3,6 @@
 
 #include "token.h"
 #include "market.h"
-#include <math.h>
 #include "vector2.h"
 
 #define BOARD_SIZE NUM_TOKENS

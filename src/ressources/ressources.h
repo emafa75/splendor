@@ -5,7 +5,8 @@
 #include "market.h"
 
 
-struct ressources_t {
+struct ressources_t 
+{
 	struct market_t market;
 	struct guild_t guild;
 };

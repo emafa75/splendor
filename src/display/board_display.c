@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <string.h>
-
+#include <math.h>
 
 #define PRINT_CARACT(_n, _c)\
 	for (int i = 0; i < (_n); ++i)  printf(_c);
