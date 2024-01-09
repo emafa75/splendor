@@ -23,12 +23,12 @@
 
 \RequirePackage[justification=centering]{caption} % Pour les légendes centralisées
 \RequirePackage{subcaption}
-\usepackage{wallpaper}
+\usepackage{packages/wallpaper}
 %\RequirePackage{nomencl}
 
 %\makenomenclature
 \RequirePackage{fancyhdr}
-%\RequirePackage{lastpage}
+\usepackage{packages/lastpage}
 %\pagestyle{fancy}
 %\fancyheadoffset{1cm}
 %\setlength{\headheight}{2cm}

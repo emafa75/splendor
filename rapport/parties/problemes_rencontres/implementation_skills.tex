@@ -3,7 +3,26 @@
 
 Il y a plusieurs manières de mettre en place les pouvoirs, qui ont chacune des avantages et des inconvénients.
 
-Comme présenté précédemment, nous avons décidé de les implémenter à l'aide de pointeurs de fonctions, comme proposé dans le sujet. Cependant, une implémentation possible des pouvoirs aurait pu être l'utilisation du type \code{enum skill\_id} et utiliser un \code{switch} dans la fonction exécutant le tour d'un joueur.
+Comme présenté précédemment (cf. \ref{skills}), nous avons décidé de les implémenter à l'aide de pointeurs de fonctions, comme proposé dans le sujet. Cependant, une implémentation possible des pouvoirs aurait pu être l'utilisation du type \code{enum skill\_id} et utiliser un \code{switch} dans la fonction exécutant le tour d'un joueur. Ainsi la fonction \code{skill\_exec} ressemblerait à quelque chose comme suivant : 
+
+\begin{lstlisting}[language=c, frame=single, caption={Pseudocode de la version possible de skill\_exec avec un switch}]
+enum skill_f {SKILL_1, SKILL_2, ...}
+
+skill_exec(skill_id)
+{
+    switch (skill_id)
+    {
+        case SKILL_1:
+            /* Execute SKILL1 */
+
+        case SKILL_2:
+            /* Execute SKILL2 */
+            
+        ...
+    }
+}
+
+\end{lstlisting}
 
 Cela aurait eu comme avantage le fait de pouvoir avoir une exécution personnalisée de chaque pouvoirs. Ainsi, si un pouvoir nécessite de demander au joueur un des informations supplémentaires, comme la cible du pouvoir, cela est faisable.
 
