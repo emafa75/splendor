@@ -1,0 +1,63 @@
+\section{Tests}
+\label{tests}
+
+\subsection*{Problématique}
+
+Lorsque que le code est important et est amené a évoluer avec de nouvelles fonctionnalités, il peut devenir intéressant de tester le comportement des fonctions pour vérifier qu'elles respectent des règles de base. Dans notre cas de figure nous testons une grande majorité des fonctions de base, les autres fonctions découlant de ces dernières.
+
+\subsection{Mise en place des tests}
+
+Tout comme le reste du code, les tests sont séparés en sous dossiers par thème. Chaque thème possède une fonction qui regroupe les tests des fonctions associées à ce thème, qui sont alors exécutés par l'exécutable de test.
+
+
+\begin{lstlisting}[frame=single, caption={Exécution des tests}]
+int main(int argc, char *argv[])
+{
+	test_token();
+	test_builders();
+	test_market();
+	test_guild();
+	test_players();
+	test_utils();
+	test_skills();
+ 
+	return EXIT_SUCCESS;
+}
+\end{lstlisting}
+\subsection{Vérifications effectuées}
+
+Chaque tests vérifie le comportement attendu de la fonction, et si elle respecte les règles définies en amont. Dans cet exemple on vérifie si l'initialisation d'un joueur créer bien un joueur vide.
+
+\begin{lstlisting}[frame=single, caption={Test init player}]
+int test_init_players()
+{
+	struct player_t new_player = init_player();
+
+	if(player_get_points(&new_player) != 0)
+	{
+		/* Error message */
+		return 0;
+	}
+
+	struct ressources_t* player_ressources = player_get_ressources(&new_player);
+	
+	for (int index = 0 ; index < MAX_BUILDERS ; ++index)
+	{
+		if (player_ressources->guild.builders[index]) 
+		{
+			/* Error message */
+			return 0;
+		}
+	}
+
+	for (int index = 0 ; index < NUM_TOKENS ; ++index)
+	{
+		if (player_ressources->market.tokens[index]) 
+		{
+			/* Error message */
+			return 0;
+		}
+	}
+	return 1;
+}
+\end{lstlisting}

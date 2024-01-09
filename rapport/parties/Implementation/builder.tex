@@ -1,0 +1,11 @@
+
+\subsubsection{Les architectes}
+\label{builders}
+
+
+La contrainte de non-modification du fichier \code{builder.h} nous force à implémenter les architectes comme un type abstrait.
+
+Ainsi, un architecte ne peut être déclarer dans un autre fichier qu'en proposant une nouvelle définition du type \code{builder\_t}, nous avons plutôt décidé de déclarer au début de la partie \code{MAX\_BUILDERS} architectes, et de ne travailler par la suite que sur des pointeurs de ces-dits architectes et les primitives définies dans \code{builder.h}.
+
+
+

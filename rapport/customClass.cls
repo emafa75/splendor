@@ -15,7 +15,7 @@
 \RequirePackage[utf8]{inputenc} % Caractères spéciaux
 \usepackage[T1]{fontenc}
 \usepackage{xspace}
-\usepackage[cyr]{aeguill}
+%\usepackage[cyr]{aeguill}
 \usepackage[french]{babel}
 
 \RequirePackage{graphicx} %Paquet pour insérer des images
@@ -24,11 +24,11 @@
 \RequirePackage[justification=centering]{caption} % Pour les légendes centralisées
 \RequirePackage{subcaption}
 \RequirePackage{wallpaper}
-\RequirePackage{nomencl}
+%\RequirePackage{nomencl}
 
 %\makenomenclature
 \RequirePackage{fancyhdr}
-\RequirePackage{lastpage}
+%\RequirePackage{lastpage}
 %\pagestyle{fancy}
 %\fancyheadoffset{1cm}
 %\setlength{\headheight}{2cm}
@@ -123,7 +123,7 @@
 \newcommand{\shortdates}[1]{\renewcommand{\shortdates}{#1}}
 
 \newcommand{\fairemarges}{
-\makenomenclature
+
 \pagestyle{fancy}
 \fancyheadoffset{1cm}
 \setlength{\headheight}{20pt}
@@ -132,7 +132,7 @@
 \lhead{\includegraphics[scale=0.03]{img/logoecole.png}\hspace{0.5em}}
 \chead{\shortdates}
 \rhead{\nouppercase{\leftmark}}
-\rfoot{Page \thepage/\pageref{LastPage}}
+\rfoot{Page \thepage/25}
 \cfoot{\textbf{\basdepage}}
 \lfoot{\lieuprojet}
 

@@ -57,18 +57,29 @@ seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_
 A l'aide d'un programme écrit en \code{Python}, on peut visualiser l'influence des différentes graines sur différents paramètres.
 
 
-\begin{figure}[!h]
-    \centering
-    \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{data/1.jpg}
+\begin{figure}[H]
+   \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/favor.pdf}
     \end{subfigure}
     \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{data/2.jpg}
+        \includegraphics[width=\textwidth]{img/skills.pdf}
     \end{subfigure}
     \begin{subfigure}[b]{0.3\textwidth}
-        \includegraphics[width=\textwidth]{data/3.jpg}
+        \includegraphics[width=\textwidth]{img/tokens.pdf}
+    \end{subfigure} 
+    \\
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/skip.pdf}
     \end{subfigure}
-    \caption{3 images side by side, OMG}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/turns.pdf}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{img/result.pdf}
+    \end{subfigure} 
+    \caption{Influence des graines sur différents paramètres de la partie}
 \end{figure}
 
-\input{img/favor.pgf}
+Précision : la graine 0 n'est pas générée aléatoirement mais correspond à un deck généré à la main afin d'avoir un jeu équilibré (selon nous).
+
+A partir de ces graphiques, on remarque un comportement intéressant, la graine des architectes à beaucoup plus d'influence sur la viabilité de la partie (beaucoup de tour et pas trop de tour passés) que celle des jetons. Par exemple on voit que les joueurs sont forcés à passer souvent leur tour avec la graine d'architecte n°6 car il y a seulement 2 architectes de générés dans cette dernière.

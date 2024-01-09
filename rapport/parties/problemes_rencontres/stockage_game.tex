@@ -1,0 +1,15 @@
+
+\subsection{Stockage des architectes et des jetons}
+
+\subsubsection*{Problème}
+
+Les architectes, les jetons  et les associations de pouvoirs sont générés puis stockés en statique dans \code{builder.c}, \code{token.c} et \code{skills.c}, durant le reste de la partie on utilise seulement les pointeurs et les méthodes de ces derniers. L'avantage est que l'on a pas besoin de connaître l'implémentation de la structure pour pouvoir interagir avec.
+
+Cela pose un problème, ne connaissant pas l'architecture de ces structures en dehors de où elles sont créées, il nous est impossible de générer plusieurs decks en parallèle ou de les stocker ailleurs. Dans notre cas de figure cela signifie qu'on ne peut stocker les jetons et les architectes dans notre structure de partie. On ne peut donc pas jouer 2 parties, puis afficher la première. 
+
+\subsubsection*{Solutions envisagées}
+
+La solution la plus simple serait de rendre public la structure d'architecte pour pouvoir les stocker la structure de partie. Mais cela nous est impossible à cause des caractéristiques du sujet.
+
+La solution retenue est de devoir régénérer les architectes, les jetons et les pouvoirs à partir des paramètres (graines) de la partie avant d'afficher ou de modifier une partie différente.
+
