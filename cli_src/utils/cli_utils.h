@@ -19,7 +19,8 @@
  */
 int getch(void);
 
-int getkey_unlocked (void);
+
+int getkey_unlocked(void);
 
 
 /*
@@ -37,7 +38,7 @@ void printToCoordinates(unsigned int x, unsigned int y, char *str);
 struct winsize get_terminal_dimensions(void);
 
 /*
-	Clear the terminal output
+	Clear stdout
 */
 void clear_terminal(void);
 
@@ -46,10 +47,14 @@ void clear_terminal(void);
 */
 void cli_jump_line(struct vector2_t* position);
 
+
 /*
 	Enable or disable the terminal cursor
+
+	Hide the cursor if state == 0
+	Show it otherwies
 */
-void terminal_cursor(int toggle);
+void terminal_cursor(int state);
 
 /*
 	Display a popup on the center of the screen

@@ -7,8 +7,9 @@ NUM_TOKENS ?= 25
 DEBUG ?= 1
 PRINT ?= 0
 
+# CC = c99
 MUNIFICENCE_FLAGS := -DNUM_COLORS=$(NUM_COLORS) -DNUM_LEVELS=$(NUM_LEVELS) -DNUM_TOKENS=$(NUM_TOKENS) -DCOLOR_DISPLAY=$(COLOR_DISPLAY) -DDEBUG=$(DEBUG) -DPRINT=$(PRINT)
-CFLAGS := -O0 -Wall -Wextra -std=c99 -g3 $(MUNIFICENCE_FLAGS) -lm -fstack-usage -std=gnu11
+CFLAGS1 := -O0 -Wall -Wextra -std=c99 -std=gnu11 -g3 -lm $(MUNIFICENCE_FLAGS)  # -fstack-usage
 LDFLAGS := -lm
 
 PROJECT_TARGET_EXEC := project
@@ -51,10 +52,16 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
 # The -MMD and -MP flags together generate Makefiles for us!
 # These files will have .d instead of .o as the output.
-CFLAGS := $(CFLAGS) $(INC_FLAGS) # -MMD -MP
+CFLAGS := $(CFLAGS1) $(INC_FLAGS) # -MMD -MP
 
 
-all: project
+all: options project
+
+options:
+	@echo build options:
+	@echo CFLAGS \(no -I\) = $(CFLAGS1)
+	@echo CC = $(CC)
+
 
 evaluator: $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC)
 
@@ -70,7 +77,7 @@ color_cli :
 
 # The final build step for project
 $(BUILD_DIR)/$(PROJECT_TARGET_EXEC): $(PROJECT_OBJS)
-	#Compiles the project
+	# Compiles the project: $(CC) -o $(PROJECT_TARGET_EXEC)
 	@$(CC) $(PROJECT_OBJS) -o $(PROJECT_TARGET_EXEC) $(LDFLAGS)  # $@
 
 
@@ -91,7 +98,7 @@ $(BUILD_DIR)/$(EVALUATOR_TARGET_EXEC): $(EVALUATOR_OBJS)
 
 
 clang_custom_lib_support:
-	(echo $(INC_FLAGS) | sed 's/ /\n/g') > compile_flags.txt
+	(echo $(CFLAGS) | sed 's/ /\n/g') > compile_flags.txt
 
 
 # Build step for C source
@@ -125,7 +132,7 @@ clean: clean_build clean_bin
 
 
 dep:
-	gcc -MM $(SRCS) $(INC_FLAGS) | sed -z 's/\\\n//g' > graph.raw
+	$(CC) -MM $(SRCS) $(INC_FLAGS) | sed -z 's/\\\n//g' > graph.raw
 	./deps.py graph.raw > graph.csv
 
 
