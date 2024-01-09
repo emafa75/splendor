@@ -1,27 +1,29 @@
 
 #include "cli_utils.h"
 #include "vector2.h"
-#include <stdio.h>
-#include <stdlib.h>
 #include "utils.h"
 #include "ansi_color.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-int getkey_unlocked() {
+
+int getkey_unlocked(void) {
     int ch;
     struct termios oldt, newt;
     fd_set set;
     struct timeval timeout;
 
-    tcgetattr(STDIN_FILENO, &oldt); /* Store old settings */
-    newt = oldt; /* Copy old settings to new settings */
-    newt.c_lflag &= ~(ICANON | ECHO); /* Make one change to old settings in new settings */
+    tcgetattr(STDIN_FILENO, &oldt);  // Store old settings
+    newt = oldt;  // Copy old settings to new settings
+    newt.c_lflag &= ~(ICANON | ECHO);  // Make one change to old settings in new settings
 
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt); /* Apply the new settings immediately */
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt); // Apply the new settings immediately
 
     FD_ZERO(&set);
-    FD_SET(STDIN_FILENO, &set); /* Add STDIN_FILENO to the set */
+    FD_SET(STDIN_FILENO, &set); // Add STDIN_FILENO to the set
 
     timeout.tv_sec = 0; 
     timeout.tv_usec = 10000;
@@ -35,15 +37,16 @@ int getkey_unlocked() {
         return -1;
     } else if (activity == 0) {
         // Timeout occurred, no input received within the specified time
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /* Reapply the old settings */
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // Reapply the old settings
         return 0;
     } else {
         // Input received, proceed to read character
-        ch = getchar(); /* Standard getchar call */
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /* Reapply the old settings */
-        return ch; /* Return received char */
+        ch = getchar(); // Standard getchar call
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt); // Reapply the old settings
+        return ch; // Return received char
     }
 }
+
 
 int getch(void)
 {
@@ -51,17 +54,17 @@ int getch(void)
 	struct termios oldt;
 	struct termios newt;
 
-	tcgetattr(STDIN_FILENO, &oldt); /*store old settings */
-	newt = oldt; /* copy old settings to new settings */
-	newt.c_lflag &= ~(ICANON | ECHO); /* make one change to old settings in new settings */
+	tcgetattr(STDIN_FILENO, &oldt); // Store old settings
+	newt = oldt;  // Copy old settings to new settings
+	newt.c_lflag &= ~(ICANON | ECHO);  // Make one change to old settings in new settings
 
-	tcsetattr(STDIN_FILENO, TCSANOW, &newt); /*apply the new settings immediatly */
+	tcsetattr(STDIN_FILENO, TCSANOW, &newt);  // Apply the new settings immediatly */
 
-	ch = getchar(); /* standard getchar call */
+	ch = getchar();  // Standard getchar call
 
-	tcsetattr(STDIN_FILENO, TCSANOW, &oldt); /*reapply the old settings */
+	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);  // Reapply the old settings
 
-	return ch; /*return received char */
+	return ch;  // Returns received char 
 }
 
 
@@ -80,37 +83,35 @@ struct winsize get_terminal_dimensions(void)
 	return w;
 }
 
+
 void clear_terminal()
 {
-	// /printf("\e[1;1H\e[2J");
+	// printf("\e[1;1H\e[2J");
 	system("clear");
 }
 
+
 void cli_jump_line(struct vector2_t* position)
 {
-	struct vector2_t new_position = vector2_add(*position,vector2_down());
-
-	position->x = new_position.x;
-	position->y = new_position.y;
+	*position = vector2_add(*position, vector2_down());
 }
 
-void terminal_cursor(int toggle)
+
+void terminal_cursor(int state)
 {
-	if (toggle)
-	{
-		printf("\e[?25h"); //enable the cursor
-	}
-	else {
+	if (state)
+		printf("\e[?25h");  // Show the cursor
+
+	else
 		printf("\e[?25l");
-	}
-	
 }
+
 
 void cli_popup(char* str)
 {
 	struct winsize winsize = get_terminal_dimensions();
 
-	struct vector2_t center = {winsize.ws_col/2, winsize.ws_row/2};
+	struct vector2_t center = {winsize.ws_col / 2, winsize.ws_row / 2};
 	int offset = 2;
 	int popup_lenght = str_len_special(str) + 2 * offset;
 	int popup_width = 1 + 2 * offset; 
@@ -120,12 +121,13 @@ void cli_popup(char* str)
 
 	print_to_coordinates(center.x + offset  , center.y + offset, str);
 
-	for (int x = center.x + 1; x < center.x + popup_lenght - 1; ++x)
+	for (int x = center.x + 1 ; x < center.x + popup_lenght - 1 ; ++x)
 	{
-		for (int y = center.y + 1; y < center.y + popup_width - 1; ++y)
+		for (int y = center.y + 1 ; y < center.y + popup_width - 1 ; ++y)
 		{	
-			if ((y == (center.y + offset)) && (x >= center.x + offset) && (x <= center.x + offset + str_len_special(str))) //no need to erase cherre text is write
+			if ((y == (center.y + offset)) && (x >= center.x + offset) && (x <= center.x + offset + str_len_special(str)))  // No need to erase cherre text is write
 				continue;
+
 			print_to_coordinates(x, y, " ");
 		}
 	}
@@ -135,11 +137,12 @@ void cli_popup(char* str)
 		Print a box around	
 	*/
 	struct vector2_t end_popup = {center.x + popup_lenght - 1, center.y + popup_width - 1};
-	//center = vector2_add(center, vector2_opposite(vector2_ones()));
+	// center = vector2_add(center, vector2_opposite(vector2_ones()));
 
 	
 	cli_wrap_box(center, end_popup);
 }
+
 
 void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 {
@@ -154,8 +157,7 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 	/*
 		Draw top and bottom
 	*/
-
-	for (int x = begin.x + 1; x < end.x; ++x)
+	for (int x = begin.x + 1 ; x < end.x ; ++x)
 	{
 		print_to_coordinates(x, begin.y, "─");
 		print_to_coordinates(x, end.y, "─");
@@ -164,14 +166,13 @@ void cli_wrap_box(struct vector2_t begin, struct vector2_t end)
 	/*
 		Draw left and right side
 	*/
-
 	for (int y = begin.y + 1; y < end.y; ++y)
 	{
 		print_to_coordinates(begin.x, y , "│");	
 		print_to_coordinates(end.x, y, "│");	
 	}
-
 }
+
 
 struct vector2_t cli_display_options(struct vector2_t position, struct game_parameters params)
 {
@@ -223,5 +224,4 @@ struct vector2_t cli_display_options(struct vector2_t position, struct game_para
 	cli_jump_line(&position);
 
 	return position;
-
 }

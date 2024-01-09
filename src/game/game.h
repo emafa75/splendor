@@ -31,11 +31,13 @@ struct game_parameters
 	unsigned int num_player;
 };
 
+
 struct context 
 {
 	char actions[MAX_ACTIONS][CONTEXT_SIZE]; //Stock the context in a array to separate different actions 
 	int num_actions;
 };
+
 
 struct turn_t
 {
