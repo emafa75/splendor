@@ -5,9 +5,9 @@ Il y a plusieurs manières de mettre en place les pouvoirs, qui ont chacune des 
 
 Comme présenté précédemment, nous avons décidé de les implémenter à l'aide de pointeurs de fonctions, comme proposé dans le sujet. Cependant, une implémentation possible des pouvoirs aurait pu être l'utilisation du type \code{enum skill\_id} et utiliser un \code{switch} dans la fonction exécutant le tour d'un joueur.
 
-Cela aurait eu comme avantage le fait de pouvoir avoir une exécution personnalisée de chaque pouvoirs. Ainsi, si un pouvoir nécessite de demander au joueur un des informations supplémentaires, comme qu'est-ce qu'il souhaite cibler avec le sort, cela est facilement faisable.
+Cela aurait eu comme avantage le fait de pouvoir avoir une exécution personnalisée de chaque pouvoirs. Ainsi, si un pouvoir nécessite de demander au joueur un des informations supplémentaires, comme la cible du pouvoir, cela est faisable.
 
-Le problème de cette implémentation, c'est que l'ajout de nouveaux pouvoirs est fastidieux.
+Le problème de cette implémentation, c'est que l'ajout de nouveaux pouvoirs est fastidieux, et nécessite la modification de la fonction exécutant les pouvoirs \code{skill\_exec}, ce qui divise .
 
 De l'autre côté, l'utilisation de pointeurs de fonctions permet de facilement créer de nouveaux pouvoirs et de les ajouter dans le jeu. On a juste à ajouter le nouveau pouvoir dans le tableau les contenant tous, et à ajouter un identifiant pour ce pouvoir.
 
@@ -15,11 +15,11 @@ La contrainte que cela impose est que tous les pouvoirs doivent avoir la même s
 
 Pour créer une telle signature, encore une fois, plusieurs options sont possible. La première serait de dire qu'on passe en paramètre une union de types, avec chaque type qui serait associé à un pouvoir, décrivant les données nécessaire à son exécution. Même si ça semble bien fonctionner sur le papier, pour créer l'argument à passer en paramètre, il faut passer par un \code{switch} ou quelque chose de similaire nous ramenant au cas de l'implémentation précédente.
 
-Nous avons donc au final opté pour passer en paramètre 2 arguments, tour courant et ce qui a déclenché le pouvoir. Cela restreint légèrement les possibilités des pouvoirs, et nous avons du nous résoudre à limiter certains d'entre eux, ils ont pour certains un comportement aléatoire, c'est-à-dire que lorsqu'il est question de voler un token, on ne laisse pas le choix au joueur et on en prend un au hasard.
+Nous avons donc au final opté pour passer en paramètre 2 arguments, tour courant et ce qui a déclenché le pouvoir. Cela restreint légèrement les possibilités des pouvoirs, et nous avons du nous résoudre à limiter certains d'entre eux, ils ont pour certains un comportement aléatoire, c'est-à-dire que lorsqu'il est question de voler un jeton, on ne laisse pas le choix au joueur et on en prend un au hasard.
 
 Dans le cadre de nos joueurs ayant un comportement de toute façon aléatoire, ceci ne pose pas problème, mais il est normal de vouloir que le joueur puisse avoir le choix, surtout si on décidait d'intégrer des stratégies à nos joueurs ou de faire jouer des humains.
 
-Ainsi, nous avons imaginé, sans avoir pris le temps de l'implémenter, qu'associer à chaque pouvoir un "pre-pouvoirs", se chargeant de faire l'interface entre le joueur 
+Ainsi, nous avons imaginé, sans avoir pris le temps de l'implémenter, qu'associer à chaque pouvoir un "pre-pouvoirs", une fonction se chargeant de demander aux joueurs les arguments nécessaire au bon fonctionnement du pouvoir. Ainsi, en ayant la fonction \code{execute\_skill}, n'aurait qu'a exécuter le "pre-pouvoir" puis le pouvoir associé à \code{skill\_id}. Cette implémentation permettrait, pour ajouter un pouvoir, de n'avoir qu'à ajouter lla fonction pouvoir et la fonction "pre-pouvoir" et à les rajouter dans un tableau, et a ajouter.
 
 
 

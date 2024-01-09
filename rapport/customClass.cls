@@ -23,7 +23,7 @@
 
 \RequirePackage[justification=centering]{caption} % Pour les légendes centralisées
 \RequirePackage{subcaption}
-\RequirePackage{wallpaper}
+\usepackage{wallpaper}
 %\RequirePackage{nomencl}
 
 %\makenomenclature
