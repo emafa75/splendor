@@ -8,9 +8,58 @@ La page sur thor :
 
 https://thor.enseirb-matmeca.fr/ruby/projects/pr103
 
+## Compilation du projet
 
-Architecture du projet : 
+make [project] : créer l'executable ./project sans couleurs, le nombre de jetons et le nombre d'architectes par défaut
+make test : nettoie les sources du projet et créer l'executable ./test et l'execute
+make color : nettoie les sources du projet, créer  l'executable ./project avec des couleurs et les valeurs par défauts. Lance une partie avec le mode verbeux et les graines par défau.
+make evaluator : créer l'executable d'évaluation des parties
+make cli : créer l'executable ./cli pour lancer l'interface graphique (sans couleurs par défaut)
+make color_cli : créer l'executable ./cli pour lancer l'interface graphique avec les couleurs
+
+## Architecture du projet : 
 .
+├── build
+├── cli_src
+│   ├── board
+│   │   ├── cli_board.c
+│   │   └── cli_board.h
+│   ├── builders
+│   │   ├── cli_builders.c
+│   │   └── cli_builders.h
+│   ├── cli.c
+│   ├── cli_tests.c
+│   ├── cli_tests.h
+│   ├── fireworks
+│   │   ├── fireworks.c
+│   │   └── fireworks.h
+│   ├── game
+│   │   ├── cli_results.c
+│   │   ├── cli_results.h
+│   │   ├── cli_turn.c
+│   │   └── cli_turn.h
+│   ├── guild
+│   │   ├── cli_guild.c
+│   │   └── cli_guild.h
+│   ├── market
+│   │   ├── cli_market.c
+│   │   └── cli_market.h
+│   ├── players
+│   │   ├── cli_players.c
+│   │   └── cli_players.h
+│   ├── skills
+│   │   ├── cli_skills.c
+│   │   └── cli_skills.h
+│   ├── token
+│   │   ├── cli_token.c
+│   │   └── cli_token.h
+│   └── utils
+│       ├── cli_set.c
+│       ├── cli_set.h
+│       ├── cli_utils.c
+│       └── cli_utils.h
+├── compile_flags.txt
+├── conventions.md
 ├── evaluator_src
 │   ├── evaluator.c
 │   └── visualiaze.py
@@ -36,6 +85,9 @@ Architecture du projet :
 │   │   ├── players.c
 │   │   └── players.h
 │   ├── project.c
+│   ├── ressources
+│   │   ├── ressources.c
+│   │   └── ressources.h
 │   ├── skills
 │   │   ├── favors
 │   │   │   ├── favors.c
@@ -67,9 +119,14 @@ Architecture du projet :
 │       ├── set
 │       │   ├── set.c
 │       │   └── set.h
-│       └── stack
-│           ├── stack.c
-│           └── stack.h
+│       ├── stack
+│       │   ├── stack.c
+│       │   └── stack.h
+│       ├── utils.c
+│       ├── utils.h
+│       └── vectors
+│           ├── vector2.c
+│           └── vector2.h
 └── tst
     ├── test_builders
     │   ├── test_builders.c
