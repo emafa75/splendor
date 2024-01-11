@@ -71,7 +71,7 @@ void firework_display(struct firework_t* firework)
 			if ( vector2_is_inside(particule->position, firework->top_left, firework->bottom_right)) //is in the display box
 			{
 				//get particule display 
-				sprintf(buffer,"%so" CRESET, color_prefix(particule->color));
+				sprintf(buffer,"%s●" CRESET, color_prefix(particule->color));
 
 				/*
 					Check if we need to display it
