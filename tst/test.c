@@ -11,6 +11,7 @@
 #include "test_can_buy.h"
 #include "test_players.h"
 #include "test_skills.h"
+#include <time.h>
 #define SEED 0
 
 #include <stdlib.h>
@@ -34,6 +35,7 @@ int main(int argc, char *argv[])
 		print_usage(argv);
 		return EXIT_FAILURE;
 	}
+	srand(time(NULL));
 
 	test_token();
 	test_builders();
