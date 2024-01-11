@@ -1,5 +1,4 @@
 #include "market.h"
-#include "ansi_color.h"
 #include "permutation.h"
 #include "skills.h"
 #include "token.h"

@@ -7,7 +7,6 @@
  *
  */
 
-#include "cli_tests.h"
 #include "test_can_buy.h"
 #include "test_players.h"
 #include "test_skills.h"
