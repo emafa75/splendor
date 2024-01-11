@@ -10,27 +10,26 @@
 #include <stdio.h>
 
 
-/*
-	Test every combinaison of num_desired_token to pay "to_pay"
-	Replace best_market with the best combinaison of market to pay "to_pay"
-	"test_market" stock the best of the tested market 
-*/
-void every_combinaison_test(
-	int num_tokens,
-	int num_desired_token,
-	int last_index,
-	struct market_t* clean_market,
+// Used in find_max_eff_sub_market
+void find_max_eff_sub_market_rec(
+	struct market_t* base_market,
 	struct market_t* best_market,
-	struct market_t* test_market,
-	struct set_t to_pay
+	struct market_t* market_to_cmp,
+	struct set_t to_pay,
+	int last_index_called,
+	int max_use_token,
+	int num_tokens
 );
+
+
+struct market_t find_max_eff_sub_market(struct market_t* base_market, struct set_t to_pay);
 
 
 unsigned int is_usable(struct set_t *set, struct set_t cost)
 {
 	for (enum color_t j = 0 ; j < NUM_COLORS ; ++j)
 	{
-		if (cost.c[j] != 0 && set->c[j] != 0)  // tests if the builder can helps with paying builder_to_buy
+		if (cost.c[j] != 0 && set->c[j] != 0)  // Tests if the builder can helps with paying builder_to_buy
 			return 1;
 	}
 
@@ -65,8 +64,8 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 
 	for (unsigned int index = 0; index < MAX_BUILDERS ; ++index)
 	{
-		builder_wanted = available_builders_get_builder(guild, index); // get next builder available and check if it's possible to hire it
-		if (builder_wanted != NULL)  // test if the player can buy it
+		builder_wanted = available_builders_get_builder(guild, index); // Gets next builder available and check if it's possible to hire it
+		if (builder_wanted != NULL)  // Tests if the player can buy it
 		{
 			struct ressources_t can_buy_ressources = is_buyable(builder_wanted, *player_get_ressources(player));	
 
@@ -93,7 +92,7 @@ int can_use_market(struct set_t to_pay, struct market_t* market)
 
 		if (token != NULL)
 		{
-			// reduce to_pay with the token
+			// Reduce to_pay with the token
 			for (enum color_t color = 0 ; color < NUM_COLORS ; ++color)
 			{
 				if (to_pay.c[color] > token->s.c[color])
@@ -123,11 +122,11 @@ int can_use_market(struct set_t to_pay, struct market_t* market)
  *
  *	Ex: eff of {1, 1, 2, 0, 0} to buy {1, 0, 1, 0, 0}
  *	 	-> returns (1 + 0 + 1 + 0 + 0) / 4 = 1/2
- *	   We only use hald of the token to buy the set
+ *	   We only use half of the token to buy the set
  */
 float eff(struct market_t market, struct set_t to_pay)
 {
-	float out = 0;  // efficiency of market to buy to_pay
+	float out = 0;  // Efficiency of market to buy to_pay
 	struct set_t* tmp_set;  // Used to store current set in for
 	struct set_t tmp_inter;  // Used to compute inter of tmp_set with to_pay
 
@@ -183,36 +182,32 @@ struct market_t get_best_market(struct market_t first_market, struct market_t se
 struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressources_t ressources)
 {
 	struct set_t cost = builder_requires(builder_to_buy);
-
 	struct ressources_t needed_ressources = {};
 
 	struct guild_t* guild = &ressources.guild;
 	struct market_t* market = &ressources.market;
 
-
 	/*
-		Use builders to pay first 
+		First, reduce the cost with the ressources provided by the builders
 	*/
-
-	//tmp variables
+	// temporary variables
 	struct set_t builder_provide;
 	struct builder_t* builder;
-
 	for (int index = 0 ; index < MAX_BUILDERS ; ++index)
 	{
 		builder = guild->builders[index];
+
 		if (builder != NULL)
 		{
-			/*
-				Reduce the cost with the ressources provided by the builder
-			*/
 			builder_provide = builder_provides(builder);
+
 			for (enum color_t color = 0 ; color < NUM_COLORS ; ++color)
 			{
 				if (cost.c[color] > builder_provide.c[color])
 				{
 					cost.c[color] -= builder_provide.c[color];
 				}
+
 				else
 				{
 					cost.c[color] = 0;
@@ -221,10 +216,10 @@ struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressourc
 		}
 	}
 
-	struct set_t to_pay = cost;
+	struct set_t left_to_pay = cost;
 
 	/*
-		Create a clean market (all the tokens at the start)
+		Create an empty market (all the tokens at the start)
 	*/
 	struct market_t clean_market = create_default_market();
 	
@@ -236,26 +231,12 @@ struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressourc
 		}
 	}
 
-	/*
-		Test every combinaison of token to pay the exact price
-	*/
-	int num_ressources = set_num_ressources(&to_pay);	
-
-	struct market_t test_market = create_default_market();
-
-	//stock the best tokens to pay
-	struct market_t best_market = create_default_market();
-
-	for (int num_desired_token = 1 ; num_desired_token <= num_ressources ; ++num_desired_token)
-		every_combinaison_test(market_num_tokens(&clean_market), num_desired_token, 0, &clean_market, &best_market, &test_market, to_pay);
+	struct market_t best_market = find_max_eff_sub_market(&clean_market, left_to_pay);
 
 	if (market_num_tokens(&best_market) ==  0)  // Impossible to pay
 	{
-		/*
-			Returns a struct ressources with nothing inside
-		*/
 		struct ressources_t null_ressources = {};
-		
+
 		return null_ressources;
 	}
 
@@ -265,25 +246,46 @@ struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressourc
 }
 
 
-void every_combinaison_test(int num_tokens, int num_desired_token, int last_index, struct market_t* clean_market, struct market_t* best_market, struct market_t* test_market, struct set_t to_pay)
+struct market_t find_max_eff_sub_market(struct market_t* base_market, struct set_t to_pay)
 {
-	int num_tokens_in_test_market = market_num_tokens(test_market);
+	struct market_t best_market = create_default_market();
+	struct market_t empty_market = create_default_market();
+	int num_ressources = set_num_ressources(&to_pay);	
 
-	if (num_tokens_in_test_market == num_desired_token)
-	{
-		if (can_use_market(to_pay, test_market))
-		{
-			*best_market = get_best_market(*test_market, *best_market, to_pay); 
-		}
-	}
+	find_max_eff_sub_market_rec(base_market, &best_market, &empty_market, to_pay, -1, num_ressources, market_num_tokens(base_market));
 
-	else
+	return best_market;
+}
+
+
+
+void find_max_eff_sub_market_rec(
+	struct market_t* base_market,
+	struct market_t* best_market,
+	struct market_t* market_to_cmp,
+	struct set_t to_pay,
+	int last_index_called,
+	int max_use_token,
+	int num_tokens
+	)
+{
+	int num_available_tokens = market_num_tokens(market_to_cmp);
+
+	if (can_use_market(to_pay, market_to_cmp))
+		*best_market = get_best_market(*market_to_cmp, *best_market, to_pay); 
+
+	else if (num_available_tokens < max_use_token)
 	{
-		for (int index = last_index ; index < num_tokens ; ++index)
+		int start = last_index_called + 1;
+		int upper_bound = num_tokens;
+
+		for (int index = start ; index < upper_bound ; ++index)
 		{
-			market_pay_token(test_market, clean_market->tokens[index]);
-			every_combinaison_test(num_tokens, num_desired_token, index+1, clean_market, best_market, test_market, to_pay);
-			market_pick_token(test_market, clean_market->tokens[index]);
+			struct market_t new_market_to_cmp = *market_to_cmp;
+			market_pay_token(&new_market_to_cmp, base_market->tokens[index]);
+
+			find_max_eff_sub_market_rec(base_market, best_market, &new_market_to_cmp, to_pay, index, max_use_token, num_tokens);
 		}
 	}
 }
+
