@@ -30,7 +30,7 @@ make color_cli : créer l'executable ./cli pour lancer l'interface graphique ave
 │   ├── cli.c  
 │   ├── cli_tests.c  
 │   ├── cli_tests.h  
-│   ├── firework  s
+│   ├── fireworks
 │   │   ├── fireworks.c  
 │   │   └── fireworks.h  
 │   ├── game  
