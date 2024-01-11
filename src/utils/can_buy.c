@@ -61,13 +61,15 @@ int can_buy(struct ressources_t* can_buy_out)
 struct builder_t * select_affordable_builder(struct guild_t* guild, struct player_t *player)
 {
 	struct builder_t *builder_wanted;
+	struct set_t cost;
 
 	for (unsigned int index = 0; index < MAX_BUILDERS ; ++index)
 	{
 		builder_wanted = available_builders_get_builder(guild, index); // Gets next builder available and check if it's possible to hire it
 		if (builder_wanted != NULL)  // Tests if the player can buy it
 		{
-			struct ressources_t can_buy_ressources = is_buyable(builder_wanted, *player_get_ressources(player));	
+			cost = builder_requires(builder_wanted);
+			struct ressources_t can_buy_ressources = is_buyable(cost, *player_get_ressources(player));	
 
 			if (can_buy(&can_buy_ressources))
 				return builder_wanted;
@@ -179,9 +181,8 @@ struct market_t get_best_market(struct market_t first_market, struct market_t se
 }
 
 
-struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressources_t ressources)
+struct ressources_t is_buyable(struct set_t cost, struct ressources_t ressources)
 {
-	struct set_t cost = builder_requires(builder_to_buy);
 	struct ressources_t needed_ressources = {};
 
 	struct guild_t* guild = &ressources.guild;

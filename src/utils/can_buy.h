@@ -23,5 +23,5 @@ struct builder_t * select_affordable_builder(struct guild_t* guild, struct playe
 /*
 	New can_buy functionn is he impossible to buy, then returns a ressources with NULL everywhere
 */
-struct ressources_t is_buyable(struct builder_t *builder_to_buy, struct ressources_t ressources);
+struct ressources_t is_buyable(struct set_t cost, struct ressources_t ressources);
 #endif

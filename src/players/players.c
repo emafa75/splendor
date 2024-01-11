@@ -159,7 +159,9 @@ void player_display_inventory(struct player_t *player)
 
 int player_pay_builder(struct market_t* market, struct player_t* player, struct builder_t* builder_to_hire)
 {
-	struct ressources_t ressources = is_buyable(builder_to_hire, player->ressources);
+	struct set_t cost = builder_requires(builder_to_hire);
+
+	struct ressources_t ressources = is_buyable(cost, player->ressources);
 
 	if (ressources.market.tokens[0] == NULL)  // All elements are NULL if cannot pay
 		return 0;
