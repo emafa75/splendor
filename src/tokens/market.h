@@ -99,4 +99,9 @@ int market_is_in_market(struct market_t* market, struct token_t* token);
  *
  */
 int market_get_tokens_filtered(struct market_t* market, struct token_t* filtered_tokens[NUM_TOKENS], struct set_t set_filter);
+
+/*
+	Returns the list of tokens_t* from a market
+*/
+struct token_t** market_get_tokens(struct market_t* market);
 #endif

@@ -1,4 +1,5 @@
 #include "market.h"
+#include "ansi_color.h"
 #include "permutation.h"
 #include "skills.h"
 #include "token.h"
@@ -228,4 +229,9 @@ int market_get_tokens_filtered(
 	}
 
 	return filtered_n;
+}
+
+struct token_t** market_get_tokens(struct market_t* market)
+{
+	return market->tokens;
 }
