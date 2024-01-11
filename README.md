@@ -17,6 +17,18 @@ make evaluator : créer l'executable d'évaluation des parties
 make cli : créer l'executable ./cli pour lancer l'interface graphique (sans couleurs par défaut)  
 make color_cli : créer l'executable ./cli pour lancer l'interface graphique avec les couleurs  
 
+## Execution du projet
+
+Les executables *project*, *evaluator* et *cli* peuvent prendre différents paramètres pour modifier la partie :  
+* -s pour changer la graine du hasard  
+* -c pour changer la graine des architectes  
+* -t pour changer la graine des jetons  
+* -m pour changer le nombre max de tours (maximum de MAX_MAX_TURNS)  
+* -n pour changer le nombre de joueurs (maximum de MAX_PLAYERS)  
+* -p pour changer le nombre de points nécessaires pour gagner  
+* -v pour activer le mode verbeux  
+
+
 ## Architecture du projet : 
 .  
 ├── build  
