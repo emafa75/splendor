@@ -1,5 +1,4 @@
 #include "can_buy.h"
-#include "ansi_color.h"
 #include "builder.h"
 #include "guild.h"
 #include "market.h"
