@@ -1,4 +1,5 @@
 #include "can_buy.h"
+#include "ansi_color.h"
 #include "builder.h"
 #include "guild.h"
 #include "market.h"
@@ -159,6 +160,18 @@ int market_cmp(struct market_t first_market, struct market_t second_market, stru
 	float first_eff = eff(first_market, to_pay);
 	float second_eff = eff(second_market, to_pay);
 
+	if (first_eff - second_eff < 0.1) //same eff, compare there number of tokens
+	{
+		int first_num_tokens = market_num_tokens(&first_market);
+		int second_num_tokens = market_num_tokens(&second_market);
+
+		if (first_num_tokens == second_num_tokens)
+			return 0;
+		if (first_num_tokens > second_num_tokens)
+			return 1;
+		return -1;
+
+	}
 	if (first_eff < second_eff)
 		return 1;
 
