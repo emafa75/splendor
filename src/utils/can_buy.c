@@ -8,6 +8,7 @@
 #include "token.h"
 
 #include <stdio.h>
+#include <math.h>
 
 
 // Used in find_max_eff_sub_market
@@ -126,9 +127,9 @@ int can_use_market(struct set_t to_pay, struct market_t* market)
  *	 	-> returns (1 + 0 + 1 + 0 + 0) / 4 = 1/2
  *	   We only use half of the token to buy the set
  */
-float eff(struct market_t market, struct set_t to_pay)
+double eff(struct market_t market, struct set_t to_pay)
 {
-	float out = 0;  // Efficiency of market to buy to_pay
+	double out = 0;  // Efficiency of market to buy to_pay
 	struct set_t* tmp_set;  // Used to store current set in for
 	struct set_t tmp_inter;  // Used to compute inter of tmp_set with to_pay
 
@@ -139,11 +140,17 @@ float eff(struct market_t market, struct set_t to_pay)
 			tmp_set = &market.tokens[i]->s;
 
 			tmp_inter = set_inter(tmp_set, &to_pay);
-			out += (float)(set_num_ressources(&tmp_inter)) / (float)(set_num_ressources(tmp_set));
+			out += (double)(set_num_ressources(&tmp_inter)) / (double)(set_num_ressources(tmp_set));
 		}
 	}
 
 	return out;
+}
+
+
+double dist_to_1(double x)
+{
+	return fabs(1 - x);
 }
 
 
@@ -156,25 +163,30 @@ float eff(struct market_t market, struct set_t to_pay)
  */
 int market_cmp(struct market_t first_market, struct market_t second_market, struct set_t to_pay)
 {
-	float first_eff = eff(first_market, to_pay);
-	float second_eff = eff(second_market, to_pay);
+	double first_eff = eff(first_market, to_pay);
+	double second_eff = eff(second_market, to_pay);
 
-	if (first_eff - second_eff < 0.1) //same eff, compare there number of tokens
+	double first_dist = dist_to_1(first_eff);
+	double second_dist = dist_to_1(second_eff);
+
+	if (first_dist - second_dist < 0.005)  // Same eff, compare there number of tokens
 	{
 		int first_num_tokens = market_num_tokens(&first_market);
 		int second_num_tokens = market_num_tokens(&second_market);
 
 		if (first_num_tokens == second_num_tokens)
 			return 0;
+
 		if (first_num_tokens > second_num_tokens)
 			return 1;
-		return -1;
 
+		return -1;
 	}
-	if (first_eff < second_eff)
+
+	if (first_dist < second_dist)
 		return 1;
 
-	else if (first_eff > second_eff)
+	else if (first_dist > second_dist)
 		return -1;
 
 	return 0;

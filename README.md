@@ -11,7 +11,7 @@ https://thor.enseirb-matmeca.fr/ruby/projects/pr103
 ## Compilation du projet
 
 make [project] : créer l'executable ./project sans couleurs, le nombre de jetons et le nombre d'architectes par défaut  
-make test : nettoie les sources du projet et créer l'executable ./test et l'execute  
+make test : créer l'executable ./test et l'execute  
 make color : nettoie les sources du projet, créer  l'executable ./project avec des couleurs et les valeurs par défauts. Lance une partie avec le mode verbeux et les graines par défaut.  
 make evaluator : créer l'executable d'évaluation des parties  
 make cli : créer l'executable ./cli pour lancer l'interface graphique (sans couleurs par défaut)  
