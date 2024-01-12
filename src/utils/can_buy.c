@@ -140,9 +140,10 @@ double eff(struct market_t market, struct set_t to_pay)
 			tmp_set = &market.tokens[i]->s;
 
 			tmp_inter = set_inter(tmp_set, &to_pay);
-			out += (double)(set_num_ressources(&tmp_inter)) / (double)(set_num_ressources(tmp_set));
+			out += (double)(set_num_ressources(&tmp_inter)) / (double)(set_num_ressources(&to_pay));
 		}
 	}
+
 
 	return out;
 }
@@ -150,7 +151,7 @@ double eff(struct market_t market, struct set_t to_pay)
 
 double dist_to_1(double x)
 {
-	return fabs(1 - x);
+	return fabs(x - 1);
 }
 
 
@@ -169,6 +170,8 @@ int market_cmp(struct market_t first_market, struct market_t second_market, stru
 	double first_dist = dist_to_1(first_eff);
 	double second_dist = dist_to_1(second_eff);
 
+
+
 	if (first_dist - second_dist < 0.005)  // Same eff, compare there number of tokens
 	{
 		int first_num_tokens = market_num_tokens(&first_market);
@@ -177,7 +180,7 @@ int market_cmp(struct market_t first_market, struct market_t second_market, stru
 		if (first_num_tokens == second_num_tokens)
 			return 0;
 
-		if (first_num_tokens > second_num_tokens)
+		if (first_num_tokens < second_num_tokens)
 			return 1;
 
 		return -1;
@@ -198,10 +201,13 @@ int market_cmp(struct market_t first_market, struct market_t second_market, stru
  */
 struct market_t get_best_market(struct market_t first_market, struct market_t second_market, struct set_t to_pay)
 {
-	if (market_cmp(first_market, second_market, to_pay) == 1)
-		return second_market;
 
-	return first_market;
+	if (market_cmp(first_market, second_market, to_pay) == 1)
+	{
+		return first_market;
+	}
+
+	return second_market;
 }
 
 
@@ -297,7 +303,14 @@ void find_max_eff_sub_market_rec(
 	int num_available_tokens = market_num_tokens(market_to_cmp);
 
 	if (can_use_market(to_pay, market_to_cmp))
-		*best_market = get_best_market(*market_to_cmp, *best_market, to_pay); 
+	{
+		if (!can_use_market(to_pay, best_market))
+			*best_market = *market_to_cmp;
+
+		else
+			*best_market = get_best_market(*market_to_cmp, *best_market, to_pay); 
+
+	}
 
 	else if (num_available_tokens < max_use_token)
 	{

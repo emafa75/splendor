@@ -340,6 +340,7 @@ struct turn_statistics turn_play(struct turn_t* current_turn)
 	unsigned int random_choice = rand() % 100; 
 	struct builder_t* builder_to_buy = select_affordable_builder(guild, current_player);
 
+
 	if ((random_choice < 50) && (builder_to_buy != NULL)) 
 	{
 		stats.choice = HIRE;
