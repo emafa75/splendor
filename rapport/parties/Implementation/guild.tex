@@ -2,9 +2,9 @@
 \subsubsection{Les guildes}
 \label{guild}
 
-Nous avons implémenté les guildes dans un premier temps pour modéliser la les achats possibles du jeu, mais nous avons étendu son utilisation au stockage d'architectes en général, ainsi le type de guilde est utilisé pour que les joueurs puissent acheter des architectes, mais aussi utilisée par les joueurs pour stocker les architectes qu'ils ont pu acheter.
+Nous avons implémenté les guildes dans un premier temps pour modéliser les achats possibles du jeu, mais nous avons étendu son utilisation au stockage d'architectes en général. Ainsi le type de guilde est utilisé pour que les joueurs puissent acheter des architectes, mais aussi utilisé par les joueurs pour stocker les architectes qu'ils ont pu acheter.
 
-Notre structure de guilde se présente comme suivant :
+Notre structure de guilde se présente de la manière suivante :
 
 \begin{lstlisting}[frame=single, caption={Implémentation du type struct guild\_t}]
 struct guild_t
@@ -18,7 +18,8 @@ struct guild_t
 
 Le tableau \code{builders} permet de stocker les pointeurs  des architectes présent dans la guilde, \code{n\_builders} le nombre d'architectes présents dans la guilde, \code{available\_queue}, bien qu'étant une file, permet de modéliser la pile des architectes qui ne sont pas encore achetable, et \code{available\_builders} stocke les architectes disponibles à l'achat.
 
+\begin{summary}
 Nous avons décidé d'utiliser une file pour stocker les prochains architectes plutôt qu'une pile car cela permet de faire cycler plus facilement les architectes, et la caractéristique d'une pile, de remettre un architecte en haut de cette dernière, n'est jamais utilisée dans le projet.
-
+\end{summary}
 
 

@@ -1,7 +1,7 @@
 \subsection{Récupérer des jetons connexes d'un marché}
 \label{linkedtokens}
 
-Pour récupérer nb-jetons connexes d'un marché, on parcourt ce dernier du début à la fin avec un compteur.
+Pour récupérer nb-jetons connexes d'un marché, on parcourt ce dernier du début à la fin avec un compteur de jetons connexes.
 
 \noindent Différents cas de figure :
 \begin{itemize}
@@ -18,4 +18,8 @@ Pour récupérer nb-jetons connexes d'un marché, on parcourt ce dernier du déb
 
 Ainsi à l'issue de la boucle on peut retourner un indice présent dans la liste pris de manière aléatoire. Si la liste est vide, on retourne -1.
 
-La complexité de cet algorithme est $\theta(n)$, avec n le nombre de jetons dans la partie. 
+La complexité de cet algorithme est $\theta(n)$, avec n le nombre de jetons dans la partie.
+
+\begin{summary}
+Ici on considère des jetons connexes lorsqu'ils sont reliés par le chemin continu dessiné par le plateau (cf \ref{fig:board_example}) et non lorsqu'ils sont voisins sur le plateau. C'est un choix assumé.
+\end{summary}

@@ -102,6 +102,18 @@
 
 \newcommand{\code}[1]{\texttt{#1}}
 
+
+%color box
+
+
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox[auto counter]{summary}[1][]{title={\bfseries Remarque~\thetcbcounter},enhanced,drop shadow={black!50!white},
+  coltitle=black,
+  top=0.1in,
+  attach boxed title to top right=
+  {xshift=0pt},
+  boxed title style={size=small,colback=pink},#1}
 %
 %-------------------- Informations sur le rapport ----------------------
 %
@@ -132,7 +144,7 @@
 \lhead{\includegraphics[scale=0.03]{img/logoecole.png}\hspace{0.5em}}
 \chead{\shortdates}
 \rhead{\nouppercase{\leftmark}}
-\rfoot{Page \thepage/25}
+\rfoot{Page \thepage/\pageref{LastPage}}
 \cfoot{\textbf{\basdepage}}
 \lfoot{\lieuprojet}
 

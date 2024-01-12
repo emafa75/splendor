@@ -36,7 +36,7 @@ struct game_statistics
 
 \subsection{Test d'un grand nombre de parties}
 
-Maintenant que l'on peut récupérer les statistiques d'une partie, on teste chaque couple de graines avec 100 graines aléatoires différentes pour récupérer une moyenne des statistiques pour chaque couple que l'on affiche dans la sortie standard sous la forme d'un csv. On peut alors récupérer ces données dans un fichier pour les analyser.
+Maintenant que l'on peut récupérer les statistiques d'une partie, on teste chaque couple de graines avec 100 graines aléatoires (\code{random\_seed}) pour récupérer une moyenne des statistiques pour chaque couple que l'on affiche dans la sortie standard sous la forme d'un csv. On peut alors récupérer ces données dans un fichier pour les analyser.
 
 \begin{lstlisting}[frame=single, caption={Affichage des résultats}]
 seed_builders;seed_token;choices;used_favor;used_skill;num_picked_tokens;forced_skip;nb_turns;result
@@ -79,7 +79,7 @@ A l'aide d'un programme écrit en \code{Python}, on peut visualiser l'influence 
     \end{subfigure} 
     \caption{Influence des graines sur différents paramètres de la partie}
 \end{figure}
-
-Précision : la graine 0 n'est pas générée aléatoirement mais correspond à un deck généré à la main afin d'avoir un jeu équilibré (selon nous).
-
-A partir de ces graphiques, on remarque un comportement intéressant, la graine des architectes à beaucoup plus d'influence sur la viabilité de la partie (beaucoup de tour et pas trop de tour passés) que celle des jetons. Par exemple on voit que les joueurs sont forcés à passer souvent leur tour avec la graine d'architecte n°6 car il y a seulement 2 architectes de générés dans cette dernière.
+\begin{summary}
+\textbf{Précision} : la graine 0 n'est pas générée aléatoirement mais correspond à un deck généré à la main afin d'avoir un jeu équilibré (selon nous).
+\end{summary}
+A partir de ces graphiques, on remarque un comportement intéressant : la graine des architectes a beaucoup plus d'influence sur la viabilité de la partie (beaucoup de tour et pas trop de tour passés) que celle des jetons. Par exemple on voit que les joueurs sont forcés à passer souvent leur tour avec la graine d'architecte n°3 car il y a seulement 2 architectes générés dans cette dernière.

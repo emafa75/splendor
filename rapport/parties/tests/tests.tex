@@ -26,38 +26,17 @@ int main(int argc, char *argv[])
 \end{lstlisting}
 \subsection{Vérifications effectuées}
 
-Chaque tests vérifie le comportement attendu de la fonction, et si elle respecte les règles définies en amont. Dans cet exemple on vérifie si l'initialisation d'un joueur créer bien un joueur vide.
+Chaque tests vérifie le comportement attendu de la fonction, et si elle respecte les règles définies en amont. 
 
-\begin{lstlisting}[frame=single, caption={Test init player}]
-int test_init_players()
-{
-	struct player_t new_player = init_player();
+Prenons l'exemple du test de rendu de monnaie, on se place dans le cas le plus défavorable pour notre algorithme : un prix avec plusieurs couleurs, avec de nombreuses ressources pour payer. On teste la fonction sur ce cas particulier.
 
-	if(player_get_points(&new_player) != 0)
-	{
-		/* Error message */
-		return 0;
-	}
-
-	struct ressources_t* player_ressources = player_get_ressources(&new_player);
-	
-	for (int index = 0 ; index < MAX_BUILDERS ; ++index)
-	{
-		if (player_ressources->guild.builders[index]) 
-		{
-			/* Error message */
-			return 0;
-		}
-	}
-
-	for (int index = 0 ; index < NUM_TOKENS ; ++index)
-	{
-		if (player_ressources->market.tokens[index]) 
-		{
-			/* Error message */
-			return 0;
-		}
-	}
-	return 1;
-}
-\end{lstlisting}
+On effectue les étapes suivantes :
+\begin{itemize}
+    \item On essaye de payer le prix avec des jetons simples 
+    \item On retire un jeton au hasard et on vérifie qu'on ne peut plus payer
+    \item On réessaye de payer mais cette fois ci avec des jetons complexes
+    \item On vérifie que le rendu de monnaie est le meilleur
+    \begin{itemize}[label=*]
+        \item Pour cela on ajoute au marché de test un jeton complexe avec exactement le prix et on vérifie qu'il s'agit bien du seul jeton retourné par l'algorithme
+    \end{itemize}
+\end{itemize}

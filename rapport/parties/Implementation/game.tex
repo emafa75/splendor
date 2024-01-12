@@ -26,7 +26,8 @@ struct turn_t
 };
 \end{lstlisting}
 
-Chaque tour possède la copie de la partie à un instant t.\\
+Chaque tour possède la copie de la partie à un instant t.
+
 On y retrouve l'état du marché, de la guilde et les inventaires des joueurs à l'issue du tour. Mais également le contexte de ce qu'il s'est passé dans le tour (cf \ref{cli}).
 
 Chaque tour possède volontairement beaucoup d'informations sur la partie car cela va permettre de jouer énormément avec ces paramètres lorsque l'utilise en paramètre de fonction (pour les faveurs et les pouvoirs notamment, cf \ref{skills}).
@@ -43,8 +44,8 @@ struct game_t
 };
 \end{lstlisting}
 
-Chaque partie stocke l'ensemble des tours qui ont été joués, et contient au plus\\ MAX\_MAX\_TURNS tours (toujours pour éviter l'utilisation de \code{malloc} cf \ref{nomalloc}).\\
-num\_turns indique le nombre de tours maximum de la partie (par défaut 10 mais peut être spécifié avec le paramètre -m) et current\_turn\_index l'indice du tour actuellement joué.
+Chaque partie stocke l'ensemble des tours qui ont été joués, et contient au plus\\ \code{MAX\_MAX\_TURNS} tours (toujours pour éviter l'utilisation de \code{malloc} cf \ref{nomalloc}).\\
+num\_turns indique le nombre de tours maximum de la partie (par défaut 10 mais peut être spécifié avec le paramètre -m) et \code{current\_turn\_index} l'indice du tour actuellement joué.
 
 \subsection*{Fonctionnement d'une partie}
 

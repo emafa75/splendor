@@ -1,0 +1,19 @@
+\subsection{Comparaison de deux marchés}
+
+\label{market_cmp}
+
+Afin de comparer deux marchés, nous utilisons une fonction \code{eff(marché)} qui associe à un marche le flottant suivant : 
+
+$$\sum_{jeton \in marche} \frac {n\_ressources(a\_acheter \cap jeton)} {n\_ressources(a\_acheter)}$$
+
+Ainsi, on a $eff(marche) < 1$ si on essaye de payer avec des jetons qui ne servent pas à l'achat, et on a $eff(marche) > 1$ si on utilise plus de jetons servant à l'achat qu'il ne le faut.
+
+Afin de comparer deux marchés, on considère donc la relation d'ordre suivante : 
+
+$$marche1 < marche2 \Leftrightarrow |1 - eff(marche1)| < |1 - eff(marche2)|$$
+
+Cette relation d'ordre nous permet de discriminer les marchés ayant une efficacité proche de 1.
+
+\begin{summary}
+Si deux marchés ont la même efficacité, on considère que celui qui est inférieur est celui qui utilise le moins de jetons.
+\end{summary}
