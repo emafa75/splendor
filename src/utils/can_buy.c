@@ -156,6 +156,9 @@ double dist_to_1(double x)
 
 
 /*
+ *  Not updated, last minute changes makes things a bit dirty, but we don't have 
+ *  the time to clean it up
+ *
  *  Returns 1 if eff(first_market) < eff(second_market)
  *
  *		 -1 if eff(second_market) < eff(first_market)
